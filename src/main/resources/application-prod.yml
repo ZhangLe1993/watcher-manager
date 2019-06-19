@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:mysql://rm-bp1pw59t9hspt57z5.mysql.rds.aliyuncs.com:3306/watcher?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+    username: watcher
+  redis:
+    host: r-bp1df75eafff5994.redis.rds.aliyuncs.com
+    db: 14
+
+server:
+  port: 8080
+
+cas:
+   client:
+     host: http://abdashboard.aihuishou.com
