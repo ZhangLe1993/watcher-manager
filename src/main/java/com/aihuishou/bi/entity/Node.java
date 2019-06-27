@@ -1,10 +1,10 @@
 package com.aihuishou.bi.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
 public class Node {
 
     private Long id;

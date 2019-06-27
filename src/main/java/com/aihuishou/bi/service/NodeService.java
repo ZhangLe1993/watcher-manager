@@ -1,0 +1,68 @@
+package com.aihuishou.bi.service;
+
+import com.aihuishou.bi.entity.Folder;
+import com.aihuishou.bi.entity.Node;
+import com.aihuishou.bi.vo.NodeVO;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+import java.sql.SQLException;
+import java.util.List;
+
+@Service
+public class NodeService extends BaseService {
+
+    @Resource
+    private DataSource dataSource;
+
+    public List<Node> nodes() throws SQLException {
+        String sql = "select id, position, url, auth, path, name, parent_position AS parentPosition from bi_nodes where state='1' order by sort_no;";
+        return new QueryRunner(dataSource).query(sql, new BeanListHandler<Node>(Node.class));
+    }
+
+    public void createNode(NodeVO nodeVO) throws SQLException {
+        String sql = "INSERT INTO bi_nodes(position, url, auth, path, name, parent_position,state,empno,empname,create_time,update_time,sort_no, genre) VALUES (?,?,?,?,?,?,?,?,?,now(),now(),?,?);";
+        new QueryRunner(dataSource).update(sql, nodeVO.getPosition(),nodeVO.getUrl(), nodeVO.getAuth(), nodeVO.getPath(), nodeVO.getName(),
+                nodeVO.getParentPosition(),nodeVO.getState(),nodeVO.getEmpno(),nodeVO.getEmpname(),nodeVO.getSortNo(),nodeVO.getGenre());
+    }
+
+    public void updateNode(NodeVO nodeVO) throws SQLException {
+        String sql = "UPDATE bi_nodes SET position = ?, url = ?, auth = ?, path = ?, name = ?, parent_position = ?, state = ?, update_time = now(), sort_no = ?, genre = ? WHERE id = ?;";
+        new QueryRunner(dataSource).update(sql, nodeVO.getPosition(),nodeVO.getUrl(), nodeVO.getAuth(), nodeVO.getPath(), nodeVO.getName(),
+                nodeVO.getParentPosition(),nodeVO.getState(),nodeVO.getSortNo(),nodeVO.getGenre(), nodeVO.getId());
+    }
+
+    public void deleteNode(Long id) throws SQLException {
+        String sql = "DELETE FROM bi_nodes WHERE id=?;";
+        new QueryRunner(dataSource).update(sql, id);
+    }
+
+    public Node getNodeById(Long id) throws SQLException {
+        String sql = "SELECT id, position, url, auth, path, name, parent_position AS parentPosition, state, sort_no AS sortNo, genre FROM bi_nodes WHERE id = ?;";
+        return new QueryRunner(dataSource).query(sql, new BeanHandler<Node>(Node.class), id);
+    }
+
+
+    public List<Node> getNodes(String key, String parent, Integer pageIndex, Integer pageSize) {
+        String sql = "SELECT id, position, url, auth, path, name, parent_position AS parentPosition, state, sort_no AS sortNo, genre FROM bi_nodes WHERE 1=1 ";
+        String append = " AND name like ? ";
+        String append1 = " AND parent_position = ?";
+        String suffix = " order by sort_no limit ?,?;";
+        return this.getAbstractPageList(Node.class, sql, suffix, "%" + key + "%", parent, pageIndex, pageSize, append, append1);
+    }
+
+
+    public Long count(String key, String parent) {
+        String sql = "SELECT count(*) AS num FROM bi_nodes WHERE 1=1 ";
+        String append = " AND name like ? ";
+        String append1 = " AND parent_position = ?";
+        return this.count(sql, key, parent, append, append1);
+    }
+
+
+
+}

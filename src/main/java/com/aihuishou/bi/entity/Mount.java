@@ -1,10 +1,8 @@
 package com.aihuishou.bi.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class Mount {
 
     private Long id;
