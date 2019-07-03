@@ -77,6 +77,7 @@ public class MenuService {
         node.put("path", n.getUrl());
         node.put("icon", "monitor");
         node.put("name", n.getName());
+        node.put("component", n.getPosition());
         merge.add(node);
     }
 

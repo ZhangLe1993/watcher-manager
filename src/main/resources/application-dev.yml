@@ -5,12 +5,12 @@ spring:
     password: root
   redis:
     host: 10.81.44.187
-    db: 1
     password: 123456
+    database: 1
 
 server:
-  port: 8112
+  port: 8080
 
 cas:
    client:
-     host: http://127.0.0.1:8112
+     host: http://10.25.169.133:8080
