@@ -27,3 +27,9 @@ cas:
     logout: http://sso.ob.aihuishou.com:8080/casservice/logout?service=http://10.25.169.133:8080
   client:
     host: http://10.25.169.133:8080
+
+proxy:
+    watcher:
+        servlet_url: /watcher/*
+        target_url: http://watcher.intra.aihuishou.com:8809/watcher
+        logging_enabled: true
