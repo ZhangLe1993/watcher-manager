@@ -1,0 +1,614 @@
+<template name="orderTradeAfterMonitor">
+    <style>
+        .spa{
+            letter-spacing: 3px;
+        }
+        .for-num {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        @media (min-width: 768px){
+            .re-modal-dialog {
+                width: 85%;
+                margin: 30px auto;
+            }
+        }
+        @media screen and (min-width:1600px) {
+            .re-modal-content{
+                overflow-y:auto;max-height:700px;
+            }
+        }
+
+        @media screen and (max-width:1600px) {
+            .re-modal-content{
+                overflow-y:auto;max-height:500px;
+            }
+        }
+
+    </style>
+    <div class="content-wrapper">
+        <section class="content" style="background:#eee;">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box box-solid">
+                        <div class="box-header">
+                            <i class="fa fa-bar-chart-o"></i>
+                            <h3 class="box-title"></h3>
+                            <div class="box-tools pull-right">
+                                <h5 class="description-header" style="text-align:right;margin-right:15px;font-weight:BOLD;">&nbsp;&nbsp;更新频率:30分钟</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!---->
+            <div style="background:#3c8dbc;height:2px;width:100%;"></div>
+            <!--提交汇总数据-->
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title spa">提交订单总量</h3>
+                        </div>
+                        <div class="box-body no-padding">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#"><i class="fa fa-circle-o text-red"></i> 今日　　 　<span class="for-num" data-set="submitNumCurr">....</span></a></li>
+                                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> 昨日同时 　<span class="for-num" data-set="submitNumYes">....</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title spa">提交订单总额</h3>
+                        </div>
+                        <div class="box-body no-padding">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#"><i class="fa fa-circle-o text-red"></i> 今日　　　<span class="for-num" data-set="submitAmountCurr">....</span>　</a></li>
+                                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> 昨日同时　<span class="for-num" data-set="submitAmountYes">....</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title spa">提交订单单价</h3>
+                        </div>
+                        <div class="box-body no-padding">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#"><i class="fa fa-circle-o text-red"></i> 今日　　　<span class="for-num" data-set="submitAvgCurr">....</span></a></li>
+                                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> 昨日同时　<span class="for-num" data-set="submitAvgYes">....</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--提交图表-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="box box-solid">
+                        <div class="box-header">
+                            <i class="fa fa-bar-chart-o"></i>
+
+                            <h3 class="box-title">提交订单量</h3>
+
+                            <div class="box-tools pull-right">
+
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="chart tab-pane active" id="submitTradeNumChart" style="position: relative; height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="box box-solid">
+                        <div class="box-header">
+                            <i class="fa fa-bar-chart-o"></i>
+
+                            <h3 class="box-title">提交订单额</h3>
+
+                            <div class="box-tools pull-right">
+
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="chart tab-pane active" id="submitTradeAmountChart" style="position: relative; height: 300px;"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!---->
+            <br>
+            <br>
+            <div style="background:#3c8dbc;height:2px;width:100%;"></div>
+            <!--成交汇总数据-->
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title spa">成交订单总量</h3>
+                        </div>
+                        <div class="box-body no-padding">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#"><i class="fa fa-circle-o text-red"></i> 今日　　　<span class="for-num" data-set="successNumCurr">....</span></a></li>
+                                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> 昨日同时　<span class="for-num" data-set="successNumYes">....</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title spa">成交订单总额</h3>
+                        </div>
+                        <div class="box-body no-padding">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#"><i class="fa fa-circle-o text-red"></i> 今日　　　<span class="for-num" data-set="successAmountCurr">....</span></a></li>
+                                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> 昨日同时　<span class="for-num" data-set="successAmountYes">....</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title spa">成交订单单价</h3>
+                        </div>
+                        <div class="box-body no-padding">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#"><i class="fa fa-circle-o text-red"></i> 今日　　　<span class="for-num" data-set="successAvgCurr">....</span></a></li>
+                                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> 昨日同时　<span class="for-num" data-set="successAvgYes">....</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--成交图表-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="box box-solid">
+                        <div class="box-header">
+                            <i class="fa fa-bar-chart-o"></i>
+
+                            <h3 class="box-title">成交订单量</h3>
+
+                            <div class="box-tools pull-right">
+
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="chart tab-pane active" id="successTradeNumChart" style="position: relative; height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="box box-solid">
+                        <div class="box-header">
+                            <i class="fa fa-bar-chart-o"></i>
+
+                            <h3 class="box-title">成交订单额</h3>
+
+                            <div class="box-tools pull-right">
+
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="chart tab-pane active" id="successTradeAmountChart" style="position: relative; height: 300px;"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!---->
+            <br>
+            <br>
+            <div style="background:#3c8dbc;height:2px;width:100%;"></div>
+            <!--取消汇总数据-->
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title spa">当日取消订单总量</h3>
+                        </div>
+                        <div class="box-body no-padding">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#"><i class="fa fa-circle-o text-red"></i> 今日　　 　<span class="for-num" data-set="cancelNumCurr">....</span></a></li>
+                                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> 昨日同时 　<span class="for-num" data-set="cancelNumYes">....</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title spa">当日取消订单总额</h3>
+                        </div>
+                        <div class="box-body no-padding">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#"><i class="fa fa-circle-o text-red"></i> 今日　　 　<span class="for-num" data-set="cancelAmountCurr">....</span></a></li>
+                                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> 昨日同时 　<span class="for-num" data-set="cancelAmountYes">....</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title spa">当日取消订单单价</h3>
+                        </div>
+                        <div class="box-body no-padding">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#"><i class="fa fa-circle-o text-red"></i> 今日　　　<span class="for-num" data-set="cancelAvgCurr">....</span></a></li>
+                                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> 昨日同时　<span class="for-num" data-set="cancelAvgYes">....</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--取消图表-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="box box-solid">
+                        <div class="box-header">
+                            <i class="fa fa-bar-chart-o"></i>
+
+                            <h3 class="box-title">当日取消订单量</h3>
+
+                            <div class="box-tools pull-right">
+
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="chart tab-pane active" id="cancelTradeNumChart" style="position: relative; height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="box box-solid">
+                        <div class="box-header">
+                            <i class="fa fa-bar-chart-o"></i>
+
+                            <h3 class="box-title">当日取消订单额</h3>
+
+                            <div class="box-tools pull-right">
+
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="chart tab-pane active" id="cancelTradeAmountChart" style="position: relative; height: 300px;"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 弹框 -->
+            <div>
+                <div class="modal fade" id="myWarnModal" tabindex="-1" role="dialog" aria-labelledby="myWarnModalLabel" aria-hidden="true">
+                    <div class="modal-dialog re-modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                </button>
+                                <h4 class="modal-title" id="myWarnModalLabel">
+
+                                </h4>
+                            </div>
+                            <div class="modal-body re-modal-content">
+                                <!--content开始-->
+                                <div name="showContent">
+                                    <!---->
+                                    <div style="background:#3c8dbc;height:2px;width:100%;position:relative;margin:0 auto;"></div>
+                                    <!--提交汇总数据-->
+                                    <div class="row" style="width:100%;position:relative;margin:0 auto;background:#f9f9f9;padding-top:10px;">
+                                        <div class="col-md-6">
+                                            <div class="box box-solid">
+                                                <div class="box-header with-border">
+                                                    <h3 class="box-title spa">提交订单总量</h3>
+                                                </div>
+                                                <div class="box-body no-padding">
+                                                    <ul class="nav nav-pills nav-stacked">
+                                                        <li><a href="#"><i class="fa fa-circle-o text-red"></i> 今日　　 　<span class="for-num" data-set="channelSubmitNumCurr">....</span></a></li>
+                                                        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> 昨日同时 　<span class="for-num" data-set="channelSubmitNumYes">....</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="box box-solid">
+                                                <div class="box-header with-border">
+                                                    <h3 class="box-title spa">提交订单总额</h3>
+                                                </div>
+                                                <div class="box-body no-padding">
+                                                    <ul class="nav nav-pills nav-stacked">
+                                                        <li><a href="#"><i class="fa fa-circle-o text-red"></i> 今日　　　<span class="for-num" data-set="channelSubmitAmountCurr">....</span>　</a></li>
+                                                        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> 昨日同时　<span class="for-num" data-set="channelSubmitAmountYes">....</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--提交图表-->
+                                    <div class="row" style="width:100%;position:relative;margin:0 auto;background:#f9f9f9;padding-top:10px;">
+                                        <div class="col-md-6">
+                                            <div class="box box-solid">
+                                                <div class="box-header">
+                                                    <i class="fa fa-bar-chart-o"></i>
+
+                                                    <h3 class="box-title">提交订单量(平台)</h3>
+
+                                                    <div class="box-tools pull-right">
+
+                                                    </div>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="chart tab-pane active" id="platSubmitTradeNumChart" style="position: relative; height: 400px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="box box-solid">
+                                                <div class="box-header">
+                                                    <i class="fa fa-bar-chart-o"></i>
+
+                                                    <h3 class="box-title">提交订单额(平台)</h3>
+
+                                                    <div class="box-tools pull-right">
+
+                                                    </div>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="chart tab-pane active" id="platSubmitTradeAmountChart" style="position: relative; height: 400px;"></div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="width:100%;position:relative;margin:0 auto;background:#f9f9f9;padding-top:10px;">
+                                        <div class="col-md-6">
+                                            <div class="box box-solid">
+                                                <div class="box-header">
+                                                    <i class="fa fa-bar-chart-o"></i>
+
+                                                    <h3 class="box-title">提交订单量(回收方式)</h3>
+
+                                                    <div class="box-tools pull-right">
+
+                                                    </div>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="chart tab-pane active" id="recycleSubmitTradeNumChart" style="position: relative; height: 400px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="box box-solid">
+                                                <div class="box-header">
+                                                    <i class="fa fa-bar-chart-o"></i>
+
+                                                    <h3 class="box-title">提交订单额(回收方式)</h3>
+
+                                                    <div class="box-tools pull-right">
+
+                                                    </div>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="chart tab-pane active" id="recycleSubmitTradeAmountChart" style="position: relative; height: 400px;"></div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="width:100%;position:relative;margin:0 auto;background:#f9f9f9;padding-top:10px;">
+                                        <div class="col-md-6">
+                                            <div class="box box-solid">
+                                                <div class="box-header">
+                                                    <i class="fa fa-bar-chart-o"></i>
+
+                                                    <h3 class="box-title">提交订单量(品类)</h3>
+
+                                                    <div class="box-tools pull-right">
+
+                                                    </div>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="chart tab-pane active" id="categorySubmitTradeNumChart" style="position: relative; height: 400px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="box box-solid">
+                                                <div class="box-header">
+                                                    <i class="fa fa-bar-chart-o"></i>
+
+                                                    <h3 class="box-title">提交订单额(品类)</h3>
+
+                                                    <div class="box-tools pull-right">
+
+                                                    </div>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="chart tab-pane active" id="categorySubmitTradeAmountChart" style="position: relative; height: 400px;"></div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!---->
+                                    <br>
+                                    <br>
+                                    <div style="background:#3c8dbc;height:2px;width:100%;position:relative;margin:0 auto;"></div>
+                                    <!--成交汇总数据-->
+                                    <div class="row" style="width:100%;position:relative;margin:0 auto;background:#f9f9f9;padding-top:10px;">
+                                        <div class="col-md-6">
+                                            <div class="box box-solid">
+                                                <div class="box-header with-border">
+                                                    <h3 class="box-title spa">成交订单总量</h3>
+                                                </div>
+                                                <div class="box-body no-padding">
+                                                    <ul class="nav nav-pills nav-stacked">
+                                                        <li><a href="#"><i class="fa fa-circle-o text-red"></i> 今日　　　<span class="for-num" data-set="channelSuccessNumCurr">....</span></a></li>
+                                                        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> 昨日同时　<span class="for-num" data-set="channelSuccessNumYes">....</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="box box-solid">
+                                                <div class="box-header with-border">
+                                                    <h3 class="box-title spa">成交订单总额</h3>
+                                                </div>
+                                                <div class="box-body no-padding">
+                                                    <ul class="nav nav-pills nav-stacked">
+                                                        <li><a href="#"><i class="fa fa-circle-o text-red"></i> 今日　　　<span class="for-num" data-set="channelSuccessAmountCurr">....</span></a></li>
+                                                        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> 昨日同时　<span class="for-num" data-set="channelSuccessAmountYes">....</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--成交图表-->
+                                    <div class="row" style="width:100%;position:relative;margin:0 auto;background:#f9f9f9;padding-top:10px;">
+                                        <div class="col-md-6">
+                                            <div class="box box-solid">
+                                                <div class="box-header">
+                                                    <i class="fa fa-bar-chart-o"></i>
+
+                                                    <h3 class="box-title">成交订单量(平台)</h3>
+
+                                                    <div class="box-tools pull-right">
+
+                                                    </div>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="chart tab-pane active" id="platSuccessTradeNumChart" style="position: relative; height: 400px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="box box-solid">
+                                                <div class="box-header">
+                                                    <i class="fa fa-bar-chart-o"></i>
+
+                                                    <h3 class="box-title">成交订单额(平台)</h3>
+
+                                                    <div class="box-tools pull-right">
+
+                                                    </div>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="chart tab-pane active" id="platSuccessTradeAmountChart" style="position: relative; height: 400px;"></div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="width:100%;position:relative;margin:0 auto;background:#f9f9f9;padding-top:10px;">
+                                        <div class="col-md-6">
+                                            <div class="box box-solid">
+                                                <div class="box-header">
+                                                    <i class="fa fa-bar-chart-o"></i>
+
+                                                    <h3 class="box-title">成交订单量(回收方式)</h3>
+
+                                                    <div class="box-tools pull-right">
+
+                                                    </div>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="chart tab-pane active" id="recycleSuccessTradeNumChart" style="position: relative; height: 400px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="box box-solid">
+                                                <div class="box-header">
+                                                    <i class="fa fa-bar-chart-o"></i>
+
+                                                    <h3 class="box-title">成交订单额(回收方式)</h3>
+
+                                                    <div class="box-tools pull-right">
+
+                                                    </div>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="chart tab-pane active" id="recycleSuccessTradeAmountChart" style="position: relative; height: 400px;"></div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="width:100%;position:relative;margin:0 auto;background:#f9f9f9;padding-top:10px;">
+                                        <div class="col-md-6">
+                                            <div class="box box-solid">
+                                                <div class="box-header">
+                                                    <i class="fa fa-bar-chart-o"></i>
+
+                                                    <h3 class="box-title">成交订单量(品类)</h3>
+
+                                                    <div class="box-tools pull-right">
+
+                                                    </div>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="chart tab-pane active" id="categorySuccessTradeNumChart" style="position: relative; height: 400px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="box box-solid">
+                                                <div class="box-header">
+                                                    <i class="fa fa-bar-chart-o"></i>
+
+                                                    <h3 class="box-title">成交订单额(品类)</h3>
+
+                                                    <div class="box-tools pull-right">
+
+                                                    </div>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="chart tab-pane active" id="categorySuccessTradeAmountChart" style="position: relative; height: 400px;"></div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!---->
+                                    <br>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</template>

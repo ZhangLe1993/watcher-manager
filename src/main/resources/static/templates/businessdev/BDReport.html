@@ -1,0 +1,222 @@
+<template name="BDTradeSummary">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <!--<button type="button" class="btn btn-primary reportRange pull-right" style="margin-left: 3%">
+                <i class="fa fa-calendar"></i>
+                <span class="dateSelectLabel">最近30天</span>
+                <i class="fa fa-caret-down"></i>
+            </button>-->
+            <!-- KPI完成率数据-->
+            <div class="box box-primary" style="margin-top: 0px;margin-bottom: 20px;">
+                <div class="box-header with-border">
+                    <h3 class="box-title" style="border-style: none;font-weight: bold">KPI完成率数据<label id="dateSum"></label></h3>
+
+                </div><!-- /.box-header -->
+                <div id="kpitable" class="row" style="margin-top: 15px;margin-bottom: 20px;">
+                    <div style="text-align: center;margin-top: 150px" id="loading">
+                        <img src="/images/loading.gif">
+                    </div>
+                    <div id="righte" class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 20px;">
+                        <table id="table"
+                               data-toggle="table"
+                               data-show-export="true"
+                               data-pagination="true"
+                               data-click-to-select="true"
+                        >
+                            <thead>
+                            <tr>
+                                <th data-field="targetAll" data-sortable="true">部门指标总额</th>
+                                <th data-field="actualAll" data-sortable="true">部门完成总额</th>
+                                <th data-field="achievedRateAll" data-sortable="true">指标达成率</th>
+                                <th data-field="targetJD" data-sortable="true">京东指标总额</th>
+                                <th data-field="actualJD" data-sortable="true">京东完成总额</th>
+                                <th data-field="achievedRateJD" data-sortable="true">指标达成率</th>
+                                <th data-field="targetXM" data-sortable="true">小米指标总额</th>
+                                <th data-field="actualXM" data-sortable="true">小米完成总额</th>
+                                <th data-field="achievedRateXM" data-sortable="true">指标达成率</th>
+                                <th data-field="targetOther" data-sortable="true">小合作方指标总额</th>
+                                <th data-field="actualOther" data-sortable="true">小合作方完成总额</th>
+                                <th data-field="achievedRateOther" data-sortable="true">指标达成率</th>
+                            </tr>
+                            </thead>
+
+
+                        </table>
+
+                    </div>
+                </div>
+            </div><!-- /.box -->
+
+            <!-- 提交订单-->
+            <div class="box box-primary" style="margin-top: 0px;">
+                <div class="box-header with-border">
+                    <h3 class="box-title" style="border-style: none;font-weight: bold">提交订单数据图表</h3>
+                    <div id="dateOptions" class="box-tools pull-right">
+                        <label>
+                            <select class="form-control dateTypeSelect pull-left"
+                                    style="width: 100%;border-radius: 4px !important">
+                                <option selected="selected" value="tradeDaily">按日期查看</option>
+                                <option value="tradeWeekly">按周查看</option>
+                                <option value="tradeMonthly">按月查看</option>
+                            </select>
+                        </label>
+                        <button type="button" class="btn btn-primary reportRange pull-right">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel">最近30天</span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="btn btn-primary reportWeekRange pull-right">
+                            <i class="fa fa-calendar"></i>
+                            <span class="weekSelectLabel">选择周范围</span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="btn btn-primary reportMonthRange pull-right">
+                            <i class="fa fa-calendar"></i>
+                            <span class="monthSelectLabel">选择月范围</span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                    </div>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row" >
+                        <div id="bdSubmitReportLineChart" class="col-md-12 col-sm-12 col-xs-12"
+                             style="height:300px;"></div>
+                            <div id="bdSubmitReportPieChart" class="col-md-4 col-sm-4 col-xs-12"
+                                 style="height:450px"></div>
+                            <div id="bdSubmitCityPieChart" class="col-md-4 col-sm-4 col-xs-12"
+                                 style="height:450px"></div>
+                        <div id="bdSubmitMethodPieChart" class="col-md-4 col-sm-4 col-xs-12"
+                             style="height:450px"></div>
+
+                    </div>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+            <!-- 提交金额-->
+            <div class="box box-primary" style="margin-top: 40px;">
+                <div class="box-header with-border">
+                    <h3 class="box-title ctabtitle" style="border-style: none;font-weight: bold">提交金额数据图表</h3>
+
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div id="bdSubmitAmountReportLineChart" class="col-md-12 col-sm-12 col-xs-12"
+                             style="height:300px;margin-bottom: 30px"></div>
+                        <div id="bdSubmitAmountReportPieChart" class="col-md-4 col-sm-4 col-xs-12"
+                             style="height:500px"></div>
+                        <div id="bdSubmitAmountCityPieChart" class="col-md-4 col-sm-4 col-xs-12"
+                             style="height:500px"></div>
+                        <div id="bdSubmitAmountMethodPieChart" class="col-md-4 col-sm-4 col-xs-12"
+                             style="height:500px"></div>
+
+                    </div>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+            <!-- 成交订单-->
+            <div class="box box-primary" style="margin-top: 40px;">
+                <div class="box-header with-border">
+                    <h3 class="box-title ctabtitle" style="border-style: none;font-weight: bold">成交订单数据图表</h3>
+
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div id="bdTradeReportLineChart" class="col-md-12 col-sm-12 col-xs-12"
+                             style="height:300px;margin-bottom:50px"></div>
+                        <div id="bdTradeReportPieChart" class="col-md-4 col-sm-4 col-xs-12"
+                             style="height:500px"></div>
+                        <div id="bdTradeCityPieChart" class="col-md-4 col-sm-4 col-xs-12"
+                             style="height:500px"></div>
+                        <div id="bdTradeMethodPieChart" class="col-md-4 col-sm-4 col-xs-12"
+                             style="height:500px"></div>
+
+                    </div>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+            <!-- 成交金额-->
+            <div class="box box-primary" style="margin-top: 40px;">
+                <div class="box-header with-border">
+                    <h3 class="box-title ctabtitle" style="border-style: none;font-weight: bold">成交金额数据图表</h3>
+
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div id="bdTradeAmountReportLineChart" class="col-md-12 col-sm-12 col-xs-12"
+                             style="height:300px"></div>
+                        <div id="bdTradeAmountReportPieChart" class="col-md-4 col-sm-4 col-xs-12"
+                             style="height:450px"></div>
+                        <div id="bdTradeAmountCityPieChart" class="col-md-4 col-sm-4 col-xs-12"
+                             style="height:450px"></div>
+                        <div id="bdTradeAmountMethodPieChart" class="col-md-4 col-sm-4 col-xs-12"
+                             style="height:450px"></div>
+                    </div>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+
+            <!-- 到货率-->
+            <div class="box box-primary" style="margin-top: 40px;">
+                <div class="box-header with-border">
+                    <h3 class="box-title ctabtitle" style="border-style: none;font-weight: bold">到货量数据图表</h3>
+
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div id="bdTradeArriveRateReportLineChart" class="col-md-12 col-sm-12 col-xs-12"
+                             style="height:300px"></div>
+                        <!--<div id="bdTradeArriveRateReportPieChart" class="col-md-4 col-sm-4 col-xs-12"
+                             style="height:300px"></div>-->
+                    </div>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+
+            <!-- 毛利额-->
+            <div class="box box-primary" style="margin-top: 40px;">
+                <div class="box-header with-border">
+                    <h3 class="box-title ctabtitle" style="border-style: none;font-weight: bold">毛利额数据图表</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div id="bdTradeProfitReportLineChart" class="col-md-12 col-sm-12 col-xs-12"
+                             style="height:300px;margin-bottom:50px"></div>
+                        <div id="bdTradeProfitReportPieChart" class="col-md-4 col-sm-4 col-xs-12"
+                             style="height:500px"></div>
+                        <div id="bdTradeProfitCityPieChart" class="col-md-4 col-sm-4 col-xs-12"
+                             style="height:500px"></div>
+                        <div id="bdTradeProfitMethodPieChart" class="col-md-4 col-sm-4 col-xs-12"
+                             style="height:500px"></div>
+                        <!--<div  class="col-md-12 col-sm-12 col-xs-12"
+                             style="height:1000px">
+                            <iframe id="mainIFrame"
+                                    name="mainIFrame"
+                                    frameborder="no"
+                                    width="100%"
+                                    height="1000"
+                                    src=""></iframe>
+                        </div>-->
+                    </div>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+
+            <!--//失败原因分析-->
+            <div class="box box-primary" style="margin-top: 40px;">
+                <div class="box-header with-border">
+                    <h3 class="box-title ctabtitle" style="border-style: none;font-weight: bold">Top10订单失败原因分析</h3>
+
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                    <span>请选择渠道:</span>
+                    <select  class="source c-mleft28" style="margin-left: 28px;width:200px;border-radius: 4px;padding: 6px 12px;">
+                    </select>
+                    <button id="search" class="btn btn-primary search">查询</button>
+                    </div>
+                    <div class="row">
+                <div id="bdCancelOrderPieChart" class="col-md-offset-3 col-md-6 col-sm-6 col-xs-12"
+                     style="height:450px"></div>
+                    </div>
+                </div>
+            </div>
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

@@ -1,0 +1,56 @@
+<template name="riskControlVenderParentGroupDetailInfoModal">
+    <!-- Content Wrapper. Contains page content -->
+    <!--<div class="content-wrapper">-->
+        <!-- Main content -->
+        <section class="content" style="background-color: white">
+
+            <!-- Your Page Content Here -->
+
+            <div class="template-dashboard content body">
+
+                <div >
+                    <label style="margin-top:20px">拆修进水炸弹机、小微容忍、特殊补款、特殊豁免、金蛋、红包等详情</label>
+                    <div class="row box box-primary" style="width: auto; margin-top:25px">
+                        <div class="box-body">
+                            <div id="chartContent">
+                    <div id="table" class="row" style="margin-top: 15px;border: 1px solid gray">
+                        <div style="text-align: center;margin-top: 150px" id="loading">
+                            <img src="/images/loading.gif">
+                        </div>
+                        <div id="right" class="col-md-12 col-sm-12 col-xs-12" style="">
+                            <table id="dataTable"
+                                   data-toggle="table"
+                                   data-show-export="true"
+                                   data-pagination="true"
+                                   data-click-to-select="true"
+                            >
+                                <thead>
+                                <tr>
+                                    <th data-field="vender_parent_name" data-sortable="true">总账户名称</th>
+                                    <th data-field="mistakeCnt" data-sortable="true">拆修进水炸弹机</th>
+                                    <th data-field="mistakeRate" data-sortable="true">拆修进水炸弹机与验货订单比值</th>
+                                    <th data-field="inspection_tolerate_num" data-sortable="true">小微容忍金额</th>
+                                    <th data-field="tolerateRate" data-sortable="true">小微容忍金额与出货金额比值</th>
+                                    <th data-field="specialNum" data-sortable="true">特殊豁免+特殊补款金额</th>
+                                    <th data-field="specialRate" data-sortable="true">特殊豁免+特殊补款金额与出货价格比值</th>
+                                    <th data-field="goldenEggBonusNum" data-sortable="true">金蛋+红包金额</th>
+                                    <th data-field="goldenEggBonusRate" data-sortable="true">金蛋+红包金额与出货价格比值</th>
+                                </tr>
+                                </thead>
+
+
+                            </table>
+
+                        </div>
+                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
+
+            </div>
+
+        </section><!-- /.content -->
+    <!--</div>&lt;!&ndash; /.content-wrapper &ndash;&gt;-->
+</template>

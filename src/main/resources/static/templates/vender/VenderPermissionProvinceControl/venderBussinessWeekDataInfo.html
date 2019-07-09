@@ -1,0 +1,330 @@
+<template name="venderBussinessWeekDataInfo">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+
+            <div id="chartContent" class="template-dashboard content body">
+
+                <!--<span style="color:red">注：</span><span>只包含官网和M版流量</span>-->
+                <div class="row c-border">
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请输入总账户名称:</span>
+                        <input type="text" class="venderParentName" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;" />
+                        <button class="btn btn-primary search">查询</button>
+
+                    </div>
+
+                </div>
+
+    <div id="allPage">
+                <div class="row c-border">
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>运营周报:</span>
+                        <button type="button" style="border: 1px gray solid;background-color:white" class="weekly btn btn-default marketingWeeklyStartDatePicker">
+                            <i class="fa fa-calendar"></i>
+                            <span class="startWeekDateSelectLabel"></span>
+                            <i class="fa fa-caret-down" style="margin-left: 28px"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <h3>订单提交情况<a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip"
+                   title="说明：&#10;订单提价量（去除废旧机）：指订单提交时间在选定的时间范围内提交、且提交价大于5元的订单计数数量
+
+订单提交金额（去除废旧机）：指订单提交时间在选定的时间范围内提交、且提交价大于5元的订单提交金额求和
+
+订单平均单价（去除废旧机）：指订单提交时间在选定的时间范围内提交、且提交价大于5元的订单提交金额平均值
+
+取消订单量：指订单提交时间在选定的时间范围内提交、且提交价大于5元的，统计截至时订单状态为取消的订单计数数量
+
+废旧订单量：指订单提交时间在选定的时间范围内提交、且提交价小于等于5元的的订单计数数量"></a></h3>
+                <div class="box-body">
+                    <div class="row">
+
+                        <div class="col-md-2 col-sm-12 col-xs-12">
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 name="orderSubmitCntName" id="orderSubmitCntId">......</h3>
+                                    <p>订单提交量(去除废旧机)</p>
+                                    <hr>
+                                    <p>上周提交量：<span name="orderSubmitCntNameLastWeek" id="orderSubmitCntIdLastWeek">......</span></p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12 col-xs-12">
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 name="orderSubmitNumName" id="orderSubmitNumId">......</h3>
+                                    <p>订单提交金额(去除废旧机)</p>
+                                    <hr>
+                                    <p>上周提交金额：<span name="orderSubmitNumNameLastWeek" id="orderSubmitNumIdLastWeek">......</span></p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12 col-xs-12">
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 name="orderCancelSubmitNumName" id="orderCancelSubmitNumId">......</h3>
+                                    <p>取消订单量(去除废旧机)</p>
+                                    <hr>
+                                    <p>上周取消订单量：<span name="orderCancelSubmitNumNameLastWeek" id="orderCancelSubmitNumIdLastWeek">......</span></p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12 col-xs-12">
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 name="orderAvgSubmitNumName" id="orderAvgSubmitNumId">......</h3>
+                                    <p>订单平均单价(去除废旧机)</p>
+                                    <hr>
+                                    <p>上周平均单价：<span name="orderAvgSubmitNumNameLastWeek" id="orderAvgSubmitNumIdLastWeek">......</span></p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12 col-xs-12">
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 name="orderAvgSubmitNumName" id="orderJunkSubmitNumId">......</h3>
+                                    <p>废旧机单量</p>
+                                    <hr>
+                                    <p>上周单量：<span name="orderJunkSubmitNumNameLastWeek" id="orderJunkSubmitNumIdLastWeek">......</span></p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--柱状图-->
+                    <div id="submitDataChart" class=" col-md-12 col-sm-12 col-xs-12"
+                         style="height:400px;">
+
+
+                    </div>
+                </div>
+
+                <h3>订单成交情况<a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip"
+                             title="说明：&#10;订单成交量：指订单成交时间在选定的时间范围内成交的订单计数数量
+
+订单成交金额：指订单成交时间在选定的时间范围内提交的订单成交金额求和
+
+订单成交平均单价：指订单成交时间在选定的时间范围内提交的订单成交金额平均值"></a></h3>
+                <div class="box-body">
+                    <div class="row">
+
+                        <div class="col-md-3 col-sm-12 col-xs-12">
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 name="orderTradeCntName" id="orderTradeCntId">......</h3>
+                                    <p>订单成交量(包含废旧机)</p>
+                                    <hr>
+                                    <p>上周成交量：<span name="orderTradeCntNameLastWeek" id="orderTradeCntIdLastWeek">......</span></p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12">
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 name="orderTradeNumName" id="orderTradeNumId">......</h3>
+                                    <p>订单成交金额(包含废旧机)</p>
+                                    <hr>
+                                    <p>上周成交金额：<span name="orderTradeNumNameLastWeek" id="orderTradeNumIdLastWeek">......</span></p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12">
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 name="orderAvgTradeNumName" id="orderAvgTradeNumId">......</h3>
+                                    <p>订单平均单价(包含废旧机)</p>
+                                    <hr>
+                                    <p>上周平均单价：<span name="orderAvgTradeNumNameLastWeek" id="orderAvgTradeNumIdLastWeek">......</span></p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <h3>运营数据<a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip"
+                           title="说明：&#10;总账户服务费：是指入账时间在选定的时间段内的总账户服务费金额求和
+
+旧机现款：是指入账时间在选定的时间段内的旧机现款金额求和
+豁免金额为，订单状态为交易完成-特殊豁免订单，（成交价-质检价格-实付履约金）之和
+
+验货失败差异额：是指订单成交时间在选定的时间段内、订单状态为已完成、验货状态为验货失败的订单差异额金额求和
+已兑换金额，为这段时间中兑换成功的金额
+
+获得积分总量：是指选定时间段内总账户获得积分分值求和
+扣除积分总量为同时间段内扣除的积分分值求和
+兑换成功总量为同时间段内扣除的积分分值求和"></a></h3>
+                <div class="box-body">
+                    <div class="row">
+
+                        <div class="col-md-3 col-sm-12 col-xs-12">
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 name="venderParentBonusName" id="venderParentBonusId">......</h3>
+                                    <p>总账户服务费(包含废旧机)</p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12">
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 name="venderParentKaFeeName" id="venderParentKaFeeId">......</h3>
+                                    <p>旧机现款(其中豁免金额<span name="remittedAmountName" id="remittedAmountNameId">......</span>)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12">
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 name="venderParentInspectAmountName" id="venderParentInspectAmountId">......</h3>
+                                    <p>验货失败差异额(已兑换金额<span name="betweenDeductionPriceName" id="betweenDeductionPriceId">......</span>)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12">
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 name="venderParentPointName" id="venderParentPointId">......</h3>
+                                    <p>获得积分总量(扣除积分总量<span name="dedPointsName" id="dedPointsId">......</span>，成功兑换总量<span name="deductionPointsName" id="deductionPointsId">......</span>)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <h3>门店活跃情况<a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip"
+                             title="说明：&#10;启用中门店总数：指选定时间段内最后1天23:59:59时，总账户下启用中的门店计数数量
+
+周活跃门店数：与目前周活门店意义一致
+
+门店周活跃率：是指周均活跃门店数与启用中门店总数的比值
+
+0订单门店数：是指选定时间内提交订单量为0的门店计数数量"></a></h3>
+                <div class="">
+                    <div class="row">
+
+                        <div class="col-md-2 col-sm-12 col-xs-12">
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 name="activeGroupCntName" id="activeGroupCntId">......</h3>
+                                    <p>启用中门店数</p>
+                                </div>
+                            </div>
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 name="weekLiveGroupCntName" id="weekLiveGroupCntId">......</h3>
+                                    <p>周活跃门店数  上周：<span name="weekLiveGroupCntNameLastWeek" id="weekLiveGroupCntIdLastWeek">......</span></p>
+
+                                </div>
+                            </div>
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 name="weekLiveGroupRateName" id="weekLiveGroupRateId">......</h3>
+                                    <p>门店活跃率  上周：<span name="weekLiveGroupRateNameLastWeek" id="weekLiveGroupRateIdLastWeek">......</span></p>
+
+                                </div>
+                            </div>
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 name="zeroGroupCntName" id="zeroGroupCntId">......</h3>
+                                    <p>0订单门店数  上周：<span name="zeroGroupCntNameLastWeek" id="zeroGroupCntIdLastWeek">......</span></p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--横向柱状图-->
+                        <div class="col-md-4 col-sm-12 col-xs-12 c-border">
+                            <div id="BussinessOrderSubmitCntRankDataInfoChart" class=" col-md-12 col-sm-12 col-xs-12"
+                                 style="height:430px;">
+                            </div>
+                        </div>
+
+                        <!--雷达图-->
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12 col-xs-12 c-border" style="left: 20px">
+                                <div id="PermissionControlOrderLostDayAnalysisCntChart" class=" col-md-12 col-sm-12 col-xs-12"
+                                     style="height:200px">
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12 col-xs-12 c-border" style="left: 20px">
+                                <div id="PermissionControlOrderLostDayAnalysisNumChart" class=" col-md-12 col-sm-12 col-xs-12"
+                                     style="height:200px">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <h3>验货失误情况<a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip"
+                             title="说明：&#10;验货失误差异金额：指选定时间段内成交的订单的差异金额之和，占比的除数为同时间段成交订单成交总金额
+
+验货失误差异单量：指选定时间段内成交的差异订单数量之和，占比的除数为同时间段成交订单的数量之和"></a></h3>
+                <div class="">
+                    <div class="row">
+
+                        <div class="col-md-2 col-sm-12 col-xs-12">
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 name="orderInspectAmountName" id="orderInspectAmountId">......</h3>
+                                    <p>订单验货差异金额，占比<span name="orderInspectAmountRateName" id="orderInspectAmountRateId">......</span></p>
+                                    <hr>
+                                    <p>上周：<span name="orderInspectAmountNameLastWeek" id="orderInspectAmountIdLastWeek">......</span></p>
+                                </div>
+                            </div>
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 name="orderInspectCntName" id="orderInspectCntId">......</h3>
+                                    <p>订单验货差异量，占比<span name="orderInspectCntRateName" id="orderInspectCntRateId">......</span></p>
+                                    <hr>
+                                    <p>上周：<span name="orderInspectCntNameLastWeek" id="orderInspectCntIdLastWeek">......</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--横向柱状图-->
+                        <div class="col-md-4 col-sm-12 col-xs-12 c-border">
+                            <div id="BussinessInspectErrorCntRankDataInfoChart" class=" col-md-12 col-sm-12 col-xs-12"
+                                 style="height:400px;">
+                            </div>
+                        </div>
+
+                        <!--横向柱状图-->
+                        <div class="col-md-4 col-sm-12 col-xs-12 c-border" style="left: 20px">
+                            <div id="BussinessInspectErrorReasonCntRankDataInfoChart" class=" col-md-12 col-sm-12 col-xs-12"
+                                 style="height:400px;">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+    </div>
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

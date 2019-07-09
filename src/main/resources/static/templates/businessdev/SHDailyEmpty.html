@@ -1,0 +1,219 @@
+<template name="SHDailyEmpty">
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="tab-pane" id="dailyEmptyIndex">
+                <div class="template-operation content body">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <i class="fa fa-bar-chart-o"></i>
+
+                            <h3 class="box-title">收货日清指标</h3>
+
+                            <div class="box-tools pull-right">
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                {{#each statsToday "receiptPreTransfer"}}
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="small-box bg-green">
+                                        <div class="inner">
+                                            <h3>{{count}}</h3>
+
+                                            <p>{{date}} 贴标未移交量</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}} {{#each statsToday "inspectionReceiptPreReceive"}}
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="small-box bg-green">
+                                        <div class="inner">
+                                            <h3>{{count}}</h3>
+
+                                            <p>{{date}} 验货移交收货(问密码)未接收量</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}} {{#each statsToday "expressNotBindingNotPending"}}
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="small-box bg-light-blue">
+                                        <div class="inner">
+                                            <h3>{{count}}</h3>
+
+                                            <p>{{date}} 未绑定订单未入异常库快递单量</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                        </div>
+                    </div>
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <i class="fa fa-bar-chart-o"></i>
+
+                            <h3 class="box-title">验货日清指标</h3>
+
+                            <div class="box-tools pull-right">
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                {{#each statsToday "receiptInspectionPreReceive"}}
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="small-box bg-green">
+                                        <div class="inner">
+                                            <h3>{{count}}</h3>
+
+                                            <p>{{date}} 贴标移交验货未接收量</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}} {{#each statsToday "inspectedTransferStat"}}
+
+                                <div id="inspectedPreTrans" class="col-md-3 col-sm-6 col-xs-6" style="cursor: pointer">
+                                    <div class="small-box bg-green">
+                                        <div class="inner">
+                                            <h3>{{count}}</h3>
+
+                                            <p>{{date}} 验货后未移交量(点击查看明细)</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                {{/each}} {{#each statsToday "askedPasswordPreReceive"}}
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="small-box bg-green">
+                                        <div class="inner">
+                                            <h3>{{count}}</h3>
+
+                                            <p>{{date}} 问密码后收货移交验货未接收量</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}} {{#each statsToday "inspectionTransferStat"}}
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="small-box bg-light-blue">
+                                        <div class="inner">
+                                            <h3>
+                                                {{preReceive}}
+                                                <span style="font-size: medium">
+                                            (质检同部门移交总量:{{total}})
+                                        </span>
+                                            </h3>
+
+                                            <p>{{date}} 质检同部门移交未接收量</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                        </div>
+                    </div>
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <i class="fa fa-bar-chart-o"></i>
+
+                            <h3 class="box-title">理货日清指标</h3>
+
+                            <div class="box-tools pull-right">
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                {{#each statsToday "inspectionTallyOrderPreReceive"}}
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="small-box bg-light-blue">
+                                        <div class="inner">
+                                            <h3>{{count}}</h3>
+
+                                            <p>{{date}} 验货移交理货(物品来源:订单)未接收量</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}} {{#each statsToday "inspectionTallySamplingTransferStats"}}
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="small-box bg-light-blue">
+                                        <div class="inner">
+                                            <h3>{{count}}</h3>
+
+                                            <p>{{date}} 验货移交理货(物品来源:抽检)量</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}} {{#each statsToday "tallyingInspectionFailedStats"}}
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="small-box bg-light-blue">
+                                        <div class="inner">
+                                            <h3>{{count}}</h3>
+
+                                            <p>{{date}} 验货失败理货中</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                        </div>
+                    </div>
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <i class="fa fa-bar-chart-o"></i>
+
+                            <h3 class="box-title">退货日清指标</h3>
+
+                            <div class="box-tools pull-right">
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                {{#each statsToday "preReturn"}}
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="small-box bg-green">
+                                        <div class="inner">
+                                            <h3>{{count}}
+                                                <a href="{{pathFor 'preReturnDetail'}}" style="font-size: medium;color: white">
+                                                                (点击查看订单号)
+                                                            </a>
+                                            </h3>
+
+                                            <p>{{date}} 15:30 前待退货订单量</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}} {{#each statsToday "tallyRetrievePreReceive"}}
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="small-box bg-green">
+                                        <div class="inner">
+                                            <h3>{{count}}</h3>
+
+                                            <p>{{date}} 理货移交退货未接收量</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}} {{#each statsToday "returned"}}
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="small-box bg-light-blue">
+                                        <div class="inner">
+                                            <h3>{{count}}</h3>
+
+                                            <p>{{date}} 15:30 前已退货订单量</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</template>

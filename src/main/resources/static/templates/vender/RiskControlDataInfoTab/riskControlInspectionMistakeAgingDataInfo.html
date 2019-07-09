@@ -1,0 +1,89 @@
+<template name="riskControlInspectionMistakeAgingDataInfo">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+
+            <div id="chartContent" class="template-dashboard content body">
+                <span style="color:red">注：</span><span>此处的亏损金额和毛利率是由严重老化的订单的数据。</span>
+                <!--<span style="color:red">注：</span><span>只包含官网和M版流量</span>-->
+                <div class="row desktop-only c-border">
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请选择查看时间:</span>
+
+                        <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <span>请选择提交异常订单数:</span>
+                        <select  class="orderCnt" style="width: 150px;height: 34px;border-radius: 4px;padding: 6px 12px;">
+                            <option value="3">>=3台</option>
+                            <option value="5">>=5台</option>
+                            <option value="10">>=10台</option>
+                        </select>
+                        <button class="btn btn-primary search">查询</button>
+
+                    </div>
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+
+                    </div>
+
+                </div>
+                <div class="row mobile-only desktop-none">
+
+                </div>
+                <div >
+
+                    <label style="margin-top:20px">门店严重老化分析</label>
+                    <div id="etable" class="row" style="margin-top: 15px;border: 1px solid gray">
+                        <div style="text-align: center;margin-top: 150px" id="loading2">
+                            <img src="/images/loading.gif">
+                        </div>
+                        <div id="righte" class="col-md-12 col-sm-12 col-xs-12" style="">
+                            <table id="tablee"
+                                   data-toggle="table"
+                                   data-show-export="true"
+                                   data-pagination="true"
+                                   data-click-to-select="true"
+                            >
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                    <div id="chartfContent" class="template-dashboard content body">
+
+                        <!--<span style="color:red">注：</span><span>只包含官网和M版流量</span>-->
+
+                    <label style="margin-top:20px">总账户严重老化分析</label>
+                    <div id="ftable" class="row" style="margin-top: 15px;border: 1px solid gray">
+                        <div style="text-align: center;margin-top: 150px" id="loading3">
+                            <img src="/images/loading.gif">
+                        </div>
+                        <div id="rightf" class="col-md-12 col-sm-12 col-xs-12" style="">
+                            <table id="tablef"
+                                   data-toggle="table"
+                                   data-show-export="true"
+                                   data-pagination="true"
+                                   data-click-to-select="true"
+                            >
+
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                </div>
+
+            </div>
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

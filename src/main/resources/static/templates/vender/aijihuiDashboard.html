@@ -1,0 +1,117 @@
+<template name="aijihuiDashboard">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+            <div class="template-dashboard content body">
+                <div class="small-box bg-light-blue">
+                    <div class="inner">
+                        <h3>
+                            <span>{{todayTradeStats.tradeNum}}</span>
+                            <span id = "yesterdaySubmit" style="font-size: medium">昨日····</span></h3>
+
+                        <p>{{todayTradeStats.date}} 订单提交量<B>(不含废旧机和取消订单)</B></p>
+                        <p><B>(废旧机提交量(排除取消)：{{todayTradeStats.junkTradeNum}})</B></p>
+                        <p><B>(取消订单提交量：{{todayTradeStats.cancelTradeNum}})</B></p>
+                        <p><B>(总提交量：{{todayTradeStats.totalTradeNum}})</B></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="venderTradeUserMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                    <div id="venderTradeCategoryMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                    <div id="venderTradeProvinceMixedChart" class="col-md-12 col-sm-12 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                    <div><a href="#" class="glyphicon glyphicon-question-sign pull-right" style="margin-top:1%;margin-right:3%" data-toggle="tooltip"
+                            title="说明：&#10;1、每日实时累积趋势图是一小时刷新一次的。上面的昨日同时数据是每秒刷新的。所以只有你整点看的时候才是能对上的(最多有5分钟的延迟，由于有缓存)
+2、在提交订单用户分布中，各字段含义如下：&#10;总账户(该总账户下的门店数)，省份[当前提交订单的总账户数，当前提交订单的门店数](昨日同时间提交订单的总账户数，昨日同时间提交订单的门店数)；此处已去除取消订单；其它同上
+                                                                                                                                                                            ——申请人：张倩
+
+                            "></a></div>
+                    <div id="venderTradeTrendMixedChart" class="col-md-12 col-sm-12 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                </div>
+                <div class="small-box bg-light-blue">
+                    <div class="inner">
+                        <h3>
+                            <span style="font-size: 34px;">{{todayTradeStats.tradeAmount}}</span>
+                            <p><span id="yesterdaySubmitPrice" style="font-size: medium">昨日····</span></p>
+                        </h3>
+                        <p>{{todayTradeStats.date}} 订单提交金额(不含废旧机和取消订单)</p>
+                        <p><B>(废旧机提交金额(排除取消)：{{todayTradeStats.junkTradeAmount}})</B></p>
+                        <p><B>(取消订单提交金额：{{todayTradeStats.cancelTradeAmount}})</B></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="venderTradeAmountUserMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                    <div id="venderTradeAmountCategoryMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                    <div id="venderTradeAmountProvinceMixedChart" class="col-md-12 col-sm-12 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="template-dashboard  body">
+                        <div class="small-box bg-light-blue">
+                            <div class="inner">
+                                <h3>{{todayTradeStats.dealNum}}
+                                    <span id="yesterdayDealOrder" style="font-size: medium">昨日同时间····</span>
+                                </h3>
+                                <p>{{todayTradeStats.date}} 订单成交量(废旧机成交量{{todayTradeStats.junkDealNum}})</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="venderTradeDealUserMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                    <div id="venderTradeDealCategoryMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                    <div id="venderTradeDealProvinceMixedChart" class="col-md-12 col-sm-12 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+
+                </div>
+
+                <div class="row">
+                <div class="template-dashboard  body">
+                    <div class="small-box bg-light-blue">
+                        <div class="inner">
+                            <h3>
+                                <span>{{todayTradeStats.dealAmount}}</span>
+                                <p><span id="yesterdayDealPrice" style="font-size: medium">昨日同时间····</span></p>
+                            </h3>
+                            <p>{{todayTradeStats.date}} 订单成交金额(废旧机成交金额{{todayTradeStats.junkDealAmount}})</p>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <div class="row">
+                <div id="venderTradeDealAmountUserMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                     style="height:400px;margin-top: 3%">
+                </div>
+                <div id="venderTradeDealAmountCategoryMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                     style="height:400px;margin-top: 3%">
+                </div>
+                <div id="venderTradeDealAmountProvinceMixedChart" class="col-md-12 col-sm-12 col-xs-12"
+                     style="height:400px;margin-top: 3%">
+                </div>
+                </div>
+            </div>
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

@@ -1,0 +1,64 @@
+<template name="VenderOrderPrefixQuery">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <span style="color:red">注：</span><span>此处的订单号和Imei号都是取后六位。<br></span>
+            <div class="row col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                    <label for="orderID">订单号后6位:</label>
+                    <input type="text" class="form-control " id="orderID">
+                </div>
+                <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                    <label for="query">查询</label>
+                    <button class="btn btn-primary search form-control" style="border-radius: 5px" id="query"><i
+                            class="fa fa-search"></i></button>
+                </div>
+                <!--<div class="form-group col-md-3 col-sm-6 col-xs-12">-->
+                    <!--&lt;!&ndash;<a href="#" class="glyphicon glyphicon-question-sign pull-right" style="margin-top:1%;margin-bottom: 1%" data-toggle="tooltip" title="说明：此处的订单号和Imei号都是取后六位。"></a>&ndash;&gt;-->
+                <!--</div>-->
+            </div>
+            <div class="row col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                    <label for="imeiID">Imei号后6位:</label>
+                    <input type="text" class="form-control " id="imeiID">
+                </div>
+                <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                    <label for="queryImei">查询</label>
+                    <button class="btn btn-primary search form-control" style="border-radius: 5px" id="queryImei"><i
+                            class="fa fa-search"></i></button>
+                </div>
+            </div>
+            <div class="row col-md-12 col-sm-12 col-xs-12">
+                <table id="VenderOrderPrefixQueryTable" class="cell-border"
+                       data-show-export="true"
+                       data-toolbar="#toolbar">
+                    <thead>
+                    <tr>
+                        <th data-field="order_key" data-sortable="true">订单号</th>
+                        <th data-field="order_create_date" data-sortable="true">订单创建日期</th>
+                        <th data-field="province_name" data-sortable="true">省份</th>
+                        <th data-field="city_name" data-sortable="true">城市</th>
+                        <th data-field="shop_name" data-editable="false" data-sortable="true">门店</th>
+                        <th data-field="order_operator_name" data-editable="false" data-sortable="true">业务员</th>
+                        <th data-field="vender_name" data-editable="false" data-sortable="true">子账户</th>
+                        <th data-field="corporate_name" data-editable="false" data-sortable="true">总账户</th>
+                        <th data-field="order_type_name" data-editable="false" data-sortable="true">订单类型</th>
+                        <th data-field="order_status" data-editable="false" data-sortable="true">订单状态</th>
+                        <th data-field="order_validate" data-editable="false" data-sortable="true">验货状态</th>
+                        <th data-field="order_imei" data-editable="false" data-sortable="true">订单IMEI号</th>
+                        <th data-field="order_product" data-editable="false" data-sortable="true">订单产品</th>
+                        <th data-field="invoice_no" data-editable="false" data-sortable="true">发货单号</th>
+                        <th data-field="recycleType" data-editable="false" data-sortable="true">下单方式</th>
+                        <th data-field="tel" data-editable="false" data-sortable="true">手机号</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <div style="text-align: center;margin-top: 150px" id="loading">
+                <img src="/images/loading.gif">
+            </div>
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

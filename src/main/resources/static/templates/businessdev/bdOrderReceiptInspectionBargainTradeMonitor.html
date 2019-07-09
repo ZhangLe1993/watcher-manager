@@ -1,0 +1,76 @@
+<template name="bdOrderReceiptInspectionBargainTradeMonitor">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+
+
+            <div class="template-dashboard content body">
+
+                <div class="small-box bg-light-blue row">
+                    <div class="inner col-md-6 col-sm-6 col-xs-12">
+                        <h3><label id="receiptTodayCnt">...</label><span style="font-size: medium">(昨日同时间:<label id="receiptYtdCnt">...</label>)</span></h3>
+                        <p><label class="tdDate">...</label>到货订单总量</p>
+                    </div>
+                    <div class="inner col-md-6 col-sm-6 col-xs-12">
+                        <h3><label id="inspectionTodayCnt">...</label><span style="font-size: medium">(昨日同时间:<label id="inspectionYtdCnt">...</label>)</span></h3>
+                        <p><label class="tdDate">...</label>验货订单总量</p>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div id="orderReceiptCntMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                    <div id="orderInspectionCntMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                </div>
+                <div class="small-box bg-light-blue">
+                    <div class="small-box bg-light-blue row">
+                        <div class="inner col-md-6 col-sm-6 col-xs-12">
+                            <h3><label id="bargainTodayCnt">...</label><span style="font-size: medium">(昨日同时间:<label id="bargainYtdCnt">...</label>)</span></h3>
+                            <p><label class="tdDate">...</label>议价订单成交量</p>
+                        </div>
+
+                        <div class="inner col-md-6 col-sm-6 col-xs-12">
+                            <h3><label id="bargainTodayNum">...</label><span style="font-size: medium">(昨日同时间:<label id="bargainYtdNum">...</label>)</span></h3>
+                            <p><label class="tdDate">...</label>议价订单成交金额</p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="orderBargainCntMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                    <div id="orderBargainNumMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                </div>
+
+                <div class="small-box bg-light-blue">
+                    <div class="small-box bg-light-blue row">
+                        <div class="inner col-md-6 col-sm-6 col-xs-12">
+                            <h3><label id="inspectionStaffTodayCnt">...</label><span style="font-size: medium">(昨日同时间:<label id="inspectionStaffYtdCnt">...</label>)</span></h3>
+                            <p><label class="tdDate">...</label>质检人员安排</p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="orderInspectionStaffCntMixedChart" class="col-md-12 col-sm-12 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

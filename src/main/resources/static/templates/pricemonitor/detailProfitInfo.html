@@ -1,0 +1,910 @@
+<template name="detailProfitInfo">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <!--<div>-->
+                <!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+                    <!--<div class="modal-dialog" style="width:1600px;">-->
+                        <!--<div class="modal-content" style="    width: 600px;margin: auto;">-->
+                            <!--<div class="modal-header">-->
+                                <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×-->
+                                <!--</button>-->
+                                <!--<h4 class="modal-title" id="myModalLabel">-->
+
+                                <!--</h4>-->
+                            <!--</div>-->
+                            <!--<div class="modal-body">-->
+                                <!--<span>选择品类:</span>-->
+                                <!--<select id="categorySel" class="form-control" style="width: 200px;display: inline;">-->
+                                   <!--<option value="手机">手机</option>-->
+                                   <!--<option value="平板电脑">平板电脑</option>-->
+                                   <!--<option value="笔记本">笔记本</option>-->
+                                   <!--<option value="摄影摄像">摄影摄像</option>-->
+                                   <!--<option value="智能数码">智能数码</option>-->
+                                <!--</select>-->
+                               <!--<p style="color: darkgray;">填写格式参照：~200;200~400;400~600;600~</p>-->
+                               <!--<p>modal...</p>-->
+                               <!--<p>modal...</p>-->
+                            <!--</div>-->
+                            <!--<div class="modal-footer">-->
+                                <!--<button type="button" class="btn btn-default" data-dismiss="modal">-->
+                                    <!--关闭-->
+                                <!--</button>-->
+                                <!--<button type="button" class="btn btn-primary" id="submit">-->
+                                    <!--提交更改-->
+                                <!--</button>-->
+                            <!--</div>-->
+                        <!--</div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
+                    <!--</div>&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
+                <!--</div>&lt;!&ndash; /.modal &ndash;&gt;-->
+            <!--</div>-->
+            <span style="color:red">注：</span><span>爱机汇不包含：目标达量服务费、周末狂欢、门店奖励、抽奖、询价小费、子账户/总账户/代理商加款减款、部分活动奖励、垫资模式KA服务费，爱回收只包含：手机、平板、笔记本、摄影摄像以及智能数码。</span>
+            <div class="row  c-border" style="    margin: 0 0px;">
+                <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                    <span>请选择查看时间:</span>
+                    <button type="button" class="daily btn btn-default reportRangeOutlets"  style="border: 1px gray solid;width:240px;background-color:white">
+                        <i class="fa fa-calendar"></i>
+                        <span class="dateSelectLabel"></span>
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active" style="width:12% ;margin-right: 0px; "><a href="#saleAnalyse" data-toggle="tab">主营与爱机汇销售分析对比</a></li>
+                            <li style="width:12%;margin-right: 0px;"><a href="#biddingAnalysis" data-toggle="tab" >自营、BD与爱机汇竞价分析对比</a></li>
+                            <li style="width:12%;margin-right: 0px;"><a href="#profit" data-toggle="tab" >主营与爱机汇品牌利润率对比</a></li>
+                            <li style="width:12%;margin-right: 0px;"><a href="#price" data-toggle="tab">价格区间利润率对比</a></li>
+                            <li style="width:12%;margin-right: 0px;"><a href="#tradeMethod" data-toggle="tab">交易方式利润率对比</a></li>
+                            <li style="width:12%;margin-right: 0px;"><a href="#orderSource" data-toggle="tab">订单来源利润率对比</a></li>
+                            <li style="width:12%;margin-right: 0px;"><a href="#hotProduct" data-toggle="tab">热门型号利润率对比</a></li>
+                            <li style="width:12%;margin-right: 0px;"><a href="#smartPrice" data-toggle="tab">智能定价竞争力分析</a></li>
+
+                        </ul>
+                        <div class="tab-content">
+
+                            <div class="active tab-pane" id="saleAnalyse">
+                                <div style="text-align: center;margin-top: 150px" id="saleAnalyseLoading">
+                                    <img src="/images/loading.gif">
+                                </div>
+                                <div class="row" id="saleAnalyseContent">
+                                    <div class="" style="height: 400px" id="chart">
+
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">全品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="table"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true">
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">手机品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="tableMobile"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">平板品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="tablePad"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">笔记本品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="tableNote"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">摄影摄像品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="tableVideo"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">智能数码品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="tableIntelligent"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--deprecated-->
+                            <div class="tab-pane fade" id="biddingAnalysis">
+                                <div style="text-align: center;margin-top: 150px" id="biddingAnalysisLoading">
+                                    <img src="/images/loading.gif">
+                                </div>
+                                <div class="row" id="biddingAnalysisContent">
+                                    <div class="" style="height: 400px" id="biddingAnalysisChart">
+
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">全品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="biddingAnalysisTable"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true">
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">手机品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="biddingAnalysisTableMobile"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">平板品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="biddingAnalysisTablePad"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">笔记本品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="biddingAnalysisTableNote"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">摄影摄像品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="biddingAnalysisTableVideo"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">智能数码品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="biddingAnalysisTableIntelligent"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane fade" id="profit">
+                                <div style="text-align: center;margin-top: 150px" id="profitLoading">
+                                    <img src="/images/loading.gif">
+                                </div>
+                                <div class="row" id="profitContent">
+                                    <div style="margin-left:10px"><span style="color: red">注:</span>爱回收与爱机汇差值大于8% 则显示红色。</div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">手机品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="profitTableMobile"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">平板品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="profitTablePad"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">笔记本品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="profitTableNote"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">摄影摄像品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="profitTableVideo"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">智能数码品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="profitTableIntelligent"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="tab-pane fade" id="price">
+                                <div class="row " >
+                                    <div class="col-md-2 col-sm-4">
+                                        <select id="type"  style=" margin-left: 13px;width:110px;border-radius: 4px;padding: 6px 12px;">
+                                            <option value="手机">手机</option>
+                                            <option value="平板电脑">平板电脑</option>
+                                            <option value="笔记本">笔记本</option>
+                                            <option value="摄影摄像">摄影摄像</option>
+                                            <option value="智能数码">智能数码</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-9 ">
+                                            <span style="    margin-left: 13px;">价格区间  <a href="#" class="glyphicon glyphicon-question-sign " style="   ;margin-top:1%;margin-bottom: 1%" data-toggle="tooltip"
+                                                                                          title="说明：
+1.多价格区间以分号分割;
+2.价格区间以~分割;
+3.~200;200~500;500~1000;1000~表示小于200一个分段；200-500一个分段；500-1000一个分段；大于1000一个分段"></a>:</span>
+                                        <input id="priceRange" style=" width:250px;      margin-left: 13px;  border-radius: 4px;padding: 4px 12px;" value="0~300;300~1000;1000~">
+                                        <button class="btn btn-primary search" style="    margin-left: 13px;padding: 2px 10px;">
+                                            查询
+                                        </button>
+                                    </div>
+
+                                </div>
+                                <div style="text-align: center;margin-top: 150px" id="priceLoading">
+                                    <img src="/images/loading.gif">
+                                </div>
+                                <div class="row" id="priceContent">
+                                    <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                        <table id="priceTable"
+                                               data-toggle="table"
+                                               data-show-export="true"
+                                               data-search="true"
+                                               data-pagination="true"
+                                               data-click-to-select="true"
+                                        >
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="tab-pane fade" id="tradeMethod">
+                                <div style="text-align: center;margin-top: 150px" id="tradeMethodLoading">
+                                    <img src="/images/loading.gif">
+                                </div>
+                                <div class="row" id="tradeMethodContent">
+                                    <div class="" style="height: 400px" id="tradeMethodChart">
+
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">全品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="tradeMethodTable"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">手机品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="tradeMethodTableMobile"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">平板品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="tradeMethodTablePad"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">笔记本品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="tradeMethodTableNote"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">摄影摄像品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="tradeMethodTableVideo"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">智能数码品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="tradeMethodTableIntelligent"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="tab-pane fade" id="orderSource">
+                                <div style="text-align: center;margin-top: 150px" id="orderSourceLoading">
+                                    <img src="/images/loading.gif">
+                                </div>
+                                <div class="row" id="orderSourceContent">
+                                    <div class="" style="height: 400px" id="orderSourceChart">
+
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">全品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="orderSourceTable"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">手机品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="orderSourceTableMobile"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">平板品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="orderSourceTablePad"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">笔记本品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="orderSourceTableNote"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">摄影摄像品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="orderSourceTableVideo"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">智能数码品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="orderSourceTableIntelligent"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="tab-pane fade" id="hotProduct">
+                                <div style=""><span style="color: red">注:</span>每行最小值 显示红色。</div>
+                                <div style="text-align: center;margin-top: 150px" id="hotProductLoading">
+                                    <img src="/images/loading.gif">
+                                </div>
+                                <div class="row" id="hotProductContent">
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">手机品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="ahsHotProductMobile"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div><div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                <table id="ajhHotProductMobile"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-search="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"
+                                                >
+                                                </table>
+                                            </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">平板品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="ahsHotProductPad"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div><div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                <table id="ajhHotProductPad"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-search="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"
+                                                >
+                                                </table>
+                                            </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">笔记本品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="ahsHotProductNote"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div><div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                <table id="ajhHotProductNote"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-search="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"
+                                                >
+                                                </table>
+                                            </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">摄影摄像品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="ahsHotProductVideo"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div><div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                <table id="ajhHotProductVideo"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-search="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"
+                                                >
+                                                </table>
+                                            </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                    <div class=" box box-primary" style="width: auto;margin:5px">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="border-style: none;font-weight: bold">智能数码品类</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row" style="">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                    <table id="ahsHotProductIntelligent"
+                                                           data-toggle="table"
+                                                           data-show-export="true"
+                                                           data-search="true"
+                                                           data-pagination="true"
+                                                           data-click-to-select="true"
+                                                    >
+                                                    </table>
+                                                </div><div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                <table id="ajhHotProductIntelligent"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-search="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"
+                                                >
+                                                </table>
+                                            </div>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!--智能定价竞争力分析-->
+                            <div class="tab-pane fade" id="smartPrice">
+                                <div style="text-align: center;margin-top: 150px" id="smartPriceLoading">
+                                    <img src="/images/loading.gif">
+                                </div>
+                                <div class="row" id="smartPriceContent">
+                                    <div class="" style="    margin-left: 15px;">
+                                        <select style="height: 32px;width: 100px;border-radius: 4px;" id="category">
+                                            <option value="手机">手机</option>
+                                            <option value="平板电脑">平板电脑</option>
+                                            <option value="笔记本">笔记本</option>
+                                            <option value="摄影摄像">摄影摄像</option>
+                                        </select>
+                                    </div>
+                                    <div class="" style="height: 400px" id="smartPriceChart">
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <table style="margin: 0 15px" id="smartPriceTable"
+                                               data-toggle="table"
+                                               data-show-export="true"
+                                               data-search="true"
+                                               data-pagination="true"
+                                               data-click-to-select="true"
+                                        >
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                        <!-- /.tab-content -->
+                </div>
+            </div>
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

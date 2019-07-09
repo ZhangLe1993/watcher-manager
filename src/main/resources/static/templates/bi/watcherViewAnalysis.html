@@ -1,0 +1,332 @@
+<template name="watcherViewAnalysis">
+
+    <style>
+        .spa{
+            letter-spacing: 3px;
+        }
+        .for-num {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        @media (min-width: 768px){
+            .re-modal-dialog {
+                width: 85%;
+                margin: 30px auto;
+            }
+        }
+
+        /*数字区域加载动画css*/
+        .spinner {
+            width: 100px;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .spinner > div {
+            width: 10px;
+            height: 10px;
+            background-color: #747474;
+
+            border-radius: 100%;
+            display: inline-block;
+            -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+            animation: bouncedelay 1.4s infinite ease-in-out;
+            /* Prevent first frame from flickering when animation starts */
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+
+        .spinner .bounce1 {
+            -webkit-animation-delay: -0.32s;
+            -moz-animation-delay: -0.32s;
+            -ms-animation-delay: -0.32s;
+            -o-animation-delay: -0.32s;
+            animation-delay: -0.32s;
+        }
+
+        .spinner .bounce2 {
+            -webkit-animation-delay: -0.16s;
+            -moz-animation-delay: -0.16s;
+            -ms-animation-delay: -0.16s;
+            -o-animation-delay: -0.16s;
+            animation-delay: -0.16s;
+        }
+
+        @-webkit-keyframes bouncedelay {
+            0%, 80%, 100% { -webkit-transform: scale(0.0) }
+            40% { -webkit-transform: scale(1.0) }
+        }
+
+        @-moz-keyframes bouncedelay {
+            0%, 80%, 100% { -moz-transform: scale(0.0) }
+            40% { -moz-transform: scale(1.0) }
+        }
+
+        @-ms-keyframes bouncedelay {
+            0%, 80%, 100% { -ms-transform: scale(0.0) }
+            40% { -ms-transform: scale(1.0) }
+        }
+
+        @-o-keyframes bouncedelay {
+            0%, 80%, 100% { -o-transform: scale(0.0) }
+            40% { -o-transform: scale(1.0) }
+        }
+
+        @keyframes bouncedelay {
+            0%, 80%, 100% {
+                transform: scale(0.0);
+                -webkit-transform: scale(0.0);
+                -moz-transform: scale(0.0);
+                -ms-transform: scale(0.0);
+                -o-transform: scale(0.0);
+            } 40% {
+                  transform: scale(1.0);
+                  -webkit-transform: scale(1.0);
+                  -moz-transform: scale(0.0);
+                  -ms-transform: scale(0.0);
+                  -o-transform: scale(0.0);
+              }
+        }
+
+
+
+        .body-div-pro{
+            border-top:1px solid #eee;border-top-width:5px;
+        }
+
+        .info-box-resize{
+            height:45px;min-height:45px;
+        }
+
+        .info-box-icon-resize{
+            height:45px;line-height:45px;
+        }
+
+        .bg-green-resize{
+            background-color: #3c8dbc !important;
+        }
+
+        @media screen and (max-width:1600px) {
+            .re-modal-content{
+                overflow-y:auto;max-height:500px;
+            }
+
+            .description-fo-title {
+                font-size:10px;
+                color: #3e3e3e;
+                font-weight: BOLD;
+            }
+            .description-fo {
+                font-size:12px;
+                /*color:#999;*/
+                font-weight: BOLD;
+            }
+            .box-title-resize {
+                font-size:12px !important;
+                font-weight: bold;
+            }
+            .box-subtitle-resize {
+                font-size:12px !important;
+                font-weight: bold;
+            }
+            .h1-resize{
+                position:relative;font-size:12px;font-weight:600;width:180px;
+            }
+        }
+
+        /*大于1600px*/
+        /*数字区域加载动画css结束*/
+        @media screen and (min-width:1600px) {
+            .re-modal-content{
+                overflow-y:auto;max-height:700px;
+            }
+
+            .description-fo-title {
+                font-size:14px;
+                color:#3e3e3e;
+                font-weight: BOLD;
+            }
+
+            .description-fo {
+                font-size:18px;
+                /*color: #259987;*/
+                /*font-weight: BOLD;*/
+                font-weight: bold;
+            }
+            .box-title-resize {
+                font-size:18px !important;
+                font-weight: bold;
+            }
+            .box-subtitle-resize {
+                font-size:15px !important;
+                font-weight: bold;
+            }
+            .h1-resize{
+                position:relative;font-size:18px;font-weight:600;width:180px;
+            }
+        }
+
+        /*@media (min-width: 1200px) {
+            .col-zdlg-3-12 {
+                float: left;
+                width: 20%;
+            }
+
+            .col-zdlg-2-15 {
+
+            }
+        }*/
+    </style>
+    <div class="content-wrapper">
+        <section class="content" style="background:#eee;">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="box box-solid">
+                        <div class="box-header">
+                            <div class="row desktop-only-c" style="width:100%;margin:0 auto;">
+                                <div class="col-md-12">
+                                    <span style="font-size:12px;">时间:</span>
+                                    <button id="dataBtn" type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;background-color:white">
+                                        <i class="fa fa-calendar"></i>
+                                        <span class="dateSelectLabel" style="font-size:12px;"></span>
+                                        <i class="fa fa-caret-down"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="box box-solid">
+                        <div class="box-header">
+                            <div class="row desktop-only-c" style="width:100%;margin:0 auto;">
+                                <div class="col-md-12">
+                                    <span>查询类型:</span>
+                                    <select class="type c-mleft5" style="width:60%;border-radius: 4px;height:34px;">
+                                        <option value="0">明细</option>
+                                        <option value="1">一级菜单</option>
+                                        <option value="2">二级菜单</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="box box-solid">
+                        <div class="box-header">
+                            <div class="row desktop-only-c" style="width:100%;margin:0 auto;">
+                                <div class="col-md-12">
+                                    <span class="pageNameOption">名称:</span>
+                                    <select id="pageName" class="pageName c-mleft5" style="margin-left: 28px;width:250px;border-radius: 4px;padding: 6px 12px;"></select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-1" style="padding-left:0px;">
+                    <div class="box box-solid">
+                        <div class="box-header" style="padding-left:0px  !important;">
+                            <div class="row desktop-only-c" style="width:100%;margin:0 auto;">
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary search" style="font-size:12px">查询</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-solid">
+                        <div class="box-header">
+                            <i class="fa fa-bar-chart-o"></i>
+
+                            <h3 class="box-title box-subtitle-resize">Watcher页面浏览分析</h3>
+
+                            <div class="box-tools pull-right">
+
+                            </div>
+                        </div>
+                        <div class="box-body">
+
+                            <div class="chart tab-pane active" id="sourceNumChart" style="position: relative;">
+                                <div id="etable" class="row">
+                                    <div style="text-align: center;margin-top: 150px" id="loading2">
+                                        <img src="/images/loading.gif">
+                                    </div>
+                                    <div id="righte" class="col-md-12 col-sm-12 col-xs-12" style="">
+                                        <table id="tablee"
+                                               data-toggle="table"
+                                               data-show-export="true"
+                                               data-pagination="true"
+                                               data-click-to-select="true"
+                                        >
+                                            <thead>
+                                            <tr>
+                                                <th data-field="page_name" data-sortable="true">页面</th>
+                                                <th data-field="pvCnt" data-sortable="true">PV</th>
+                                                <th data-field="uvCnt" data-sortable="true">UV</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-solid">
+                        <div class="box-header">
+                            <i class="fa fa-bar-chart-o"></i>
+
+                            <h3 class="box-title box-subtitle-resize">Watcher访问用户分析</h3>
+
+                            <div class="box-tools pull-right">
+
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="chart tab-pane active" id="visitNumChart" style="position: relative; ">
+
+                                <div id="ftable" class="row">
+                                    <div style="text-align: center;margin-top: 150px" id="loading3">
+                                        <img src="/images/loading.gif">
+                                    </div>
+                                    <div id="rightf" class="col-md-12 col-sm-12 col-xs-12" style="">
+                                        <table id="tablef"
+                                               data-toggle="table"
+                                               data-show-export="true"
+                                               data-pagination="true"
+                                               data-click-to-select="true"
+                                        >
+                                            <thead>
+                                            <tr>
+                                                <th data-field="page_name" data-sortable="true">用户名</th>
+                                                <th data-field="uvCnt" data-sortable="true">PV</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</template>

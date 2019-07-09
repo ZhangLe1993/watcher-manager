@@ -1,0 +1,103 @@
+<template name="departmentKPIShow">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+
+            <div id="chartContent" class="template-dashboard content body">
+
+                <div class="row box box-primary" style="width: auto;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">KPI达成情况</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                                <button type="button" style="border: 1px gray solid;background-color:white"
+                                        class="daily btn btn-default datePickerUp">
+                                    <i class="fa fa-calendar"></i>
+                                    <span class="selectLabelUp"></span>
+                                    <i class="fa fa-caret-down" style="margin-left: 28px"></i>
+                                </button>
+                                <!--<button class="btn btn-primary searchMonth" style="width:150px;border:none">确定</button>-->
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div id="departmentScorePart1Chart" style="height:500px;margin-top:40px">
+
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div id="departmentPart1DataChart" style="height:500px;margin-top:40px">
+
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div id="departmentScorePart2Chart" style="height:500px;margin-top:40px">
+
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div id="departmentPart2DataChart" style="height:500px;margin-top:40px">
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="row box box-primary" style="width: auto;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">KPI达成情况历史记录</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                                <button type="button" style="border: 1px gray solid;background-color:white"
+                                        class="daily btn btn-default datePickerDown">
+                                    <i class="fa fa-calendar"></i>
+                                    <span class="selectLabelDown"></span>
+                                    <i class="fa fa-caret-down" style="margin-left: 28px"></i>
+                                </button>
+
+                                <span>请选择部门</span>
+                                <select class="department" style="width:150px;height:30px;border-radius:4px;">
+                                </select>
+
+                                <button class="btn btn-primary searchRangeMonth" style="width:150px;border:none">确定</button>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div id="departmentDataRangeChart" style="height:400px;margin-top:40px">
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- <div style="text-align: center;margin-top: 150px" id="loading">
+                 <img src="/images/loading.gif">
+             </div>
+ -->
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

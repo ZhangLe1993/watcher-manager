@@ -1,0 +1,172 @@
+<template name="recyclerMonitorAnalysis">
+        <section class="content-header" style="background-color: white">
+            <div class="row" style="">
+                <div class=" col-md-12 col-sm-12 col-xs-12">
+                    <div style="margin-left:15px;margin-right:15px">
+
+                        <table id="tableByMaintainer"
+                               data-toggle="table"
+                               data-show-export="true"
+                               data-pagination="true"
+                               data-click-to-select="true"
+                        >
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="">
+                <div class=" col-md-12 col-sm-12 col-xs-12">
+                    <div style="margin-left:15px;margin-right:15px">
+
+                        <table id="tableByRecyclerBasicInfo"
+                               data-toggle="table"
+                               data-show-export="true"
+                               data-pagination="true"
+                               data-click-to-select="true"
+                        >
+                            <thead>
+                            <tr>
+                                <!--<th data-field="date" data-sortable="true">日期</th>-->
+                                <th data-field="recycler_name" data-sortable="true">回收商</th>
+                                <th data-field="final_order_count" data-sortable="true">提货量</th>
+                                <th data-field="final_quotation_price_num" data-sortable="true">提货金额</th>
+                                <th data-field="return_order_count" data-sortable="true">收货量</th>
+                                <th data-field="return_quotation_price_num" data-sortable="true">收货金额</th>
+                                <th data-field="return_count_ratio" data-sortable="true">量退货率</th>
+                                <th data-field="return_amount_ratio" data-sortable="true">金额退货率</th>
+                                <th data-field="TotalCount" data-sortable="true">待收货数量</th>
+                                <th data-field="SettleAmount" data-sortable="true">待收货金额</th>
+                                <th data-field="rank" data-sortable="true">提货排名</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center;margin-top: 150px" id="loading">
+                <img src="/images/loading.gif">
+            </div>
+
+            <div class="row" style="">
+                <div class=" col-md-12 col-sm-12 col-xs-12">
+                    <div style="margin-left:15px;margin-right:15px">
+
+                        <table id="tableByRecyclerLevelInfo"
+                               data-toggle="table"
+                               data-show-export="true"
+                               data-pagination="true"
+                               data-click-to-select="true"
+                        >
+                            <thead>
+                            <tr>
+                                <th data-field="recycler_name" data-sortable="true">回收商</th>
+                                <th data-field="level" data-sortable="true">级别</th>
+                                <th data-field="cntRatio" data-sortable="true">退货数量可提升百分比</th>
+                                <th data-field="amtRatio" data-sortable="true">退货金额可提升百分比</th>
+                                <th data-field="amt_growth_score" data-sortable="true">竞价金额增长率(得分)</th>
+                                <th data-field="amt_ratio_score" data-sortable="true">竞价金额全品类占比(得分)</th>
+                                <th data-field="cnt_ratio_score" data-sortable="true">竞价数量全品类占比(得分)</th>
+                                <th data-field="category_amt_ratio_score" data-sortable="true">竞价金额最高品类占比(得分)</th>
+                                <th data-field="return_ratio_score" data-sortable="true">拒退数量百分比(得分)</th>
+                                <th data-field="avg_hour_diff_socre" data-sortable="true">平均付款小时数(得分)</th>
+                                <th data-field="total_score" data-sortable="true">综合得分</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center;margin-top: 150px" id="loadingLevel">
+                <img src="/images/loading.gif">
+            </div>
+
+            <div class="c-border">
+            <div class="row desktop-only c-border" style="margin: 1%">
+                <!--<div class="tempExplain"><label id="templabel" style="margin-left: 1%;font-weight:bold;">注：用户在浏览过程中访问过活动页面，就算活动引来的量</label></div>-->
+                <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                    <span>请选择查看日期:</span>
+                    <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                        <i class="fa fa-calendar"></i>
+                        <span class="dateSelectLabel"></span>
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <span class="categoryOption">请选择品类:</span>
+                    <select class="category c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                    </select>
+                    <span class="brandOption">请选择品牌:</span>
+                    <select  class="brand c-mleft5" style="margin-left: 45px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                    </select>
+                    <span class="productOption">请选择型号:</span>
+                    <select  class="product c-mleft5" style="margin-left: 45px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                    </select>
+
+                    <button class="btn btn-primary search">查询</button>
+                </div>
+            </div>
+
+            <div class="row mobile-only desktop-none ">
+                <!--<div class="tempExplain"><label id="templabel" style="margin-left: 1%;font-weight:bold;">注：用户在浏览过程中访问过活动页面，就算活动引来的量</label></div>-->
+                <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                    <span>请选择查看日期:</span>
+                    <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                        <i class="fa fa-calendar"></i>
+                        <span class="dateSelectLabel"></span>
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+
+                    <div>
+                        <span class="categoryOption">请选择品类:</span>
+                        <select class="category c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                    </div>
+
+                    <div class="">
+                        <span class="brandOption">请选择品牌:</span>
+                        <select  class="brand c-mleft5" style="margin-left: 45px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                    </div>
+
+                    <div class="">
+                        <span class="productOption">请选择型号:</span>
+                        <select  class="product c-mleft5" style="margin-left: 45px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                    </div>
+
+                    <button class="btn btn-primary search">查询</button>
+                </div>
+            </div>
+
+            <div class="row" style="width: auto; margin:1%">
+                <div class="box-body">
+                    <div id="chartContent">
+
+                        <div class="row" style="background-color: white">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <table class="cell-border"
+                                       data-show-export="true"
+                                       data-toggle="table"
+                                       data-pagination="true"
+                                       data-click-to-select="true"
+                                       id="BussinessDataTable">
+
+                                    <thead>
+                                    <tr>
+                                        <th data-field="recycler_name" data-sortable="true">回收商</th>
+                                        <th data-field="final_order_count" data-sortable="true">提货量</th>
+                                        <th data-field="final_quotation_price_num" data-sortable="true">提货金额</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div><!-- /.box-body -->
+            </div>
+            <div style="text-align: center;margin-top: 150px" id="loadingQuery">
+                <img src="/images/loading.gif">
+            </div>
+            </div>
+        </section>
+</template>

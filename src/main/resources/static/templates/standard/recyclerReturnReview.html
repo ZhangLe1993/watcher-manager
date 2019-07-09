@@ -1,0 +1,544 @@
+<template name="recyclerReturnReview">
+    <!-- Content Wrapper. Contains page content -->
+    <style>
+        @media (min-width: 1200px) {
+            .col-zdlg-2-5 {
+                float: left;
+                width: 20%;
+            }
+        }
+    </style>
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <div class="col-md-12">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs" id="pageTab">
+                        <li class="active"><a href="#reviewerIndex" data-toggle="tab">退货审核</a></li>
+                        <li><a href="#returnIndex" data-toggle="tab">日清退货指标</a></li>
+                        <li><a href="#realtimeReturnIndex" data-toggle="tab">实时退货指标</a></li>
+                        <li><a href="#recyclerReturnIndex" data-toggle="tab">申请退货未接收</a></li>
+                    </ul>
+                    <div class="tab-content" >
+                        <div class="active tab-pane" id="reviewerIndex">
+                            <div class="template-inspector content body">
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+                                        <h3 class="box-title">退货审核人员审核实时数据 </h3>
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body" style="height:400px">
+                                        <div id="returnReviewerStatsChart" class="col-md-10 col-sm-12 col-xs-12"
+                                             style="height: 400px">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="returnIndex">
+                            <div class="template-inspector content body">
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+                                        <h3 class="box-title">退货日清指标 </h3>
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div style="font-size:24px;margin-bottom:8px">上海</div>
+                                        <div class="row">
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default0" id="unTransferReceiveCnt1">……</h3>
+                                                        <p>已接收未移交量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default1" id="unreceivedReturnCnt1">……</h3>
+                                                        <p>待退货审核接收量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default2" id="receivedReturnCnt1">……</h3>
+                                                        <p>待退货审核量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default3" id="untransferReturnCnt1">……</h3>
+                                                        <p>已退货审核未移交量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default4" id="waitReturnQualityCnt1">……</h3>
+                                                        <p>待退货质检量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size:24px;margin-bottom:8px">深圳</div>
+                                        <div class="row">
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default0" id="unTransferReceiveCnt16">……</h3>
+                                                        <p>已接收未移交量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default1" id="unreceivedReturnCnt16">……</h3>
+                                                        <p>待退货审核接收量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default2"  id="receivedReturnCnt16">……</h3>
+                                                        <p>待退货审核量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default3" id="untransferReturnCnt16">……</h3>
+                                                        <p>已退货审核未移交量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default4" id="waitReturnQualityCnt16">……</h3>
+                                                        <p>待退货质检量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div style="font-size:24px;margin-bottom:8px">天津</div>
+                                        <div class="row">
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default0" id="unTransferReceiveCnt5">……</h3>
+                                                        <p>已接收未移交量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default1" id="unreceivedReturnCnt5">……</h3>
+                                                        <p>待退货审核接收量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default2"  id="receivedReturnCnt5">……</h3>
+                                                        <p>待退货审核量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default3" id="untransferReturnCnt5">……</h3>
+                                                        <p>已退货审核未移交量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default4" id="waitReturnQualityCnt5">……</h3>
+                                                        <p>待退货质检量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size:24px;margin-bottom:8px">成都</div>
+                                        <div class="row">
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default0" id="unTransferReceiveCnt3">……</h3>
+                                                        <p>已接收未移交量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default1" id="unreceivedReturnCnt3">……</h3>
+                                                        <p>待退货审核接收量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default2"  id="receivedReturnCnt3">……</h3>
+                                                        <p>待退货审核量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default3" id="untransferReturnCnt3">……</h3>
+                                                        <p>已退货审核未移交量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default4" id="waitReturnQualityCnt3">……</h3>
+                                                        <p>待退货质检量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="realtimeReturnIndex">
+                            <div class="template-inspector content body">
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+                                        <h3 class="box-title">退货实时指标 </h3>
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div style="font-size:24px;margin-bottom:8px">上海</div>
+                                        <div class="row">
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default0" id="unTransferReceiveRealTimeCnt1">……</h3>
+                                                        <p>已接收未移交量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default1" id="unreceivedReturnRealTimeCnt1">……</h3>
+                                                        <p>待退货审核接收量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default2" id="receivedReturnRealTimeCnt1">……</h3>
+                                                        <p>待退货审核量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default3" id="untransferReturnRealTimeCnt1">……</h3>
+                                                        <p>已退货审核未移交量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default4" id="waitReturnQualityRealTimeCnt1">……</h3>
+                                                        <p>待退货质检量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size:24px;margin-bottom:8px">深圳</div>
+                                        <div class="row">
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default0" id="unTransferReceiveRealTimeCnt16">……</h3>
+                                                        <p>已接收未移交量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default1" id="unreceivedReturnRealTimeCnt16">……</h3>
+                                                        <p>待退货审核接收量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default2"  id="receivedReturnRealTimeCnt16">……</h3>
+                                                        <p>待退货审核量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default3" id="untransferReturnRealTimeCnt16">……</h3>
+                                                        <p>已退货审核未移交量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default4" id="waitReturnQualityRealTimeCnt16">……</h3>
+                                                        <p>待退货质检量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div style="font-size:24px;margin-bottom:8px">天津</div>
+                                        <div class="row">
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default0" id="unTransferReceiveRealTimeCnt5">……</h3>
+                                                        <p>已接收未移交量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default1" id="unreceivedReturnRealTimeCnt5">……</h3>
+                                                        <p>待退货审核接收量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default2"  id="receivedReturnRealTimeCnt5">……</h3>
+                                                        <p>待退货审核量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default3" id="untransferReturnRealTimeCnt5">……</h3>
+                                                        <p>已退货审核未移交量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default4" id="waitReturnQualityRealTimeCnt5">……</h3>
+                                                        <p>待退货质检量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size:24px;margin-bottom:8px">成都</div>
+                                        <div class="row">
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default0" id="unTransferReceiveRealTimeCnt3">……</h3>
+                                                        <p>已接收未移交量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default1" id="unreceivedReturnRealTimeCnt3">……</h3>
+                                                        <p>待退货审核接收量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default2"  id="receivedReturnRealTimeCnt3">……</h3>
+                                                        <p>待退货审核量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default3" id="untransferReturnRealTimeCnt3">……</h3>
+                                                        <p>已退货审核未移交量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="default4" id="waitReturnQualityRealTimeCnt3">……</h3>
+                                                        <p>待退货质检量</p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="recyclerReturnIndex">
+                            <div class="template-inspector content body">
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+                                        <h3 class="box-title">申请退货未接收 </h3>
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="defaultx" id="date0">……</h3>
+                                                        <p><span></span></p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="defaultx" id="date1">……</h3>
+                                                        <p><span></span></p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="defaultx" id="date2">……</h3>
+                                                        <p><span></span></p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor:pointer">
+                                                        <h3 name="" class="defaultx" id="date3">……</h3>
+                                                        <p><span></span></p>
+                                                        <p>(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 弹框Modal -->
+            <div>
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">
+
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <table id="modalContent" data-toggle="table"
+                                       data-show-export="true"
+                                       data-pagination="true"
+                                       data-click-to-select="true"></table>
+                            </div>
+                            <!--<div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    关闭
+                                </button>
+                               &lt;!&ndash; <button type="button" class="btn btn-primary">
+                                    提交更改
+                                </button>&ndash;&gt;
+                            </div>-->
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </div>
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

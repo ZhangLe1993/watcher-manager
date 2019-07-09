@@ -1,0 +1,131 @@
+<template name="xhjWebTrafficMonitor">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <div id="chartContent" class="template-dashboard content body">
+                <div class="row c-border" style="padding-left: 15px;padding-right: 15px;">
+                    <div class="col-md-12 col-sm-12 col-xs-12 "
+                         style="display:flex;flex-wrap:wrap;">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <span style="">请选择类型:</span>
+                            <select class="dateType" style=";border-radius: 4px;padding: 6px 12px;width: 150px;">
+                                <option value="daily">按日期选择</option>
+                                <!--<option value="weekly">按周选择</option>
+                                <option value="monthly">按月选择</option>-->
+                            </select>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <span style="width: 100px">请选择时间:</span>
+                            <button type="button" style="border: 1px gray solid;background-color:white"
+                                    class="daily btn btn-default datePicker">
+                                <i class="fa fa-calendar"></i>
+                                <span class="selectLabel">2017-01-01~2017-01-01</span>
+                                <i class="fa fa-caret-down" style="margin-left: 28px"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 "
+                         style="display:flex;flex-wrap:wrap;">
+                        <!--<div class="col-md-3 col-sm-6 col-xs-12">
+                            <span>请选择区域:</span>
+                            <select class="areaName" style=";border-radius: 4px;padding: 6px 12px;">
+
+                            </select>
+                        </div>-->
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <span>请选择城市:</span>
+                            <select class="cityName" style=";border-radius: 4px;padding: 6px 12px;">
+
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <span>请选择平台:</span>
+                            <select class="platform" style=";border-radius: 4px;padding: 6px 12px;">
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <span>请选择渠道:</span>
+                            <select class="channel" style=";border-radius: 4px;padding: 6px 12px;">
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 "
+                         style="display:flex;flex-wrap:wrap;">
+
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <span>请选择来源:</span>
+                            <select class="source" style=";border-radius: 4px;padding: 6px 12px;">
+
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <span>请选择媒介:</span>
+                            <select class="medium" style=";border-radius: 4px;padding: 6px 12px;">
+
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <span>请选择活动:</span>
+                            <select class="campaign" style=";border-radius: 4px;padding: 6px 12px;">
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <span style="visibility: hidden;">请选择区域:</span>
+                            <button class="btn btn-primary search" style="padding: 2px 60px;">
+                                查询
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row box box-primary" style="width: auto;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">图形化</h3>
+
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+
+                        </div>
+                        <div class="row">
+                            <div id="trafficFunnelChart" class="col-sm-offset-2 col-md-offset-2 col-md-8 col-sm-8 col-xs-12"
+                                 style="height:500px;">
+                            </div>
+                            <div id="trafficTrendChart" class=" col-md-12 col-sm-12 col-xs-12"
+                                 style="height:400px;">
+                            </div>
+                            <div id="trafficRatioChart" class=" col-md-12 col-sm-12 col-xs-12"
+                                 style="height:400px;">
+                            </div>
+                        </div>
+
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+                <div class="row box box-primary" style="width: auto;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">数据细分</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row" style="">
+                            <div  class="col-md-12 col-sm-12 col-xs-12" >
+                                <table id="xhjWebTrafficDataTable"
+                                       data-toggle="table"
+                                       data-show-export="true"
+                                       data-pagination="true"
+                                       data-click-to-select="true"
+                                >
+                                </table>
+                            </div>
+                        </div>
+                    </div><!-- /.box-body -->
+                </div>
+            </div>
+            <div style="text-align: center;margin-top: 150px" id="loading">
+                <img src="/images/loading.gif">
+            </div>
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

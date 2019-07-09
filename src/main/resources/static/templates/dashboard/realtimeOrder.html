@@ -1,0 +1,60 @@
+<template name="realtimeOrder">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content" style="background-color: black">
+
+            <!-- Your Page Content Here -->
+            <div class="template-dashboard content body">
+                <div class="row" >
+                    <div  class="col-md-12" style="background-color: black;">
+                        <div >
+
+                            <div style=" position: absolute;top: 20px;left: 20px;z-index: 111;">
+                                <div style="color:white;display:none;font-size: 18pt" id="currentTotal"></div>
+                                <div class="display" style="color: white;font-size: 18pt" id="yestTotal"></div>
+                            </div>
+
+                            <div  class="pull-right display" >
+                                <input type="checkbox" style="vertical-align:top;" id="show">
+                                <label style="color:white;">是否显示数值</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+
+                    <div class="col-md-12" >
+                        <!--<div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#submitOrderMap" data-toggle="tab">提交订单量</a></li>
+                                <li><a href="#successOrderMap" data-toggle="tab">成交订单量</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="active tab-pane" id="submitOrderMap">
+                                    提交
+                                    <div id="submitOrderMapChart" style="height:800px"></div>
+                                </div>
+                                <div class=" tab-pane" id="successOrderMap">
+                                    成交
+                                </div>
+                            </div>
+                        </div>-->
+                        <div id="submitOrderMapChart" style="height:600px"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="incomePerMonth" style="height:380px"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>
+

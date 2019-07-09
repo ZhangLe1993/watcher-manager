@@ -1,0 +1,106 @@
+<template name="etljobTmpl">
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="template-dashboard content body">
+                <div class="row" style="background-color:white">
+                        <div class="form-group col-md-1 col-sm-6 col-xs-12">
+                            <label for="project">项目:</label>
+                            <select type="text" class="form-control" id="project">
+                                <option value="ETL">ETL</option>
+                                <option value="流量">流量</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-5 col-sm-6 col-xs-12">
+                            <label for="name">名称:</label>
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                        <div class="form-group col-md-5 col-sm-6 col-xs-12">
+                            <label for="cmd">脚本:</label>
+                            <input type="text" class="form-control" id="cmd">
+                        </div>
+                        <div class="form-group col-md-1 col-sm-6 col-xs-12">
+                            <label for="prior">优先级:</label>
+                            <input type="text" class="form-control" id="prior" value="5">
+                        </div>
+                        <button id="add" class="btn btn-default col-md-12 col-sm-12 col-xs-12">增加数据</button>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <!--<div id="toolbar" class="col-md-12 col-sm-12 col-xs-12">
+                            <button id="remove" class="btn btn-default col-md-4 col-sm-4 col-xs-4">删除选中项</button>
+                            <button id="Submit" class="btn btn-default col-md-4 col-sm-4 col-xs-4">提交更改</button>
+                            <button id="refresh" class="btn btn-default col-md-4 col-sm-4 col-xs-4">刷新数据</button>
+                        </div>-->
+                        <table id="ETLJobData" class="table table-striped cell-border"
+                            data-show-export="true"
+                            data-toolbar="#toolbar"  style="word-break:break-all; word-wrap:break-all;">
+                            <!--<thead>
+                                <tr>
+                                    <th data-field="" data-checkbox="true"></th>
+                                    <th data-field="id" data-editable="false" data-visible="false">InternalID</th>
+                                    <th data-field="project" data-editable="false" data-sortable="true">项目</th>
+                                    <th data-field="name" data-editable="false" data-sortable="true">名称</th>
+                                    <th data-field="cmd" data-editable="false" data-sortable="true">命令</th>
+                                    <th data-field="prior" data-editable="false" data-sortable="true">优先级</th>
+                                    <th data-field="owner" data-editable="false" data-sortable="true">拥有者</th>
+                                    <th data-field="dep" data-editable="false" data-sortable="true">依赖</th>
+                                    <th data-field="" data-editable="false" data-sortable="true">操作</th>
+                                </tr>
+                            </thead>-->
+                        </table>
+                    </div>
+                </div>
+                <div>
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog" style="width:900px">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" id="close" class="close" data-dismiss="modal" aria-hidden="true">×
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">
+
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <input type="text" class="form-control"  style="visibility: hidden;" id="_id">
+                                        <div class="form-group col-md-2 col-sm-6 col-xs-12">
+                                            <label for="_project">项目:</label>
+                                            <input type="text" class="form-control" readonly="readonly" id="_project">
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                                            <label for="_name">名称:</label>
+                                            <input type="text" class="form-control" id="_name">
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                                            <label for="_cmd">脚本:</label>
+                                            <input type="text" class="form-control" id="_cmd">
+                                        </div>
+                                        <div class="form-group col-md-2 col-sm-6 col-xs-12">
+                                            <label for="_prior">优先级:</label>
+                                            <input type="text" class="form-control" id="_prior" >
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <table id="_ETLJobData" class="cell-border"
+                                               data-show-export="true"
+                                               data-toolbar="#toolbar" >
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">
+                                        关闭
+                                    </button>-->
+                                    <button type="button" id="update" class="btn btn-primary">
+                                        更改
+                                    </button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                </div>
+            </div>
+        </section>
+    </div>
+</template>

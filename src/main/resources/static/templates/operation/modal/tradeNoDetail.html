@@ -1,0 +1,46 @@
+<template name="tradeNoDetail">
+    <section class="content" style="background-color: white">
+        <div class=" content body">
+            <div class="row">
+                <div class="row"><h3 id="title" style="text-align: center;"></h3></div>
+                <div id="ctable" class="row" style="margin-top: 15px">
+                    <div id="right" class="col-md-12 col-sm-12 col-xs-12" style="border: 1px solid gray">
+                        <table id="table"
+                               data-toggle="table"
+                               data-show-export="true"
+                               data-pagination="true"
+                               data-click-to-select="true"
+                        >
+                            <thead>
+                            <tr>
+                                <th data-field="tradeNo" data-sortable="true">订单号</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row"><h3 id="warehouseTitle" style="text-align: center;"></h3></div>
+                <div class="row" style="margin-top: 15px">
+                    <div class="col-md-12 col-sm-12 col-xs-12" style="border: 1px solid gray">
+                        <table id="warehouseTable"
+                               data-toggle="table"
+                               data-show-export="true"
+                               data-pagination="true"
+                               data-click-to-select="true"
+                        >
+                            <thead>
+                            <tr>
+                                <th data-field="tradeNo" data-sortable="true">订单号</th>
+                                <th data-field="documentNo" data-sortable="true" style="display:none">出库单号</th>
+                                <th data-field="documentCategory" data-sortable="true" style="display:none">出库类型</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>

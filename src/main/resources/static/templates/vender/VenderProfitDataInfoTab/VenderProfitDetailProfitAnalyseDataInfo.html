@@ -1,0 +1,237 @@
+<template name="VenderProfitDetailProfitAnalyseDataInfo">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <!--<span style="color:red">注：</span><span>爱回收只包含：手机、平板、笔记本、摄影摄像以及智能数码。</span>-->
+            <div class="row  c-border" style="    margin: 0 0px;">
+                <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                    <span>请选择查看时间:</span>
+                    <button type="button" class="daily btn btn-default reportRangeOutlets"  style="border: 1px gray solid;width:240px;background-color:white">
+                        <i class="fa fa-calendar"></i>
+                        <span class="dateSelectLabel"></span>
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active" style="width:20%"><a href="#ahsajhprofit" data-toggle="tab">爱机汇毛利额</a></li>
+                           <!-- <li style="width:20%"><a href="#sourceprofit" data-toggle="tab" >订单来源毛利额对比</a></li>-->
+                            <li style="width:20%"><a href="#saleAmount" data-toggle="tab">销售额TOP型号毛利率占比</a></li>
+                            <li style="width:20%"><a href="#profitRate" data-toggle="tab">爱机汇毛利率分析</a></li>
+
+                        </ul>
+                        <div class="tab-content">
+                            <div class="active tab-pane" id="ahsajhprofit">
+                                <span style="color:red">注：</span><span>爱机汇不包含：目标达量服务费、周末狂欢、门店奖励、抽奖、询价小费、子账户/总账户/代理商加款减款、部分活动奖励、垫资模式KA服务费。</span>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12 col-xs-12" id="totalComparisonProfit" style="height: 400px"></div>
+                                    <div class="col-md-6 col-sm-12 col-xs-12" id="mobileComparisonProfit" style="height: 400px"></div>
+                                    <div class="col-md-6 col-sm-12 col-xs-12" id="padComparisonProfit" style="height: 400px"></div>
+                                    <div class="col-md-6 col-sm-12 col-xs-12" id="notebookComparisonProfit" style="height: 400px"></div>
+                                    <div class="col-md-6 col-sm-12 col-xs-12" id="ajholdnewProfit" style="height: 400px"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                        <table id="ahsajhComparisonProfitTable"
+                                               data-toggle="table"
+                                               data-show-export="true"
+                                               data-pagination="true"
+                                               data-click-to-select="true"
+                                        >
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane fade" id="sourceprofit">
+                                <span style="color:red">注：</span><span>爱机汇不包含：目标达量服务费、周末狂欢、门店奖励、抽奖、询价小费、子账户/总账户/代理商加款减款、部分活动奖励、垫资模式KA服务费。</span>
+                                <div class="row box box-primary" style="width: auto;margin:0px">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title" style="border-style: none;font-weight: bold">订单来源数据细分</h3>
+                                    </div><!-- /.box-header -->
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                <table id="sourceProfitTable"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"
+                                                >
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </div><!-- /.box-body -->
+                                </div>
+
+                                <div class="row box box-primary" style="width: auto;;margin:0px">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title" style="border-style: none;font-weight: bold">BD渠道数据细分</h3>
+                                    </div><!-- /.box-header -->
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                                <table id="bdSourceProfitTable"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"
+                                                >
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </div><!-- /.box-body -->
+                                </div>
+
+                            </div>
+
+                            <div class="tab-pane fade" id="saleAmount">
+                                <span style="color:red">注：</span><span>爱机汇不包含：目标达量服务费、周末狂欢、门店奖励、抽奖、询价小费、子账户/总账户/代理商加款减款、部分活动奖励、垫资模式KA服务费。</span>
+                                <div style="text-align: center;margin-top: 150px" id="saleAmountLoading">
+                                    <img src="/images/loading.gif">
+                                </div>
+                                <div class="row" id="saleAmountContent">
+                                    <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                        <table id="saleAmountTableByProduct"
+                                               data-toggle="table"
+                                               data-show-export="true"
+                                               data-search="true"
+                                               data-pagination="true"
+                                               data-click-to-select="true"
+                                        >
+                                        </table>
+
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                        <table id="saleAmountTableByBrand"
+                                               data-toggle="table"
+                                               data-show-export="true"
+                                               data-search="true"
+                                               data-pagination="true"
+                                               data-click-to-select="true"
+                                        >
+                                        </table>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="tab-pane fade" id="profitRate">
+                                <div style="text-align: center;margin-top: 150px" id="profitRateLoading">
+                                    <img src="/images/loading.gif">
+                                </div>
+                                <div class="row" id="profitRateContent">
+                                    <div class="row c-border" style="    margin: 0 15px;">
+
+                                        <div class="col-md-12 col-sm-12 col-xs-12 "
+                                             style="display:flex;flex-wrap:wrap;">
+
+                                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                                <span>品类:</span>
+                                                <select class="category" style=";border-radius: 4px;padding: 6px 12px;">
+
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                                <span>品牌:</span>
+                                                <select class="brand" style=";border-radius: 4px;padding: 6px 12px;">
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                                <span>型号:</span>
+                                                <select class="product" style=";border-radius: 4px;padding: 6px 12px;">
+                                                </select>
+                                            </div>
+                                            <span class="col-md-3 col-sm-6 col-xs-12">
+                                                <span>价格区间:</span>
+                                                <div style="display: inline-block">
+
+                                                    <input type="text" class="minPrice price" style=";border-radius: 4px;padding: 0px 3px;width:55px"/>
+                                                    -
+                                                    <input type="text" class="maxPrice price" style=";border-radius: 4px;padding: 0px 3px;;width:55px"/>
+                                                </div>
+                                            </span>
+                                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                                <span style="visibility: hidden;">选择:</span>
+                                                <button class="btn btn-primary search" style="padding: 2px 60px;">
+                                                    查询
+                                                </button>
+                                                <span id="loading"></span>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+
+                                            <!--<div class="col-md-3 col-sm-6 col-xs-12">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 id="ahsAmount">……</h3>
+                                                        <p>爱回收合计成交金额</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 id="ahsCount">……</h3>
+                                                        <p>爱回收合计成交量</p>
+                                                    </div>
+                                                </div>
+                                            </div>-->
+                                            <div class = "col-md-3 col-sm-6 col-xs-12">
+                                                <div class = "small-box bg-light-blue" style="background-color: green !important;">
+                                                    <div class="inner">
+                                                        <h3 id = "ajhAmount">……</h3>
+                                                        <p>爱机汇合计成交金额</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class = "col-md-3 col-sm-6 col-xs-12">
+                                                <div class = "small-box bg-light-blue" style="background-color: green !important;">
+                                                    <div class="inner">
+                                                        <h3 id = "ajhCount">……</h3>
+                                                        <p>爱机汇合计成交量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                    <div id="profitRateChart" style="height: 400px;" ></div>
+                                    <div style="margin:0 15px">
+                                        <table  id="profitRateTable"
+                                                data-toggle="table"
+                                                data-show-export="true"
+                                                data-search="true"
+                                                data-pagination="true"
+                                                data-click-to-select="true"
+                                        >
+                                        </table>
+                                    </div>
+
+
+
+                                </div>
+
+                            </div>
+                            </div>
+                        </div>
+                        <!-- /.tab-content -->
+                    </div>
+            </div>
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

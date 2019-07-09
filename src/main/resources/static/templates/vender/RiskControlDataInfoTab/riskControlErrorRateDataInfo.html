@@ -1,0 +1,187 @@
+<template name="riskControlErrorRateDataInfo">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+
+            <div id="chartContent" class="template-dashboard content body">
+
+                <!--<span style="color:red">注：</span><span>只包含官网和M版流量</span>-->
+                <div class="row desktop-only c-border">
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请选择查看时间:</span>
+
+                        <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+
+                        <a href="#" class="glyphicon glyphicon-question-sign pull-right" style="margin-top:1%;margin-bottom: 1%;" data-toggle="tooltip"
+                           title="说明：失误率=验货失败差异额(订单状态成功)/验货成功的成交金额
+失误率情况
+1、每日累计重大失误率和两周走势
+在一张图表中呈现，时间维度是2周，横坐标是日期，纵坐标是当日的重大失误率。
+2、每日累计重大失误率客户
+采用累计到昨日的数据，列出的客户名称和相应的失误率。
+3、当月累计失误高的的子账户
+的排序根据失误订单的数量排序；在一个表格中呈现，共5个维度，分别为子账户、所属总账户、该子账户的失误订单数、该子账户的总订单数、失误订单的数量占比。
+                           "></a>
+
+                    </div>
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+
+                    </div>
+
+                </div>
+                <div class="row mobile-only desktop-none">
+                    <div>
+                        <span>请选择查看时间:</span>
+                    </div>
+                    <div>
+                        <span>请选择起始时间:</span>
+                        <button type="button" style="border: 1px gray solid;width:200px;background-color:white" class="daily btn btn-default campaignStartDatePicker">
+                            <i class="fa fa-calendar"></i>
+                            <span class="startDateSelectLabel"></span>
+                            <i class="fa fa-caret-down" style="margin-left: 78px"></i>
+                        </button>
+                        <select  class="weekly startWeek" style="width:200px;border-radius: 4px;padding: 6px 12px;">
+
+                        </select>
+                    </div>
+                    <div>
+                        <span>请选择结束时间:</span>
+                        <button type="button" style="border: 1px gray solid;width:200px;background-color:white" class="daily btn btn-default campaignEndDatePicker">
+                            <i class="fa fa-calendar"></i>
+                            <span class="endDateSelectLabel"></span>
+                            <i class="fa fa-caret-down" style="margin-left: 78px"></i>
+                        </button>
+                        <select  class="weekly endWeek" style="width:200px;border-radius: 4px;padding: 6px 12px;">
+
+                        </select>
+                    </div>
+                </div>
+                <div id="venderTradeTrendMixedChart" class="col-md-12 col-sm-12 col-xs-12"
+                     style="height:400px;margin-top: 3%">
+                </div>
+                <div >
+
+                    <label style="margin-top:20px">每日累计重大失误率和两周走势</label>
+                    <div id="etable" class="row" style="margin-top: 15px;border: 1px solid gray">
+                        <div style="text-align: center;margin-top: 150px" id="loading2">
+                            <img src="/images/loading.gif">
+                        </div>
+                        <div id="righte" class="col-md-12 col-sm-12 col-xs-12" style="">
+                            <table id="tablee"
+                                   data-toggle="table"
+                                   data-show-export="true"
+                                   data-pagination="true"
+                                   data-click-to-select="true"
+                            >
+                                <thead>
+                                <tr>
+                                    <th data-field="date" data-sortable="true">时间</th>
+                                    <th data-field="errorRate" data-sortable="true">重大失误率</th>
+                                </tr>
+                                </thead>
+
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div >
+
+                    <label style="margin-top:20px">每日累计重大失误率客户</label>
+                    <div id="etablee" class="row" style="margin-top: 15px;border: 1px solid gray">
+                        <div style="text-align: center;margin-top: 150px" id="loading3">
+                            <img src="/images/loading.gif">
+                        </div>
+                        <div id="rightee" class="col-md-12 col-sm-12 col-xs-12" style="">
+                            <table id="tableee"
+                                   data-toggle="table"
+                                   data-show-export="true"
+                                   data-pagination="true"
+                                   data-click-to-select="true"
+                            >
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div >
+
+                    <label style="margin-top:20px">每日累计重大失误率门店</label>
+                    <div id="gtablee" class="row" style="margin-top: 15px;border: 1px solid gray">
+                        <div style="text-align: center;margin-top: 150px" id="loadingg">
+                            <img src="/images/loading.gif">
+                        </div>
+                        <div id="righteg" class="col-md-12 col-sm-12 col-xs-12" style="">
+                            <table id="tableeg"
+                                   data-toggle="table"
+                                   data-show-export="true"
+                                   data-pagination="true"
+                                   data-click-to-select="true"
+                            >
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div style="text-align: center;margin-top: 150px" id="loadingOneInspectionPassRateChart">
+                    <img src="/images/loading.gif">
+                </div>
+                <div id="venderOneInspectionPassRateMixedChart" class="col-md-12 col-sm-12 col-xs-12"
+                     style="height:400px;margin-top: 3%">
+                </div>
+                <div >
+
+                    <label style="margin-top:20px">一次性质检通过率数据走势</label>
+                    <div id="OneInspectionPassRatetable" class="row" style="margin-top: 15px;border: 1px solid gray">
+                        <div style="text-align: center;margin-top: 150px" id="loadingOneInspectionPassRate">
+                            <img src="/images/loading.gif">
+                        </div>
+                        <div id="rightOneInspectionPassRate" class="col-md-12 col-sm-12 col-xs-12" style="">
+                            <table id="tableOneInspectionPassRate"
+                                   data-toggle="table"
+                                   data-show-export="true"
+                                   data-pagination="true"
+                                   data-click-to-select="true"
+                            >
+                                <thead>
+                                <tr>
+                                    <th data-field="date" data-sortable="true">时间</th>
+                                    <th data-field="submitCnt" data-sortable="true">提交订单量</th>
+                                    <th data-field="inspectionCnt" data-sortable="true">验货量</th>
+                                    <th data-field="inspectionNum" data-sortable="true">验货金额</th>
+                                    <th data-field="inspectionPassCnt" data-sortable="true">质检通过量</th>
+                                    <th data-field="inspectionPassNum" data-sortable="true">质检通过金额</th>
+                                    <th data-field="inspectionOnePassRate" data-sortable="true">一次性质检通过率</th>
+                                    <th data-field="tolerateCnt" data-sortable="true">小微容忍订单量</th>
+                                    <th data-field="tolerateNum" data-sortable="true">小微容忍金额</th>
+                                    <th data-field="tolerateRate" data-sortable="true">小微容忍通过率</th>
+                                </tr>
+                                </thead>
+
+
+                            </table>
+
+                        </div>
+                    </div>
+                    </div>
+
+            </div>
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

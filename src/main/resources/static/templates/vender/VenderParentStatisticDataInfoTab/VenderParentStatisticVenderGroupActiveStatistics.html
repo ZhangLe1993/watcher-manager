@@ -1,0 +1,90 @@
+<template name="VenderParentStatisticVenderGroupActiveStatistics">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+
+            <div class="template-dashboard content body">
+
+                <span style="color:red">注：</span><span>提交订单量，不填即为0 ——添加人：王真</span>
+                <div class="row c-border">
+                    <!--<div class="tempExplain"><label id="templabel" style="margin-left: 1%;font-weight:bold;">注：用户在浏览过程中访问过活动页面，就算活动引来的量</label></div>-->
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请选择查看时间:</span>
+                        <!--<select  class="dateType" style="width: 150px;height: 34px;border-radius: 4px;padding: 6px 12px;">-->
+                            <!--<option value="daily">按日期选择</option>-->
+                            <!--<option value="weekly">按周选择</option>-->
+                            <!--<option value="monthly">按月选择</option>-->
+                        <!--</select>-->
+                        <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <span>请选择大区:</span>
+                        <select  class="Area c-mleft5" style="width:120px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                        <span>请选择省份:</span>
+                        <select  class="province c-mleft5" style="width:120px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                        <span>请选择城市:</span>
+                        <select  class="city c-mleft5" style="width:120px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                        <span>提交订单量:</span>
+                        <input type="text" class="cnt" value="0" style="width:120px;border-radius: 4px;padding: 6px 12px;" />
+                        <span>请选择客户属性:</span>
+                        <select  class="level" style="height: 34px;border-radius: 4px;padding: 6px 12px;">
+                            <option value="all">全部</option>
+                            <option value="300">Top300</option>
+                            <option value="others">其他</option>
+                        </select>
+
+                        <button class="btn btn-primary search">查询</button>
+                        <!--<a href="#" class="glyphicon glyphicon-question-sign pull-right" style="margin-top:1%;margin-bottom: 1%;" data-toggle="tooltip"-->
+                           <!--title="说明：提交订单量，不填即为0-->
+                            <!--——添加人：王真"></a>-->
+                    </div>
+                </div>
+
+
+                <label style="margin-top:20px">总账户基本信息数据列表</label>
+                <div id="tables" class="row" style="margin-top: 15px;border: 1px solid gray">
+                    <div style="text-align: center;margin-top: 150px" id="loading">
+                        <img src="/images/loading.gif">
+                    </div>
+                    <div id="right" class="col-md-12 col-sm-12 col-xs-12" style="">
+                        <button type="button" class="exportVenderGroup pull-right" style="border-radius: 4px;padding: 6px 12px; background-color:#3c8dbc; border-color:
+transparent; color:white; height:34px; margin-left: 3%">导出门店数据</button>
+                        <table id="table"
+                               data-toggle="table"
+                               data-pagination="true"
+                               data-click-to-select="true"
+                        >
+                            <thead>
+                            <tr>
+                                <th data-field="Area" data-sortable="true">大区</th>
+                                <th data-field="vender_group_province_name" data-sortable="true">门店省份</th>
+                                <th data-field="vender_group_city_name" data-sortable="true">门店城市</th>
+                                <th data-field="all_count" data-sortable="true">城市门店数</th>
+                                <th data-field="between_count" data-sortable="true">城市门店数(本段时间内启用)</th>
+                                <th data-field="aliveCnt" data-sortable="true">城市活跃门店数</th>
+                                <th data-field="aliveRate" data-sortable="true">城市门店活跃率(活跃门店数/城市门店数)</th>
+                                <th data-field="submitCnt" data-sortable="true">提交订单量(扣除废旧机)</th>
+                            </tr>
+                            </thead>
+
+
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

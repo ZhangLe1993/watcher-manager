@@ -1,0 +1,43 @@
+<template name="VenderFinanceIFrame">
+    <section class="content" style="background-color: #ecf0f5">
+        <div class="template-datareport content body" style="background-color: #ecf0f5">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <!--<h3 id="venderName">......</h3>-->
+                    <!--<div class="form-group">-->
+                        <!--<label for="VenderID">输入所要查询的ID</label>-->
+                        <!--<input class="form-control col-xs-6 col-sm-6 col-md-3" type="text" id="VenderID">-->
+                    <!--</div>-->
+                    <!--<button class="btn btn-primary search col-xs-6 col-sm-6 col-md-3" id="search"><i class="fa fa-search"></i></button>-->
+                    <table class="col-md-12 col-sm-12 col-xs-12 cell-border" id="MonthlyVenderReport">
+                        <thead>
+                            <tr>
+                                <th data-field="date" data-editable="false" data-sortable="true">年月</th>
+
+                                <th data-field="AccumulateComplete" data-editable="false" data-sortable="true">累计验货成功成交金额</th>
+                                <!--<th data-field="difference" data-editable="false" data-sortable="true">当月验货差异额</th>-->
+                                <th data-field = "difference_total" data-editable="false" data-sortable="true">累计验货差异额</th>
+                                <th data-field = "difference_ratio" data-editable="false" data-sortable="true">验货差异比</th>
+                                <th data-field="frozenAmount" data-editable="false" data-sortable="true">冻结资金金额</th>
+                                <th data-field="monthly_frozen" data-editable="false" data-sortable="true">当月冻结资金金额</th>
+                                <th data-field="monthlyComplete" data-editable="false" data-sortable="true">当月成交旧机现款</th>
+                                <th data-field="shopFee" data-editable="false" data-sortable="true">当月商家服务费</th>
+                                <th data-field="venderFee" data-editable="false" data-sortable="true">当月店员服务费</th>
+                                <th data-field="monthly_actual" data-editable="false" data-sortable="true">当月实收金额</th>
+                                <th data-field="monthly_profit" data-editable="false" data-sortable="true">当月毛利</th>
+                                <th data-field="report_link" data-editable="false" data-sortable="false" data-formatter="LinkFormatter">操作</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        function LinkFormatter(value, row, index) {
+            var value = value;
+            return "<a target='_blank' href='"+row.report_link+"'>"+"查看成交记录"+"</a>";
+        }
+    </script>
+</template>

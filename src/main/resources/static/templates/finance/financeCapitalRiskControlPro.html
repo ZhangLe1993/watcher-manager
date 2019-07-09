@@ -1,0 +1,430 @@
+<template name="financeCapitalRiskControlPro">
+    <style>
+        @media screen and (max-width:1600px) {
+            div .inner h3{
+                font-size:18px;
+            }
+            div .inner p{
+                font-size:15px;
+            }
+        }
+
+        @media screen and (max-width:375px) {
+            div .inner h3{
+                font-size:18px;
+            }
+            div .inner p{
+                font-size:12px;
+            }
+        }
+        @media (min-width: 768px){
+            .re-modal-dialog {
+                width: 1200px;
+                margin: 30px auto;
+            }
+        }
+        @media screen and (min-width:1600px) {
+            .smart{
+
+            }
+        }
+        @media (min-width: 1200px) {
+            .col-zdlg-2-5 {
+                float: left;
+                width: 20%;
+            }
+        }
+    </style>
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <div class="nav-tabs-custom" style="cursor: move;">
+                <!-- Tabs within a box -->
+                <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                    <li class=""><a href="#revenue-chart" id="is-done" data-toggle="tab" aria-expanded="true">已完成</a></li>
+                    <li class="active"><a href="#sales-chart" id="un-done" data-toggle="tab" aria-expanded="false">未完成</a></li>
+                    <li class="pull-right header" id="data-search">
+                        <span style="font-size:15px;">选择时间段：</span>
+                        <button type="button" class="btn btn-default pull-right" id="date-range-btn" style="background:#fff !important;;font-size:15px;">
+                            <i class="fa fa-calendar"></i>
+                            <span>时间</span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                    </li>
+                    <li class="pull-left header">资金风控&nbsp;<a href="#" style="width:30px;height:30px;margin-top:-9px;" id="show-title" class="glyphicon glyphicon-question-sign pull-right"></a></li>
+                </ul>
+                <div class="tab-content no-padding smart">
+
+                    <!-- Morris chart - Sales -->
+                    <div class="tab-pane" id="revenue-chart" style="position: relative; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+                        <div class="row">
+                            <!--<div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="small-box bg-light-blue">
+                                    <div class="inner">
+                                        <h3 name="operationData" id="isDoneLoanAmount">……</h3>
+                                        <p>贷款总额</p>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="small-box bg-light-blue">
+                                    <div class="inner">
+                                        <h3 name="operationData" id="isDoneUnarrivalAmount">……</h3>
+
+                                        <p>未到货贷款总额</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="small-box bg-light-blue">
+                                    <div class="inner">
+                                        <h3 name="operationData" id="isDoneUnpaidAmount">……</h3>
+
+                                        <p>未还款的贷款总额</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="small-box bg-light-blue">
+                                    <div class="inner">
+                                        <h3 name="operationData" id="isDoneUnaccountAmount">……</h3>
+
+                                        <p>买家未付款总额</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="small-box bg-light-blue">
+                                    <div class="inner">
+                                        <h3 name="operationData" id="isDoneDianfuAmount">……</h3>
+                                        <p>垫付总额</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="small-box bg-light-blue">
+                                    <div class="inner">
+                                        <h3 name="operationData" id="isDonePaidAmount">……</h3>
+                                        <p>已支付卖家尾款总额</p>
+                                    </div>
+                                </div>
+                            </div>-->
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 loading" id="isDoneLoading">
+                                <br>
+                                <br>
+                                <br>
+                                <div class='loading-anim'>
+                                    <div class='border out'></div>
+                                    <div class='border in'></div>
+                                    <div class='border mid'></div>
+                                    <div class='circle'>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 context" id="isDonePanel">
+                                <table id="is-done-table"
+                                       data-toggle="table"
+                                       data-show-export="true"
+                                       data-pagination="true"
+                                       data-click-to-select="true">
+                                    <thead>
+                                    <tr>
+                                        <th data-field="create_dt">下单时间</th>
+                                        <th data-field="order_no">代拍单</th>
+                                        <th data-field="recycler_id">供应商ID</th>
+                                        <th data-field="recycler_name">供应商</th>
+                                        <th data-field="is_arrival">是否已到货</th>
+                                        <th data-field="reference_price">到货后确认的质检金额</th>
+                                        <th data-field="loan">贷款金额</th>
+                                        <th data-field="auction">竞拍成功的金额</th>
+                                        <th data-field="payamount">收款金额</th>
+                                        <th data-field="no_payamount">未到账金额</th>
+                                        <th data-field="dianfu_amount">垫付金额</th>
+                                        <th data-field="repayment">贷款还款金额</th>
+                                        <th data-field="to_seller_amount">给卖家付尾款</th>
+                                        <th data-field="selToco_amount">卖家给平台付款</th>
+                                        <th data-field="no_auction_price">未代拍的金额</th>
+                                        <th data-field="return_price">退货金额</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane active" id="sales-chart" style="position: relative; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+                        <div class="row">
+                            <!--<div class="col-md-3 col-sm-6 col-xs-12">
+                                &lt;!&ndash;<div class="small-box bg-light-blue">
+                                    <div class="inner">
+                                        <h3 name="operationData" id="loanAmount">……</h3>
+                                        <p>贷款总额</p>
+                                    </div>
+                                </div>&ndash;&gt;
+                            </div>-->
+                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-12">
+                                <div class="small-box bg-light-blue">
+                                    <div class="inner">
+                                        <h3 name="operationData" id="badDebtAmount">……</h3>
+                                        <p>坏账总额</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-12">
+                                <div class="small-box bg-light-blue" id="clickThis">
+                                    <div class="inner">
+                                        <h3 name="operationData" id="unarrivalAmount">……</h3>
+
+                                        <p>未到货贷款总额</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-12">
+                                <div class="small-box bg-light-blue">
+                                    <div class="inner">
+                                        <h3 name="operationData" id="unpaidAmount">……</h3>
+
+                                        <p>未还款的贷款总额</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-12">
+                                <div class="small-box bg-light-blue">
+                                    <div class="inner">
+                                        <h3 name="operationData" id="unaccountAmount">……</h3>
+
+                                        <p>买家未付款总额</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-zdlg-2-5 col-md-3 col-sm-6 col-xs-12">
+                                <div class="small-box bg-light-blue">
+                                    <div class="inner">
+                                        <h3 name="operationData" id="dianfuAmount">……</h3>
+                                        <p>垫付总额</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="small-box bg-light-blue">
+                                    <div class="inner">
+                                        <h3 name="operationData" id="paidAmount">……</h3>
+                                        <p>已支付卖家尾款总额</p>
+                                    </div>
+                                </div>
+                            </div>-->
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 loading" id="unDoneLoading">
+                                <br>
+                                <br>
+                                <br>
+                                <div class='loading-anim'>
+                                    <div class='border out'></div>
+                                    <div class='border in'></div>
+                                    <div class='border mid'></div>
+                                    <div class='circle'>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                        <span class='dot'></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 context" id="unDonePanel">
+                                <table id="crcTable"
+                                       data-toggle="table"
+                                       data-show-export="true"
+                                       data-pagination="true"
+                                       data-search="true"
+                                       data-click-to-select="true">
+                                    <thead>
+                                    <tr>
+                                        <th data-field="create_dt" data-sortable="true">下单时间</th>
+                                        <th data-field="order_no" data-sortable="true">代拍单</th>
+                                        <th data-field="recycler_id" data-sortable="true">供应商ID</th>
+                                        <th data-field="recycler_name" data-sortable="true">供应商</th>
+                                        <th data-field="is_arrival" data-sortable="true">是否已到货</th>
+                                        <th data-field="receipt_num">收货数量</th>
+                                        <th data-field="reference_price" data-sortable="true">到货后确认的质检金额</th>
+                                        <th data-field="loan" data-sortable="true">贷款金额</th>
+                                        <th data-field="badDebt" data-sortable="true">坏账金额</th>
+                                        <th data-field="auction" data-sortable="true">竞拍成功的金额</th>
+                                        <th data-field="payamount" data-sortable="true">收款金额</th>
+                                        <th data-field="no_payamount" data-sortable="true">未到账金额</th>
+                                        <th data-field="dianfu_amount" data-sortable="true">垫付金额</th>
+                                        <th data-field="repayment" data-sortable="true">贷款还款金额</th>
+                                        <th data-field="to_seller_amount" data-sortable="true">给卖家付尾款</th>
+                                        <th data-field="selToco_amount" data-sortable="true">卖家给平台付款</th>
+                                        <th data-field="no_auction_num">未代拍的数量</th>
+                                        <th data-field="no_auction_price" data-sortable="true">未代拍的金额</th>
+                                        <th data-field="return_num">退货数量</th>
+                                        <th data-field="return_price" data-sortable="true">退货金额</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="template-inspector content body">
+
+                <div class=" col-md-12 col-sm-12 col-xs-12" >
+                    <div class="row box box-primary " data-value="1" style="width: auto;">
+                        <div class="box-header with-border">
+                            <h3 class="box-title" style="border-style: none;font-weight: bold">资金风控&nbsp;<a href="#" id="show-title" class="glyphicon glyphicon-question-sign pull-right"></a></h3>
+                        </div>&lt;!&ndash; /.box-header &ndash;&gt;
+                        <div class="box-body">
+                            &lt;!&ndash;<div class="row">
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="small-box bg-light-blue">
+                                        <div class="inner">
+                                            <h3 name="operationData" id="loanAmount">……</h3>
+                                            <p>贷款总额</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="small-box bg-light-blue">
+                                        <div class="inner">
+                                            <h3 name="operationData" id="badDebtAmount">……</h3>
+                                            <p>坏账总额</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="small-box bg-light-blue" id="clickThis">
+                                        <div class="inner">
+                                            <h3 name="operationData" id="unarrivalAmount">……</h3>
+
+                                            <p>未到货贷款总额</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="small-box bg-light-blue">
+                                        <div class="inner">
+                                            <h3 name="operationData" id="unpaidAmount">……</h3>
+
+                                            <p>未还款的贷款总额</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="small-box bg-light-blue">
+                                        <div class="inner">
+                                            <h3 name="operationData" id="unaccountAmount">……</h3>
+
+                                            <p>买家未付款总额</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="small-box bg-light-blue">
+                                        <div class="inner">
+                                            <h3 name="operationData" id="dianfuAmount">……</h3>
+                                            <p>垫付总额</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="small-box bg-light-blue">
+                                        <div class="inner">
+                                            <h3 name="operationData" id="paidAmount">……</h3>
+                                            <p>已支付卖家尾款总额</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row" style="margin: 0 15px;">
+                                <table id="crcTable"
+                                       data-toggle="table"
+                                       data-show-export="true"
+                                       data-pagination="true"
+                                       data-search="true"
+                                       data-click-to-select="true">
+                                    <thead>
+                                    <tr>
+                                        <th data-field="create_dt" data-sortable="true">下单时间</th>
+                                        <th data-field="order_no" data-sortable="true">代拍单</th>
+                                        <th data-field="recycler_name" data-sortable="true">供应商</th>
+                                        <th data-field="is_arrival" data-sortable="true">是否已到货</th>
+                                        <th data-field="reference_price" data-sortable="true">到货后确认的质检金额</th>
+                                        <th data-field="loan" data-sortable="true">贷款金额</th>
+                                        <th data-field="badDebt" data-sortable="true">坏账金额</th>
+                                        <th data-field="auction" data-sortable="true">竞拍成功的金额</th>
+                                        <th data-field="payamount" data-sortable="true">收款金额</th>
+                                        <th data-field="no_payamount" data-sortable="true">未到账金额</th>
+                                        <th data-field="dianfu_amount" data-sortable="true">垫付金额</th>
+                                        <th data-field="repayment" data-sortable="true">贷款还款金额</th>
+                                        <th data-field="to_seller_amount" data-sortable="true">给卖家付款</th>
+                                        <th data-field="selToco_amount" data-sortable="true">卖家给平台付款</th>
+                                        <th data-field="no_auction_price" data-sortable="true">未代拍的金额</th>
+                                        <th data-field="return_price" data-sortable="true">退货金额</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+
+                            </div>&ndash;&gt;
+                        </div>&lt;!&ndash; /.box-body &ndash;&gt;
+                    </div>
+                </div>
+            </div>-->
+
+            <!-- Your Page Content Here -->
+            <div>
+                <div class="modal fade" id="myWarnModal" tabindex="-1" role="dialog" aria-labelledby="myWarnModalLabel" aria-hidden="true">
+                    <div class="modal-dialog re-modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                </button>
+                                <h4 class="modal-title" id="myWarnModalLabel">
+
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <!--content开始-->
+                                <table id="modalContent" data-toggle="table"
+                                       data-pagination="true"
+                                       data-click-to-select="true"></table>
+                                <!--content结束-->
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </div>
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

@@ -1,0 +1,157 @@
+<template name="VenderOrderStatistics">
+    <!-- Content Wrapper. Contains page content -->
+    <!--<div class="content-wrapper">-->
+        <!-- Main content -->
+        <section class="content" style="background-color: white">
+
+            <!-- Your Page Content Here -->
+
+            <div class="template-dashboard content body">
+                <span style="color:red">注：</span><span>因取消订单业务导致每日需重跑历史数据以修正取消的订单数，由于数据量的限制，页面中统一只保证近两个月订单数据的准确性。</span>
+                <div class="row desktop-only c-border">
+                    <!--<div class="tempExplain"><label id="templabel" style="margin-left: 1%;font-weight:bold;">注：用户在浏览过程中访问过活动页面，就算活动引来的量</label></div>-->
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请选择查看类型:</span>
+                        <select  class="dateType" style="width: 150px;height: 34px;border-radius: 4px;padding: 6px 12px;">
+                            <option value="daily">按日期选择</option>
+                            <option value="weekly">按周选择</option>
+                            <option value="monthly">按月选择</option>
+                        </select>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelWeek"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="weekSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelMonth"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="monthSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <span>请选择公司名称:</span>
+                        <select  class="company c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                        <span class="storeOption">请选择门店:</span>
+                        <select  class="store c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                        <span class="accountOption">请选择子账户:</span>
+                        <select class="account c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+
+                        <button class="btn btn-primary search">查询</button>
+                        <!--<a href="#" class="glyphicon glyphicon-question-sign pull-right" style="margin-top:1%;margin-bottom: 1%;" data-toggle="tooltip"-->
+                           <!--title="说明：&#10;因取消订单业务导致每日需重跑历史数据以修正取消的订单数，&#10;由于数据量的限制，页面中统一只保证近两个月订单数据的准确性。"></a>-->
+                    </div>
+                </div>
+                <div class="row mobile-only desktop-none ">
+                    <!--<div class="tempExplain"><label id="templabel" style="margin-left: 1%;font-weight:bold;">注：用户在浏览过程中访问过活动页面，就算活动引来的量</label></div>-->
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请选择查看类型:</span>
+                        <select  class="dateType" style="width: 150px;height: 34px;border-radius: 4px;padding: 6px 12px;">
+                            <option value="daily">按日期选择</option>
+                            <option value="weekly">按周选择</option>
+                            <option value="monthly">按月选择</option>
+                        </select>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelWeek"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="weekSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelMonth"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="monthSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <div>
+                            <span>请选择公司名称:</span>
+                            <select  class="company c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                            </select>
+                        </div>
+                    <div class="">
+                        <span class="storeOption">请选择门店:</span>
+                        <select  class="store c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                    </div>
+
+                    <div>
+                        <span class="accountOption">请选择子账户:</span>
+                        <select class="account c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                    </div>
+
+                        <button class="btn btn-primary search">查询</button>
+                    </div>
+                </div>
+
+
+                <div class="row box box-primary" style="width: auto; margin-top:15px">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">订单量数据统计</h3>
+                        <select  class="order c-mleft5 pull-right" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                            <option value="submit">订单提交</option>
+                            <option value="trade">订单成交</option>
+                        </select>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div id="chartContent">
+
+                            <div class="row">
+
+                                <div id="trafficStackChart" class="col-md-7 col-sm-7 col-xs-12"
+                                     style="height:400px;margin-top: 3%;/*border: 1px solid gray*/">
+                                </div>
+
+                                <div id="trafficFunnelChart" class="col-md-5 col-sm-5 col-xs-12"
+                                     style="height:400px;margin-top: 3%;">
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div><!-- /.box-body -->
+                </div>
+
+
+                <div class="row box box-primary" style="width: auto;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">订单金额数据统计</h3>
+
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div id="chartContentPr">
+
+                            <div class="row">
+
+                                <div id="trafficStackChartPr" class="col-md-7 col-sm-7 col-xs-12"
+                                     style="height:400px;margin-top: 3%;/*border: 1px solid gray*/">
+                                </div>
+
+                                <div id="trafficFunnelChartPr" class="col-md-5 col-sm-5 col-xs-12"
+                                     style="height:400px;margin-top: 3%;">
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div><!-- /.box-body -->
+                </div>
+
+                <div style="text-align: center;margin-top: 150px" id="loading">
+                    <img src="/images/loading.gif">
+                </div>
+            </div>
+
+
+
+        </section><!-- /.content -->
+    <!--</div>&lt;!&ndash; /.content-wrapper &ndash;&gt;-->
+</template>

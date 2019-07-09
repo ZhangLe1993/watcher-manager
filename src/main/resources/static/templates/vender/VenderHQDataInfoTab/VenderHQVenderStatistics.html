@@ -1,0 +1,128 @@
+<template name="VenderHQVenderStatistics">
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="content body">
+                <div class="row box box-primary" style="width: auto">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">订单信息查询</h3>
+                    </div>
+                    <div class = "box-body">
+                        <div class = "row">
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label for="datePicker">订单创建日期:</label>
+                                <button type="button" style="border: 1px gray solid;background-color:white"
+                                        class="form-control daily btn btn-default marketingStartDatePicker" id="datePicker">
+                                    <i class="fa fa-calendar"></i>
+                                    <span class="startDateSelectLabel"></span>
+                                    <i class="fa fa-caret-down" ></i>
+                                </button>
+                            </div>
+                            <div class="form-group col-md-2 col-sm-6 col-xs-12">
+                                <label for="orderStatus">订单状态:</label>
+                                 <select class="form-control" id="orderStatus">
+                                 </select>
+                            </div>
+                            <div class="form-group col-md-1 col-sm-6 col-xs-12">
+                                <label for="orderType">订单类型:</label>
+                                <select class="form-control" id="orderType">
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label for="province">省份:</label>
+                                <select class="form-control" id="province">
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label for="city">城市:</label>
+                                <select class="form-control" id="city">
+
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12" >
+                                <label for="trader">业务员:</label>
+                                <select class="form-control" id="trader" >
+
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label for="client">总账户:</label>
+                                <select class="form-control" id="client" >
+
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label for="subAccount">子账户:</label>
+                                <select class="form-control" id="subAccount" >
+
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label for="shop_name">门店名</label>
+                                <select class="form-control" id="shop_name">
+
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label for="orderID">订单号:</label>
+                                <input type="text" class="form-control " id="orderID">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label for="order_mobile">订单手机号:</label>
+                                <input type="text" class="form-control " id="order_mobile">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label for="order_imei">订单IMEI号:</label>
+                                <input type="text" class="form-control " id="order_imei">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label for="areaAgent">代理商:</label>
+                                <input type="text" class="form-control " id="areaAgent">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label for="datePicker">订单成交日期:</label>
+                                <button type="button" style="border: 1px gray solid;background-color:white"
+                                        class="form-control daily btn btn-default marketingEndDatePicker" id="datePickerTrade">
+                                    <i class="fa fa-calendar"></i>
+                                    <span class="endDateSelectLabel"></span>
+                                    <i class="fa fa-caret-down" ></i>
+                                </button>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label for="invoice_no">发货单号:</label>
+                                <input type="text" class="form-control " id="invoice_no">
+                            </div>
+                            <div class="form-group col-md-1 col-sm-1 col-xs-1" style="margin-top: 15px" >
+                                <label for="is_active_shop" style="top:50%">仅有效门店</label>
+                                <input type="checkbox" id="is_active_shop" style="top: 50%">
+                            </div>
+
+                            <div class="form-group col-md-2 col-sm-2 col-xs-2">
+                                <label for="query">查询</label>
+                                <button class="btn btn-primary search form-control" style="border-radius: 5px" id="query"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                        <div class="row" style="background-color: white">
+                            <div class="col-md-12 col-sm-12 col-xs-12" style="height: 500px" id="VenderStatsChart">
+
+                            </div>
+                            <div style="text-align: center;margin-top: 150px" id="loading">
+                                <img src="/images/loading.gif">
+                            </div>
+                        </div>
+                        <div class="row" style="background-color: white">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <table class="cell-border"
+                                    data-show-export="true"
+                                    data-toggle="table"
+                                    data-pagination="true"
+                                    data-click-to-select="true"
+                                    id="AijihuiDataTable">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</template>

@@ -1,0 +1,515 @@
+<template name="dataWorkshop">
+    <!--<link rel="stylesheet" type="text/css" href="/assets/zTree_v3/css/demo.css"/>-->
+    <link rel="stylesheet" type="text/css" href="/assets/zTree_v3/css/metroStyle/metro.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="/assets/nth-tabs/css/nth.tabs.min.css"/>-->
+    <style>
+        .extbkbox{width:480px;background:#FFFFFF;border:solid 1px #c0c0c0;position:fixed !Important;bottom:0;float:left;position:absolute;z-index:1000;}
+        .extbkboxmax{width:100%;background:#FFFFFF;border:solid 1px #c0c0c0;position:fixed !Important;bottom:0;float:left;position:absolute;z-index:1000;}
+        *html .extbkbox{top:expression(offsetParent.scrollTop+20);}
+        .extbkboxmax{top:expression(offsetParent.scrollTop+20);}
+        .extbkbox{right:0px;}
+        .extbkboxmax{right:0px;}
+        .extbkboxm{clear:both;height:30px;font-size:14px;color:#FFFFFF;font-weight:bold;line-height:30px;background:#47A3D1;border-bottom:solid 1px #c0c0c0;}
+        .extbkboxm .extmore{float:right;cursor:pointer;}
+        .extbkboxb{font-size:12px;clear:both;height:auto;/*padding:10px 0px;*/}
+        .extbkboxnar{color:#f00;display:block;width:40px;height:30px;background:url(/assets/icon/tanchu_05.gif) no-repeat center center;}
+        .extbkboxnarove{color:#00f;width:40px;height:30px;background:url(/assets/icon/tanchu_03.gif) no-repeat center center;display:block;}
+
+        .search-button{
+            position:relative;color:#fff;top:-2px;width:140px;height:40px;border-width:0px;font-size:13px;text-align:center;background-color:rgba(22, 155, 213, 1);
+        }
+        .search-input{
+            width:500px;height:40px;
+        }
+        .search-label{
+            position:relative;margin-bottom: 30px;font-size:18px;font-weight:600;width:150px;
+        }
+        .nav-tabs-custom > .nav-tabs > li.active {
+            border-top-color: #131111;
+        }
+
+        .button_sut{
+            margin-top:20px;font-size:15px;color:#fff;border:1px solid #47A3D1;outline:none;background:#47A3D1;width:150px;height:30px;
+        }
+        .button_sut:hover{
+            margin-top:20px;font-size:15px;color:#fff;border:1px solid #2bb7ff;outline:none;background:#2bb7ff;width:150px;height:30px;
+        }
+
+        .button-add{
+            margin-top:20px;font-size:15px;color:#fff;border:1px solid #47A3D1;outline:none;background:#47A3D1;width:150px;height:30px;
+        }
+
+        .button-add:hover{
+            margin-top:20px;font-size:15px;color:#fff;border:1px solid #2bb7ff;outline:none;background:#2bb7ff;width:150px;height:30px;
+        }
+
+        .data-source  table td{border:1px solid #eee}
+
+        .disabled-c{
+            background:#eee;
+        }
+
+        .info-box-icon-myself {
+            border-top-left-radius: 2px;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 2px;
+            display: block;
+            float: left;
+            height: 40px;
+            width: 40px;
+            text-align: center;
+            font-size: 45px;
+            line-height: 90px;
+        }
+
+        /*建模开发*/
+        /*textarea {
+            padding: 10px;
+            vertical-align: top;
+            width: 200px;
+        }
+        textarea:focus {
+            outline-style: solid;
+            outline-width: 2px;
+            border-radius: 10px;
+        }*/
+
+        .file {
+            position: relative;
+            display: inline-block;
+            background: #47A3D1;
+            border: #47A3D1;
+            /*border-radius: 4px;*/
+            padding: 4px 12px;
+            overflow: hidden;
+            color: #fffdfb;
+            /*text-decoration: none;*/
+            /*text-indent: 0;*/
+            line-height: 20px;
+        }
+        .file input {
+            position: absolute;
+            font-size: 100px;
+            width:100%;
+            height:30px;
+            /*right: 0;*/
+            top: 0;
+            opacity: 0;
+        }
+        .file:hover {
+            background: #2bb7ff;
+            border-color: #2bb7ff;
+            color: #fffdfb;
+            text-decoration: none;
+        }
+        .margins{
+            margin-top:10px;
+        }
+
+    </style>
+
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li id="subscription" class="active"><a href="#data-subscription" data-toggle="tab" aria-expanded="false">数据订阅</a></li>
+                            <li id="development" class=""><a href="#data-development" data-toggle="tab" aria-expanded="false">入仓开发</a></li>
+                            <li id="model" class=""><a href="#model-development" data-toggle="tab" aria-expanded="false">建模开发</a></li>
+                            <li id="process" class=""><a href="#process-observer" data-toggle="tab" aria-expanded="false">进程监控</a></li>
+                            <li class="pull-right header">&nbsp;<a href="#" style="width:30px;height:30px;margin-top:-9px;" id="show-title" title="入仓流程：
+1.利用sql从数据源获取数据；
+2.将数据load到 gp warehouse数据库的 tmp schema 中;
+3.利用后置sql 从tmp schema中 load 到 ods层;
+
+注意事项:
+1.sql不能存在双引号，请用单引号表示；
+2.时间变量昨天请使用:ctx_yesterday表示，注意带上冒号；
+3.sql注释仅支持&quot;--&quot;,不支持&quot;#&quot;
+4.入仓开发mysql作为数据源时，目标表必须是对应源数据库中存在的表名；
+5.除了mysql作为数据源的时候 tmp 会自动创建表，其它的都请自行创建表(包括：ods/dw/dm层);
+6.所有sql更改后，必须经过测试，才能保存；
+
+" class="glyphicon glyphicon-question-sign pull-right"></a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <!-- 数据订阅 -->
+                            <div class="tab-pane active" id="data-subscription" style="background:#eee;">
+                                <div class="row" style="margin:0 auto;padding-top:10px;">
+                                    <div class="col-md-12">
+                                        <div class="box box-solid">
+                                            <div class="box-body no-padding" style="overflow-x:auto;overflow-y:auto;height:743px;">
+                                                <div class="row" style="width:98%;margin:0 auto;">
+                                                    <div  class="col-md-12">
+                                                        <input type="button" id="addTaskBtn" value="新增入仓" class="button-add"/>
+                                                        <input type="button" id="addModelTaskBtn" value="新增建模" class="button-add"/>
+                                                        <!--<span class="r">共有数据：<strong>54</strong> 条</span>-->
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="width:98%;margin:0 auto;">
+                                                    <div class="col-md-12" id="all-job-table-panel">
+                                                        <table id="all-job-table" class="table table-striped"
+                                                               data-toggle="table"
+                                                               data-show-export="true"
+                                                               data-pagination="true"
+                                                               data-click-to-select="true">
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--入仓开发-->
+                            <div class="tab-pane" id="data-development" style="background:#eee;">
+                                <div class="row" style="margin:0 auto;padding-top:10px;">
+                                    <div class="col-md-12">
+                                        <div class="box box-solid">
+                                            <div class="box-body no-padding" style="overflow-x:auto;overflow-y:auto;height:743px;">
+                                                <div class="row" style="width:98%;margin:0 auto;margin-top:10px;">
+                                                    <span style="color:#999;">基本设置</span>
+                                                </div>
+                                                <div class="row" style="width:98%;margin:0 auto;">
+                                                    <div class="col-md-12" style="border:2px dashed #999;">
+                                                        <div class="row" style="width:98%;margin:0 auto;margin-top:30px;margin-bottom:20px;">
+                                                            <div class="col-md-6">
+                                                                <p>
+                                                                    <label>　<span style="color:red;">*</span>任务名称</label>
+                                                                    <input type="text" name="taskName" style="width:80%;"/>
+                                                                </p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <p>
+                                                                    <label>　<span style="color:red;">*</span>任务描述</label>
+                                                                    <input type="text" name="taskDesc" style="width:80%;"/>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row" style="width:98%;margin:0 auto;margin-top:50px;">
+                                                    <span style="color:#999;">数据源</span>
+                                                </div>
+                                                <div class="row" style="width:98%;margin:0 auto;">
+                                                    <div class="col-md-12" style="border:2px dashed #999;">
+                                                        <div class="row">
+                                                            <div class="col-md-12 data-source">
+                                                                <table style="border: 1px solid #eee;width:100%;margin-top:10px;margin-bottom:10px;" cellspacing="0" cellpadding="0">
+                                                                    <tr style="height:45px;text-align:center;">
+                                                                        <td width="20%">
+                                                                            <select class="soff" name="sdbType" style="width:80%;height:30px;">
+                                                                                <option value="mysql">MySQL</option>
+                                                                                <option value="sqlserver">SQLServer</option>
+                                                                                <option value="mongodb">MongoDB</option>
+                                                                            </select>
+                                                                        </td>
+                                                                        <td width="20%">
+                                                                            <select class="soff" name="sourceExample" style="width:80%;height:30px;">
+                                                                                <option value="0">请选择实例</option>
+                                                                            </select>
+                                                                        </td>
+                                                                        <td width="20%">
+                                                                            <select class="soff" name="sourceDB" style="width:80%;height:30px;">
+                                                                                <option value="0">请选择数据库</option>
+                                                                            </select>
+                                                                        </td>
+                                                                        <!--<td width="20%">
+                                                                            <select name="sourceDB" style="width:80%;height:30px;">
+                                                                                <option value="0">请输入数据库名</option>
+                                                                            </select>
+                                                                        </td>
+                                                                        <td width="20%">
+                                                                            <select name="sourceTB" style="width:80%;height:30px;">
+                                                                                <option value="0">请输入表名</option>
+                                                                            </select>
+                                                                        </td>-->
+                                                                        <td width="40%">SQL</td>
+                                                                    </tr>
+                                                                    <tr style="height:250px;">
+                                                                        <td style="height:250px;text-align:center;"><span id="sdbType"></span></td>
+                                                                        <td style="height:250px;text-align:center;"><span id="sourceExample"></span></td>
+                                                                        <!--<td style="height:250px;"><span></span></td>-->
+                                                                        <!--<td class="unique" style="height:250px;">
+                                                                            <table style="width:100%;height:100%;border:1px solid #eee;">
+                                                                                <tr><td></td></tr>
+                                                                                <tr><td></td></tr>
+                                                                                <tr><td></td></tr>
+                                                                                <tr><td></td></tr>
+                                                                                <tr><td></td></tr>
+                                                                                <tr><td></td></tr>
+                                                                                <tr><td></td></tr>
+                                                                            </table>
+                                                                        </td>-->
+                                                                        <!--<td style="height:250px;"><span></span></td>-->
+                                                                        <td style="height:250px;text-align:center;"><span id="sourceDB"></span></td>
+                                                                        <td style="height:250px;"><textarea class="off" placeholder="1、sql不能存在双引号，请用单引号表示；2.时间变量昨天请使用:ctx_yesterday表示，注意带上冒号；sql注释仅支持&quot;--&quot;,不支持&quot;#&quot;" name="execCmd" onkeyup="value=value.replace(/^[\u4e00-\u9fa5]+$/,'')" style="width:100%;height:100%;margin-top:5px;"></textarea></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row" style="width:98%;margin:0 auto;margin-top:50px;">
+                                                    <span style="color:#999;">装载设置</span>
+                                                </div>
+                                                <div class="row" style="width:98%;margin:0 auto;">
+                                                    <div class="col-md-12" style="border:2px dashed #999;">
+                                                        <div class="row" style="width:98%;margin:0 auto;margin-top:30px;margin-bottom:20px;">
+                                                            <div class="col-md-6">
+                                                                <p>
+                                                                    <label>　<span style="color:red;">*</span>目标实例</label>
+                                                                    <select class="soff" name="targetExample" style="width:75%;height:30px;">
+                                                                        <option value="gp-bp1j7sa3410948756.gpdb.rds.aliyuncs.com">gp-bp1j7sa3410948756.gpdb.rds.aliyuncs.com</option>
+                                                                    </select>
+                                                                </p>
+
+                                                                <p>
+                                                                    <label><span style="color:red;">*</span>目标数据库</label>
+                                                                    <!--<input type="text" name="taskResponsible" style="width:80%;"/>-->
+                                                                    <select class="soff" name="targetDB" style="width:75%;height:30px;">
+                                                                        <option value="warehouse">warehouse</option>
+                                                                    </select>
+                                                                </p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <p>
+                                                                    <label>　<span style="color:red;">*</span>目标schema</label>
+                                                                    <!--<input type="text" name="taskDesc" style="width:80%;"/>-->
+                                                                    <select class="soff" name="targetSchema" style="width:74%;height:30px;">
+                                                                        <option value="tmp">tmp</option>
+                                                                    </select>
+                                                                </p>
+                                                                <p>
+                                                                    <label>　　　 &nbsp;<span style="color:red;">*</span>目标表</label>
+                                                                    <input type="text" class="off" placeholder="必须是源库中存在的表名" name="targetTB" style="width:75%;height:30px;"/>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+
+                                                        <!--<div class="row">
+                                                            <div class="col-md-12 data-source">
+                                                                &lt;!&ndash;<p style="margin-top:20px;">
+                                                                    <label><span style="color:red;">*</span>抽取SQL</label>
+                                                                </p>&ndash;&gt;
+                                                                <table style="border: 1px solid #eee;width:100%;margin-top:10px;" cellspacing="0" cellpadding="0">
+                                                                    <tr style="height:145px;">
+                                                                        <td style="width:20%;text-align:center;">
+                                                                            <input type="button" id="createSQL" value="生成DDL" style="font-size:15px;color:#fff;border:1px solid #47A3D1;outline:none;background:#47A3D1;width:150px;height:30px;"/>
+                                                                        </td>
+                                                                        <td style="width:80%;"></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>-->
+
+                                                        <div class="row" style="width:98%;margin:0 auto;margin-top:30px;margin-bottom:20px;">
+                                                            <div class="col-md-12" id="postpositionSQLPanel">
+                                                                <p>
+                                                                    <label style="position:relative;top:-115px;">　<span style="color:red;">*</span>后置SQL</label>
+                                                                    <textarea placeholder="1.sql不能存在双引号，请用单引号表示；2.时间变量昨天请使用:ctx_yesterday表示，注意带上冒号；sql注释仅支持&quot;--&quot;,不支持&quot;#&quot;" class="off" onkeyup="value=value.replace(/^[\u4e00-\u9fa5]+$/,'')" name="postpositionSQL" style="width:85%;height:130px;"></textarea>
+                                                                    <label style="position:relative;top:-55px;"><span class="info-box-icon-myself"><i id="addPostpositionSQL" class="fa fa-plus" style="cursor:pointer;"></i></span></label>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row" id="mysql-unique-title-show" style="width:98%;margin:0 auto;margin-top:50px;">
+                                                    <span style="color:#999;">高级设置</span>
+                                                </div>
+                                                <div class="row" id="mysql-unique-panel-show"  style="width:98%;margin:0 auto;">
+                                                    <div class="col-md-12" style="border:2px dashed #999;">
+                                                        <div class="row">
+                                                            <div class="col-md-12 data-source">
+                                                                <table style="border: 1px solid #eee;width:100%;margin-top:10px;margin-bottom:10px;" cellspacing="0" cellpadding="0">
+                                                                    <tr style="height:45px;">
+                                                                        <td style="width:20%;text-align:center;">
+                                                                            是否自动生成临时表
+                                                                            <a href="#" class="glyphicon glyphicon-question-sign"
+                                                                               data-toggle="tooltip"
+                                                                               data-placement="top" title="自动生成临时表解释说明"></a>
+                                                                        </td>
+                                                                        <td style="width:80%;text-align:center;">
+                                                                            DDL
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr style="height:145px;text-align:center;">
+                                                                        <td style="width:20%;text-align:center;">
+                                                                            <input type="radio" value="yes" name="autoCreate"/>是
+                                                                            <input type="radio" checked="checked" value="no" name="autoCreate"/>否
+                                                                        </td>
+                                                                        <td style="width:80%;text-align:center;" id="generateSQL">
+
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <input type="hidden" name="taskId" value="">
+                                                <div class="row" style="width:400px;margin:0 auto;">
+                                                    <input type="button" id="run" value="测试" class="button_sut"/>
+                                                    <input type="button" id="save" value="保存" class="button_sut"/>
+                                                    <input type="button" id="update_test" value="测试" class="button_sut" style="display:none;"/>
+                                                    <input type="button" id="update" value="更新" class="button_sut" style="display:none;"/>
+                                                </div>
+                                                <br>
+                                                <br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--建模开发-->
+                            <div class="tab-pane" id="model-development" style="background:#eee;">
+                                <div class="row" style="margin:0 auto;padding-top:10px;">
+                                    <div class="col-md-12">
+                                        <div class="box box-solid">
+                                            <div class="box-body no-padding" style="overflow-x:auto;overflow-y:auto;height:743px;">
+                                                <div class="row" style="width:98%;margin:0 auto;margin-top:10px;">
+                                                    <span style="color:#999;">基本设置</span>
+                                                </div>
+                                                <div class="row" style="width:98%;margin:0 auto;">
+                                                    <div class="col-md-12" style="border:2px dashed #999;">
+                                                        <div class="row" style="width:98%;margin:0 auto;margin-top:30px;margin-bottom:20px;">
+                                                            <div class="col-md-6">
+                                                                <p>
+                                                                    <label>　<span style="color:red;">*</span>任务名称</label>
+                                                                    <input type="text" name="modelTaskName" style="width:80%;"/>
+                                                                </p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <p>
+                                                                    <label>　<span style="color:red;">*</span>任务描述</label>
+                                                                    <input type="text" name="modelTaskDesc" style="width:80%;"/>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row" style="width:98%;margin:0 auto;margin-top:50px;">
+                                                    <span style="color:#999;">其他设置</span>
+                                                </div>
+                                                <div class="row" style="width:98%;margin:0 auto;">
+                                                    <div class="col-md-12" style="border:2px dashed #999;">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="row" style="width: 98%; margin: 0 auto;margin-top:20px;">
+                                                                    <div class="col-md-12">
+                                                                        <textarea name="model-exec-sql" placeholder="1.sql不能存在双引号，请用单引号表示；2.时间变量昨天请使用:ctx_yesterday表示，注意带上冒号；sql注释仅支持&quot;--&quot;,不支持&quot;#&quot;" onkeyup="value=value.replace(/^[\u4e00-\u9fa5]+$/,'')" style="width:100%;height:180px;margin-top:5px;"></textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!--<div class="row" style="width:98%;margin:0 auto;margin-top:20px;">
+                                                                    <div class="col-md-12">
+
+                                                                    </div>
+                                                                </div>-->
+
+                                                                <div class="row" style="width:98%;margin:0 auto;margin-top:20px;">
+                                                                    <div class="col-md-12" id="selected-panel">
+                                                                        <span style="color:#000;font-weight:BOLD;">依赖项 &gt; </span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row" style="width:98%;margin:0 auto;">
+                                                                    <div class="col-md-12" id="select-table-panel">
+                                                                        <table id="select-job-table" class="table table-striped"
+                                                                               data-toggle="table"
+                                                                               data-pagination="true"
+                                                                               data-click-to-select="true">
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <br>
+                                                    </div>
+                                                    <br>
+                                                    <br>
+                                                    <br>
+                                                    <br>
+                                                </div>
+
+                                                <input type="hidden" name="modelTaskId" value="">
+                                                <div class="row" style="width:400px;margin:0 auto;">
+                                                    <input type="button" id="model-run" value="测试" class="button_sut"/>
+                                                    <input type="button" id="model-save" value="保存" class="button_sut" style="cursor:not-allowed;" disabled="disabled"/>
+                                                    <input type="button" id="model-update-run" value="测试" class="button_sut" style="display:none;"/>
+                                                    <input type="button" id="model-update" value="更新" class="button_sut" style="display:none;"/>
+                                                </div>
+                                                <br>
+                                                <br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--进程监控-->
+                            <div class="tab-pane" id="process-observer" style="background:#eee;">
+                                <div class="row" style="margin:0 auto;padding-top:10px;">
+                                    <div class="col-md-12">
+                                        <div class="box box-solid">
+                                            <div class="box-body no-padding" style="overflow-x:auto;overflow-y:auto;height:743px;">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--<script type="text/html" id="all-job-table-panel">
+
+            </script>-->
+
+            <div id="extbkbox" class="extbkbox" style="display:none;">
+                <div class="extbkboxm">
+                    <strong style="float:left;padding-left:10px;">运行日志</strong>
+                    <div class="extmore">
+                        <span id="extbkboxnar-close" title="关闭" style="height:30px;display:block;"><i class="fa fa-close" style="margin:5px;"></i></span>
+                    </div>
+                    　
+                    <div class="extmore">
+                        <span id="extbkboxnar-max" title="最大化" style="width:20px;height:30px;display:block;"><i class="fa fa-external-link"></i></span>
+                    </div>
+                    <div class="extmore">
+                        <span class="extbkboxnar" title="最小化" id="extbkboxnar"></span>
+                    </div>
+
+                    <div class="extmore">
+                        <span id="extbkboxnar-refresh" title="刷新" style="height:30px;display:block;"><i class="fa fa-refresh" style="margin:5px;"></i></span>
+                    </div>
+                </div>
+
+                <div class="extbkboxb" id="extbkboxb" style="display:block;">
+                    <div id="logDiv" style="overflow:auto; height: 300px; width: 100%;background: #333; color: #aaa;">
+                    </div>
+                    <!--<iframe id="logIframe"
+                            name="logIFrame"
+                            frameborder="no"
+                            width="100%"
+                            height="300"
+                            font-style="color: #FFF"
+                            scrolling="yes"
+                            src=""></iframe>-->
+                </div>
+
+            </div>
+        </section>
+    </div>
+</template>

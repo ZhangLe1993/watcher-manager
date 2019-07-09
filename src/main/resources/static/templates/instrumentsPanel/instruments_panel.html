@@ -1,0 +1,595 @@
+<template name="instrumentsPanel">
+    <!--<script type="text/javascript" src="/assets/fusioncharts-suite-xt/js/fusioncharts.js"></script>
+    <script type="text/javascript" src="/assets/fusioncharts-suite-xt/js/fusioncharts.widgets.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets/fusioncharts-suite-xt/css/fusiondesign.css"/>
+    <link rel="stylesheet" type="text/css" href="/assets/fusioncharts-suite-xt/css/style.css"/>
+-->
+    <div class="content-wrapper"  style="background:#eee;">
+
+      <!-- // <script src="/fusioncharts/jquery-fusioncharts.js"></script>
+       // <script src="/fusioncharts/fusioncharts.theme.fusion.js"></script>-->
+        <style>
+            .fixed-table-container{
+                border:0px !important;
+            }
+            .bootstrap-table{
+                border-bottom:0 !important;
+            }
+            .chart-title{
+                color: #999;
+                font-size:12px
+            }
+            .chart-subtitle{
+                color: #999;
+                font-size:12px
+            }
+
+            .chart-subtitle_block{
+                font-size:12px
+            }
+
+            .text-more-up{
+                font-size:12px
+            }
+            .text-letter-down{
+                font-size:15px !important;
+            }
+            .text-up{
+                font-size:25px !important;
+            }
+            .smart-ul-w{
+                width:100%;
+            }
+
+            .hand-title{
+                cursor:pointer;
+            }
+            .money-dw{
+                font-size:12px;
+                font-weight: normal;
+            }
+            .money-dw-hour{
+                font-size:15px;
+                font-weight: normal;
+            }
+            .font-defined-my{
+                font-size:15px;
+            }
+            .add-weight{
+                font-weight: bold;
+            }
+            .display-none{
+                display:none;
+            }
+        </style>
+
+        <section class="content" style="background:#eee;">
+            <!--前半部分  @Author ： LuJia.chen-->
+            <!--1 整体分析section-->
+            <div class="row" style="width:98%;margin: 0 auto;">
+                <div class="nav-tabs-custom" style="cursor: move;">
+                    <!-- 整体分析header -->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <!--<li class="pull-right header">
+                            <span style="font-size:15px;">选择时间段：</span>
+                            <button type="button" class="btn btn-default pull-right" id="whole-analysis-date-range-btn" style="background:#fff !important;;font-size:15px;">
+                                <i class="fa fa-calendar"></i>
+                                <span>时间</span>
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                        </li>-->
+                        <li class="pull-left header" style="font-weight: bold;"><i class="fa fa-inbox"></i>整体分析</li>
+                    </ul>
+                    <!--整体分析图表-->
+                    <div class="tab-content no-padding row" style="margin-top:2%; margin-left:15px;margin-right:15px">
+                        <!-- Morris chart - Sales -->
+                        <div class="col-sm-6 col-md-3 col-lg=3">
+                            <p class="text-center chart-title hand-title" data-toggle="tooltip" data-html="true" data-placement="top" title="代拍物品竞出金额">代拍GMV</p>
+                            <p class="text-center text-up"><span id="optGmvCnt"></span> <span class="money-dw">元</span></p>
+                            <div class="chart tab-pane active" id="optGmvChart" style="position: relative; height: 300px;"></div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-3 col-lg=3">
+                            <p class="text-center chart-title hand-title" data-toggle="tooltip" data-html="true" data-placement="top" title="爱机汇物品竞出金额">B2B自营GMV</p>
+                            <p class="text-center text-up"><span id="b2bGmvCnt"></span> <span class="money-dw">元</span></p>
+                            <div class="chart tab-pane active" id="b2bGmvChart" style="position: relative; height: 300px;"></div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-3 col-lg=3 hand-title">
+                            <p class="text-center chart-title hand-title" data-toggle="tooltip" data-html="true" data-placement="top" title="已签约卖家合同的客户数量">卖家客户数量</p>
+                            <p class="text-center text-up" ><span id="sellerClientCount"></span> <span class="money-dw">个</span></p>
+                            <div class="chart tab-pane active" id="sellerGmvChart" style="position: relative; height: 300px;"></div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-3 col-lg=3">
+                            <p class="text-center chart-title hand-title"  data-toggle="tooltip" data-html="true" data-placement="top" title="已签约买家合同的客户数量">买家客户数量</p>
+                            <p class="text-center text-up"><span id="buyerClientCount"></span>  <span class="money-dw">个</span></p>
+                            <div class="chart tab-pane active" id="buyerGmvChart" style="position: relative; height: 300px;"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!--交易分析section-->
+            <div class="row" style="width:98%;margin: 0 auto;">
+                <div class="nav-tabs-custom" style="cursor: move;">
+
+                    <!-- 交易分析header -->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <li class="pull-right header">
+                            <span style="font-size:15px;">选择时间段：</span>
+                            <button type="button" class="btn btn-default pull-right" id="trade-analysis-date-range-btn" style="background:#fff !important;;font-size:15px;">
+                                <i class="fa fa-calendar"></i>
+                                <span>时间</span>
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                        </li>
+                        <li class="pull-left header" style="font-weight: bold;"><i class="fa fa-inbox"></i>交易分析</li>
+
+                    </ul>
+
+                    <!--a. 客户转化-->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <li class="pull-left header" style="font-size:15px;">a 客户转化</li>
+                    </ul>
+                    <div class="tab-content no-padding row" style="margin-top:2%; margin-left:15px;margin-right:15px">
+
+                        <div class="col-sm-12 col-md-6 col-lg=6">
+                            <p class="text-center chart-subtitle_block">卖家</p>
+                            <div class="chart tab-pane active" id="clientSellerChart" style="position: relative; height: 400px;"></div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg=6">
+
+                            <p class="text-center chart-subtitle_block">买家</p>
+                            <div class="chart tab-pane active" id="clientBuyerChart" style="position: relative; height: 400px;"></div>
+                        </div>
+
+                    </div>
+
+                    <!--b. 物品转化-->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <li class="pull-left header" style="font-size:15px;">b. 物品转化</li>
+                    </ul>
+                    <div class="tab-content no-padding row" style="margin-top:2%; margin-left:15px;margin-right:15px">
+                        <!-- 物品-->
+                        <div class="col-sm-12 col-md-6 col-lg=6">
+                            <p class="text-center chart-subtitle_block">卖家</p>
+                            <div class="chart tab-pane active" id="productSellerChart" style="position: relative; height: 400px;"></div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg=6">
+
+                            <p class="text-center chart-subtitle_block">买家</p>
+                            <div class="chart tab-pane active" id="productBuyerChart" style="position: relative; height: 400px;"></div>
+                        </div>
+
+
+                    </div>
+
+                    <!--c. 客户分布-->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <li class="pull-left header" style="font-size:15px;">c. 客户分布</li>
+                    </ul>
+                    <div class="tab-content no-padding row" style="margin-top:2%; margin-left:15px;margin-right:15px">
+
+                        <div class="col-sm-12 col-md-6 col-lg=6">
+                            <!-- <p class="text-center chart-subtitle">卖家</p>-->
+                            <div class="nav-tabs-custom">
+                                <ul class="nav nav-tabs" id="pageTab">
+                                    <li class="active"><a href="#dealCountTable" data-toggle="tab" aria-expanded="true">成交量</a></li>
+                                    <li><a href="#dealAmountTable" data-toggle="tab" aria-expanded="false">成交金额</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane font-defined-my" id="dealCountTable">
+                                        tab1
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <div class="tab-pane font-defined-my" id="dealAmountTable">
+                                        tab2
+                                    </div>
+                                </div>
+                                <!-- /.tab-content -->
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg=6">
+                            <div class="nav-tabs-custom">
+                                <ul class="nav nav-tabs">
+                                    <li id="bidCountTab" class="active"><a href="#bidCountTable" data-toggle="tab">竞得量</a></li>
+                                    <li id="bidPriceTab"><a href="#bidPriceTable" data-toggle="tab">竞得金额</a></li>
+                                </ul>
+                                <div class="tab-content" id="#tabContent">
+                                    <div class="active tab-pane font-defined-my" id="bidCountTable">
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <div class=" tab-pane font-defined-my" id="bidPriceTable">
+
+                                    </div>
+                                </div>
+                                <!-- /.tab-content -->
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!--d. 退货分析-->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <li class="pull-left header" style="font-size:15px;">d. 退货分析</li>
+                    </ul>
+                    <div class="tab-content no-padding row" style="margin-top:2%; margin-left:15px;margin-right:15px">
+                        <div class="col-sm-12 col-md-6 col-lg=6">
+                            <div class="row">
+                                <!--<p class="text-center chart-subtitle">卖家</p>-->
+                                <div class=" box-header col-sm-6 col-md-6 col-lg=6">
+
+                                    <div class="description-block border-right">
+                                        <span class="description-percentage text-green add-weight"><i class="fa fa-caret-up"></i> 10%</span>
+                                        <h5 class="description-header text-up">35,210 <span class="money-dw">台</span> <span style="margin:0 3px">∣</span><span>10%</span></h5>
+                                        <span class="description-text text-more-up hand-title" data-toggle="tooltip" data-html="true" data-placement="top" title="退货量=卖家提交退货的物品数量，退货比例=卖家退货数量/代拍质检完成的物品数量">退货量</span>
+
+                                    </div>
+                                </div>
+                                <div class="box-header col-sm-6 col-md-6 col-lg=6">
+                                    <div class="description-block border-right">
+                                        <span class="description-percentage text-red add-weight"><i class="fa fa-caret-down"></i> 17%</span>
+                                        <h5 class="description-header text-up">35,210 <span class="money-dw">元</span> <span style="margin:0 3px">∣</span><span>10%</span></h5>
+                                        <span class="description-text text-more-up hand-title" data-toggle="tooltip" data-html="true" data-placement="top" title="退货金额=卖家提交退货的物品起拍价，退货金额比例=卖家退货起拍价金额/卖家质检完的物品起拍价金额">退货金额</span>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="chart tab-pane active" id="returnInventoryPieChart" style="position: relative; height: 400px;"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg=6">
+                            <div class="row">
+                                <div class="box-header col-sm-5 col-md-5 col-lg=5">
+                                    <div class="description-block border-right">
+                                        <span class="description-percentage text-yellow add-weight"><i class="fa fa-caret-left"></i> 0%</span>
+                                        <h5 class="description-header text-up"><span  id="returnCntBuyer"></span> <span class="money-dw">台</span> <span style="margin:0 3px">∣</span><span>10%</span></h5>
+                                        <span class="description-text text-more-up hand-title" data-toggle="tooltip" data-html="true" data-placement="top" title="退货量=平台同意退货物品数量，退货比例=平台同意退货的物品数量/平台出库数量">退货量</span>
+
+                                    </div>
+                                </div>
+                                <div class="box-header col-sm-5 col-md-5 col-lg=5">
+                                    <div class="description-block border-right">
+                                        <span class="description-percentage text-green add-weight"><i class="fa fa-caret-down"></i> 17%</span>
+                                        <h5 class="description-header text-up"><span id="returnAmtBuyer"></span> <span class="money-dw">元</span> <span style="margin:0 3px">∣</span><span>10%</span></h5>
+                                        <span class="description-text text-more-up hand-title" data-toggle="tooltip" data-html="true" data-placement="top" title="退货金额=平台同意退货的物品金额，退货金额比例=平台同意退货金额/平台出库金额">退货金额</span>
+
+                                    </div>
+                                </div>
+                                <div class=" box-header col-sm-2 col-md-2 col-lg=2">
+                                    <div class="description-block border-right">
+                                        <span class="description-percentage text-red add-weight"><i class="fa fa-caret-up"></i> 17%</span>
+                                        <h5 class="description-header text-up" id="denyReturnRate"></h5>
+                                        <span class="description-text text-more-up hand-title" data-toggle="tooltip" data-html="true" data-placement="top" title="拒退率=据退的物品数量/（据退的物品数量+同意退货的物品数量）">拒退率</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!--<p class="text-center chart-subtitle">买家</p>-->
+                                <div class="chart tab-pane active" id="returnReasonPieChart" style="position: relative; height: 400px;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--e. 供需比分析-->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <li class="pull-left header" style="font-size:15px;">e. 供需比分析</li>
+                    </ul>
+                    <div class="tab-content no-padding row" style="margin-top:2%; margin-left:15px;margin-right:15px">
+                        <!-- 物品-->
+                        <div class="col-sm-12 col-md-6 col-lg=6">
+                            <div class="row">
+                                <div class="box-header col-sm-4 col-md-4 col-lg=4">
+                                    <div class="description-block border-right">
+                                        <span id="supplyTrend"></span>
+                                        <h5 class="description-header text-up" id="supplyAvg"> <span class="money-dw">台</span></h5>
+                                        <span class="description-text text-more-up hand-title" data-toggle="tooltip" data-html="true" data-placement="top" title="卖家下代拍单后进入代拍的物品数量">平均卖家上拍</span>
+
+                                    </div>
+                                </div>
+                                <div class="box-header col-sm-4 col-md-4 col-lg=4">
+                                    <div class="description-block border-right">
+                                        <span id="demandTrend"></span>
+                                        <h5 class="description-header text-up" id="demandAvg"><span class="money-dw">台</span></h5>
+                                        <span class="description-text text-more-up hand-title" data-toggle="tooltip" data-html="true" data-placement="top" title="买家有效出价（报价>0&数量>0，每次竞拍只记录最终报价）的物品数量">平均买家竞拍</span>
+
+                                    </div>
+                                </div>
+                                <div class=" box-header col-sm-4 col-md-4 col-lg=4">
+                                    <div class="description-block border-right">
+                                        <span id ='supplyDemandTrend'></span>
+                                        <h5 class="description-header text-up" id ="supplyDemandAvg"><span class="money-dw">台</span></h5>
+                                        <span class="description-text text-more-up hand-title" data-toggle="tooltip" data-html="true" data-placement="top" title="卖家上拍/买家竞拍">平均供需比</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="chart tab-pane active" id="supplyDemandLineChart" style="position: relative; height: 400px;"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg=6">
+
+                            <!--<p class="text-center chart-subtitle">买家</p>-->
+                            <div class="chart tab-pane active" id="supplyDemandPieChart" style="position: relative; height: 500px;"></div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!--后半部分 @Author:yule.zhang-->
+            <div class="row">
+                <div class="row-fluid example">
+                    <div id="graphic" class="col-md-12">
+                        <!--<div id="fundAnalysisChart" class="main" _echarts_instance_="1531994069183" style="-webkit-tap-highlight-color: transparent; user-select: none; background-color: rgba(0, 0, 0, 0); cursor: default;">
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="width:98%;margin: 0 auto;">
+                <div class="nav-tabs-custom" style="cursor: move;">
+                    <!-- Tabs within a box -->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <li class="pull-right header">
+                            <span style="font-size:12px;">时间段：</span>
+                            <button type="button" class="btn btn-default pull-right" id="circulation-analysis-date-range-btn" style="background:#fff !important;;font-size:12px;margin-top:5px;">
+                                <i class="fa fa-calendar"></i>
+                                <span>时间</span>
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                        </li>
+
+                        <li class="pull-right header">
+                            <span style="font-size:12px;">型号：</span>
+                            <select id="model" style="height: 32px;width: 60px;border-radius: 4px;font-size:12px;" my-init="true">
+                                <option value="0">所有</option>
+                            </select>
+                        </li>
+
+                        <li class="pull-right header">
+                            <span style="font-size:12px;">品牌：</span>
+                            <select id="brand" style="height: 32px;width: 60px;border-radius: 4px;font-size:12px;" my-init="true">
+                                <option value="0">所有</option>
+                            </select>
+                        </li>
+
+                        <li class="pull-right header">
+                            <span style="font-size:12px;">类别：</span>
+                            <select id="category" class="category" style="height: 32px;width: 60px;border-radius: 4px;font-size:12px;" my-init="true">
+                                <option value="1">手机</option>
+                                <option value="6">平板电脑</option>
+                                <option value="5">笔记本</option>
+                                <option value="22">摄影摄像</option>
+                                <option value="3">智能数码</option>
+                            </select>
+                        </li>
+
+                        <li class="pull-right header">
+                            <span style="font-size:12px;">业务线：</span>
+                            <select style="height: 32px;width: 60px;border-radius: 4px;font-size:12px;" my-init="true">
+                                <option value="0">所有</option>
+                                <option value="1">B2B</option>
+                                <option value="2">C2B</option>
+                            </select>
+                        </li>
+
+                        <li class="pull-left header" style="font-weight: bold;"><i class="fa fa-inbox"></i>物品流转分析</li>
+                    </ul>
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle smart-ul-w">
+                        <li class="pull-left header" style="font-size:15px;">a 物品流转</li>
+                    </ul>
+                    <div class="tab-content no-padding row" style="width:100%;margin:0;">
+                        <!-- Morris chart - Sales -->
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <div class="info-box-instruments-panel">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text chart-subtitle hand-title" data-toggle="tooltip" data-html="true" data-placement="top" title="1、卖家结算垫资说明">运营中心总时长</span>
+                                        <span class="info-box-number text-up">108 <span class="money-dw-hour">h</span> | 11%　<span class="description-percentage text-red text-letter-down"><i class="fa fa-caret-down"></i> 18%</span></span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <div class="info-box-instruments-panel">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text chart-subtitle hand-title" data-toggle="tooltip" data-html="true" data-placement="top" title="1、卖家结算垫资说明">买家售后总时长</span>
+                                        <span class="info-box-number text-up">30 <span class="money-dw-hour">h</span> | 11%　<span class="description-percentage text-green text-letter-down"><i class="fa fa-caret-up"></i> 18%</span></span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="chart tab-pane active" id="forceChart" style="position: relative; width:98%;height: 500px;">
+
+                            </div>
+                        </div>
+                    </div>
+                    <hr><!-- style= "height:1px;border:none;border-top:1px dashed #0a73cf;"-->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle smart-ul-w">
+                        <li class="pull-left header" style="font-size:15px;">b 库存分析</li>
+                    </ul>
+                    <div class="tab-content no-padding row" style="width:100%;margin:0;">
+                        <!-- Morris chart - Sales -->
+                        <div class="col-md-6 col-xs-12">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="info-box-instruments-panel">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text chart-subtitle hand-title" data-toggle="tooltip" data-html="true" data-placement="top" title="每日0点的平均库存量（库存量统计中，剔除以下数据：a.门店数据；b.测试库的机器，c.17年入库的机器；d、行政库；e、脏机）">平均库存量</span>
+                                            <span class="info-box-number text-up">1,410 <span class="money-dw">台</span> | 11%　<span class="description-percentage text-red text-letter-down"><i class="fa fa-caret-down"></i> 18%</span></span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="info-box-instruments-panel">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text chart-subtitle hand-title"  data-toggle="tooltip" data-html="true" data-placement="top" title="已出库物品库龄=最后1次出运营中心仓库时间-第一次入运营中心仓库时间　　　　未出库物品库龄=所选终点时间-第一次入运营中心仓库时间">平均库龄</span>
+                                            <span class="info-box-number text-up">30 <span class="money-dw-hour">h</span> | 11%　<span class="description-percentage text-green text-letter-down"><i class="fa fa-caret-up"></i> 20%</span></span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="chart tab-pane active col-md-12" id="stock-line" style="position: relative; height: 500px;">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xs-12">
+
+                            <div class="chart tab-pane active col-md-12" id="stock-pie" style="position: relative; height: 500px;">
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <hr><!-- style= "height:1px;border:none;border-top:1px dashed #0a73cf;"-->
+
+                    <div class="tab-content no-padding row" style="width:100%;margin:0;">
+                        <div class="col-md-6" style="border-right:1px dashed #eee;">
+                            <ul class="nav nav-tabs pull-left ui-sortable-handle smart-ul-w">
+                                <li class="pull-left header" style="font-size:15px;">c 流拍分析 (日)</li>
+                            </ul>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="info-box-instruments-panel">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text chart-subtitle hand-title" data-toggle="tooltip" data-html="true" data-placement="top" title="首次流拍的平均物品数量、比例">每日首次流拍量</span>
+                                            <span class="info-box-number text-up">1,410 <span class="money-dw">台</span> | 11%　<span class="description-percentage text-red text-letter-down"><i class="fa fa-caret-down"></i> 18%</span></span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="info-box-instruments-panel">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text chart-subtitle hand-title" data-toggle="tooltip" data-html="true" data-placement="top" title="每日平均流拍数量、比例">每日流排量</span>
+                                            <span class="info-box-number text-up">30 <span class="money-dw">台</span> | 11%　<span class="description-percentage text-green text-letter-down"><i class="fa fa-caret-up"></i> 20%</span></span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Morris chart - Sales -->
+                                <div class="chart tab-pane active" id="passInChart" style="position: relative; width:98%;height: 500px;">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="nav nav-tabs pull-left ui-sortable-handle smart-ul-w">
+                                <li class="pull-left header" style="font-size:15px;">d 卖家确认情况分析 (日)</li>
+                            </ul>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="info-box-instruments-panel">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text chart-subtitle hand-title"  data-toggle="tooltip" data-html="true" data-placement="top" title="卖家侧平均每日确认的物品数量、比例">每日确认量</span>
+                                            <span class="info-box-number text-up">1,410 <span class="money-dw">台</span> | 11%　<span class="description-percentage text-red text-letter-down"><i class="fa fa-caret-down"></i> 18%</span></span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="info-box-instruments-panel">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text chart-subtitle hand-title"  data-toggle="tooltip" data-html="true" data-placement="top" title="平均时长（买家待确认-确认完成）">平均确认时长</span>
+                                            <span class="info-box-number text-up">5.6 <span class="money-dw-hour">h</span> | 11%　<span class="description-percentage text-green text-letter-down"><i class="fa fa-caret-up"></i> 20%</span></span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Morris chart - Sales -->
+                                <div class="chart tab-pane active" id="vendorChart" style="position: relative; width:98%;height: 500px;">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="width:98%;margin: 0 auto;">
+                <div class="nav-tabs-custom" style="cursor: move;">
+                    <!-- Tabs within a box -->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <li class="pull-right header">
+                            <span style="font-size:12px;">时间段：</span>
+                            <button type="button" class="btn btn-default pull-right" id="fund-analysis-date-range-btn" style="background:#fff !important;font-size:12px;margin-top:5px;">
+                                <i class="fa fa-calendar"></i>
+                                <span>时间</span>
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                        </li>
+                        <li class="pull-left header" style="font-weight: bold;"><i class="fa fa-inbox"></i>垫资分析</li>
+                    </ul>
+                    <div class="tab-content no-padding">
+                        <!-- Morris chart - Sales -->
+                        <div class="row">
+                            <div class="col-md-4 col-xs-12">
+                                <div class="info-box-instruments-panel">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text chart-subtitle hand-title"  data-toggle="tooltip" data-html="true" data-placement="top" title="所选时间点，总垫资金额">总垫资</span>
+                                        <span class="info-box-number text-up">1,410 <span class="money-dw">元</span>　<span class="description-percentage text-red text-letter-down"><i class="fa fa-caret-down"></i> 18%</span></span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xs-12">
+                                <div class="info-box-instruments-panel">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text chart-subtitle hand-title" data-toggle="tooltip" data-html="true" data-placement="top" title="所选时间点，卖家结算垫资金额|占总垫资金额的比例">卖家结算垫资</span>
+                                        <span class="info-box-number">30 <span class="money-dw">元</span> | 84%　<span class="description-percentage text-green text-letter-down"><i class="fa fa-caret-up"></i> 20%</span></span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xs-12">
+                                <div class="info-box-instruments-panel">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text chart-subtitle hand-title"  data-toggle="tooltip" data-html="true" data-placement="top" title="所选时间点，预付款垫资金额|占总垫资金额的比例">预付款垫资</span>
+                                        <span class="info-box-number text-up">30 <span class="money-dw">元</span> | 16%　<span class="description-percentage text-green text-letter-down"><i class="fa fa-caret-up"></i> 20%</span></span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="chart tab-pane active" id="fundAnalysisChart" style="position: relative; width:98%;height: 500px;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</template>

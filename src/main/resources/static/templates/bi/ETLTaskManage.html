@@ -1,0 +1,334 @@
+<template name = "ETLTaskManage">
+    <style>
+        textarea {
+            padding: 10px;
+            vertical-align: top;
+            width: 200px;
+        }
+        textarea:focus {
+            outline-style: solid;
+            outline-width: 2px;
+            border-radius: 10px;
+        }
+
+        .file {
+            position: relative;
+            display: inline-block;
+            background: #dddddd;
+            border: #dddddd;
+            /*border-radius: 4px;*/
+            padding: 4px 12px;
+            overflow: hidden;
+            color: #000000;
+            /*text-decoration: none;*/
+            /*text-indent: 0;*/
+            line-height: 20px;
+        }
+        .file input {
+            position: absolute;
+            font-size: 100px;
+            width:100%;
+            height:30px;
+            /*right: 0;*/
+            top: 0;
+            opacity: 0;
+        }
+        .file:hover {
+            background: #dddddd;
+            border-color: #000000;
+            color: #000000;
+            text-decoration: none;
+        }
+        .margins{
+            margin-top:10px;
+        }
+
+    </style>
+    <section class="content-wrapper">
+
+        <div class="row" style="margin:0 auto;width:98%;padding-top:10px;">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#activity" data-toggle="tab">上传</a></li>
+                    <li><a href="#timeline" data-toggle="tab">历史</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="active tab-pane" id="activity" style="background:#eee;padding:20px;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="nav-tabs-custom" style="cursor: move;height:508px;">
+                                    <!-- 取消分时段实时监控 header -->
+                                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                                        <li class="pull-left header" style="font-weight: bold;">
+                                            <img class="img-rounded" src="/assets/icon/shugang.png" width="40px" height="20px" alt=""/>
+                                            <span class="for-span-header">job上传</span>
+                                        </li>
+                                    </ul>
+
+                                    <!--取消分时段实时监控图表-->
+                                    <div class="tab-content no-padding row" style="margin-left:15px;margin-right:15px">
+                                        <div class="col-sm-12 col-md-12 col-xs-12" style="margin-top:10px;">
+                                            <!--总体情况title-->
+                                            <div class="row">
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                    <span style="color:red;margin: 10px">注　：</span>
+                                                    <span class="for-span for-span-chinese" style="color:#00c0ef;font-size:15px;">
+                                                    本ETL流程请按照上传-测试-发布顺序执行，在测试/运行之前先在输入框填写参数文件名和日期
+                                                    </span>
+                                                    <br>
+                                                    <span style="color:red;margin: 10px">例如：</span>
+                                                    <span class="for-span for-span-chinese" style="color:#00c0ef;font-size:15px;">
+                                                    runAt.sh job_ods_operation_exception_product 2018-10-12 (不用添加bash)
+                                                    </span>
+                                                    <br>
+                                                    <span style="color:red;margin: 10px">必读：</span>
+                                                    <span class="for-span for-span-chinese" style="color:#00c0ef;font-size:15px;">
+                                                    新目录支持runAt.sh，runFull.sh，runFromTo.sh, 老目录支持runIncr.sh，runFull.sh
+                                                    </span>
+                                                    <hr>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="row" style="height:20px;width: 98%; margin: 0 auto;">
+                                                        <div class="col-md-4 col-sm-6 col-md-12" style="margin-top:10px;">
+
+                                                            <input type="radio" value="new" name="dir" checked="checked"/>&nbsp;<span style="font-size:15px;font-weight:BOLD;margin-top:-2px;">新目录 &nbsp;<a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="/home/alireport/data/talend-etl/jobfiles-zip/"></a></span>&nbsp;&nbsp;
+                                                            <input type="radio" value="old" name="dir"/>&nbsp;<span style="font-size:15px;font-weight:BOLD;margin-top:-2px;">老目录&nbsp;<a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="/home/alireport/data/Shared Folder/"></a></span>&nbsp;&nbsp;
+                                                        </div>
+                                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                                            <button  id="audit" type="button" class="btn bg-aqua btn-flat margins" style="width:100%;">审核</button>
+                                                            <!--<input style="float:right;" type="button" class="file" name="run" value="运行" id="run"/>-->
+                                                        </div>
+                                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                                            <button  id="run" type="button" class="btn bg-aqua btn-flat margins" style="width:100%;">运行</button>
+                                                            <!--<input style="float:right;" type="button" class="file" name="run" value="运行" id="run"/>-->
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row" style="height:180px;width: 98%; margin: 0 auto;">
+                                                        <div class="col-md-12" style="margin-top:10px;">
+                                                            <textarea id="cmd" placeholder="请在此输入脚本  形如：runAt.sh job_ods_operation_exception_product 2018-10-12" style='max-height: 150px;min-height:150px; width: 100%;resize: none;background:#000;color:#fff;'></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="width: 98%; margin: 0 auto;">
+
+                                                        <div class="col-md-4 col-sm-6 col-xs-12" style="height:30px;">
+                                                            <form id="fileForm">
+                                                                <a href="javascript:;" class="file" id="a_upload" style="width:100%;cursor:pointer;display:block;margin-top:10px;height:34px;text-align:center;padding-top:6px;">上传
+                                                                    <input type="file" class="file" name="file" id="file_upload" style="cursor:pointer;"/>
+                                                                </a>
+                                                            </form>
+                                                        </div>
+
+
+                                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                                            <!--<input type="button" class="file" name="check" value="测试" id="check"/>-->
+                                                            <button  id="check" type="button" class="btn btn-flat margins" style="width:100%;">测试</button>
+                                                        </div>
+
+                                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                                            <button  id="upload_stock" type="button" class="btn  btn-flat margins" style="width:100%;">发布</button>
+                                                            <!--<input style="float:right;" type="button" class="file" name="check" value="发布" id="upload_stock"/>-->
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row" style="height: 50px;width: 98%; margin: 0 auto;">
+                                                        <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top:20px;">
+                                                            <label>上传的job：</label><span id="fileNameHtml" style="font-size: large"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="nav-tabs-custom" style="cursor: move;height:508px;">
+                                    <!-- 取消分时段实时监控 header -->
+                                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                                        <li class="pull-left header" style="font-weight: bold;">
+                                            <img class="img-rounded" src="/assets/icon/shugang.png" width="40px" height="20px" alt=""/>
+                                            <span class="for-span-header">日志实时监控</span>
+                                        </li>
+                                    </ul>
+
+                                    <!--取消分时段实时监控图表-->
+                                    <div class="tab-content no-padding row" style="margin-left:15px;margin-right:15px">
+                                        <div class="col-sm-12 col-md-12 col-xs-12" style="margin-top:10px;">
+                                            <iframe id="logIframe"
+                                                    name="mainIFrame"
+                                                    frameborder="no"
+                                                    width="100%"
+                                                    height="440"
+                                                    font-style="color: #FFF"
+                                                    scrolling="yes"
+                                                    src=""></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin: 0 auto;">
+                            <div class="nav-tabs-custom" style="cursor: move;height:420px;">
+                                <!-- 特殊商家重点监控 header -->
+                                <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                                    <li class="pull-left header" style="font-weight: bold;">
+                                        <img class="img-rounded" src="/assets/icon/shugang.png" width="40px" height="20px" alt=""/>
+                                        <span class="for-span-header">正在运行的JOB</span>
+                                    </li>
+                                    <li  id="refreshPro" class="pull-right header" style="cursor:pointer;/*not-allowed;*/">
+                                        <img class="img-rounded" src="/assets/icon/refresh.png" width="40px" height="25px" alt=""/>
+                                        <span class="for-span-header refresh-span">局部刷新</span>
+                                    </li>
+                                </ul>
+                                <!--特殊商家重点监控图表-->
+                                <div class="tab-content no-padding row" style="margin-top:2%; margin-left:15px;margin-right:15px">
+                                    <div class="col-sm-12 col-md-12 col-xs-12">
+                                        <table id="dataTable" class="table table-striped"
+                                               data-toggle="table"
+                                               data-pagination="true"
+                                               data-click-to-select="true"
+                                        >
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="timeline" style="background:#eee;padding:20px;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="nav-tabs-custom" style="cursor: move;height:508px;">
+                                    <!-- 历史日志 header -->
+                                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                                        <li class="pull-left header" style="font-weight: bold;">
+                                            <img class="img-rounded" src="/assets/icon/shugang.png" width="40px" height="20px" alt=""/>
+                                            <span class="for-span-header">历史日志</span>
+                                        </li>
+                                        <li  id="refreshhistoryLogfile" class="pull-right header" style="cursor:pointer;/*not-allowed;*/">
+                                            <img class="img-rounded" src="/assets/icon/refresh.png" width="40px" height="25px" alt=""/>
+                                            <span class="for-span-header refresh-span">局部刷新</span>
+                                        </li>
+                                    </ul>
+
+                                    <!--历史日志-->
+                                    <div class="tab-content no-padding row" style="margin-left:15px;margin-right:15px">
+                                        <div class="col-sm-12 col-md-12 col-xs-12" style="margin-top:10px;">
+                                            <iframe id="historyLogfile"
+                                                    name="mainIFrame"
+                                                    frameborder="no"
+                                                    width="100%"
+                                                    height="440"
+                                                    font-style="color: #FFF"
+                                                    src=""></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="nav-tabs-custom" style="cursor: move;height:508px;">
+                                    <!-- 历史文件header -->
+                                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                                        <li class="pull-left header" style="font-weight: bold;">
+                                            <img class="img-rounded" src="/assets/icon/shugang.png" width="40px" height="20px" alt=""/>
+                                            <span class="for-span-header">历史文件</span>
+                                        </li>
+                                    </ul>
+
+                                    <!--历史文件-->
+                                    <div class="tab-content no-padding row" style="margin-left:15px;margin-right:15px">
+                                        <div class="col-sm-12 col-md-12 col-xs-12" style="margin-top:10px;">
+                                            <iframe id="fileIframe"
+                                                    name="mainIFrame"
+                                                    frameborder="no"
+                                                    width="100%"
+                                                    height="440"
+                                                    font-style="color: #FFF"
+                                                    src=""></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--<span style="color:red;margin: 10px">注：</span><span>本ETL流程请按照上传-运行-发布顺序执行，在运行之前先在输入框填写参数文件名和日期(例如：runAt.sh job_ods_operation_exception_product 2018-10-12)，仅支持runAt.sh，runFull.sh，runFromTo.sh, runIncr.sh</span>
+-->
+
+        <!--<div class="row">
+            <div id="log" class="col-md-6 col-sm-6 col-xs-12"
+                 style="height:600px;">
+                <label>日志信息</label>
+                &lt;!&ndash;<label  class="pull-right" id="refreshLog" style="cursor:pointer;position:relative"><img  class="img-rounded" src="/assets/icon/refresh.png" width="30px" height="30px" alt="">刷新</label>&ndash;&gt;
+                &lt;!&ndash;<br>&ndash;&gt;
+                <div id="mainIframeLog" style="height:500px;width: 100%;border: 1px solid #FFF;background: #FFF;border-radius: 10px;">
+
+
+
+                </div>
+            </div>
+            <div id="file" class="col-md-6 col-sm-6 col-xs-12"
+                 style="height:600px;">
+                <label>文件信息</label>
+                <label  class="pull-right" id="refreshFile" style="cursor:pointer;position:relative"><img  class="img-rounded" src="/assets/icon/refresh.png" width="30px" height="30px" alt="">刷新</label>
+                <br>
+                <div id="mainIframeFile" style="height:500px;width: 100%;border: 1px solid #FFF;background: #FFF;border-radius: 10px;">
+
+                    <iframe id="fileIframe"
+                            name="mainIFrame"
+                            frameborder="no"
+                            width="100%"
+                            height="440"
+                            font-style="color: #FFF"
+                            src=""></iframe>
+
+                </div>
+            </div>
+        </div>-->
+
+
+        <!--<div class="row">
+            <div id="jobTable" class="col-lg-offset-1 col-md-10 col-sm-12 col-xs-12" style="height:600px;">
+                <label>正在运行Job</label>
+                <label  class="pull-right" id="refreshPro" style="cursor:pointer;position:relative"><img  class="img-rounded" src="/assets/icon/refresh.png" width="30px" height="30px" alt="">刷新</label>
+                <br>
+                <div id="mainIframeFile" style="height:500px;width: 100%;border: 1px solid #FFF;background: #FFF;border-radius: 10px;">
+
+                    <table id="dataTable"
+                           data-toggle="table"
+                           data-pagination="false"
+                           data-click-to-select="true"
+                    >
+                    </table>
+                </div>
+            </div>
+        </div>-->
+
+        <!--<div class="row">
+            <div id="historyLog" class="col-md-12 col-sm-12 col-xs-12"
+                 style="height:600px;">
+                <label>历史日志信息</label>
+                <label  class="pull-right" id="refreshhistoryLogfile" style="cursor:pointer;position:relative"><img  class="img-rounded" src="/assets/icon/refresh.png" width="30px" height="30px" alt="">刷新</label>
+                <br>
+                <div id="historyLoginfo" style="height:500px;width: 100%;border: 1px solid #FFF;background: #FFF;border-radius: 10px;">
+
+                    <iframe id="historyLogfile"
+                            name="mainIFrame"
+                            frameborder="no"
+                            width="100%"
+                            height="500"
+                            font-style="color: #FFF"
+                            src=""></iframe>
+
+                </div>
+            </div>
+        </div>-->
+
+    </section>
+</template>

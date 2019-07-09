@@ -1,0 +1,536 @@
+<template name="profitAnalyseInfo">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+
+            <div id="chartContent" class="template-dashboard content body">
+                <span style="color:red">注：</span><span>品牌、型号、价位段、等级页面利润数据不包括目标达量服务费、周末狂欢、门店奖励、抽奖、询价小费、子账户/总账户/代理商加款减款、部分活动奖励、垫资模式KA服务费解冻<br></span>
+                <!--<span style="color:red">注：</span><span>只包含官网和M版流量</span>-->
+                <div class="row  c-border" style="margin: 0px 0px;">
+                    <div class="  ">
+                        <span>请选择查看时间:</span>
+                        <button type="button" class="daily btn btn-default dateBtn"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                    </div>
+                    <div class="  ">
+                    </div>
+                </div>
+
+
+                <!--//////////////////////////////////////////////改动代码处/////////////////////////////////////////////////////////////////////-->
+
+                <div >
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active" style="width:12% ;margin-right: 0px; "><a href="#whole" data-toggle="tab">整体</a></li>
+                            <li style="width:12%;margin-right: 0px;"><a href="#brand" data-toggle="tab" >品牌</a></li>
+                            <li style="width:12%;margin-right: 0px;"><a href="#product" data-toggle="tab" >型号</a></li>
+                            <li style="width:12%;margin-right: 0px;"><a href="#price" data-toggle="tab">价位段</a></li>
+                            <li style="width:12%;margin-right: 0px;"><a href="#level" data-toggle="tab">等级</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div style="text-align: center;margin-top: 150px" id="loading">
+                                <img src="/images/loading.gif">
+                            </div>
+                            <!--整体-->
+                            <div class="active tab-pane" id="whole" >
+                                <div id="wholeContent">
+                                    <table id="whole_table" class="table table-striped"
+                                           data-toggle="table"
+                                           data-show-export="true"
+                                           data-pagination="true"
+                                           data-click-to-select="true">
+
+                                    </table>
+
+                                    <div class="box box-primary">
+                                        <div class="box-header with-border">
+                                            <i class="fa fa-bar-chart-o"></i>
+
+                                            <h3 class="box-title">回收额分析</h3>
+
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div id="recyclerAmountChart" style="height: 400px">
+
+                                                </div>
+                                                <table id="recycler_table" class="table table-striped"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"></table>
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box box-primary">
+                                        <div class="box-header with-border">
+                                            <i class="fa fa-bar-chart-o"></i>
+
+                                            <h3 class="box-title">销售额分析</h3>
+
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div id="saleAmountChart" style="height: 400px">
+
+                                                </div>
+                                                <table id="sale_table" class="table table-striped"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"></table>
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box box-primary">
+                                        <div class="box-header with-border">
+                                            <i class="fa fa-bar-chart-o"></i>
+
+                                            <h3 class="box-title">利润额分析</h3>
+
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div id="profitAmountChart" style="height: 400px">
+
+                                                </div>
+                                                <table id="profit_table" class="table table-striped"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"></table>
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">利润率分析</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div id="rateAmountChart" style="height: 400px">
+
+                                            </div>
+                                            <table id="rate_table" class="table table-striped"
+                                                   data-toggle="table"
+                                                   data-show-export="true"
+                                                   data-pagination="true"
+                                                   data-click-to-select="true"></table>
+                                            <div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                </div>
+                            </div>
+
+                            <!--品牌-->
+                            <div class="tab-pane fade" id="brand">
+                                <div id="brandContent">
+                                    <select style="height: 32px;width: 100px;border-radius: 4px;" class="category" id="brandCategory">
+                                        <option value="1">手机</option>
+                                        <option value="6">平板电脑</option>
+                                        <option value="5">笔记本</option>
+                                        <option value="22">摄影摄像</option>
+                                        <option value="3">智能数码</option>
+                                    </select>
+                                    <div class="box box-primary">
+                                        <div class="box-header with-border">
+                                            <i class="fa fa-bar-chart-o"></i>
+
+                                            <h3 class="box-title">自营业务</h3>
+
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <table id="brand_self_table" class="table table-striped"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"></table>
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box box-primary">
+                                        <div class="box-header with-border">
+                                            <i class="fa fa-bar-chart-o"></i>
+
+                                            <h3 class="box-title">BD</h3>
+
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <table id="brand_bd_table" class="table table-striped"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"></table>
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box box-primary">
+                                        <div class="box-header with-border">
+                                            <i class="fa fa-bar-chart-o"></i>
+
+                                            <h3 class="box-title">爱机汇</h3>
+
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <table id="brand_aijihui_table" class="table table-striped"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"></table>
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="box box-primary">
+                                        <div class="box-header with-border">
+                                            <i class="fa fa-bar-chart-o"></i>
+
+                                            <h3 class="box-title">店员宝</h3>
+
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <table id="brand_dyb_table" class="table table-striped"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"></table>
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!--型号-->
+                            <div class="tab-pane fade" id="product">
+                                <div id="productContent">
+                                    <select style="height: 32px;width: 100px;border-radius: 4px;" class="category" id="productCategory">
+                                        <option value="1">手机</option>
+                                        <option value="6">平板电脑</option>
+                                        <option value="5">笔记本</option>
+                                        <option value="22">摄影摄像</option>
+                                        <option value="3">智能数码</option>
+                                    </select>
+                                    <div class="box box-primary">
+                                        <div class="box-header with-border">
+                                            <i class="fa fa-bar-chart-o"></i>
+
+                                            <h3 class="box-title">自营业务</h3>
+
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <table id="product_self_table" class="table table-striped"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"></table>
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box box-primary">
+                                        <div class="box-header with-border">
+                                            <i class="fa fa-bar-chart-o"></i>
+
+                                            <h3 class="box-title">BD</h3>
+
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <table id="product_bd_table" class="table table-striped"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"></table>
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box box-primary">
+                                        <div class="box-header with-border">
+                                            <i class="fa fa-bar-chart-o"></i>
+
+                                            <h3 class="box-title">爱机汇</h3>
+
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <table id="product_aijihui_table" class="table table-striped"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"></table>
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="box box-primary">
+                                        <div class="box-header with-border">
+                                            <i class="fa fa-bar-chart-o"></i>
+
+                                            <h3 class="box-title">店员宝</h3>
+
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <table id="product_dyb_table" class="table table-striped"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"></table>
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="tab-pane fade" id="price">
+                                <div class="row " >
+                                    <div class="col-md-2 col-sm-4">
+                                        <select id="type"  style=" margin-left: 13px;width:110px;border-radius: 4px;padding: 6px 12px;">
+                                            <option value="手机">手机</option>
+                                            <option value="平板电脑">平板电脑</option>
+                                            <option value="笔记本">笔记本</option>
+                                            <option value="摄影摄像">摄影摄像</option>
+                                            <option value="智能数码">智能数码</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-9 ">
+                                            <span style="    margin-left: 13px;">价格区间  <a href="#" class="glyphicon glyphicon-question-sign " style="   ;margin-top:1%;margin-bottom: 1%" data-toggle="tooltip"
+                                                                                          title="说明：
+1.多价格区间以分号分割;
+2.价格区间以~分割;
+3.~200;200~500;500~1000;1000~表示小于200一个分段；200-500一个分段；500-1000一个分段；大于1000一个分段;
+4.[ 事业部利润额占比]=自营/ BD/爱机汇的某一价位段利润额  除以 自营/BD/爱机汇分别的利润总额,
+  [C2B利润额占比]=自营/BD某一个价位段利润额  除以（自营＋BD的利润总额），爱机汇部分为'-';"
+                                            ></a>:</span>
+                                        <input id="priceRange" style=" width:250px;      margin-left: 13px;  border-radius: 4px;padding: 4px 12px;" value="0~300;300~1000;1000~2000;2000~3000;3000~">
+                                        <button class="btn btn-primary search" style="    margin-left: 13px;padding: 2px 10px;">
+                                            查询
+                                        </button>
+                                    </div>
+
+                                </div>
+                                <div style="text-align: center;margin-top: 150px" id="priceLoading">
+                                    <img src="/images/loading.gif">
+                                </div>
+                                <div class="row" id="priceContent">
+                                    <div class="col-md-12 col-sm-12 col-xs-12" style="">
+                                        <table id="priceTable"
+                                               data-toggle="table"
+                                               data-show-export="true"
+                                               data-search="true"
+                                               data-pagination="true"
+                                               data-click-to-select="true"
+                                        >
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!--等级-->
+                            <div class="tab-pane fade" id="level">
+                                <div id="levelContent">
+                                    <label>品类:</label>
+                                    <select style="height: 32px;width: 200px;border-radius: 4px;margin-top:5px;margin-bottom:5px;" class="level-category" id="levelCategory" my-init="true">
+                                        <option value="1">手机</option>
+                                        <option value="6">平板电脑</option>
+                                        <option value="5">笔记本</option>
+                                        <option value="22">摄影摄像</option>
+                                        <option value="3">智能数码</option>
+                                    </select>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <label>品牌:</label>
+                                    <select style="height: 32px;width: 200px;border-radius: 4px;" class="brand" id="levelBrand">
+                                        <option value="null">不限</option>
+                                    </select>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <button id="search-btn" style="height: 32px;width: 100px;border-radius: 4px;position:relative;top:-2px;" data-loading-text="loading..." class="btn btn-primary">查询</button>
+
+                                    <div class="box box-primary">
+                                        <div class="box-header with-border">
+                                            <i class="fa fa-bar-chart-o"></i>
+
+                                            <h3 class="box-title">自营业务</h3>
+
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <table id="level_self_table" class="table table-striped"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"></table>
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box box-primary">
+                                        <div class="box-header with-border">
+                                            <i class="fa fa-bar-chart-o"></i>
+
+                                            <h3 class="box-title">BD</h3>
+
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <table id="level_bd_table" class="table table-striped"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"></table>
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box box-primary">
+                                        <div class="box-header with-border">
+                                            <i class="fa fa-bar-chart-o"></i>
+
+                                            <h3 class="box-title">爱机汇</h3>
+
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <table id="level_aijihui_table" class="table table-striped"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"></table>
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="box box-primary">
+                                        <div class="box-header with-border">
+                                            <i class="fa fa-bar-chart-o"></i>
+
+                                            <h3 class="box-title">店员宝</h3>
+
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <table id="level_dyb_table" class="table table-striped"
+                                                       data-toggle="table"
+                                                       data-show-export="true"
+                                                       data-pagination="true"
+                                                       data-click-to-select="true"></table>
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <!--//////////////////////////////////////////////改动代码处/////////////////////////////////////////////////////////////////////-->
+
+            </div>
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

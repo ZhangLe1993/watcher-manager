@@ -1,0 +1,93 @@
+<template name="riskControlVenderQualityErrorAnalysisModal">
+    <!-- Content Wrapper. Contains page content -->
+    <!--<div class="content-wrapper">-->
+        <!-- Main content -->
+        <section class="content" style="background-color: white">
+
+            <!-- Your Page Content Here -->
+
+            <div class="template-dashboard content body">
+
+                <label style="margin-top:20px">质检详情</label>
+                <div class="row box box-primary" style="width: auto; margin-top:25px">
+                    <div class="box-body">
+                        <div id="chartContent">
+
+                            <div class="row" style="background-color: white">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="table1">
+                                    <table class="cell-border"
+                                           data-show-export="true"
+                                           data-toggle="table"
+                                           data-pagination="true"
+                                           data-click-to-select="true"
+                                           id="BussinessDataTable">
+
+                                        <thead>
+                                        <tr>
+                                            <!--<th data-field="vender_group_name" data-sortable="true">门店名称</th>-->
+                                            <th data-field="vender_name" data-sortable="true">子账户</th>
+                                            <th data-field="mistakeCnt" data-sortable="true">质检总量（台）</th>
+                                            <th data-field="inlet" data-sortable="true">机身进水或受潮</th>
+                                            <th data-field="fingerprint" data-sortable="true">指纹功能不正常</th>
+                                            <th data-field="callException" data-sortable="true">通话不正常</th>
+                                            <th data-field="iCloudCancel" data-sortable="true">iCloud无法注销</th>
+                                            <th data-field="bootstrap" data-sortable="true">无法正常开机</th>
+                                            <th data-field="wifi" data-sortable="true">无线不正常</th>
+                                            <th data-field="touch" data-sortable="true">触摸功能不正常</th>
+                                            <th data-field="bend" data-sortable="true">机身弯曲</th>
+                                            <th data-field="charge" data-sortable="true">充电不正常</th>
+                                            <th data-field="mainBoardRepair" data-sortable="true">主板维修/多处拆修</th>
+                                            <th data-field="screenRepair" data-sortable="true">屏幕维修</th>
+                                            <th data-field="display" data-sortable="true">屏幕无法显示</th>
+                                            <th data-field="aging" data-sortable="true">色斑/漏液/错乱/严重老化</th>
+                                            <th data-field="aberra" data-sortable="true">亮坏点/色差/轻微发黄</th>
+                                            <th data-field="nick" data-sortable="true">屏幕有划痕</th>
+                                            <th data-field="fragment" data-sortable="true">屏幕有缺角/碎裂</th>
+                                            <th data-field="paint" data-sortable="true">外壳有磕碰/掉漆</th>
+                                            <th data-field="gurant" data-sortable="true">国内保修情况错误</th>
+                                            <th data-field="color" data-sortable="true">机身颜色错误</th>
+                                            <th data-field="channel" data-sortable="true">购买渠道错误</th>
+                                            <th data-field="storage" data-sortable="true">容量错误</th>
+                                            <th data-field="venderType" data-sortable="true">型号错误</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                    </div>
+
+
+                                    <div class="table2">
+                                    <table class="cell-border"
+                                           data-show-export="true"
+                                           data-toggle="table"
+                                           data-pagination="true"
+                                           data-click-to-select="true"
+                                           id="BussinessDataTablePart">
+
+                                        <thead>
+                                        <tr>
+                                            <th data-field="vender_name" data-sortable="true">子账户</th>
+                                            <th data-field="repair" data-sortable="true">拆修</th>
+                                            <th data-field="inlet" data-sortable="true">进水</th>
+                                            <th data-field="bootstrap" data-sortable="true">炸弹机</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.box-body -->
+                </div>
+
+                <div style="text-align: center;margin-top: 150px" id="loading">
+                    <img src="/images/loading.gif">
+                </div>
+            </div>
+
+
+
+        </section><!-- /.content -->
+    <!--</div>&lt;!&ndash; /.content-wrapper &ndash;&gt;-->
+</template>

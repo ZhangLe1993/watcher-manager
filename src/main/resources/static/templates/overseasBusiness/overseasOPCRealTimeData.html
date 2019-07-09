@@ -1,0 +1,325 @@
+<template name="overseasOPCRealTimeData">
+    <style>
+        /*数字区域加载动画css*/
+        .spinner {
+            width: 100px;
+            text-align: center;
+        }
+
+        .spinner > div {
+            width: 10px;
+            height: 10px;
+            background-color: #747474;
+
+            border-radius: 100%;
+            display: inline-block;
+            -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+            animation: bouncedelay 1.4s infinite ease-in-out;
+            /* Prevent first frame from flickering when animation starts */
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+
+        .spinner .bounce1 {
+            -webkit-animation-delay: -0.32s;
+            -moz-animation-delay: -0.32s;
+            -ms-animation-delay: -0.32s;
+            -o-animation-delay: -0.32s;
+            animation-delay: -0.32s;
+        }
+
+        .spinner .bounce2 {
+            -webkit-animation-delay: -0.16s;
+            -moz-animation-delay: -0.16s;
+            -ms-animation-delay: -0.16s;
+            -o-animation-delay: -0.16s;
+            animation-delay: -0.16s;
+        }
+
+        @-webkit-keyframes bouncedelay {
+            0%, 80%, 100% { -webkit-transform: scale(0.0) }
+            40% { -webkit-transform: scale(1.0) }
+        }
+
+        @-moz-keyframes bouncedelay {
+            0%, 80%, 100% { -moz-transform: scale(0.0) }
+            40% { -moz-transform: scale(1.0) }
+        }
+
+        @-ms-keyframes bouncedelay {
+            0%, 80%, 100% { -ms-transform: scale(0.0) }
+            40% { -ms-transform: scale(1.0) }
+        }
+
+        @-o-keyframes bouncedelay {
+            0%, 80%, 100% { -o-transform: scale(0.0) }
+            40% { -o-transform: scale(1.0) }
+        }
+
+        @keyframes bouncedelay {
+            0%, 80%, 100% {
+                transform: scale(0.0);
+                -webkit-transform: scale(0.0);
+                -moz-transform: scale(0.0);
+                -ms-transform: scale(0.0);
+                -o-transform: scale(0.0);
+            } 40% {
+                  transform: scale(1.0);
+                  -webkit-transform: scale(1.0);
+                  -moz-transform: scale(0.0);
+                  -ms-transform: scale(0.0);
+                  -o-transform: scale(0.0);
+              }
+        }
+        /*数字区域加载动画css结束*/
+        .bg-blue-zyl{
+            background-color: #47A3D1 !important;
+        }
+
+        @media (min-width: 1200px){
+            .re-modal-dialog {
+                width: 1200px;
+                margin: 30px auto;
+            }
+        }
+    </style>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" style="background:#fff;">
+        <!-- Main content -->
+        <section class="content" style="background:#fff;">
+            <!--总体情况title-->
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <h1 style="position:relative;margin-bottom: 30px;font-size:18px;font-weight:600;width:150px;">
+                        <img class="img-rounded" src="/assets/icon/shugang.png" width="40px" height="20px" alt=""/>
+                        数量指标
+                    </h1>
+                    <hr>
+                </div>
+            </div>
+            <div class="row" style="width:100%;position:relative;margin:0 auto;background:#f9f9f9;padding-top:10px;">
+
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box" id="total-receipt-num" style="/*box-shadow: 0 0 0 5px #ebebeb;*/ border:1px solid #eee;">
+                        <span phone-d="true" class="info-box-icon bg-aqua bg-blue-zyl"><i class="fa fa-ship"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text" style="font-size:18px;font-weight:BOLD;">收货量(台)</span>
+                            <br>
+                            <div name="total-receipt-num" class="counter-demo-2" style="font-size:22px;font-weight: BOLD;">
+                                <div class="spinner">
+                                    <div class="bounce1"></div>
+                                    <div class="bounce2"></div>
+                                    <div class="bounce3"></div>
+                                </div>
+                            </div>
+                        </div><!-- /.info-box-content -->
+                    </div><!-- /.info-box -->
+                </div>
+
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box" style="/*box-shadow: 0 0 0 5px #ebebeb;*/ border:1px solid #eee;">
+                        <span phone-d="true" class="info-box-icon bg-aqua bg-blue-zyl"><i class="fa fa-home"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text" style="font-size:18px;font-weight:BOLD;">入库量(台)</span>
+                            <br>
+                            <div name="total-in-num" class="info-box-number" style="font-size:22px;font-weight: BOLD;">
+                                <div class="spinner">
+                                    <div class="bounce1"></div>
+                                    <div class="bounce2"></div>
+                                    <div class="bounce3"></div>
+                                </div>
+                            </div>
+                        </div><!-- /.info-box-content -->
+                    </div><!-- /.info-box -->
+                </div>
+
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box" id="total-to-be-in-num" style="/*box-shadow: 0 0 0 5px #ebebeb;*/ border:1px solid #eee;">
+                        <span phone-d="true" class="info-box-icon bg-aqua bg-blue-zyl"><i class="fa fa-ship"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text" style="font-size:18px;font-weight:BOLD;">待入库量(台)</span>
+                            <br>
+                            <div name="total-to-be-in-num" class="counter-demo-2" style="font-size:22px;font-weight: BOLD;">
+                                <div class="spinner">
+                                    <div class="bounce1"></div>
+                                    <div class="bounce2"></div>
+                                    <div class="bounce3"></div>
+                                </div>
+                            </div>
+                        </div><!-- /.info-box-content -->
+                    </div><!-- /.info-box -->
+                </div>
+
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box" id="total-house-num" style="/*box-shadow: 0 0 0 5px #ebebeb;*/ border:1px solid #eee;">
+                        <span phone-d="true" class="info-box-icon bg-aqua bg-blue-zyl"><i class="fa fa-home"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text" style="font-size:18px;font-weight:BOLD;">库存量(台)</span>
+                            <br>
+                            <div name="total-house-num" class="info-box-number" style="font-size:22px;font-weight: BOLD;">
+                                <div class="spinner">
+                                    <div class="bounce1"></div>
+                                    <div class="bounce2"></div>
+                                    <div class="bounce3"></div>
+                                </div>
+                            </div>
+                        </div><!-- /.info-box-content -->
+                    </div><!-- /.info-box -->
+                </div>
+
+            </div>
+
+            <div class="row" style="width:100%;position:relative;margin:0 auto;background:#f9f9f9;padding-top:10px;">
+
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box" id="total-waitQuality-num" style="/*box-shadow: 0 0 0 5px #ebebeb;*/ border:1px solid #eee;">
+                        <span phone-d="true" class="info-box-icon bg-aqua bg-blue-zyl"><i class="fa fa-ship"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text" style="font-size:18px;font-weight:BOLD;">待质检量(台)</span>
+                            <br>
+                            <div name="total-waitQuality-num" class="counter-demo-2" style="font-size:22px;font-weight: BOLD;">
+                                <div class="spinner">
+                                    <div class="bounce1"></div>
+                                    <div class="bounce2"></div>
+                                    <div class="bounce3"></div>
+                                </div>
+                            </div>
+                        </div><!-- /.info-box-content -->
+                    </div><!-- /.info-box -->
+                </div>
+
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box" id="total-qualityComplete-num" style="/*box-shadow: 0 0 0 5px #ebebeb;*/ border:1px solid #eee;">
+                        <span phone-d="true" class="info-box-icon bg-aqua bg-blue-zyl"><i class="fa fa-home"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text" style="font-size:18px;font-weight:BOLD;">质检完成量(台)</span>
+                            <br>
+                            <div name="total-qualityComplete-num" class="info-box-number" style="font-size:22px;font-weight: BOLD;">
+                                <div class="spinner">
+                                    <div class="bounce1"></div>
+                                    <div class="bounce2"></div>
+                                    <div class="bounce3"></div>
+                                </div>
+                            </div>
+                        </div><!-- /.info-box-content -->
+                    </div><!-- /.info-box -->
+                </div>
+
+            </div>
+
+
+            <!--质检数据title-->
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <h1 style="position:relative;margin-bottom: 30px;font-size:18px;font-weight:600;width:250px;">
+                        <img class="img-rounded" src="/assets/icon/shugang.png" width="40px" height="20px" alt=""/>
+                        初检实时数据
+                    </h1>
+                    <hr>
+                </div>
+            </div>
+
+            <!--质检数据情况-->
+            <div class="row" style="width:100%;position:relative;margin:0 auto;background:#f9f9f9;padding-top:10px;">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div id="qualityInspectionChart" style="height:500px;"></div>
+                </div>
+            </div>
+
+            <!--抽检数据title-->
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <h1 style="position:relative;margin-bottom: 30px;font-size:18px;font-weight:600;width:250px;">
+                        <img class="img-rounded" src="/assets/icon/shugang.png" width="40px" height="20px" alt=""/>
+                        抽检实时数据
+                    </h1>
+                    <hr>
+                </div>
+            </div>
+
+            <!--抽检数据情况-->
+            <div class="row" style="width:100%;position:relative;margin:0 auto;background:#f9f9f9;padding-top:10px;">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div id="samplingChart" style="height:500px;"></div>
+                </div>
+            </div>
+
+            <!--质检效率分时段title-->
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <h1 style="position:relative;margin-bottom: 30px;font-size:18px;font-weight:600;width:250px;">
+                        <img class="img-rounded" src="/assets/icon/shugang.png" width="40px" height="20px" alt=""/>
+                        质检效率分时段
+                    </h1>
+                    <hr>
+                </div>
+            </div>
+
+            <div class="row" style="width:100%;position:relative;margin:0 auto;margin-top:10px;margin-bottom:10px;">
+                <!--<div class="col-sm-12 col-md-3">
+                    <span>运营中心:</span>
+                    <select  style="height: 32px;width: 200px;border-radius: 4px;" id="operationName">
+                    </select>
+                </div>-->
+                <div class="col-sm-12 col-md-3">
+                    <span>质检人员:</span>
+                    <select  style="height: 32px;width: 200px;border-radius: 4px;" id="inspectName">
+                    </select>
+                </div>
+                <div class="col-sm-12 col-md-3">
+                    <span>堆积类型:</span>
+                    <select  style="height: 32px;width: 200px;border-radius: 4px;" id="type">
+                        <option value="全部">全部</option>
+                        <option value="品类">品类</option>
+                        <option value="品牌">品牌</option>
+                        <option value="质检类型/目的">质检类型/目的</option>
+
+                    </select>
+                </div>
+                <div class="col-sm-12 col-md-3">
+                    <span style="visibility:hidden">堆积类型:</span>
+                    <button  class="btn btn-primary" style="height: 32px;width: 200px;border-radius: 4px;" id="search">
+                        查询
+                    </button>
+                </div>
+            </div>
+            <!--质检效率分时段情况-->
+            <div class="row" style="width:100%;position:relative;margin:0 auto;background:#f9f9f9;padding-top:10px;">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div id="qualityInspectionByHourChart" style="height:400px;"></div>
+                </div>
+            </div>
+
+            <!--弹框-->
+            <div>
+                <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                    <div class="modal-dialog re-modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                </button>
+                                <h4 class="modal-title" id="modalLabel">
+
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <!--content开始-->
+                                <div name="showContent">
+                                    <div class="row" style="width:100%;position:relative;margin:0 auto;background:#f9f9f9;padding-top:10px;">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <table id="tableView" data-toggle="table"
+                                                   data-show-export="true"
+                                                   data-pagination="true"
+                                                   data-click-to-select="true"></table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--content结束-->
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </div>
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

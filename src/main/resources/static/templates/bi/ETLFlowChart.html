@@ -1,0 +1,218 @@
+<template name = "ETLFlowChart">
+    <!--<link rel="stylesheet" type="text/css" href="/assets/zTree_v3/css/demo.css"/>-->
+    <link rel="stylesheet" type="text/css" href="/assets/zTree_v3/css/metroStyle/metro.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="/assets/nth-tabs/css/nth.tabs.min.css"/>-->
+    <style>
+
+        .search-button{
+            position:relative;color:#fff;top:-2px;width:140px;height:40px;border-width:0px;font-size:13px;text-align:center;background-color:rgba(22, 155, 213, 1);
+        }
+        .search-input{
+            width:500px;height:40px;
+        }
+        .search-label{
+            position:relative;margin-bottom: 30px;font-size:18px;font-weight:600;width:150px;
+        }
+        .nav-tabs-custom > .nav-tabs > li.active {
+            border-top-color: #131111;
+        }
+    </style>
+
+
+    <!--<aside class="main-sidebar" style="height:938px;background:#fff;overflow-x:auto;overflow-y:auto;">
+        <div>
+            <ul id="treeDemo" class="ztree"></ul>
+        </div>
+    </aside>-->
+    <div class="content-wrapper">
+        <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li id="msa" class="active"><a href="#mdms-search" data-toggle="tab" aria-expanded="false">元数据检索</a></li>
+                        <!--<li id="msc" class=""><a id="synchronous-click" href="#mdms-synchronous" data-toggle="tab" aria-expanded="false">元数据同步</a></li>-->
+                        <li id="mgh" class=""><a href="#home" data-toggle="tab" aria-expanded="true">元数据管理</a></li>
+                        <!--<li id="mst" class=""><a href="#settings" data-toggle="tab" aria-expanded="false">权限管理</a></li>-->
+                    </ul>
+                    <div class="tab-content">
+
+                        <div class="tab-pane active" id="mdms-search">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="box box-solid" style="box-shadow:0 0 0 !important;">
+                                        <div id="mdms-search-panel" class="box-body no-padding" style="overflow-x:auto;overflow-y:auto;height:750px;">
+                                            <div class="row" style="margin:0 auto;width:98%;margin-top:40px;">
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                    <h1 class="search-label">
+                                                        &nbsp;&nbsp;&nbsp;元数据检索
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin:0 auto;width:98%;margin-top:20px;">
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <img src="/assets/icon/search.png"/>
+                                                    <span style="font-size:15px;">搜索元数据</span>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <input id="search-panel-search-input" type="text" name="search" class="search-input" style="" placeholder="　键入关键字"/>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <select id="search-panel-search-select" style="width:120px;height:40px;">
+                                                        <option value="0">表名</option>
+                                                        <option value="1">字段名</option>
+                                                        <option value="2">表中文名</option>
+                                                        <option value="3">字段中文名</option>
+                                                    </select>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <input type="button" name="button" class="search-button" id="search-panel-search-btn" value="查询"/>
+                                                </div>
+                                            </div>
+                                            <div id="mdms-search-res-panel" class="row" style="margin:0 auto;width:98%;margin-top:80px;">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="mdms-synchronous">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="box box-solid" style="box-shadow:0 0 0 !important;">
+                                        <div id="mdms-synchronous-panel" class="box-body no-padding" style="overflow-x:auto;overflow-y:auto;height:750px;">
+                                            <div class="row" style="margin:0 auto;width:98%;">
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                    <h1 class="search-label">
+                                                        &nbsp;&nbsp;&nbsp;同步元数据
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin:0 auto;width:98%;">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" style="padding:20px;background:#eee;">
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <span style="font-size:15px;">数据库名称</span>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <select id="synchrinized-example-select" style="width:400px;height:40px;" data-placeholder="请选择实例">
+
+                                                    </select>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <select id="synchrinized-select" style="width:150px;height:40px;" data-placeholder="请选择数据库">
+
+                                                    </select>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <input type="button" name="button" class="search-button" id="synchrinized-search-button" value="查询"/>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin:0 auto;width:98%;">
+                                                <div class="col-md-6 col-sm-12 col-xs-12" style="padding:20px;background:#666;text-align:center;color:#fff;">
+                                                    <span>源表 123,4 张表</span>
+                                                </div>
+                                                <div class="col-md-6 col-sm-12 col-xs-12" style="padding:20px;background:#999;text-align:center;color:#fff;">
+                                                    <span>元数据系统 123,4 张表</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="row" id="search-result-panel" style="margin:0 auto;width:100%;margin-top:40px;">
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="box box-default">
+                                                        <div class="box-header with-border" style="background:rgba(22,155,213,1);">
+                                                            <div class="pull-right">
+                                                                总数:108,9
+                                                            </div>
+                                                        </div>
+                                                        <div class="box-body">
+                                                            <div class="row">
+                                                                <div class="col-md-12 col-sm-12 col-xs-12 loading" id="toResultChartLoading">
+                                                                    <br>
+                                                                    <br>
+                                                                    <br>
+                                                                    <div class='loading-anim'>
+                                                                        <div class='border out'></div>
+                                                                        <div class='border in'></div>
+                                                                        <div class='border mid'></div>
+                                                                        <div class='circle'>
+                                                                            <span class='dot'></span>
+                                                                            <span class='dot'></span>
+                                                                            <span class='dot'></span>
+                                                                            <span class='dot'></span>
+                                                                            <span class='dot'></span>
+                                                                            <span class='dot'></span>
+                                                                            <span class='dot'></span>
+                                                                            <span class='dot'></span>
+                                                                            <span class='dot'></span>
+                                                                            <span class='dot'></span>
+                                                                            <span class='dot'></span>
+                                                                            <span class='dot'></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12 col-sm-12 col-xs-12" id="toResultChartPanel">
+                                                                    <table id="result_detail_table" class="table table-striped"
+                                                                           data-toggle="table"
+                                                                           data-show-export="true"
+                                                                           data-pagination="true"
+                                                                           data-click-to-select="true">
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="home" style="background:#eee;">
+                            <div class="row" style="margin:0 auto;padding-top:10px;">
+                                <div class="col-md-3">
+                                    <div class="box box-solid">
+                                        <div class="box-header with-border">
+                                            <!--<input type="text" placeholder=" 关键字查找" name="tree-filter" style="margin-left:20px;"/>-->
+
+                                            <h3 class="box-title">数据树</h3>
+                                            <div class="box-tools">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="box-body no-padding" style="overflow-x:auto;overflow-y:auto;height:750px;">
+                                            <ul id="treeDemo" class="ztree"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-9">
+                                    <div class="box box-solid">
+                                        <div class="box-header with-border" id="header-title">
+                                            <h3 class="box-title">面板</h3>
+                                        </div>
+
+                                        <div id="home-db-or-table" class="box-body no-padding" style="overflow-x:auto;overflow-y:auto;height:750px;">
+
+                                        </div>
+
+                                        <div class="box-footer no-padding">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="settings">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/html" id="repertory-click-panel-obj">
+
+        </script>
+    </section>
+    </div>
+</template>

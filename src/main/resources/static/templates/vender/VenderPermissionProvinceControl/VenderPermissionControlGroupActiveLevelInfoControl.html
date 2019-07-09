@@ -1,0 +1,117 @@
+<template name="VenderPermissionControlGroupActiveLevelInfoControl">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+
+            <div id="chartContent" class="template-dashboard content body">
+                <span style="color:red">注：</span><span>因取消订单业务导致每日需重跑历史数据以修正取消的订单数，由于数据量的限制，页面中统一只保证近两个月订单数据的准确性。</span>
+                <!--<span style="color:red">注：</span><span>只包含官网和M版流量</span>-->
+                <div class="row desktop-only c-border">
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请选择查看时间:</span>
+                        <!--<select  class="dateType" style="width: 120px;height: 34px;border-radius: 4px;padding: 6px 12px;">-->
+                        <!--<option value="daily">按日期选择</option>-->
+                        <!--<option value="weekly">按周选择</option>-->
+                        <!--<option value="monthly">按月选择</option>-->
+                        <!--</select>-->
+                        <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+
+                        <!--<a href="#" class="glyphicon glyphicon-question-sign pull-right" style="margin-top:1%;margin-bottom: 1%;" data-toggle="tooltip"-->
+                           <!--title="说明：&#10;因取消订单业务导致每日需重跑历史数据以修正取消的订单数，&#10;由于数据量的限制，页面中统一只保证近两个月订单数据的准确性。"></a>-->
+                        <!--<span>选择网址名:</span>-->
+                        <!--<select class="siteName" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">-->
+
+                        <!--</select>-->
+                        <!--<button class="btn btn-primary search">查询</button>-->
+
+                    </div>
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+
+                    </div>
+
+                </div>
+                <div class="row mobile-only desktop-none">
+                    <div>
+                        <span>请选择查看时间:</span>
+                        <!--<select  class="dateType" style=";width:200px;border-radius: 4px;padding: 6px 12px;">-->
+                        <!--<option value="daily">按日期选择</option>-->
+                        <!--&lt;!&ndash;<option value="weekly">按周选择</option>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<option value="monthly">按月选择</option>&ndash;&gt;-->
+                        <!--</select>-->
+                    </div>
+                    <div>
+                        <span>请选择起始时间:</span>
+                        <button type="button" style="border: 1px gray solid;width:200px;background-color:white" class="daily btn btn-default campaignStartDatePicker">
+                            <i class="fa fa-calendar"></i>
+                            <span class="startDateSelectLabel"></span>
+                            <i class="fa fa-caret-down" style="margin-left: 78px"></i>
+                        </button>
+                        <select  class="weekly startWeek" style="width:200px;border-radius: 4px;padding: 6px 12px;">
+
+                        </select>
+                    </div>
+                    <div>
+                        <span>请选择结束时间:</span>
+                        <button type="button" style="border: 1px gray solid;width:200px;background-color:white" class="daily btn btn-default campaignEndDatePicker">
+                            <i class="fa fa-calendar"></i>
+                            <span class="endDateSelectLabel"></span>
+                            <i class="fa fa-caret-down" style="margin-left: 78px"></i>
+                        </button>
+                        <select  class="weekly endWeek" style="width:200px;border-radius: 4px;padding: 6px 12px;">
+
+                        </select>
+                    </div>
+                </div>
+                <div >
+
+                    <label style="margin-top:20px">总账户爱机汇质检错误统计</label>
+                    <div id="atable" class="row" style="margin-top: 15px;border: 1px solid gray">
+                        <div style="text-align: center;margin-top: 150px" id="loadinga">
+                            <img src="/images/loading.gif">
+                        </div>
+                        <div id="righta" class="col-md-12 col-sm-12 col-xs-12" style="">
+                            <table id="tablea"
+                                   data-toggle="table"
+                                   data-show-export="true"
+                                   data-pagination="true"
+                                   data-click-to-select="true"
+                            >
+                                <thead>
+                                <tr>
+                                    <th data-field="vender_group_name" data-sortable="true">门店名称</th>
+                                    <th data-field="vender_group_key" data-sortable="true">门店id</th>
+                                    <th data-field="vender_name" data-sortable="true">门店店长</th>
+                                    <th data-field="vender_mobile_txt" data-sortable="true">门店店长联系方式</th>
+                                    <th data-field="month" data-sortable="true">月份</th>
+                                    <th data-field="submit_count" data-sortable="true">门店提交单量</th>
+                                    <th data-field="success_count" data-sortable="true">门店成交单量</th>
+                                    <th data-field="rank" data-sortable="true">门店对应级别</th>
+                                </tr>
+                                </thead>
+
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+                <!--<div class="row" style="margin-top: 3%">-->
+                    <!--<div class="rte col-md-12 col-sm-12 col-xs-12">-->
+                        <!--<table id="marketingWebTrafficDataTable" class="display compact cell-border" cellspacing="0"-->
+                               <!--width="100%"></table>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            </div>
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

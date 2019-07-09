@@ -1,0 +1,73 @@
+<template name="OnWayAnalysisTemplate">
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <div class="template-inspector content body">
+
+                <div class=" col-md-12 col-sm-12 col-xs-12" >
+                    <div class="row box box-primary " data-value="1" style="width: auto;">
+                        <div class="box-header with-border">
+                            <h3 class="box-title" style="border-style: none;font-weight: bold">实时在途情况分析</h3>
+                        </div><!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="row" style="margin: 0 15px;">
+                                <table id="rtTable"
+                                       data-toggle="table"
+                                       data-show-export="true"
+                                       data-pagination="true"
+                                       data-search="true"
+                                       data-click-to-select="true"
+                                >
+                                    <!--<thead>
+                                    <tr>
+                                        <th data-field="warehouse" data-sortable="true">仓库</th>
+                                        <th data-field="logisStatus" data-sortable="true">发货单状态</th>
+                                        <th data-field="settleStatus" data-sortable="true">结算单状态</th>
+                                        <th data-field="value" data-sortable="true">出库单状态</th>
+                                        <th data-field="TotalCount" data-sortable="true">数量</th>
+                                        <th data-field="SettleAmount" data-sortable="true">金额</th>
+
+                                    </tr>
+                                    </thead>-->
+
+
+                                </table>
+
+                            </div>
+                        </div><!-- /.box-body -->
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">
+
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <table id="modalContent" data-toggle="table"
+                                       data-show-export="true"
+                                       data-pagination="true"
+                                       data-click-to-select="true"></table>
+                            </div>
+                            <!--<div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    关闭
+                                </button>
+                               &lt;!&ndash; <button type="button" class="btn btn-primary">
+                                    提交更改
+                                </button>&ndash;&gt;
+                            </div>-->
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </div>
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

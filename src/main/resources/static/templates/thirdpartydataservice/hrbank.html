@@ -1,0 +1,46 @@
+<template name="hrbank">
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title" style="border-style: none;font-weight: bold">成交订单数据图表</h3>
+
+                    <div class="box-tools pull-right">
+                        <label>
+                            <select class="form-control dateTypeSelect pull-left"
+                                    style="width: 100%">
+                                <option selected="selected" value="tradeDaily">按日期查看</option>
+                                <option value="tradeWeekly">按周查看</option>
+                                <option value="tradeMonthly">按月查看</option>
+                            </select>
+                        </label>
+                        <button type="button" class="btn btn-primary reportRange pull-right">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel">最近30天</span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="btn btn-primary reportWeekRange pull-right hide">
+                            <i class="fa fa-calendar"></i>
+                            <span class="weekSelectLabel">选择周范围</span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="btn btn-primary reportMonthRange pull-right hide">
+                            <i class="fa fa-calendar"></i>
+                            <span class="monthSelectLabel">选择月范围</span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div id="dateInDealReport" class="col-md-12 col-sm-12 col-xs-12" style="height:400px"></div>
+                        <div id="dateOutDealReport" class = "col-md-12 col-sm-12 col-xs-12" style="height:400px"></div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </section>
+
+    </div>
+</template>

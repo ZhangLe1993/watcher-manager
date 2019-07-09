@@ -1,0 +1,105 @@
+<template name="AHSRTBidding">
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <div class="template-inspector content body">
+
+                <p><span style="color: red">注：</span>暂不含直接结算单。</p>
+                <div class="row box box-primary" style="width: auto;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">实时销售数据</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row" style="">
+                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                <div class="small-box bg-light-blue">
+                                    <div class="inner" style="cursor: pointer">
+                                        <h3 name="" id="saleAHSNum">……</h3>
+                                        <p>爱回收销售量 (点击下载数据)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                <div class="small-box bg-light-blue">
+                                    <div class="inner" style="cursor: pointer">
+                                        <h3 name="" id="saleAHSAmount">……</h3>
+                                        <p>爱回收销售额</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <p>注: 爱回收统计维度按<b><u>出库</u></b>生成</p>
+                    </div>
+
+                </div>
+
+                <div class="row box box-primary" style="width: auto;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">实时库存数据</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row" style="">
+
+                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                <div class="small-box bg-light-blue">
+                                    <div class="inner" style="cursor: pointer">
+                                        <h3 name="" id="inventoryAHSNum">……</h3>
+                                        <p>爱回收库存量</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                <div class="small-box bg-light-blue">
+                                    <div class="inner" style="cursor: pointer">
+                                        <h3 name="" id="inventoryAHSAmount">……</h3>
+                                        <p>爱回收库存额</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div  class="col-md-12 col-sm-12 col-xs-12" >
+                                <table id="inventoryTable" class="table table-striped"
+                                       data-toggle="table"
+                                       data-show-export="true"
+                                       data-pagination="true"
+                                       data-click-to-select="true"></table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!--modal-->
+                <div>
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">
+
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <table id="modalContent" data-toggle="table"
+                                           data-show-export="true"
+                                           data-pagination="true"
+                                           data-click-to-select="true"></table>
+                                </div>
+                                <!--<div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                        关闭
+                                    </button>
+                                   &lt;!&ndash; <button type="button" class="btn btn-primary">
+                                        提交更改
+                                    </button>&ndash;&gt;
+                                </div>-->
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                </div>
+
+            </div>
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

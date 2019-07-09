@@ -1,0 +1,184 @@
+<template name="BiddingEmpty">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <!-- Your Page Content Here -->
+            <div class="row">
+
+                <div class="col-md-12 col-xs-12">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs row">
+                            <li class="active col-md-2 col-xs-12"><a href="#category" data-toggle="tab">品类品牌</a></li>
+                            <li class=" col-md-2 col-xs-12" ><a href="#recycler" data-toggle="tab">回收商</a></li>
+
+                        </ul>
+                        <div class="tab-content">
+                            <div class="active tab-pane" id="category">
+                                <div class="row c-border" style="padding-left: 15px;padding-right: 15px;margin:0px">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 "
+                                         style="display:flex;flex-wrap:wrap;">
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <span>类型:</span><span style="visibility: hidden;">区</span>
+                                            <select class="type"  style=";border-radius: 4px;padding: 6px 12px;width:150px">
+                                                <option value="daily">按日查看</option>
+                                                <option value="weekly">按周查看</option>
+                                                <option value="monthly">按月查看</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <span style="">时间:</span><span style="visibility: hidden;">区</span>
+                                            <button type="button" style="border: 1px gray solid;background-color:white"
+                                                    class="daily btn btn-default datePicker">
+                                                <i class="fa fa-calendar"></i>
+                                                <span class="selectLabel">2017-01-01~2017-01-01</span>
+                                                <i class="fa fa-caret-down" style="margin-left: 28px"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <span>品类:</span><span style="visibility: hidden;">区</span>
+                                            <select class="category" multiple="multiple"  style=";border-radius: 4px;padding: 6px 12px;">
+
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <span>品牌:</span><span style="visibility: hidden;">区</span>
+                                            <select class="brand" multiple="multiple" style=";border-radius: 4px;padding: 6px 12px;">
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <span>回收商:</span>
+                                            <select class="recycler" multiple="multiple" style=";border-radius: 4px;padding: 6px 12px;">
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <span style="visibility: hidden;">区区域:</span>
+                                            <button class="btn btn-primary search" style="padding: 2px 60px;height: 34px">
+                                                查询
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div id="categoryHistoryChart" style="height: 400px"></div>
+                                    </div>
+                                </div>
+                                <div class="row box box-primary" style="width: auto;">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title" style="border-style: none;font-weight: bold">实时数据</h3>
+
+                                </div><!-- /.box-header -->
+                                <div class="box-body">
+                                    <div  class="col-md-12 col-sm-12 col-xs-12" style="">
+                                        <table id="categoryRecyclerTable"
+                                               data-toggle="table"
+                                               data-show-export="true"
+                                               data-pagination="true"
+                                               data-click-to-select="true"
+                                        >
+                                            <thead>
+                                            <tr>
+                                                <th data-field="recycler" data-sortable="true">回收商</th>
+                                                <th data-field="category" data-sortable="true">品类</th>
+                                                <th data-field="brand" data-sortable="true">品牌</th>
+                                                <th data-field="count" data-sortable="true">最高竞价清零数量</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+
+                                    </div>
+                                    <div  class="col-md-12 col-sm-12 col-xs-12" style="">
+                                        <table id="categoryTable"
+                                               data-toggle="table"
+                                               data-show-export="true"
+                                               data-pagination="true"
+                                               data-click-to-select="true"
+                                        >
+                                        </table>
+
+                                    </div>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                            </div>
+                            <div class=" tab-pane" id="recycler">
+                                <div class="row c-border" style="padding-left: 15px;padding-right: 15px;margin:0px">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 "
+                                         style="display:flex;flex-wrap:wrap;">
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <span>类型:</span><span style="visibility: hidden;">区</span>
+                                            <select class="type"  style=";border-radius: 4px;padding: 6px 12px;width:150px">
+                                                <option value="daily">按日查看</option>
+                                                <option value="weekly">按周查看</option>
+                                                <option value="monthly">按月查看</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <span style="width: 100px">时间:</span><span style="visibility: hidden;">区:</span>
+                                            <button type="button" style="border: 1px gray solid;background-color:white"
+                                                    class="daily btn btn-default datePicker">
+                                                <i class="fa fa-calendar"></i>
+                                                <span class="selectLabel">2017-01-01~2017-01-01</span>
+                                                <i class="fa fa-caret-down" style="margin-left: 28px"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <span>品类:</span><span style="visibility: hidden;">区:</span>
+                                            <select class="category" multiple="multiple"  style=";border-radius: 4px;padding: 6px 12px;">
+
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <span>品牌:</span><span style="visibility: hidden;">区:</span>
+                                            <select class="brand" multiple="multiple" style=";border-radius: 4px;padding: 6px 12px;">
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <span>回收商:</span>
+                                            <select class="recycler" multiple="multiple" style=";border-radius: 4px;padding: 6px 12px;">
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <span style="visibility: hidden;">区域域:</span>
+                                            <button class="btn btn-primary search" style="padding: 2px 60px;height: 34px">
+                                                查询
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div id="recyclerHistoryChart" style="height: 400px"></div>
+                                    </div>
+                                </div>
+                                <div class="row box box-primary" style="width: auto;">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title" style="border-style: none;font-weight: bold">实时数据</h3>
+
+                                    </div><!-- /.box-header -->
+                                    <div class="box-body">
+
+                                        <div  class="col-md-12 col-sm-12 col-xs-12" style="">
+                                            <table id="recyclerTable"
+                                                   data-toggle="table"
+                                                   data-show-export="true"
+                                                   data-pagination="true"
+                                                   data-click-to-select="true"
+                                            >
+                                            </table>
+
+                                        </div>
+                                    </div><!-- /.box-body -->
+                                </div><!-- /.box -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

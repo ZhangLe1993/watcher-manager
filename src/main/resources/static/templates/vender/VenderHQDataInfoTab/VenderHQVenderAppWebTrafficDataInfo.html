@@ -1,0 +1,156 @@
+<template name="VenderHQVenderAppWebTrafficDataInfo">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+
+            <div id="chartContent" class="template-dashboard content body">
+
+                <span style="color:red">注：</span><span>数据从2017/09/01开始记录，下单率=点击开始下单/询价总量</span>
+                                <!--<span style="color:red">注：</span><span>只包含官网和M版流量</span>-->
+                <div class="row desktop-only c-border">
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请选择查看时间:</span>
+                        <!--<select  class="dateType" style="width: 120px;height: 34px;border-radius: 4px;padding: 6px 12px;">-->
+                            <!--<option value="daily">按日期选择</option>-->
+                            <!--<option value="weekly">按周选择</option>-->
+                            <!--<option value="monthly">按月选择</option>-->
+                        <!--</select>-->
+                        <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+
+                        <!--<a href="#" class="glyphicon glyphicon-question-sign pull-right" style="margin-top:1%;margin-bottom: 1%;" data-toggle="tooltip"-->
+                           <!--title="说明：&#10;数据从2017/09/01开始记录-->
+<!--下单率=点击开始下单/询价总量-->
+                           <!--"></a>-->
+                        <!--<span>选择网址名:</span>-->
+                        <!--<select class="siteName" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">-->
+
+                        <!--</select>-->
+                        <!--<button class="btn btn-primary search">查询</button>-->
+
+                    </div>
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+
+                    </div>
+
+                </div>
+                <div class="row mobile-only desktop-none">
+                    <div>
+                        <span>请选择查看时间:</span>
+                        <!--<select  class="dateType" style=";width:200px;border-radius: 4px;padding: 6px 12px;">-->
+                            <!--<option value="daily">按日期选择</option>-->
+                            <!--&lt;!&ndash;<option value="weekly">按周选择</option>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<option value="monthly">按月选择</option>&ndash;&gt;-->
+                        <!--</select>-->
+                    </div>
+                    <div>
+                        <span>请选择起始时间:</span>
+                        <button type="button" style="border: 1px gray solid;width:200px;background-color:white" class="daily btn btn-default campaignStartDatePicker">
+                            <i class="fa fa-calendar"></i>
+                            <span class="startDateSelectLabel"></span>
+                            <i class="fa fa-caret-down" style="margin-left: 78px"></i>
+                        </button>
+                        <select  class="weekly startWeek" style="width:200px;border-radius: 4px;padding: 6px 12px;">
+
+                        </select>
+                    </div>
+                    <div>
+                        <span>请选择结束时间:</span>
+                        <button type="button" style="border: 1px gray solid;width:200px;background-color:white" class="daily btn btn-default campaignEndDatePicker">
+                            <i class="fa fa-calendar"></i>
+                            <span class="endDateSelectLabel"></span>
+                            <i class="fa fa-caret-down" style="margin-left: 78px"></i>
+                        </button>
+                        <select  class="weekly endWeek" style="width:200px;border-radius: 4px;padding: 6px 12px;">
+
+                            <!--<div class="">-->
+                                <!--<span>请选择网址名:</span>-->
+                                <!--<select  class="siteName" style="margin-left: 28px;width:200px;border-radius: 4px;padding: 6px 12px;">-->
+
+                                <!--</select>-->
+                            <!--</div>-->
+
+                            <!--<div>-->
+                                <!--<button class="btn btn-primary search">查询</button>-->
+                            <!--</div>-->
+
+                        </select>
+                    </div>
+                </div>
+                <div style="text-align: center;margin-top: 150px" id="webTrafficLoading">
+                    <img src="/images/loading.gif">
+                </div>
+                <div >
+
+                    <!--APP横向柱状图-->
+                    <div id="appBarChart" class=" col-md-12 col-sm-12 col-xs-12"
+                         style="height:400px;">
+
+
+                    </div>
+
+                    <!--App折线图-->
+                    <div id="appLineChart" class=" col-md-12 col-sm-12 col-xs-12"
+                         style="height:400px;">
+
+
+                    </div>
+
+                    <label style="margin-top:20px">爱机汇app</label>
+                    <div id="collectTable" class="row" style="margin-top: 15px;border: 1px solid gray">
+
+                        <div id="collectVender" class="col-md-12 col-sm-12 col-xs-12" style="">
+                            <table id="tableCollect"
+                                   data-toggle="table"
+                                   data-show-export="false"
+                                   data-pagination="false"
+                                   data-click-to-select="false"
+                            >
+                                <thead>
+                                <tr>
+                                    <th data-field="groupCnt" data-sortable="true">门店注册量</th>
+                                    <th data-field="venderCnt" data-sortable="true">子账户注册量</th>
+                                    <th data-field="openUv" data-sortable="true">app开启量</th>
+                                    <th data-field="inquiryCnt" data-sortable="true">询价总量</th>
+                                    <th data-field="validateCnt" data-sortable="true">点击发送验证码</th>
+                                    <th data-field="phoneCnt" data-sortable="true">验证手机号成功</th>
+                                    <th data-field="startSubmitCnt" data-sortable="true">点击开始下单</th>
+                                    <th data-field="idCnt" data-sortable="true">输入身份证</th>
+                                    <th data-field="endSubmitCnt" data-sortable="true">订单提交成功</th>
+                                    <th data-field="uploadImageCnt" data-sortable="true">照片上传成功</th>
+                                </tr>
+                                </thead>
+
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                    <!--标准定价横向柱状图-->
+                    <div id="priceBarChart" class=" col-md-12 col-sm-12 col-xs-12"
+                         style="height:400px;">
+
+
+                    </div>
+
+                    <!--标准定价折线图-->
+                    <div id="priceLineChart" class=" col-md-12 col-sm-12 col-xs-12"
+                         style="height:400px;">
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

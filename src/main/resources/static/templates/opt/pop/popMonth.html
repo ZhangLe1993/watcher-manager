@@ -1,0 +1,618 @@
+<template name="popMonth">
+    <style>
+
+        /*数字区域加载动画css*/
+        .spinner {
+            width: 100px;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .spinner > div {
+            width: 10px;
+            height: 10px;
+            background-color: #747474;
+
+            border-radius: 100%;
+            display: inline-block;
+            -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+            animation: bouncedelay 1.4s infinite ease-in-out;
+            /* Prevent first frame from flickering when animation starts */
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+
+        .spinner .bounce1 {
+            -webkit-animation-delay: -0.32s;
+            -moz-animation-delay: -0.32s;
+            -ms-animation-delay: -0.32s;
+            -o-animation-delay: -0.32s;
+            animation-delay: -0.32s;
+        }
+
+        .spinner .bounce2 {
+            -webkit-animation-delay: -0.16s;
+            -moz-animation-delay: -0.16s;
+            -ms-animation-delay: -0.16s;
+            -o-animation-delay: -0.16s;
+            animation-delay: -0.16s;
+        }
+
+        @-webkit-keyframes bouncedelay {
+            0%, 80%, 100% { -webkit-transform: scale(0.0) }
+            40% { -webkit-transform: scale(1.0) }
+        }
+
+        @-moz-keyframes bouncedelay {
+            0%, 80%, 100% { -moz-transform: scale(0.0) }
+            40% { -moz-transform: scale(1.0) }
+        }
+
+        @-ms-keyframes bouncedelay {
+            0%, 80%, 100% { -ms-transform: scale(0.0) }
+            40% { -ms-transform: scale(1.0) }
+        }
+
+        @-o-keyframes bouncedelay {
+            0%, 80%, 100% { -o-transform: scale(0.0) }
+            40% { -o-transform: scale(1.0) }
+        }
+
+        @keyframes bouncedelay {
+            0%, 80%, 100% {
+                transform: scale(0.0);
+                -webkit-transform: scale(0.0);
+                -moz-transform: scale(0.0);
+                -ms-transform: scale(0.0);
+                -o-transform: scale(0.0);
+            } 40% {
+                  transform: scale(1.0);
+                  -webkit-transform: scale(1.0);
+                  -moz-transform: scale(0.0);
+                  -ms-transform: scale(0.0);
+                  -o-transform: scale(0.0);
+              }
+        }
+
+
+
+        .body-div-pro{
+            border-top:1px solid #eee;border-top-width:5px;
+        }
+
+        .info-box-resize{
+            height:45px;min-height:45px;
+        }
+
+        .info-box-icon-resize{
+            height:45px;line-height:45px;
+        }
+
+        .bg-green-resize{
+            background-color: #3c8dbc !important;
+        }
+
+        @media screen and (max-width:1600px) {
+            .description-fo-title {
+                font-size:10px;
+                color: #3e3e3e;
+                font-weight: BOLD;
+            }
+            .description-fo {
+                font-size:12px;
+                /*color:#999;*/
+                font-weight: BOLD;
+            }
+            .box-title-resize {
+                font-size:12px !important;
+                font-weight: bold;
+            }
+            .box-subtitle-resize {
+                font-size:12px !important;
+                /*font-weight: bold;*/
+            }
+            .h1-resize{
+                position:relative;font-size:12px;font-weight:600;width:180px;
+            }
+        }
+
+        /*大于1600px*/
+        /*数字区域加载动画css结束*/
+        @media screen and (min-width:1600px) {
+            .description-fo-title {
+                font-size:14px;
+                color:#3e3e3e;
+                font-weight: BOLD;
+            }
+
+            .description-fo {
+                font-size:18px;
+                /*color: #259987;*/
+                /*font-weight: BOLD;*/
+                font-weight: bold;
+            }
+            .box-title-resize {
+                font-size:18px !important;
+                font-weight: bold;
+            }
+            .box-subtitle-resize {
+                font-size:15px !important;
+                /*font-weight: bold;*/
+            }
+            .h1-resize{
+                position:relative;font-size:18px;font-weight:600;width:180px;
+            }
+        }
+    </style>
+    <div class="content-wrapper" style="background:#eee;">
+        <section class="content">
+            <!-- 提交 -->
+            <div class="row" style="width:100%;margin:0 auto;">
+                <div class="box box-widget">
+                    <div class="box-header with-border">
+                        <div class="row" style="width:100%;margin:0 auto;">
+                            <ul class="nav ui-sortable-handle">
+                                <li class="pull-left header">
+                                    <img class="img-rounded" style="margin-left:-15px;margin-top:-6px;" src="/assets/icon/shugang_blue.png" width="30px" height="20px" alt=""/>
+                                    <h3 class="box-title box-title-resize">提交&nbsp;
+                                        <span href="#" class="glyphicon glyphicon-question-sign" style="color:#3c8dbc;top:2px"
+                                              data-toggle="tooltip" data-html="true"
+                                              data-placement="top" title="提示内容：　　　　　　　　　　　　　1.提交用户数：提交订单的店员数量，剔除取消订单。　　　　　　　　　　　　2.提交订单数：提交的订单数量，剔除取消订单。　　　　　　　　　　　　　　3.提交订单金额：提交的订单金额(询价金额)，剔除取消订单。"></span>
+                                    </h3>
+                                </li>
+                                <li class="pull-right header" style="background-color: #fff;top:2px;">
+                                    <span>业务方:</span>
+                                    <select style="background-color: #fff;" id="service-submit" class="selectpicker" multiple
+                                            data-live-search="true"
+                                            data-width="150px"
+                                            data-actions-box="true"
+                                    >
+                                    </select>
+                                </li>
+                                <li class="pull-right header">
+                                    <h5 class="description-header box-subtitle-resize" style="text-align:right;margin-right:15px;">
+                                        <span>更新时间:</span> <span id="cacheUpdateTime"></span>
+                                    </h5>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="box-body" style="background:#eee;border:10px solid #fff;">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="box box-solid">
+                                    <div class="box-header">
+                                        <i class="fa fa-bar-chart-o"></i>
+                                        <h3 class="box-title box-title-resize">全国月累计</h3>
+                                    </div>
+                                    <div class="box-body body-div-pro">
+                                        <div class="row">
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo-title">指标</span></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo-title">本月</span></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo-title">上月同期</span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="box-body body-div-pro">
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo-title">提交用户数</span></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="currentCustomerLoadingPanel" style="display: none;">
+                                                <div class="description-block">
+                                                    <div class="spinner">
+                                                        <div class="bounce1"></div>
+                                                        <div class="bounce2"></div>
+                                                        <div class="bounce3"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="currentCustomerPanel" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo" id="currentCustomerNum">0</span></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="lastCustomerLoadingPanel" style="display: none;">
+                                                <div class="description-block">
+                                                    <div class="spinner">
+                                                        <div class="bounce1"></div>
+                                                        <div class="bounce2"></div>
+                                                        <div class="bounce3"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="lastCustomerPanel" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo" id="lastCustomerNum">0</span></span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="box-body body-div-pro">
+                                        <div class="row">
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo-title">提交订单数</span></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="currentOrderLoadingPanel" style="display: none;">
+                                                <div class="description-block">
+                                                    <div class="spinner">
+                                                        <div class="bounce1"></div>
+                                                        <div class="bounce2"></div>
+                                                        <div class="bounce3"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="currentOrderPanel" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo" id="currentOrderNum">0</span></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="lastOrderLoadingPanel" style="display: none;">
+                                                <div class="description-block">
+                                                    <div class="spinner">
+                                                        <div class="bounce1"></div>
+                                                        <div class="bounce2"></div>
+                                                        <div class="bounce3"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="lastOrderPanel" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo" id="lastOrderNum">0</span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="box-body body-div-pro">
+                                        <div class="row">
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo-title">提交订单金额</span></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="currentAmountLoadingPanel" style="display: none;">
+                                                <div class="description-block">
+                                                    <div class="spinner">
+                                                        <div class="bounce1"></div>
+                                                        <div class="bounce2"></div>
+                                                        <div class="bounce3"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="currentAmountPanel" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo" id="currentAmountNum">0</span></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="lastAmountLoadingPanel" style="display: none;">
+                                                <div class="description-block">
+                                                    <div class="spinner">
+                                                        <div class="bounce1"></div>
+                                                        <div class="bounce2"></div>
+                                                        <div class="bounce3"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="lastAmountPanel" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo" id="lastAmountNum">0</span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-solid">
+                                    <div class="box-header">
+                                        <i class="fa fa-bar-chart-o"></i>
+                                        <h3 class="box-title box-title-resize">分省份月累计&nbsp;
+                                            <a href="#" class="glyphicon glyphicon-question-sign pull-right" style="color:#3c8dbc;"
+                                               data-toggle="tooltip" data-html="true"
+                                               data-placement="top" title="1、条形图括号内数据统计周期分别为：本月、上月同期　　　　　　　　　　　2、左侧坐标轴显示数据为：提交用户数"></a></h3>
+
+                                        <div class="box-tools pull-right">
+
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="chart tab-pane active" id="provinceChart" style="position: relative; height: 700px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-solid">
+                                    <div class="box-header">
+                                        <i class="fa fa-bar-chart-o"></i>
+                                        <h3 class="box-title box-title-resize">分省份月累计&nbsp;
+                                            <a href="#" class="glyphicon glyphicon-question-sign pull-right" style="color:#3c8dbc;"
+                                               data-toggle="tooltip" data-html="true"
+                                               data-placement="top" title="1、条形图括号内数据统计周期分别为：本月、上月同期　　　　　　　　　　　2、左侧坐标轴显示数据为：提交用户数"></a></h3>
+
+                                        <div class="box-tools pull-right">
+
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="chart tab-pane active" id="provinceChart2" style="position: relative; height: 700px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 成交 -->
+            <div class="row" style="width:100%;margin:0 auto;">
+                <div class="box box-widget">
+                    <div class="box-header with-border">
+                        <div class="row" style="width:100%;margin:0 auto;">
+                            <ul class="nav ui-sortable-handle">
+                                <li class="pull-left header">
+                                    <img class="img-rounded" style="margin-left:-15px;margin-top:-6px;" src="/assets/icon/shugang_blue.png" width="30px" height="20px" alt=""/>
+                                    <h3 class="box-title box-title-resize">成交&nbsp;
+                                        <span href="#" class="glyphicon glyphicon-question-sign" style="color:#3c8dbc;top:2px"
+                                              data-toggle="tooltip" data-html="true"
+                                              data-placement="top" title="提示内容：　　　　　　　　　　　　　1.成交用户数：成交订单的店员数量。　2.成交订单数：成交的订单数量。　　　3.成交订单金额：成交的订单金额(结算金额)。"></span>
+                                    </h3>
+                                </li>
+                                <li class="pull-right header" style="background-color: #fff;top:2px;">
+                                    <span>业务方:</span>
+                                    <select style="background-color: #fff;" id="service-success" class="selectpicker" multiple
+                                            data-live-search="true"
+                                            data-width="150px"
+                                            data-actions-box="true"
+                                    >
+                                    </select>
+                                </li>
+                                <li class="pull-right header">
+                                    <h5 class="description-header box-subtitle-resize" style="text-align:right;margin-right:15px;">
+                                        <span>更新时间:</span> <span id="successCacheUpdateTime"></span>
+                                    </h5>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="box-body" style="background:#eee;border:10px solid #fff;">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="box box-solid">
+                                    <div class="box-header">
+                                        <i class="fa fa-bar-chart-o"></i>
+                                        <h3 class="box-title box-title-resize">全国月累计</h3>
+                                    </div>
+                                    <div class="box-body body-div-pro">
+                                        <div class="row">
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo-title">指标</span></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo-title">本月</span></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo-title">上月同期</span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="box-body body-div-pro">
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo-title">提交用户数</span></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="successCurrentCustomerLoadingPanel" style="display: none;">
+                                                <div class="description-block">
+                                                    <div class="spinner">
+                                                        <div class="bounce1"></div>
+                                                        <div class="bounce2"></div>
+                                                        <div class="bounce3"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="successCurrentCustomerPanel" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo" id="successCurrentCustomerNum">0</span></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="successLastCustomerLoadingPanel" style="display: none;">
+                                                <div class="description-block">
+                                                    <div class="spinner">
+                                                        <div class="bounce1"></div>
+                                                        <div class="bounce2"></div>
+                                                        <div class="bounce3"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="successLastCustomerPanel" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo" id="successLastCustomerNum">0</span></span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="box-body body-div-pro">
+                                        <div class="row">
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo-title">提交订单数</span></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="successCurrentOrderLoadingPanel" style="display: none;">
+                                                <div class="description-block">
+                                                    <div class="spinner">
+                                                        <div class="bounce1"></div>
+                                                        <div class="bounce2"></div>
+                                                        <div class="bounce3"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="successCurrentOrderPanel" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo" id="successCurrentOrderNum">0</span></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="successLastOrderLoadingPanel" style="display: none;">
+                                                <div class="description-block">
+                                                    <div class="spinner">
+                                                        <div class="bounce1"></div>
+                                                        <div class="bounce2"></div>
+                                                        <div class="bounce3"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="successLastOrderPanel" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo" id="successLastOrderNum">0</span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="box-body body-div-pro">
+                                        <div class="row">
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo-title">提交订单金额</span></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="successCurrentAmountLoadingPanel" style="display: none;">
+                                                <div class="description-block">
+                                                    <div class="spinner">
+                                                        <div class="bounce1"></div>
+                                                        <div class="bounce2"></div>
+                                                        <div class="bounce3"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="successCurrentAmountPanel" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo" id="successCurrentAmountNum">0</span></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="successLastAmountLoadingPanel" style="display: none;">
+                                                <div class="description-block">
+                                                    <div class="spinner">
+                                                        <div class="bounce1"></div>
+                                                        <div class="bounce2"></div>
+                                                        <div class="bounce3"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-4 border-right" id="successLastAmountPanel" style="display: block;">
+                                                <div class="description-block">
+                                                    <span class="description-text"><span class="description-fo" id="successLastAmountNum">0</span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-solid">
+                                    <div class="box-header">
+                                        <i class="fa fa-bar-chart-o"></i>
+                                        <h3 class="box-title box-title-resize">分省份月累计&nbsp;
+                                            <a href="#" class="glyphicon glyphicon-question-sign pull-right" style="color:#3c8dbc;"
+                                               data-toggle="tooltip" data-html="true"
+                                               data-placement="top" title="1、条形图括号内数据统计周期分别为：本月、上月同期　　　　　　　　　　　2、左侧坐标轴显示数据为：成交用户数"></a></h3>
+
+                                        <div class="box-tools pull-right">
+
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="chart tab-pane active" id="successProvinceChart" style="position: relative; height: 700px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-solid">
+                                    <div class="box-header">
+                                        <i class="fa fa-bar-chart-o"></i>
+                                        <h3 class="box-title box-title-resize">分省份月累计&nbsp;
+                                            <a href="#" class="glyphicon glyphicon-question-sign pull-right" style="color:#3c8dbc;"
+                                               data-toggle="tooltip" data-html="true"
+                                               data-placement="top" title="1、条形图括号内数据统计周期分别为：本月、上月同期　　　　　　　　　　　2、左侧坐标轴显示数据为：成交用户数"></a></h3>
+
+                                        <div class="box-tools pull-right">
+
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="chart tab-pane active" id="successProvinceChart2" style="position: relative; height: 700px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</template>
