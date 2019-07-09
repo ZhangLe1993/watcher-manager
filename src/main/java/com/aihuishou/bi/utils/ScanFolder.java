@@ -1,5 +1,6 @@
 package com.aihuishou.bi.utils;
 
+import com.aihuishou.bi.core.SysConf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +29,7 @@ public class ScanFolder {
                     if (file2.isDirectory()) {
                         traverseFolder(file2.getAbsolutePath());
                     }else if(file2.isFile()) {
-                        inFiles.add(file2.getAbsolutePath().replace(".html", "").replace(".js",""));
+                        inFiles.add(file2.getAbsolutePath().replace(SysConf.REST_HTML_SUFFIX, "").replace(SysConf.REST_JS_SUFFIX,""));
                     }
                 }
             }

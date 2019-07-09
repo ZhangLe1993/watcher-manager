@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ResourceUtils;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +20,8 @@ public class SysUtils {
     private static Map<String, String> positionMap = new HashMap<>();
 
     public static void load() throws FileNotFoundException {
-        String path = ResourceUtils.getURL(ResourceUtils.CLASSPATH_URL_PREFIX + SysConf.OLD_FILE_FOLDER).getPath();
+        String path = SysUtils.class.getProtectionDomain().getCodeSource().getLocation().getPath() + File.separator + SysConf.OLD_FILE_FOLDER;
+        //String path = ResourceUtils.getURL(ResourceUtils.CLASSPATH_URL_PREFIX + SysConf.OLD_FILE_FOLDER).getPath();
         Set<String> files = ScanFolder.traverseFolder(path);
         assert files != null;
         positionMap = files.stream().collect(Collectors.toMap(p -> StringUtils.substringAfterLast(getAfter(getUrl(p),SysConf.URL_SEPARATOR + SysConf.OLD_FILE_FOLDER), SysConf.URL_SEPARATOR), p -> getAfter(getUrl(p),SysConf.URL_SEPARATOR + SysConf.OLD_FILE_FOLDER),(oldVal, currVal) -> currVal));
