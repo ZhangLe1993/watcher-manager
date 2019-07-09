@@ -37,7 +37,8 @@ public class SysService {
 
     @Cacheable(value = "position-map", keyGenerator = "watcherManagerKeyGenerator")
     public Map<String, String> getPositionMap() {
-        Set<String> files = ScanFolder.traverseFolder(path);
+        String target = path + SysConf.OLD_FILE_FOLDER;
+        Set<String> files = ScanFolder.traverseFolder(target);
         assert files != null;
         Map<String, String> positionMap = files.parallelStream().collect(Collectors.toMap(p -> StringUtils.substringAfterLast(getAfter(getUrl(p), SysConf.URL_SEPARATOR + SysConf.OLD_FILE_FOLDER), SysConf.URL_SEPARATOR), p -> getAfter(getUrl(p),SysConf.URL_SEPARATOR + SysConf.OLD_FILE_FOLDER),(oldVal, currVal) -> currVal));
         logger.info(positionMap.toString());
