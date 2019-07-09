@@ -1,8 +1,9 @@
 package com.aihuishou.bi.controller;
 
 import com.aihuishou.bi.core.SysConf;
-import com.aihuishou.bi.utils.SysUtils;
+import com.aihuishou.bi.service.SysService;
 import com.google.common.collect.ImmutableMap;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +17,13 @@ import java.util.Map;
 @RequestMapping(value = "/route")
 public class RouteController {
 
+    @Autowired
+    private SysService sysService;
+
+
     @RequestMapping("/base")
     public String loadHtml(@RequestParam(value = "position") String position, ModelMap model) throws FileNotFoundException {
-        Map<String, String> positionMap = SysUtils.getPositionMap();
+        Map<String, String> positionMap = sysService.getPositionMap();
         String loadName = positionMap.get(position) + SysConf.REST_JS_SUFFIX;
         String staticName = positionMap.get(position) + SysConf.REST_HTML_SUFFIX;
         model.addAttribute("model" , ImmutableMap.of("position", position, "loadName", loadName, "staticName", staticName));

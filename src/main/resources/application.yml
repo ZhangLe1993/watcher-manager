@@ -33,3 +33,7 @@ proxy:
         servlet_url: /watcher/*
         target_url: http://watcher.intra.aihuishou.com:8809/watcher
         logging_enabled: true
+
+
+watcher:
+  templates: D:\workspace\IntelliJ\refact\watcher-manager\target\classes\

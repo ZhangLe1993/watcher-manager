@@ -6,7 +6,7 @@ spring:
   redis:
     host: 10.81.44.187
     password: 123456
-    database: 1
+    database: 14
   thymeleaf:
     servlet:
       content-type: text/html
@@ -23,3 +23,7 @@ server:
 cas:
    client:
      host: http://10.25.169.133:8112
+
+
+watcher:
+  templates: /data/watcher-manager/code/src/main/resources/

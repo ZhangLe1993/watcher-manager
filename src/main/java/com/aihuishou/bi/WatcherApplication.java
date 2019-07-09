@@ -1,6 +1,6 @@
 package com.aihuishou.bi;
 
-import com.aihuishou.bi.utils.SysUtils;
+import com.aihuishou.bi.core.Bootstrap;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -38,11 +38,6 @@ public class WatcherApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		ctx = SpringApplication.run(WatcherApplication.class, args);
-		try {
-			SysUtils.load();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public static String getPro(String key) {
