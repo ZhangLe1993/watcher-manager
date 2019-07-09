@@ -68,6 +68,7 @@ public class MenuService {
         folder.put("icon", "folder");
         folder.put("name", f.getName());
         List<Map<String, Object>> children = getMaps(folders, nodes, f);
+        folder.put("position", f.getPosition());
         folder.put("children", children);
         merge.add(folder);
     }

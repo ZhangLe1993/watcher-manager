@@ -1,5 +1,6 @@
 package com.aihuishou.bi;
 
+import com.aihuishou.bi.utils.SysUtils;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -20,6 +21,7 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletException;
+import java.io.FileNotFoundException;
 
 @SpringBootApplication
 @ComponentScan("com.aihuishou.bi")
@@ -36,6 +38,11 @@ public class WatcherApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		ctx = SpringApplication.run(WatcherApplication.class, args);
+		try {
+			SysUtils.load();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static String getPro(String key) {

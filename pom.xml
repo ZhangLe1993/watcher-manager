@@ -62,6 +62,11 @@
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
 		<!--分析应用程序的环境并在启动时打印诊断信息，而且还会在运行时为项目临时迁移属性-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -7,6 +7,15 @@ spring:
     host: 10.81.44.187
     password: 123456
     database: 1
+  thymeleaf:
+    servlet:
+      content-type: text/html
+    cache: false
+    prefix: classpath:/templates/
+    check-template-location: true
+    suffix: .html
+    encoding: UTF-8
+    mode: LEGACYHTML5
 
 server:
   port: 8080
