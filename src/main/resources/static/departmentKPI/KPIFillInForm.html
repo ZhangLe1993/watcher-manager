@@ -1,0 +1,108 @@
+<template name="KPIFillInForm">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+
+            <div id="chartContent" class="template-dashboard content body">
+                <div class="row box box-primary" style="width: auto;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">KPI信息调整</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-xs-3 col=sm-3 col-md-3">
+                                <span>请选择时间</span>
+                                <button type="button" style="border: 1px gray solid;background-color:white"
+                                        class="monthly btn btn-default  datePicker">
+                                    <i class="fa fa-calendar"></i>
+                                    <span class="duringDateLabel"></span>
+                                    <i class="fa fa-caret-down" style="margin-left: 28px"></i>
+                                </button>
+                            </div>
+                            <span>请选择部门</span>
+                            <select class="department" style="width:150px;height:30px;border-radius:4px;">
+                            </select>
+                            <!--<button class="btn btn-primary search" style="width:150px;border:none;">查看-->
+                            <!--</button>-->
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div id="realtimeRevenueChart"
+                                     style="height:400px;margin-top:40px;border-top:2px solid steelblue;">
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12"
+                                         style="height:100px;padding-top:40px;padding-left:50px;margin-top:30px;border-bottom:1px solid steelblue">
+                                        <div class="col-xs-3 col-sm-3 col-md-3">
+                                            <span>营收额指标</span>
+                                            <input type="text" id="revenue_target" />
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3">
+                                            <span>毛利额指标</span>
+                                            <input type="text" id="gross_target" />
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12"
+                                         style="height:100px;padding-top:40px;padding-left:50px;border-bottom:1px solid steelblue">
+                                        <div class="col-xs-3 col-sm-3 col-md-3">
+                                            <span>费用额完成率</span>
+                                            <input type="text" id="charge_finish_rate" />
+                                            <span>%</span>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3">
+                                            <span>净利额完成率</span>
+                                            <input type="text" id="profit_finish_rate" />
+                                            <span>%</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12"
+                                         style="height:100px;padding-top:40px;padding-left:50px;border-bottom:1px solid steelblue">
+                                        <div class="col-xs-3 col-sm-3 col-md-3">
+                                            <span>营收额权重</span>
+                                            <input type="text" id="revenue_weight" />
+                                            <span>%</span>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3">
+                                            <span>毛利额权重</span>
+                                            <input type="text" id="gross_weight" />
+                                            <span>%</span>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3">
+                                            <span>费用额权重</span>
+                                            <input type="text" id="charge_weight" />
+                                            <span>%</span>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3">
+                                            <span>净利额权重</span>
+                                            <input type="text" id="profit_weight" />
+                                            <span>%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 " style="padding:0 300px;">
+                                <button class="btn btn-primary update" style="width:150px;border:none;float:right">修改
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+           <!-- <div style="text-align: center;margin-top: 150px" id="loading">
+                <img src="/images/loading.gif">
+            </div>-->
+
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

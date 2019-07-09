@@ -1,0 +1,378 @@
+<template name="outletsDailyReport">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active" style="width:22%"><a href="#eastChina" data-toggle="tab">华东大区</a></li>
+                            <li style="width:22%"><a href="#northChina" data-toggle="tab" >华北大区</a></li>
+                            <li style="width:22%"><a href="#southChina" data-toggle="tab">华南大区</a></li>
+                            <li style="width:22%"><a href="#westChina" data-toggle="tab">华西大区</a></li>
+                            <li class="pull-right">
+                                <a href="#" class="text-muted">
+                                    <button type="button" class="btn btn-primary reportRangeOutlets "
+                                            style="margin-left: 3%">
+                                        <i class="fa fa-calendar"></i>
+                                        <span class="dateSelectLabel">最近30天</span>
+                                        <i class="fa fa-caret-down"></i>
+                                    </button>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="active tab-pane" id="eastChina">
+                                <div style="text-align:center;color: #666;padding: 10px 0;">
+                                    <div class="row desktop-only">
+                                        <div class="col-md-10 col-md-offset-1 "
+                                             style="background-color:#f5f5f5;border:1px solid #ecf0f5;border-radius: 5px;padding: 7px 0 5px 0;min-height: 76px;">
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>门店自有成交额</div>
+                                                <div style="font-size: 30px;font-weight: 900;" class="shopDealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>O2O成交额(含补贴)</div>
+                                                <div style="font-size: 30px;font-weight: 900;" class="O2ODealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>门店上门成交额</div>
+                                                <div style="font-size: 30px;font-weight: 900;" class="ondoorDealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>门店余额</div>
+                                                <div style="font-size: 30px;font-weight: 900;" class="balance">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mobile-only desktop-none">
+                                        <div class="col-xs-8 col-xs-offset-2 "
+                                             style="background-color:#f5f5f5;border:1px solid #ecf0f5;border-radius: 5px;padding: 7px 0 5px 0;min-height: 76px;">
+                                            <div class="pull-left" style="width: 50%">
+                                                <div>门店自有成交额</div>
+                                                <div style="font-size: 18px;font-weight: 900;" class="shopDealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 50%">
+                                                <div>O2O成交额(含补贴)</div>
+                                                <div style="font-size: 18px;font-weight: 900;" class="O2ODealAmount">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row mobile-only desktop-none">
+                                        <div class="col-xs-8 col-xs-offset-2 "
+                                             style="background-color:#f5f5f5;border:1px solid #ecf0f5;border-radius: 5px;padding: 7px 0 5px 0;min-height: 76px;">
+                                            <div class="pull-left" style="width: 50%">
+                                                <div>门店上门成交额</div>
+                                                <div style="font-size: 18px;font-weight: 900;" class="ondoorDealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 50%">
+                                                <div>门店余额</div>
+                                                <div style="font-size: 18px;font-weight: 900;" class="balance">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5 col-sm-5 col-xs-12">
+                                        <div style="font-size: 20px;font-weight: 900;" class="updateDate"></div>
+                                    </div>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <div style="font-size: 20px;font-weight: 900;">门店历史数据</div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div id="eastChinaAllShopChart" class="col-md-5 col-sm-5 col-xs-12"
+                                         style="height:1500px;margin-top: 3%"></div>
+                                    <div class="col-md-7 col-sm-7 col-xs-12" style="height:1200px;margin-top: 3%">
+                                        <!--<div id="eastChinaShopDealNumChart" style="height:200px"></div>-->
+                                        <div id="eastChinaShopDealAmountChart" style="height:200px"></div>
+                                        <!--<div id="eastChinaO2ODealNumChart" style="height:200px"></div>-->
+                                        <div id="eastChinaO2ODealAmountChart" style="height:200px"></div>
+                                        <div id="eastChinaShopOndoorDealAmountChart" style="height:200px"></div>
+                                        <div id="eastChinaShopBalanceChart" style="height:200px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane fade" id="northChina">
+                                <div style="text-align:center;color: #666;padding: 10px 0;">
+                                    <div class="row desktop-only">
+                                        <div class="col-md-10 col-xs-8 col-md-offset-1 col-xs-offset-2"
+                                             style="background-color:#f5f5f5;border:1px solid #ecf0f5;border-radius: 5px;padding: 7px 0 5px 0;min-height: 76px;">
+                                            <div class="pull-left " style="width: 25%">
+                                                <div>门店自有成交额</div>
+                                                <div style="font-size: 30px;font-weight: 900;" class="shopDealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>O2O成交额(含补贴)</div>
+                                                <div style="font-size: 30px;font-weight: 900;" class="O2ODealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>门店上门成交额</div>
+                                                <div style="font-size: 30px;font-weight: 900;" class="ondoorDealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>门店余额</div>
+                                                <div style="font-size: 30px;font-weight: 900;" class="balance">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mobile-only desktop-none">
+                                        <div class="col-xs-8 col-xs-offset-2 "
+                                             style="background-color:#f5f5f5;border:1px solid #ecf0f5;border-radius: 5px;padding: 7px 0 5px 0;min-height: 76px;">
+                                            <div class="pull-left" style="width: 50%">
+                                                <div>门店自有成交额</div>
+                                                <div style="font-size: 18px;font-weight: 900;" class="shopDealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 50%">
+                                                <div>O2O成交额(含补贴)</div>
+                                                <div style="font-size: 18px;font-weight: 900;" class="O2ODealAmount">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row mobile-only desktop-none">
+                                        <div class="col-xs-8 col-xs-offset-2 "
+                                             style="background-color:#f5f5f5;border:1px solid #ecf0f5;border-radius: 5px;padding: 7px 0 5px 0;min-height: 76px;">
+                                            <div class="pull-left" style="width: 50%">
+                                                <div>门店上门成交额</div>
+                                                <div style="font-size: 18px;font-weight: 900;" class="ondoorDealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 50%">
+                                                <div>门店余额</div>
+                                                <div style="font-size: 18px;font-weight: 900;" class="balance">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5 col-sm-5 col-xs-12">
+                                        <div style="font-size: 20px;font-weight: 900;" class="updateDate"></div>
+                                    </div>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <div style="font-size: 20px;font-weight: 900;">门店历史数据</div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div id="northChinaAllShopChart" class="col-md-5 col-sm-5 col-xs-12"
+                                         style="height:1500px;margin-top: 3%"></div>
+                                    <div class="col-md-7 col-sm-7 col-xs-12" style="height:1200px;margin-top: 3%">
+                                        <!--<div id="northChinaShopDealNumChart" style="height:200px"></div>-->
+                                        <div id="northChinaShopDealAmountChart" style="height:200px"></div>
+                                        <!--<div id="northChinaO2ODealNumChart" style="height:200px"></div>-->
+                                        <div id="northChinaO2ODealAmountChart" style="height:200px"></div>
+                                        <div id="northChinaShopOndoorDealAmountChart" style="height:200px"></div>
+                                        <div id="northChinaShopBalanceChart" style="height:200px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane fade" id="southChina">
+                                <div style="text-align:center;color: #666;padding: 10px 0;">
+                                    <div class="row desktop-only">
+                                        <div class="col-md-10 col-md-offset-1"
+                                             style="background-color:#f5f5f5;border:1px solid #ecf0f5;border-radius: 5px;padding: 7px 0 5px 0;min-height: 76px;">
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>门店自有成交额</div>
+                                                <div style="font-size: 30px;font-weight: 900;" class="shopDealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>O2O成交额(含补贴)</div>
+                                                <div style="font-size: 30px;font-weight: 900;" class="O2ODealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>门店上门成交额</div>
+                                                <div style="font-size: 30px;font-weight: 900;" class="ondoorDealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>门店余额</div>
+                                                <div style="font-size: 30px;font-weight: 900;" class="balance">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mobile-only desktop-none">
+                                        <div class="col-xs-8 col-xs-offset-2 "
+                                             style="background-color:#f5f5f5;border:1px solid #ecf0f5;border-radius: 5px;padding: 7px 0 5px 0;min-height: 76px;">
+                                            <div class="pull-left" style="width: 50%">
+                                                <div>门店自有成交额</div>
+                                                <div style="font-size: 18px;font-weight: 900;" class="shopDealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 50%">
+                                                <div>O2O成交额(含补贴)</div>
+                                                <div style="font-size: 18px;font-weight: 900;" class="O2ODealAmount">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row mobile-only desktop-none">
+                                        <div class="col-xs-8 col-xs-offset-2 "
+                                             style="background-color:#f5f5f5;border:1px solid #ecf0f5;border-radius: 5px;padding: 7px 0 5px 0;min-height: 76px;">
+                                            <div class="pull-left" style="width: 50%">
+                                                <div>门店上门成交额</div>
+                                                <div style="font-size: 18px;font-weight: 900;" class="ondoorDealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 50%">
+                                                <div>门店余额</div>
+                                                <div style="font-size: 18px;font-weight: 900;" class="balance">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5 col-sm-5 col-xs-12">
+                                        <div style="font-size: 20px;font-weight: 900;" class="updateDate"></div>
+                                    </div>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <div style="font-size: 20px;font-weight: 900;">门店历史数据</div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div id="southChinaAllShopChart" class="col-md-5 col-sm-5 col-xs-12"
+                                         style="height:1500px;margin-top: 3%"></div>
+                                    <div class="col-md-7 col-sm-7 col-xs-12" style="height:1200px;margin-top: 3%">
+                                        <!--<div id="southChinaShopDealNumChart" style="height:200px"></div>-->
+                                        <div id="southChinaShopDealAmountChart" style="height:200px"></div>
+                                        <!--<div id="southChinaO2ODealNumChart" style="height:200px"></div>-->
+                                        <div id="southChinaO2ODealAmountChart" style="height:200px"></div>
+                                        <div id="southChinaShopOndoorDealAmountChart" style="height:200px"></div>
+                                        <div id="southChinaShopBalanceChart" style="height:200px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane fade" id="westChina">
+                                <div style="text-align:center;color: #666;padding: 10px 0;">
+                                    <div class="row desktop-only">
+                                        <div class="col-md-10 col-md-offset-1"
+                                             style="background-color:#f5f5f5;border:1px solid #ecf0f5;border-radius: 5px;padding: 7px 0 5px 0;min-height: 76px;">
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>门店自有成交额</div>
+                                                <div style="font-size: 30px;font-weight: 900;" class="shopDealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>O2O成交额(含补贴)</div>
+                                                <div style="font-size: 30px;font-weight: 900;" class="O2ODealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>门店上门成交额</div>
+                                                <div style="font-size: 30px;font-weight: 900;" class="ondoorDealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>门店现金余额</div>
+                                                <div style="font-size: 30px;font-weight: 900;" class="balance">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mobile-only desktop-none">
+                                        <div class="col-xs-8 col-xs-offset-2 "
+                                             style="background-color:#f5f5f5;border:1px solid #ecf0f5;border-radius: 5px;padding: 7px 0 5px 0;min-height: 76px;">
+                                            <div class="pull-left" style="width: 50%">
+                                                <div>门店自有成交额</div>
+                                                <div style="font-size: 18px;font-weight: 900;" class="shopDealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 50%">
+                                                <div>O2O成交额(含补贴)</div>
+                                                <div style="font-size: 18px;font-weight: 900;" class="O2ODealAmount">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row mobile-only desktop-none">
+                                        <div class="col-xs-8 col-xs-offset-2 "
+                                             style="background-color:#f5f5f5;border:1px solid #ecf0f5;border-radius: 5px;padding: 7px 0 5px 0;min-height: 76px;">
+                                            <div class="pull-left" style="width: 50%">
+                                                <div>门店上门成交额</div>
+                                                <div style="font-size: 18px;font-weight: 900;" class="ondoorDealAmount">
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 50%">
+                                                <div>门店余额</div>
+                                                <div style="font-size: 18px;font-weight: 900;" class="balance">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5 col-sm-5 col-xs-12">
+                                        <div style="font-size: 20px;font-weight: 900;" class="updateDate"></div>
+                                    </div>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <div style="font-size: 20px;font-weight: 900;">门店历史数据</div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div id="westChinaAllShopChart" class="col-md-5 col-sm-5 col-xs-12"
+                                         style="height:1500px;margin-top: 3%"></div>
+                                    <div class="col-md-7 col-sm-7 col-xs-12" style="height:1200px;margin-top: 3%">
+                                        <!--<div id="southChinaShopDealNumChart" style="height:200px"></div>-->
+                                        <div id="westChinaShopDealAmountChart" style="height:200px"></div>
+                                        <!--<div id="southChinaO2ODealNumChart" style="height:200px"></div>-->
+                                        <div id="westChinaO2ODealAmountChart" style="height:200px"></div>
+                                        <div id="westChinaShopOndoorDealAmountChart" style="height:200px"></div>
+                                        <div id="westChinaShopBalanceChart" style="height:200px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div>
+                </div>
+            </div>
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

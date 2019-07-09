@@ -1,0 +1,125 @@
+<template name="aijihuiManagerDashboard">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+            <div class="template-dashboard content body">
+                <div class="small-box bg-light-blue">
+                    <div class="inner">
+                        <h3><label class = "tradeNum">……</label>
+                            <select class="type pull-right" style="height:40px;font-size:18px;border-radius: 4px;padding: 6px 12px; margin-top: 1%; margin-right:1%; background-color:#3c8dbc; border-color:black; color:white; margin-left: 0%">
+
+                                <option value="venderGroup">查看负责门店数据</option>
+                                <option value="all">查看所有</option>
+                                <option value="venderParent">查看负责总账户数据</option>
+                            </select>
+                        </h3>
+
+                        <p ><label class = "date">……</label> 订单提交量<B>(不含废旧机和取消订单)</B></p>
+                        <p><B>(废旧机提交量(排除取消)：<label class = "junkTradeNum">……</label>)</B></p>
+                        <p><B>(取消订单提交量：<label class = "cancelTradeNum">……</label>)</B></p>
+                        <p><B>(总提交量：<label class = "totalTradeNum">……</label>)</B></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="venderTradeUserMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                    <div id="venderTradeCategoryMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                    <div id="venderTradeCityMixedChart" class="col-md-12 col-sm-12 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                    <div><a href="#" class="glyphicon glyphicon-question-sign pull-right" style="margin-top:1%;margin-right:3%" data-toggle="tooltip"
+                            title="说明：&#10;1、每日实时累积趋势图是一小时刷新一次的。上面的昨日同时数据是每秒刷新的。所以只有你整点看的时候才是能对上的(最多有5分钟的延迟，由于有缓存)
+2、在提交订单用户分布中，各字段含义如下：&#10;总账户(该总账户下的门店数)，省份[当前提交订单的总账户数，当前提交订单的门店数](昨日同时间提交订单的总账户数，昨日同时间提交订单的门店数)；此处已去除取消订单；其它同上
+                                                                                                                                                                            ——申请人：张倩
+                            "></a></div>
+                    <div id="venderTradeTrendMixedChart" class="col-md-12 col-sm-12 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="template-dashboard  body">
+                        <div class="small-box bg-light-blue">
+                            <div class="inner">
+                                <h3><label class = "tradeAmount">……</label>
+                                </h3>
+
+                                <p><label class = "date">……</label> 订单提交金额<B>(不含废旧机和取消订单)</B></p>
+                                <p><B>(废旧机提交金额(排除取消)：<label class = "junkTradeAmount">……</label>)</B></p>
+                                <p><B>(取消订单提交金额：<label class = "cancelTradeAmount">……</label>)</B></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="venderTradeAmountUserMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                    <div id="venderTradeAmountCategoryMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                    <div id="venderTradeAmountCityMixedChart" class="col-md-12 col-sm-12 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="template-dashboard  body">
+                        <div class="small-box bg-light-blue">
+                            <div class="inner">
+                                <h3><label class = "dealNum">……</label>
+                                </h3>
+
+                                <p><label class = "date">……</label> 订单成交量(废旧机成交量<label class = "junkDealNum">……</label>)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="venderTradeDealUserMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                    <div id="venderTradeDealCategoryMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                    <div id="venderTradeDealCityMixedChart" class="col-md-12 col-sm-12 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+
+                </div>
+
+                <div class="row">
+                <div class="template-dashboard  body">
+                    <div class="small-box bg-light-blue">
+                        <div class="inner">
+                            <h3><label class = "dealAmount">……</label>
+                            </h3>
+
+                            <p><label class = "date">……</label> 订单成交金额(废旧机成交金额<label class = "junkDealAmount">……</label>)</p>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <div class="row">
+                <div id="venderTradeDealAmountUserMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                     style="height:400px;margin-top: 3%">
+                </div>
+                <div id="venderTradeDealAmountCategoryMixedChart" class="col-md-6 col-sm-6 col-xs-12"
+                     style="height:400px;margin-top: 3%">
+                </div>
+                <div id="venderTradeDealAmountCityMixedChart" class="col-md-12 col-sm-12 col-xs-12"
+                     style="height:400px;margin-top: 3%">
+                </div>
+                </div>
+            </div>
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

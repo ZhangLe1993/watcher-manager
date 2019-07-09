@@ -1,0 +1,107 @@
+<template name="aijihuiAreaAgentInfo">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+
+            <div id="chartContent" class="template-dashboard content body">
+                <span style="color:red">注：</span><span>1、如果用户的权限是省份，这里的数据是省份下的所有代理商数据；如果权限到市区，这里的数据是该市下的所有代理商数据。
+2、此页面中的活跃客户或门店的规则如下：周报或7天及以上则>=2单为有效门店，月报或28天及以上则>=10单为有效门店。
+3、重大失误率适用于2016/09/01以后，之前数据已清算。</span>
+                <div class="row desktop-only c-border">
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请选择查看时间:</span>
+
+                        <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+
+
+                    </div>
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+
+                    </div>
+
+                </div>
+                <div class="row mobile-only desktop-none">
+                    <div>
+                        <span>请选择查看时间:</span>
+
+                    </div>
+                    <div>
+                        <span>请选择起始时间:</span>
+                        <button type="button" style="border: 1px gray solid;width:200px;background-color:white" class="daily btn btn-default campaignStartDatePicker">
+                            <i class="fa fa-calendar"></i>
+                            <span class="startDateSelectLabel"></span>
+                            <i class="fa fa-caret-down" style="margin-left: 78px"></i>
+                        </button>
+                        <select  class="weekly startWeek" style="width:200px;border-radius: 4px;padding: 6px 12px;">
+
+                        </select>
+                    </div>
+                    <div>
+                        <span>请选择结束时间:</span>
+                        <button type="button" style="border: 1px gray solid;width:200px;background-color:white" class="daily btn btn-default campaignEndDatePicker">
+                            <i class="fa fa-calendar"></i>
+                            <span class="endDateSelectLabel"></span>
+                            <i class="fa fa-caret-down" style="margin-left: 78px"></i>
+                        </button>
+                        <select  class="weekly endWeek" style="width:200px;border-radius: 4px;padding: 6px 12px;">
+
+
+                        </select>
+                    </div>
+                </div>
+                <div >
+
+                    <label style="margin-top:20px">分省代理商运营数据列表</label>
+                    <div id="gtable" class="row" style="margin-top: 15px;border: 1px solid gray">
+                        <div style="text-align: center;margin-top: 150px" id="loading4">
+                            <img src="/images/loading.gif">
+                        </div>
+                        <div id="rightg" class="col-md-12 col-sm-12 col-xs-12" style="">
+                            <table id="tableg"
+                                   data-toggle="table"
+                                   data-show-export="true"
+                                   data-pagination="true"
+                                   data-click-to-select="true"
+                            >
+                                <thead>
+                                <tr>
+                                    <th data-field="vender_parent_name" data-sortable="true">代理商名称</th>
+                                    <th data-field="registerVenderCnt" data-sortable="true">注册客户数</th>
+                                    <th data-field="accumulateVenderCnt" data-sortable="true">累计客户数</th>
+                                    <th data-field="accumulateVenderGroupCnt" data-sortable="true">累计门店数</th>
+                                    <th data-field="liveVenderCnt" data-sortable="true">活跃客户数(提交)</th>
+                                    <th data-field="registerShopCnt" data-sortable="true">注册门店数</th>
+                                    <th data-field="liveShopCnt" data-sortable="true">活跃门店数(提交)</th>
+                                    <th data-field="orderCnt" data-sortable="true">订单量(提交)</th>
+                                    <th data-field="recycleNum" data-sortable="true">订单金额(提交)</th>
+                                    <th data-field="tradeOrderCnt" data-sortable="true">订单量(成交)</th>
+                                    <th data-field="tradeOrderNum" data-sortable="true">订单金额(成交)</th>
+                                </tr>
+                                </thead>
+
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row" style="margin-top: 3%">
+                    <div class="rte col-md-12 col-sm-12 col-xs-12">
+                        <table id="marketingWebTrafficDataTable" class="display compact cell-border" cellspacing="0"
+                               width="100%"></table>
+                    </div>
+                </div>
+
+            </div>
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

@@ -1,0 +1,325 @@
+<template name="marketingTrafficMonitor">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+            <span style="color:red">注：</span><span>只包含官网(aihuishou.com)、M版(m.aihuishou.com)、APP版(此页面提供2016/06/01——2017-07-31期间的数据)</span><br>
+            <span style="color:red">另注：</span>
+            <span>
+                1、此处的全选与默认的全部不同，有部分访客未获取所在城市/utm_source/utm_medium/utm_campaign值即未在列表中；
+                此处的全选是列表中选项全部选中。<br>
+                2、utm_source,utm_medium,utm_campaign三个选项是带有提示性的多选框，不要删除(,)
+            </span>
+            <div class="row desktop-only c-border">
+                <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                    <span>请选择查看类型:</span>
+                    <select  class="dateType" style=";width:150px;border-radius: 4px;padding: 6px 12px;">
+                        <option value="daily">按日期选择</option>
+                        <option value="weekly">按周选择</option>
+                        <option value="monthly">按月选择</option>
+                    </select>
+                    <span>请选择起始时间:</span>
+                    <button type="button" style="border: 1px gray solid;background-color:white" class="daily btn btn-default marketingStartDatePicker">
+                        <i class="fa fa-calendar"></i>
+                        <span class="startDateSelectLabel"></span>
+                        <i class="fa fa-caret-down" style="margin-left: 28px"></i>
+                    </button>
+                    <button type="button" style="border: 1px gray solid;background-color:white" class="weekly btn btn-default marketingWeeklyStartDatePicker">
+                        <i class="fa fa-calendar"></i>
+                        <span class="startWeekDateSelectLabel"></span>
+                        <i class="fa fa-caret-down" style="margin-left: 28px"></i>
+                    </button>
+                    <button type="button" style="border: 1px gray solid;background-color:white" class="monthly btn btn-default marketingMonthlyStartDatePicker">
+                        <i class="fa fa-calendar"></i>
+                        <span class="startMonthDateSelectLabel"></span>
+                        <i class="fa fa-caret-down" style="margin-left: 28px"></i>
+                    </button>
+                    <!--<select  class="weekly startWeek" style="width:150px;border-radius: 4px;padding: 6px 12px;">
+
+                    </select>-->
+                    <!--<span>请选择结束时间:</span>
+                    <button type="button" style="border: 1px gray solid;width:150px;background-color:white" class="daily btn btn-default marketingEndDatePicker">
+                        <i class="fa fa-calendar"></i>
+                        <span class="endDateSelectLabel"></span>
+                        <i class="fa fa-caret-down" style="margin-left: 28px"></i>
+                    </button>
+                    <button type="button" style="border: 1px gray solid;width:150px;background-color:white" class="weekly btn btn-default marketingWeeklyEndDatePicker">
+                        <i class="fa fa-calendar"></i>
+                        <span class="endWeekDateSelectLabel"></span>
+                        <i class="fa fa-caret-down" style="margin-left: 28px"></i>
+                    </button>
+                    <button type="button" style="border: 1px gray solid;width:150px;background-color:white" class="monthly btn btn-default marketingMonthlyEndDatePicker">
+                        <i class="fa fa-calendar"></i>
+                        <span class="endMonthDateSelectLabel"></span>
+                        <i class="fa fa-caret-down" style="margin-left: 28px"></i>
+                    </button>-->
+                    <!--<select  class="weekly endWeek" style="width:150px;border-radius: 4px;padding: 6px 12px;">
+
+                    </select>-->
+
+                    <!--<button type="button" class="btn btn-primary webTrafficUV">
+                        <i class="fa fa-calendar"></i>
+                        <span class="dateSelectLabel"></span>
+                        <i class="fa fa-caret-down"></i>
+                    </button>-->
+
+                </div>
+                <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                    <span>请选择区域:</span>
+                    <select   class="areaName c-mleft28" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        <!--<option value="物流">物流</option>
+                        <option value="华北大区">华北大区</option>
+                        <option value="华东大区">华东大区</option>
+                        <option value="华南大区">华南大区</option>
+                        <option value="华西大区">华西大区</option>-->
+                    </select>
+                    <span>请选择城市:</span>
+                    <select  class="city c-mleft28" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                    </select>
+                    <span>请选择平台:</span>
+                    <select  class="platform c-mleft28" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                    </select>
+                    <span>请选择渠道:</span>
+                    <select  class="channel" style="width:150px;border-radius: 4px;padding: 6px 12px;">
+                    </select>
+
+                </div>
+                <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                    <span>utm_source:</span>
+                    <input class="source " type="text" placeholder="全部" style="margin-left: 25px;border-radius: 5px; width: 150px;padding-left: 5px;">
+                    <!--<input class="source c-mleft12" type="text" data-provide="typeahead" value="全部" onfocus="javascript:if(this.value=='全部')this.value='';">-->
+                    <!--<select   class="source c-mleft23" style="margin-left: 23px;width:150px;border-radius: 4px;padding: 6px 12px;">-->
+                    <!--</select>-->
+                    <span>utm_medium:</span>
+                    <input class="medium " type="text" placeholder="全部" style="margin-left: 17px;border-radius: 5px; width: 150px;padding-left: 5px;">
+                    <span>utm_campaign:</span>
+                    <input class="campaign " type="text" placeholder="全部" style="margin-left: 6px;border-radius: 5px; width: 150px;padding-left: 5px;">
+                    <button class="btn btn-primary search">查询</button>
+                    <!--<a href="#" class="glyphicon glyphicon-question-sign pull-right" style="margin-top:1%;margin-bottom: 1%" data-toggle="tooltip" title="说明：-->
+<!--1、此处的全选与默认的全部不同，有部分访客未获取所在城市/utm_source/utm_medium/utm_campaign值即未在列表中；此处的全选是列表中选项全部选中。-->
+<!--2、utm_source,utm_medium,utm_campaign三个选项是带有提示性的多选框，不要删除(,)-->
+<!--"></a>-->
+                    <!--//区域分大区和物流,这里的物流是已提交订单的客户;而且分大区数据是非物流数据;其它里面包含无法获取位置的数据和不在上门和门店的区域的数据.(数据埋点完成时间：2017/03/04，页面修改完成时间：2017/03/08)-->
+
+                </div>
+                <div class=" col-md-12 col-sm-12 col-xs-12 ">
+
+                </div>
+
+            </div>
+            <div class="row mobile-only desktop-none">
+                <div>
+                    <span>请选择查看类型:</span>
+                    <select  class="dateType" style=";width:150px;border-radius: 4px;padding: 6px 12px;">
+                        <option value="daily">按日期选择</option>
+                        <option value="weekly">按周选择</option>
+                        <option value="monthly">按月选择</option>
+                    </select>
+                </div>
+                <div>
+                    <!--<span>请选择起始时间:</span>
+                    <button type="button" style="border: 1px gray solid;width:150px;background-color:white" class="daily btn btn-default marketingStartDatePicker">
+                        <i class="fa fa-calendar"></i>
+                        <span class="startDateSelectLabel"></span>
+                        <i class="fa fa-caret-down" style="margin-left: 28px"></i>
+                    </button>
+                    <select  class="weekly startWeek" style="width:200px;border-radius: 4px;padding: 6px 12px;">
+
+                    </select>-->
+                    <span>请选择起始时间:</span>
+                    <button type="button" style="border: 1px gray solid;background-color:white" class="daily btn btn-default marketingStartDatePicker">
+                        <i class="fa fa-calendar"></i>
+                        <span class="startDateSelectLabel"></span>
+                        <i class="fa fa-caret-down" style="margin-left: 28px"></i>
+                    </button>
+                    <button type="button" style="border: 1px gray solid;background-color:white" class="weekly btn btn-default marketingWeeklyStartDatePicker">
+                        <i class="fa fa-calendar"></i>
+                        <span class="startWeekDateSelectLabel"></span>
+                        <i class="fa fa-caret-down" style="margin-left: 28px"></i>
+                    </button>
+                    <button type="button" style="border: 1px gray solid;background-color:white" class="monthly btn btn-default marketingMonthlyStartDatePicker">
+                        <i class="fa fa-calendar"></i>
+                        <span class="startMonthDateSelectLabel"></span>
+                        <i class="fa fa-caret-down" style="margin-left: 28px"></i>
+                    </button>
+                </div>
+                <!--<div>
+                    <span>请选择结束时间:</span>
+                    <button type="button" style="border: 1px gray solid;width:150px;background-color:white" class="daily btn btn-default marketingEndDatePicker">
+                        <i class="fa fa-calendar"></i>
+                        <span class="endDateSelectLabel"></span>
+                        <i class="fa fa-caret-down" style="margin-left: 28px"></i>
+                    </button>
+                    <select  class="weekly endWeek" style="width:200px;border-radius: 4px;padding: 6px 12px;">
+
+                    </select>
+                </div>-->
+                <div>
+                    <span>请选择区域:</span>
+                    <select  class="areaName c-mleft28" style="margin-left: 28px;width:200px;border-radius: 4px;padding: 6px 12px;">
+                        <!--<option value="物流">物流</option>
+                        <option value="华北大区">华北大区</option>
+                        <option value="华东大区">华东大区</option>
+                        <option value="华南大区">华南大区</option>
+                        <option value="华西大区">华西大区</option>-->
+                    </select>
+                </div>
+                <div>
+                    <span>请选择城市:</span>
+                    <select  class="city c-mleft28" style="margin-left: 28px;width:200px;border-radius: 4px;padding: 6px 12px;">
+                    </select>
+                </div>
+                <div>
+                    <span>请选择平台:</span>
+                    <select   class="platform c-mleft28" style="margin-left: 28px;width:200px;border-radius: 4px;padding: 6px 12px;">
+
+                    </select>
+                </div>
+                <div class="">
+                    <span>请选择渠道:</span>
+                    <select  class="channel c-mleft28" style="margin-left: 28px;width:200px;border-radius: 4px;padding: 6px 12px;">
+                    </select>
+                </div>
+                <div>
+                    <span>utm_source:</span>
+                    <input class="source " type="text" placeholder="全部" style="margin-left: 25px;border-radius: 5px; width: 150px;padding-left: 5px;">
+                </div>
+                <div>
+                    <span>utm_medium:</span>
+                    <input class="medium " type="text" placeholder="全部" style="margin-left: 17px;border-radius: 5px;width: 150px;padding-left: 5px;">
+                </div>
+                <div>
+                    <span>utm_campaign:</span>
+                    <input class="campaign " type="text" placeholder="全部" style=" margin-left: 6px;border-radius: 5px; width: 150px;padding-left: 5px;">
+                </div>
+
+                <div>
+                    <button class="btn btn-primary search">查询</button>
+                </div>
+            </div>
+
+
+            <div id="chartContent" class="template-dashboard content body">
+
+                <div class="row box box-primary" style="width: auto;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">图形化</h3>
+
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div id="dailyTrafficFunnelChart" class="col-sm-offset-2 col-md-offset-2 col-md-8 col-sm-8 col-xs-12"
+                                 style="height:400px;">
+                            </div>
+                            <!--<div id="dailyMarketingUVTrend" class="col-md-7 col-sm-7 col-xs-12" style="height:400px;margin-top: 3%;"></div>-->
+                        </div>
+                        <div class="row">
+                            <div id="dailyMarketingUVTrend2" class="col-md-12 col-sm-12 col-xs-12" style="height:400px;"></div>
+                        </div>
+                        <div class="row" >
+                            <div id="dailyTrafficStackChart" class="col-md-12 col-sm-12 col-xs-12"
+                                 style="height:400px;/*border: 1px solid gray*/">
+                            </div>
+                        </div>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+                <div class="row box box-primary" style="width: auto;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">UV折线图</h3>
+                        <div class="box-body">
+                            <div class="row">
+                                <div>
+                                    <span>请选择查看数据</span>
+                                    <select class="c-mleft28" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;" id="datatype">
+                                        <option value="uv">总UV</option>
+                                        <option value="inquiry_uv">询价UV</option>
+                                        <option value="submit_success_uv">提交成功UV</option>
+                                        <option value="trade_success_uv">交易成功UV</option>
+                                        <option value="inquiry_uv_rate">询价转化率</option>
+                                        <option value="submit_inquiry_rate">提交询价率</option>
+                                        <option value="submit_uv_rate">提交转化率</option>
+                                        <option value="submit_success_cnt">订单提交量</option>
+                                        <option value="trade_success_cnt">订单成交量</option>
+                                        <option value="trade_submit_rate">成交提交率</option>
+                                        <option value="trade_num">成交金额</option>
+                                        <option value="per_trade_num">客单价</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-12 col-md-12 col-sm-12" id="uvlinechart" style="height: 600px">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row box box-primary" style="width: auto;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">数据细分</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row" style="">
+                            <div  class="col-md-12 col-sm-12 col-xs-12" >
+                                <table id="marketingWebTrafficDataTable"
+                                       data-toggle="table"
+                                       data-show-export="true"
+                                       data-pagination="true"
+                                       data-click-to-select="true"
+                                >
+                                    <!--<thead>
+                                    <tr>
+                                        <th data-field="date" data-sortable="true">日期</th>
+                                        <th data-field="areaName" data-sortable="true">区域</th>
+                                        <th data-field="cityName" data-sortable="true">城市</th>
+                                        <th data-field="platform" data-sortable="true">平台</th>
+                                        <th data-field="channel" data-sortable="true">渠道</th>
+                                        <th data-field="source" data-sortable="true">utm_source</th>
+                                        <th data-field="medium" data-sortable="true">utm_medium</th>
+                                        <th data-field="campaign" data-sortable="true">utm_campaign</th>
+                                        <th data-field="uv" data-sortable="true">访问用户数</th>
+                                        <th data-field="inquiry_uv" data-sortable="true">询价用户数</th>
+                                        <th data-field="trade_uv" data-sortable="true">提交用户数</th>
+                                        <th data-field="trade_cnt_num" data-sortable="true">提交量</th>
+                                        <th data-field="trade_success_uv" data-sortable="true">成交用户数</th>
+                                        <th data-field="trade_success_cnt_num" data-sortable="true">成交量</th>
+                                        <th data-field="trade_success_amount_num" data-sortable="true">成交金额</th>
+                                    </tr>
+                                    </thead>-->
+                                </table>
+                            </div>
+                        </div>
+                    </div><!-- /.box-body -->
+                </div>
+
+                <div class="row box box-primary" style="width: auto;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">综合日报</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row" style="">
+                            <div  class="col-md-12 col-sm-12 col-xs-12" >
+                                <table id="marketingSummaryWebTrafficDataTable"
+                                       data-toggle="table"
+                                       data-show-export="true"
+                                       data-pagination="true"
+                                       data-click-to-select="true"
+                                >
+                                </table>
+                            </div>
+                        </div>
+                    </div><!-- /.box-body -->
+                </div>
+
+
+            </div>
+            <div style="text-align: center;margin-top: 150px" id="loading">
+                <img src="/images/loading.gif">
+            </div>
+
+
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

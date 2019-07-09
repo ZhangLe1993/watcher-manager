@@ -1,0 +1,132 @@
+<template name="VenderOrderLostAnalysisControl">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+
+            <div class="template-dashboard content body">
+
+                <div class="row desktop-only c-border">
+                    <!--<div class="tempExplain"><label id="templabel" style="margin-left: 1%;font-weight:bold;">注：用户在浏览过程中访问过活动页面，就算活动引来的量</label></div>-->
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请选择查看时间:</span>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <!--<span class="venderParent">请选择总账户:</span>-->
+                        <!--<select class="venderParentName c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">-->
+                        <!--</select>-->
+                        <span>请输入总账户:</span>
+                        <input type="text" class="venderParentName" value="" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;" placeholder="全部"/>
+                        <!--<span class="venderGroup">请选择门店:</span>-->
+                        <!--<select  class="venderGroupName c-mleft5" style="margin-left: 45px;width:150px;border-radius: 4px;padding: 6px 12px;">-->
+                        <!--</select>-->
+                        <span>请输入门店:</span>
+                        <input type="text" class="venderGroupName" value="" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;" placeholder="全部"/>
+                        <span>请选择总账户级别:</span>
+                        <select class="level c-mleft5" style="margin-left: 10px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+
+                        <button class="btn btn-primary search">查询</button>
+                        <a href="#" class="glyphicon glyphicon-question-sign pull-right" style="margin-top:1%;margin-bottom: 1%;" data-toggle="tooltip"
+                           title="说明：&#10;数据包含有imei号且询价金额大于5"></a>
+                    </div>
+                </div>
+                <div class="row mobile-only desktop-none ">
+                    <!--<div class="tempExplain"><label id="templabel" style="margin-left: 1%;font-weight:bold;">注：用户在浏览过程中访问过活动页面，就算活动引来的量</label></div>-->
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请选择查看时间:</span>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+
+                    <div>
+                        <span>请输入总账户:</span>
+                        <input type="text" class="venderParentName" value="" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;" placeholder="全部"/>
+                    </div>
+
+                    <div class="">
+                        <span>请输入门店:</span>
+                        <input type="text" class="venderGroupName" value="" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;" placeholder="全部"/>
+                    </div>
+                    <div class="">
+                        <span>请选择总账户级别:</span>
+                        <select class="level c-mleft5" style="margin-left: 10px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                    </div>
+
+                        <button class="btn btn-primary search">查询</button>
+                    </div>
+                </div>
+                <div style="text-align: center;margin-top: 150px" id="loadingChart">
+                    <img src="/images/loading.gif">
+                </div>
+                <div class="row">
+                    <div id="orderLostCntChart" class="col-md-6 col-sm-12 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                    <div id="orderLostNumChart" class="col-md-6 col-sm-12 col-xs-12"
+                         style="height:400px;margin-top: 3%">
+                    </div>
+                </div>
+
+
+                <div class="row box box-primary" style="width: auto; margin-top:25px">
+                    <div class="box-body">
+                        <div id="chartContent">
+
+                            <div class="row" style="background-color: white">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <button type="button" class="exportVenderParent pull-right" style="border-radius: 4px;padding: 6px 12px; background-color:#3c8dbc; border-color:
+transparent; color:white; height:34px; margin-left: 3%">导出总账户维度数据</button>
+                                    <button type="button" class="exportgroup pull-right" style="border-radius: 4px;padding: 6px 12px; background-color:#3c8dbc; border-color:
+transparent; color:white; height:34px; margin-left: 3%">导出门店维度数据</button>
+                                    <button type="button" class="exportVender pull-right" style="border-radius: 4px;padding: 6px 12px; background-color:#3c8dbc; border-color:
+transparent; color:white; height:34px; margin-left: 3%">导出子账户维度数据</button>
+                                    <table class="cell-border"
+                                           data-toggle="table"
+                                           data-pagination="true"
+                                           data-click-to-select="true"
+                                           id="BussinessDataTable">
+
+                                        <thead>
+                                        <tr>
+                                            <th data-field="vender_group_province_name" data-sortable="true">总账户名称</th>
+                                            <th data-field="vender_province_name1" data-sortable="true">总账户省份</th>
+                                            <th data-field="vender_city_name1" data-sortable="true">总账户城市</th>
+                                            <th data-field="vender_group_name" data-sortable="true">门店</th>
+                                            <th data-field="vender_group_province_name" data-sortable="true">门店省份</th>
+                                            <th data-field="vender_group_city_name" data-sortable="true">门店城市</th>
+                                            <th data-field="vender_parent_name" data-sortable="true">子账户</th>
+                                            <th data-field="inqueryCnt" data-sortable="true">累计询价次数（次）</th>
+                                            <th data-field="inqueryNum" data-sortable="true">累计询价金额（元）</th>
+                                            <th data-field="submitCnt" data-sortable="true">实际下单数量（台）</th>
+                                            <th data-field="submitNum" data-sortable="true">实际下单金额（元）</th>
+                                            <th data-field="differCnt" data-sortable="true">询价下单差异量（台）</th>
+                                            <th data-field="differNum" data-sortable="true">询价下单差异金额（元）</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.box-body -->
+                </div>
+
+                <div style="text-align: center;margin-top: 150px" id="loading">
+                    <img src="/images/loading.gif">
+                </div>
+            </div>
+
+
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

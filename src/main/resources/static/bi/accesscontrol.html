@@ -1,0 +1,40 @@
+<template name="AccessControl">
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="template-dashboard content body">
+                <div class="row" style="background-color:white">
+                    <!--<div id = "ETLJobVisualize" class="col-md-12 col-sm-12 col-xs-12"
+                    style="height:500px">
+                </div>-->
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                            <label for="operation1">Operation:</label>
+                            <input type="text" class="form-control" id="operation1">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                            <label for="accessName">AccessName:</label>
+                            <input type="text" class="form-control" id="accessname">
+                        </div>
+                        <button id="add" class="btn btn-default col-md-12 col-sm-12 col-xs-12">增加数据</button>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div id="toolbar" class="col-md-12 col-sm-12 col-xs-12">
+                            <button id="remove" class="btn btn-default col-md-4 col-sm-4 col-xs-4">删除选中项</button>
+                            <button id="Submit" class="btn btn-default col-md-4 col-sm-4 col-xs-4">提交更改</button>
+                            <button id="refresh" class="btn btn-default col-md-4 col-sm-4 col-xs-4">刷新数据</button>
+                        </div>
+                        <table id="AccessControl" class="cell-border" 
+                            data-show-export="true" 
+                            data-toolbar="#toolbar" >
+                            <thead>
+                                <tr>
+                                    <th data-field="state" data-checkbox="true"></th>
+                                    <th data-field="_id" data-editable="false">InternalID</th>
+                                    <th data-field="operation" data-editable="true" >Operation</th>
+                                    <th data-field="accessName" data-editable="true">accessName</th>                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</template>

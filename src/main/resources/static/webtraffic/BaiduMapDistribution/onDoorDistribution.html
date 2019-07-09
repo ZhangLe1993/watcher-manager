@@ -1,0 +1,29 @@
+<template name="onDoorDistribution">
+  <!--  <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.2"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>-->
+
+    <section class="content" style="background-color: white">
+        <!--<div class="testtem" style="position:relative;left:0;top:0">-->
+            <button type="button" class="btn btn-primary onDoorDistributiondateSelectLabelend pull-right" style="margin-right: 1%;margin-top: 1%;position:relative;z-index:2" id="reportrangestart">
+                <i class="fa fa-calendar"></i> <span id="dateShowstart"></span>
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <label class="datelabend pull-right" style="font-size:25px; color:#3c8dbc; margin-top: 1%;position:relative;margin-right:1%;z-index:2">到</label>
+            <button type="button" class="btn btn-primary onDoorDistributiondateSelectLabelstart pull-right" style="margin-right: 1%;margin-top: 1%;position:relative;z-index:2" id="reportrangeend">
+                <i class="fa fa-calendar"></i> <span id="dateShowend"></span>
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <label class="datelabstart pull-right" style="font-size:25px; color:#3c8dbc; margin-top: 1%;position:relative;margin-right:1%;z-index:2">日期从</label>
+
+            <label class="tradeNum pull-left" style="font-size:25px; color:#3c8dbc; margin-top: 1%;position:relative;margin-right:1%;z-index:2"></label>
+            <label class="nullNum pull-left" style="font-size:25px; color:#3c8dbc; margin-top: 1%;position:relative;margin-right:1%;z-index:2"></label>
+        <!--</div>-->
+            <!--<div><button type="button" class="onDoorDistributiondateSelectLabel"></button> </div>-->
+            <div id="allmap" class="row" style="position:absolute;left:0;top:0;padding:0px;width:1400px;height:700px;top:0px; z-index:0">
+            </div>
+            <div style="text-align: center;margin-top: 150px" id="loading">
+                <img src="/images/loading.gif">
+            </div>
+    </section>
+
+</template>

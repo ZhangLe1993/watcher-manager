@@ -1,0 +1,1222 @@
+<template name="instrumentsPanelAfter">
+    <div id="controller" class="content"  style="background:#eee;">
+        <!--<script src="/assets/ins_panel/echarts/theam/macarons.js"></script>-->
+        <style>
+            @media screen and (min-width:1600px) {
+                .text-up{
+                    font-size:25px !important;
+                }
+                .money-dw{
+                    font-size:12px;
+                    font-weight: normal;
+                }
+                .text-letter-down{
+                    font-size:15px !important;
+                }
+                .money-dw-hour{
+                    font-size:15px;
+                    font-weight: normal;
+                }
+                .text-more-up{
+                    font-size:12px
+                }
+                .font-defined-my{
+                    font-size:15px;
+                }
+                .table-defined-height{
+                    height:320px;width:100%;
+                }
+                .table-defined-pre-height{
+                    height:320px;
+                }
+            }
+            .fixed-table-container{
+                border:0px !important;
+            }
+            .bootstrap-table{
+                border-bottom:0 !important;
+            }
+            .chart-title{
+                color: #999;
+                font-size:12px
+            }
+            .chart-subtitle{
+                color: #999;
+                font-size:12px
+            }
+
+            .chart-subtitle_block{
+                font-size:12px
+            }
+
+            .smart-ul-w{
+                width:100%;
+            }
+
+            .hand-title{
+                cursor:pointer;
+            }
+
+            .add-weight{
+                font-weight: bold;
+            }
+            .display-none{
+                display:none;
+            }
+            .info-box-center{
+                margin:0 auto;
+            }
+
+            .table_list_box{
+                /*table-layout:fixed !important;*/
+            }
+
+            @media screen and (max-width:1600px) {
+                .text-up{
+                    font-size:12px !important;
+                }
+                .money-dw{
+                    font-size:8px;
+                    font-weight: normal;
+                }
+                .text-letter-down{
+                    font-size:12px !important;
+                }
+                .money-dw-hour{
+                    font-size:8px;
+                    font-weight: normal;
+                }
+                .text-more-up{
+                    font-size:8px
+                }
+                .font-defined-my{
+                    font-size:10px;
+                }
+                .table-defined-height{
+                    height:300px;width:100%;
+                }
+                .table-defined-pre-height{
+                    height:300px;
+                }
+            }
+        </style>
+        <section class="content" style="background:#eee;">
+            <!--前半部分  @Author ： LuJia.chen-->
+            <!--1 整体分析section-->
+            <div class="row" style="width:98%;margin: 0 auto;">
+                <div class="nav-tabs-custom" style="cursor: move;">
+                    <!-- 整体分析header -->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <li class="pull-right header">
+                            <span style="font-size:15px;">选择时间：</span>
+                            <button type="button" class="btn btn-default pull-right" id="whole-analysis-date-range-btn" style="background:#fff !important;;font-size:15px;">
+                                <i class="fa fa-calendar"></i>
+                                <span>时间</span>
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                        </li>
+                        <li class="pull-left header" style="font-weight: bold;"><i class="fa fa-inbox"></i>整体分析</li>
+                    </ul>
+                    <!--整体分析图表-->
+                    <div class="tab-content no-padding row" style="margin-top:2%; margin-left:15px;margin-right:15px">
+                        <div class="col-sm-6 col-md-3 col-lg=3 loading" id="optGmvChartLoading">
+                            <br>
+                            <br>
+                            <br>
+                            <div class='loading-anim'>
+                                <div class='border out'></div>
+                                <div class='border in'></div>
+                                <div class='border mid'></div>
+                                <div class='circle'>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Morris chart - Sales -->
+                        <div class="col-sm-6 col-md-3 col-lg=3" id="optGmvChartPanel">
+                            <p class="text-center chart-title hand-title">代拍GMV
+                                <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="代拍物品竞出金额"></a>
+                            </p>
+                            <p class="text-center text-up"><span id="optGmvCnt" data-set="opt-gmv-cnt"></span> <span class="money-dw">元</span></p>
+                            <div class="chart tab-pane active" id="optGmvChart" style="position: relative; height: 300px;"></div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-3 col-lg=3 loading" id="b2bGmvChartLoading">
+                            <br>
+                            <br>
+                            <br>
+                            <div class='loading-anim'>
+                                <div class='border out'></div>
+                                <div class='border in'></div>
+                                <div class='border mid'></div>
+                                <div class='circle'>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-3 col-lg=3" id="b2bGmvChartPanel">
+                            <p class="text-center chart-title hand-title">B2B自营GMV
+                                <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="爱机汇物品竞出金额"></a>
+                            </p>
+                            <p class="text-center text-up"><span id="b2bGmvCnt" data-set="b2b-gmv-cnt"></span> <span class="money-dw">元</span></p>
+                            <div class="chart tab-pane active" id="b2bGmvChart" style="position: relative; height: 300px;"></div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-3 col-lg=3 loading" id="sellerGmvChartLoading">
+                            <br>
+                            <br>
+                            <br>
+                            <div class='loading-anim'>
+                                <div class='border out'></div>
+                                <div class='border in'></div>
+                                <div class='border mid'></div>
+                                <div class='circle'>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-3 col-lg=3 hand-title" id="sellerGmvChartPanel">
+                            <p class="text-center chart-title hand-title">卖家客户数量
+                                <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="已签约卖家合同的客户数量"></a>
+                            </p>
+                            <p class="text-center text-up" ><span id="sellerClientCount" data-set="seller-client-count"></span> <span class="money-dw">个</span></p>
+                            <div class="chart tab-pane active" id="sellerGmvChart" style="position: relative; height: 300px;"></div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-3 col-lg=3 loading" id="buyerGmvChartLoading">
+                            <br>
+                            <br>
+                            <br>
+                            <div class='loading-anim'>
+                                <div class='border out'></div>
+                                <div class='border in'></div>
+                                <div class='border mid'></div>
+                                <div class='circle'>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-3 col-lg=3" id="buyerGmvChartPanel">
+                            <p class="text-center chart-title hand-title">买家客户数量
+                                <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="已签约买家合同的客户数量"></a>
+                            </p>
+                            <p class="text-center text-up"><span id="buyerClientCount" data-set="buyer-client-count"></span>  <span class="money-dw">个</span></p>
+                            <div class="chart tab-pane active" id="buyerGmvChart" style="position: relative; height: 300px;"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!--交易分析section-->
+            <div class="row" style="width:98%;margin: 0 auto;">
+                <div class="nav-tabs-custom" style="cursor: move;">
+
+                    <!-- 交易分析header -->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <li class="pull-right header">
+                            <span style="font-size:15px;">选择时间段：</span>
+                            <button type="button" class="btn btn-default pull-right" id="trade-analysis-date-range-btn" style="background:#fff !important;;font-size:15px;">
+                                <i class="fa fa-calendar"></i>
+                                <span>时间</span>
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                        </li>
+                        <li class="pull-left header" style="font-weight: bold;"><i class="fa fa-inbox"></i>交易分析</li>
+
+                    </ul>
+
+                    <!--a. 客户转化-->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <li class="pull-left header" style="font-size:15px;">a 客户转化</li>
+                    </ul>
+                    <div class="tab-content no-padding row" style="margin-top:2%; margin-left:15px;margin-right:15px">
+
+                        <div class="col-sm-12 col-md-6 col-lg=6 loading" id="clientSellerChartLoading">
+                            <br>
+                            <br>
+                            <br>
+                            <div class='loading-anim'>
+                                <div class='border out'></div>
+                                <div class='border in'></div>
+                                <div class='border mid'></div>
+                                <div class='circle'>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg=6" id="clientSellerChartPanel">
+                            <p class="text-center chart-subtitle_block">卖家
+                                <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="卖家数量:已签约卖家合同的客户数量　　登录卖家:登录的签约卖家数量　　　　　下单卖家:有精准下单or批量下单的卖家数量　　　　　　　　　　　　　　　　成交卖家:有代拍物品已结算的卖家数量"></a>
+                            </p>
+                            <div class="chart tab-pane active" id="clientSellerChart" style="position: relative; height: 400px;"></div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg=6 loading" id="clientBuyerChartLoading">
+                            <br>
+                            <br>
+                            <br>
+                            <div class='loading-anim'>
+                                <div class='border out'></div>
+                                <div class='border in'></div>
+                                <div class='border mid'></div>
+                                <div class='circle'>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg=6" id="clientBuyerChartPanel">
+
+                            <p class="text-center chart-subtitle_block">买家
+                                <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="买家数量:已签约买家合同的客户数量　　登录买家:登录的签约买家数量　　　　　竞拍买家:参与竞拍的买家数量　　　　　竞得买家:成功竞得物品的买家数量"></a>
+                            </p>
+                            <div class="chart tab-pane active" id="clientBuyerChart" style="position: relative; height: 400px;"></div>
+                        </div>
+
+                    </div>
+
+                    <!--b. 物品转化-->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <li class="pull-left header" style="font-size:15px;">b. 物品转化</li>
+                    </ul>
+                    <div class="tab-content no-padding row" style="margin-top:2%; margin-left:15px;margin-right:15px">
+
+                        <div class="col-sm-12 col-md-6 col-lg=6 loading" id="productSellerChartLoading">
+                            <br>
+                            <br>
+                            <br>
+                            <div class='loading-anim'>
+                                <div class='border out'></div>
+                                <div class='border in'></div>
+                                <div class='border mid'></div>
+                                <div class='circle'>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 物品-->
+                        <div class="col-sm-12 col-md-6 col-lg=6" id="productSellerChartPanel">
+                            <p class="text-center chart-subtitle_block">卖家
+                                <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="下单数量:精准下单or批量下单的物品数量　　　　　　　　　　　　　　　　　发货数量:卖家侧发货的代拍物品数量　　收货数量:运营中心收到的代拍物品数量　上拍数量:卖家or系统确认上拍的代拍物品数量　　　　　　　　　　　　　　　成交数量:代拍物品已结算数量"></a>
+                            </p>
+                            <div class="chart tab-pane active" id="productSellerChart" style="position: relative; height: 400px;"></div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg=6 loading" id="productBuyerChartLoading">
+                            <br>
+                            <br>
+                            <br>
+                            <div class='loading-anim'>
+                                <div class='border out'></div>
+                                <div class='border in'></div>
+                                <div class='border mid'></div>
+                                <div class='circle'>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg=6" id="productBuyerChartPanel">
+
+                            <p class="text-center chart-subtitle_block">买家
+                                <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="竞拍数量:买家出价物品数量　　　　　　竞得数量:买家竞得物品数量　　　　　　支付数量:竞得后买家支付的物品数量　　发货数量:运营中心发货数量　　　　　　成交数量:买家验货通过的物品数量"></a>
+                            </p>
+                            <div class="chart tab-pane active" id="productBuyerChart" style="position: relative; height: 400px;"></div>
+                        </div>
+
+
+                    </div>
+
+                    <!--c. 客户分布-->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <li class="pull-left header" style="font-size:15px;">c. 客户分布</li>
+                    </ul>
+                    <div class="tab-content no-padding row" style="margin-top:2%; margin-left:15px;margin-right:15px">
+
+                        <div class="col-sm-12 col-md-6 col-lg=6">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg=12">
+                                    <div class="description-block border-right">
+                                        <h5 class="description-header">卖家</h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg=12">
+                                    <div class="nav-tabs-custom table-defined-pre-height" id="tableOne">
+                                    <ul class="nav nav-tabs" id="pageTab">
+                                        <li class="active">
+                                            <a href="#dealCountTable" data-toggle="tab" aria-expanded="true">成交量</a>
+                                        </li>
+                                        <li>
+                                            <a href="#dealAmountTable" data-toggle="tab" aria-expanded="false">成交金额</a>
+                                        </li>
+                                    </ul>
+
+                                    <div class="tab-content loading" id="dealTableLoading">
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <div class='loading-anim'>
+                                            <div class='border out'></div>
+                                            <div class='border in'></div>
+                                            <div class='border mid'></div>
+                                            <div class='circle'>
+                                                <span class='dot'></span>
+                                                <span class='dot'></span>
+                                                <span class='dot'></span>
+                                                <span class='dot'></span>
+                                                <span class='dot'></span>
+                                                <span class='dot'></span>
+                                                <span class='dot'></span>
+                                                <span class='dot'></span>
+                                                <span class='dot'></span>
+                                                <span class='dot'></span>
+                                                <span class='dot'></span>
+                                                <span class='dot'></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-content table-defined-height" id="dealTablePanel">
+                                        <table class="table table-striped tab-pane font-defined-my table_list_box" id="dealCountTable"
+                                               data-toggle="table"
+                                               data-click-to-select="true">
+
+                                        </table>
+                                        <!-- /.tab-pane -->
+                                        <table class="table table-striped tab-pane font-defined-my table_list_box" id="dealAmountTable"
+                                               data-toggle="table"
+                                               data-click-to-select="true">
+                                        </table>
+                                    </div>
+                                    <!-- /.tab-content -->
+                                </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg=6">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg=12">
+                                    <div class="description-block border-right">
+                                        <h5 class="description-header">买家</h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg=12">
+                                    <div class="nav-tabs-custom table-defined-pre-height" id="tableTwo">
+                                        <ul class="nav nav-tabs">
+                                            <li id="bidCountTab" class="active">
+                                                <a href="#bidCountTable" data-toggle="tab">竞得量</a>
+                                            </li>
+                                            <li id="bidPriceTab">
+                                                <a href="#bidPriceTable" data-toggle="tab">竞得金额</a>
+                                            </li>
+                                        </ul>
+
+                                        <div class="tab-content loading" id="bidTableLoading">
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <div class='loading-anim'>
+                                                <div class='border out'></div>
+                                                <div class='border in'></div>
+                                                <div class='border mid'></div>
+                                                <div class='circle'>
+                                                    <span class='dot'></span>
+                                                    <span class='dot'></span>
+                                                    <span class='dot'></span>
+                                                    <span class='dot'></span>
+                                                    <span class='dot'></span>
+                                                    <span class='dot'></span>
+                                                    <span class='dot'></span>
+                                                    <span class='dot'></span>
+                                                    <span class='dot'></span>
+                                                    <span class='dot'></span>
+                                                    <span class='dot'></span>
+                                                    <span class='dot'></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-content table-defined-height" id="bidTablePanel">
+                                            <table class="table table-striped active tab-pane font-defined-my table_list_box" id="bidCountTable"
+                                                   data-toggle="table"
+                                                   data-click-to-select="true">
+                                            </table>
+                                            <!-- /.tab-pane -->
+                                            <table class="table table-striped tab-pane font-defined-my table_list_box" id="bidPriceTable"
+                                                   data-toggle="table"
+                                                   data-click-to-select="true">
+
+                                            </table>
+                                        </div>
+                                        <!-- /.tab-content -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--d. 退货分析-->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <li class="pull-left header" style="font-size:15px;">d. 退货分析</li>
+                    </ul>
+                    <div class="tab-content no-padding row" style="margin-top:2%; margin-left:15px;margin-right:15px">
+
+                        <div class="col-sm-12 col-md-6 col-lg=6 loading" id="returnInventoryPieChartLoading">
+                            <br>
+                            <br>
+                            <br>
+                            <div class='loading-anim'>
+                                <div class='border out'></div>
+                                <div class='border in'></div>
+                                <div class='border mid'></div>
+                                <div class='circle'>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg=6"  id="returnInventoryPieChartPanel">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg=12">
+                                    <div class="description-block border-right">
+                                        <h5 class="description-header">卖家</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class=" box-header col-sm-6 col-md-6 col-lg=6">
+
+                                    <div class="description-block border-right">
+                                        <span trend-color-set="reject-good-analysis-num" class="description-percentage text-green add-weight"><i trend-set="reject-good-analysis-num" class="fa fa-caret-up"></i> <span data-set="reject-good-analysis-trend-num-int">-</span>.<span data-set="reject-good-analysis-trend-num-smart">-</span>%</span>
+                                        <h5 class="description-header text-up"><span data-set="reject-good-analysis-num">-</span> <span class="money-dw">台</span> <span style="margin:0 3px">∣</span><span data-set="reject-good-analysis-num-int">-</span>.<span data-set="reject-good-analysis-num-smart">-</span>%</h5>
+                                        <span class="description-text text-more-up hand-title">退货量
+                                            <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="卖家已退货的物品数量，退货比例=卖家已退货数量/代拍质检完成的物品数量。"></a>
+                                        </span>
+
+                                    </div>
+                                </div>
+                                <div class="box-header col-sm-6 col-md-6 col-lg=6">
+                                    <div class="description-block border-right">
+                                        <span trend-color-set="reject-good-analysis-money" class="description-percentage text-red add-weight"><i trend-set="reject-good-analysis-money" class="fa fa-caret-down"></i> <span data-set="reject-good-analysis-trend-money-int">-</span>.<span data-set="reject-good-analysis-trend-money-smart">-</span>%</span>
+                                        <h5 class="description-header text-up"><span data-set="reject-good-analysis-money">-</span> <span class="money-dw">元</span> <span style="margin:0 3px">∣</span><span data-set="reject-good-analysis-money-int">-</span>.<span data-set="reject-good-analysis-money-smart">-</span>%</h5>
+                                        <span class="description-text text-more-up hand-title">退货金额
+                                            <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="退货金额=卖家提交退货的物品起拍价，退货金额比例=卖家退货起拍价金额/卖家质检完的物品起拍价金额"></a>
+                                        </span>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="chart tab-pane active" id="returnInventoryFirstPieChart" style="position: relative; height: 500px;"></div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="chart tab-pane active" id="returnInventorySecondPieChart" style="position: relative; height: 500px;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg=6 loading" id="returnReasonPieChartLoading">
+                            <br>
+                            <br>
+                            <br>
+                            <div class='loading-anim'>
+                                <div class='border out'></div>
+                                <div class='border in'></div>
+                                <div class='border mid'></div>
+                                <div class='circle'>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg=6" id="returnReasonPieChartPanel">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg=12">
+                                    <div class="description-block border-right">
+                                        <h5 class="description-header">买家</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="box-header col-sm-5 col-md-5 col-lg=5">
+                                    <div class="description-block border-right">
+                                        <span trend-color-set="reject-cnt-buyer" class="description-percentage text-yellow add-weight"><i trend-set="reject-cnt-buyer" class="fa"></i> <span data-set="reject-cnt-buyer-circle-int">-</span>.<span data-set="reject-cnt-buyer-circle-smart">-</span>%</span>
+                                        <h5 class="description-header text-up"><span  id="returnCntBuyer" data-set="reject-cnt-buyer">-</span> <span class="money-dw">台</span> <span style="margin:0 3px">∣</span><span data-set="reject-cnt-buyer-int">-</span>.<span data-set="reject-cnt-buyer-smart">-</span>%</h5>
+                                        <span class="description-text text-more-up hand-title">退货量
+                                            <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="退货量=卖家已退货的物品数量，退货比例=卖家已退货数量/代拍质检完成的物品数量"></a>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="box-header col-sm-5 col-md-5 col-lg=5">
+                                    <div class="description-block border-right">
+                                        <span trend-color-set="reject-cnt-buyer" class="description-percentage text-yellow add-weight"><i trend-set="reject-amt-buyer" class="fa"></i> <span data-set="reject-amt-buyer-circle-int">-</span>.<span data-set="reject-amt-buyer-circle-smart">-</span>%</span>
+                                        <h5 class="description-header text-up"><span  id="returnAmtBuyer" data-set="reject-amt-buyer">-</span> <span class="money-dw">元</span> <span style="margin:0 3px">∣</span><span data-set="reject-amt-buyer-int">-</span>.<span data-set="reject-amt-buyer-smart">-</span>%</h5>
+                                        <span class="description-text text-more-up hand-title">退货金额
+                                            <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="退货金额=平台同意退货的物品金额，退货金额比例=平台同意退货金额/平台出库金额"></a>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class=" box-header col-sm-2 col-md-2 col-lg=2">
+                                    <div class="description-block border-right">
+                                        <span trend-color-set="reject-deny-rate" class="description-percentage text-yellow add-weight"><i trend-set="reject-deny-rate" class="fa"></i> <span data-set="reject-deny-rate-trend-int">-</span>.<span data-set="reject-deny-rate-trend-smart">-</span>%</span>
+                                        <h5 class="description-header text-up" id="denyReturnRate"><span data-set="reject-deny-rate-int">-</span>.<span data-set="reject-deny-rate-smart">-</span>%</h5>
+                                        <span class="description-text text-more-up hand-title">拒退率
+                                            <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="拒退率=据退的物品数量/（据退的物品数量+同意退货的物品数量）"></a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!--<p class="text-center chart-subtitle">买家</p>-->
+                                <div class="chart tab-pane active" id="returnReasonPieChart" style="position: relative; height: 500px;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--e. 供需比分析-->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <li class="pull-left header" style="font-size:15px;">e. 供需比分析</li>
+                    </ul>
+                    <div class="tab-content no-padding row" style="margin-top:2%; margin-left:15px;margin-right:15px">
+
+                        <div class="col-sm-12 col-md-6 col-lg=6 loading" id="supplyDemandLineChartLoading">
+                            <br>
+                            <br>
+                            <br>
+                            <div class='loading-anim'>
+                                <div class='border out'></div>
+                                <div class='border in'></div>
+                                <div class='border mid'></div>
+                                <div class='circle'>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 物品-->
+                        <div class="col-sm-12 col-md-6 col-lg=6" id="supplyDemandLineChartPanel">
+                            <div class="row">
+                                <div class="box-header col-sm-4 col-md-4 col-lg=4">
+                                    <div class="description-block border-right">
+                                        <span class="description-percentage text-red add-weight" trend-color-set="supply-compare-num"><i trend-set="supply-compare-num" class="fa"></i> <span class="text-letter-down add-weight"><span data-set="supply-compare-trend-int">-</span>.<span data-set="supply-compare-trend-smart">-</span>%</span></span>
+                                        <h5 class="description-header text-up"><span data-set="supply-compare-num">-</span><span class="money-dw">台</span></h5>
+                                        <span class="description-text text-more-up hand-title">平均卖家上拍
+                                            <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="卖家下代拍单后进入代拍的物品数量"></a>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="box-header col-sm-4 col-md-4 col-lg=4">
+                                    <div class="description-block border-right">
+                                        <span class="description-percentage text-red add-weight" trend-color-set="demand-compare-num"><i trend-set="demand-compare-num" class="fa"></i> <span class="text-letter-down add-weight"><span data-set="demand-compare-trend-int">-</span>.<span data-set="demand-compare-trend-smart">-</span>%</span></span>
+                                        <h5 class="description-header text-up"><span data-set="demand-compare-num">-</span><span class="money-dw">台</span></h5>
+                                        <span class="description-text text-more-up hand-title">平均买家竞拍
+                                            <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="买家有效出价（报价>0&数量>0，每次竞拍只记录最终报价）的物品数量"></a>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class=" box-header col-sm-4 col-md-4 col-lg=4">
+                                    <div class="description-block border-right">
+                                        <span class="description-percentage text-red add-weight" trend-color-set="supply-demand-compare-num"><i trend-set="supply-demand-compare-num" class="fa"></i> <span class="text-letter-down add-weight"><span data-set="supply-demand-compare-trend-int">-</span>.<span data-set="supply-demand-compare-trend-smart">-</span>%</span></span>
+                                        <h5 class="description-header text-up"><span data-set="supply-demand-compare-num-int">-</span>.<span data-set="supply-demand-compare-num-smart">-</span></h5>
+                                        <span class="description-text text-more-up hand-title">平均供需比
+                                            <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="买家竞拍/卖家上拍"></a>
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="chart tab-pane active" id="supplyDemandLineChart" style="position: relative; height: 400px;"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg=6 loading" id="supplyDemandPieChartLoading">
+                            <br>
+                            <br>
+                            <br>
+                            <div class='loading-anim'>
+                                <div class='border out'></div>
+                                <div class='border in'></div>
+                                <div class='border mid'></div>
+                                <div class='circle'>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg=6" id="supplyDemandPieChartPanel">
+
+                            <!--<p class="text-center chart-subtitle">买家</p>-->
+                            <div class="chart tab-pane active" id="supplyDemandPieChart" style="position: relative; height: 500px;"></div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!--后半部分 @Author:yule.zhang-->
+            <div class="row">
+                <div class="row-fluid example">
+                    <div id="graphic" class="col-md-12">
+                        <!--<div id="fundAnalysisChart" class="main" _echarts_instance_="1531994069183" style="-webkit-tap-highlight-color: transparent; user-select: none; background-color: rgba(0, 0, 0, 0); cursor: default;">
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="width:98%;margin: 0 auto;">
+                <div class="nav-tabs-custom" style="cursor: move;">
+                    <!-- Tabs within a box -->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <li class="pull-right header">
+                            <span style="font-size:12px;">时间段：</span>
+                            <button type="button" class="btn btn-default pull-right" id="circulation-analysis-date-range-btn" style="background:#fff !important;;font-size:12px;margin-top:5px;">
+                                <i class="fa fa-calendar"></i>
+                                <span>时间</span>
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                        </li>
+
+                        <li class="pull-right header">
+                            <span style="font-size:12px;">型号：</span>
+                            <select id="model" class="model" style="height: 32px;width: 60px;border-radius: 4px;font-size:12px;" my-init="true">
+                                <option value="0">不限</option>
+                            </select>
+                        </li>
+
+                        <li class="pull-right header">
+                            <span style="font-size:12px;">品牌：</span>
+                            <select id="brand" class="brand" style="height: 32px;width: 60px;border-radius: 4px;font-size:12px;" my-init="true">
+                                <option value="0">不限</option>
+                            </select>
+                        </li>
+
+                        <li class="pull-right header">
+                            <span style="font-size:12px;">类别：</span>
+                            <select id="category" class="category" style="height: 32px;width: 60px;border-radius: 4px;font-size:12px;" my-init="true">
+                                <option value="0">不限</option>
+                                <option value="1">手机</option>
+                                <option value="6">平板电脑</option>
+                                <option value="5">笔记本</option>
+                                <option value="22">摄影摄像</option>
+                                <option value="3">智能数码</option>
+                            </select>
+                        </li>
+
+                        <li class="pull-right header">
+                            <span style="font-size:12px;">业务线：</span>
+                            <select id="source" class="source" style="height: 32px;width: 60px;border-radius: 4px;font-size:12px;" my-init="true">
+                                <option value="0">不限</option>
+                                <option value="1">B2B</option>
+                                <option value="2">C2B</option>
+                            </select>
+                        </li>
+
+                        <li class="pull-left header" style="font-weight: bold;"><i class="fa fa-inbox"></i>物品流转分析</li>
+                    </ul>
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle smart-ul-w">
+                        <li class="pull-left header" style="font-size:15px;">a 物品流转</li>
+                        <li class="pull-left header" style="font-size:15px;">
+                            <span style="color:#00c0ef;margin-left:5px;">
+                                温馨提示：T表示平均时长 ，N表示平均每日的数量
+                            </span>
+                        </li>
+                    </ul>
+                    <div class="tab-content no-padding row" style="width:100%;margin:0;">
+                        <div class="col-sm-12 col-md-12 col-xs-12 loading" id="forceChartLoading">
+                            <br>
+                            <br>
+                            <br>
+                            <div class='loading-anim'>
+                                <div class='border out'></div>
+                                <div class='border in'></div>
+                                <div class='border mid'></div>
+                                <div class='circle'>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-xs-12" id="forceChartPanel">
+                            <!-- Morris chart - Sales -->
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="info-box-instruments-panel">
+                                        <div class="info-box-content info-box-center">
+                                            <span class="info-box-text chart-subtitle hand-title">运营中心总时长
+                                                <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="平均时长（运营中心物流签收-运营中心发货）"></a>
+                                            </span>
+                                            <span class="info-box-number text-up"><span data-set="operation-all-hour">-</span> <span class="money-dw-hour">h</span>  <span trend-color-set="operation-all-hour" class="description-percentage text-red text-letter-down"><i trend-set="operation-all-hour" class="fa fa-caret-down"></i> <span data-set="operation-all-hour-trend-int">-</span>.<span data-set="operation-all-hour-trend-smart">-</span>%</span></span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="info-box-instruments-panel">
+                                        <div class="info-box-content info-box-center">
+                                            <span class="info-box-text chart-subtitle hand-title">买家售后总时长
+                                                <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="平均时长（买家收货-运营中心退货审核）"></a>
+                                            </span>
+                                            <span class="info-box-number text-up"><span data-set="buyer-after-all-hour">-</span> <span class="money-dw-hour">h</span>  <span trend-color-set="buyer-after-all-hour" class="description-percentage text-green text-letter-down"><i trend-set="buyer-after-all-hour" class="fa fa-caret-up"></i> <span data-set="buyer-after-all-hour-trend-percent-int">-</span>.<span data-set="buyer-after-all-hour-trend-percent-smart">-</span>%</span></span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="chart tab-pane active" id="forceChart" style="position: relative; width:98%;height: 500px;">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr><!-- style= "height:1px;border:none;border-top:1px dashed #0a73cf;"-->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle smart-ul-w">
+                        <li class="pull-left header" style="font-size:15px;">b 库存分析</li>
+                    </ul>
+                    <div class="tab-content no-padding row" style="width:100%;margin:0;">
+
+                        <div class="col-sm-12 col-md-6 loading" id="stockLineChartLoading">
+                            <br>
+                            <br>
+                            <br>
+                            <div class='loading-anim'>
+                                <div class='border out'></div>
+                                <div class='border in'></div>
+                                <div class='border mid'></div>
+                                <div class='circle'>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Morris chart - Sales -->
+                        <div id="stockLineChartPanel" class="col-md-6 col-xs-12">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="info-box-instruments-panel">
+                                        <div class="info-box-content info-box-center">
+                                            <span class="info-box-text chart-subtitle hand-title">平均库存量
+                                                <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="每日0点的平均库存量（库存量统计中，剔除以下数据：a.门店数据；b.测试库的机器，c.17年入库的机器；d、行政库；e、脏机）"></a>
+                                            </span>
+                                            <span class="info-box-number text-up"><span data-set="stock-line-num">-</span> <span class="money-dw">台</span>　<span trend-color-set="stock-line-num" class="description-percentage text-red text-letter-down"><i trend-set="stock-line-num" class="fa fa-caret-down"></i> <span data-set="stock-line-trend-int">-</span><span data-set="clear">.</span><span data-set="stock-line-trend-smart">-</span>%</span></span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="info-box-instruments-panel">
+                                        <div class="info-box-content info-box-center">
+                                            <span class="info-box-text chart-subtitle hand-title">平均库龄
+                                                <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="已出库物品库龄=最后1次出运营中心仓库时间-第一次入运营中心仓库时间　　　　未出库物品库龄=所选终点时间-第一次入运营中心仓库时间"></a>
+                                            </span>
+                                            <span class="info-box-number text-up"><span data-set="stock-line-hour">-</span> <span class="money-dw-hour">h</span>　<span trend-color-set="stock-line-hour" class="description-percentage text-green text-letter-down"><i trend-set="stock-line-hour" class="fa fa-caret-up"></i> <span data-set="stock-line-hour-trend-int">-</span>.<span data-set="stock-line-hour-trend-smart">-</span>%</span></span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="chart tab-pane active col-md-12" id="stockLineChart" style="position: relative; height: 500px;">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 loading" id="stockPieChartLoading">
+                            <br>
+                            <br>
+                            <br>
+                            <div class='loading-anim'>
+                                <div class='border out'></div>
+                                <div class='border in'></div>
+                                <div class='border mid'></div>
+                                <div class='circle'>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                    <span class='dot'></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="stockPieChartPanel" class="col-md-6 col-xs-12">
+
+                            <div class="chart tab-pane active col-md-12" id="stockPieChart" style="position: relative; height: 500px;">
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <hr><!-- style= "height:1px;border:none;border-top:1px dashed #0a73cf;"-->
+
+                    <div class="tab-content no-padding row" style="width:100%;margin:0;">
+                        <div class="col-md-6" style="border-right:1px dashed #eee;">
+                            <ul class="nav nav-tabs pull-left ui-sortable-handle smart-ul-w">
+                                <li class="pull-left header" style="font-size:15px;">c 流拍分析 (日)</li>
+                            </ul>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="info-box-instruments-panel">
+                                        <div class="info-box-content info-box-center">
+                                            <span class="info-box-text chart-subtitle hand-title">平均每日首次流拍量
+                                                <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="首次流拍的平均物品数量、比例"></a>
+                                            </span>
+                                            <span class="info-box-number text-up"><span data-set="first-pass-in-num">-</span> <span class="money-dw">台</span> | <span data-set="first-pass-in-percent-int">-</span>.<span data-set="first-pass-in-percent-smart">-</span>%　<span trend-color-set="first-pass-in-trend-percent" class="description-percentage text-red text-letter-down"><i trend-set="first-pass-in-trend-percent" class="fa fa-caret-down"></i> <span data-set="first-pass-in-trend-percent-int">-</span>.<span data-set="first-pass-in-trend-percent-smart">-</span>%</span></span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="info-box-instruments-panel">
+                                        <div class="info-box-content info-box-center">
+                                            <span class="info-box-text chart-subtitle hand-title">平均每日流拍量
+                                                <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="每日平均流拍数量、比例"></a>
+                                            </span>
+                                            <span class="info-box-number text-up"><span data-set="pass-in-num">-</span> <span class="money-dw">台</span> | <span data-set="pass-in-percent-int">-</span>.<span data-set="pass-in-percent-smart">-</span>%　<span trend-color-set="pass-in-trend-percent" class="description-percentage text-green text-letter-down"><i trend-set="pass-in-trend-percent" class="fa fa-caret-up"></i> <span data-set="pass-in-trend-percent-int">-</span>.<span data-set="pass-in-trend-percent-smart">-</span>%</span></span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-xs-12 loading" id="passInChartLoading">
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <div class='loading-anim'>
+                                        <div class='border out'></div>
+                                        <div class='border in'></div>
+                                        <div class='border mid'></div>
+                                        <div class='circle'>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-xs-12" id="passInChartPanel">
+                                    <!-- Morris chart - Sales -->
+                                    <div class="chart tab-pane active" id="passInChart" style="position: relative; width:98%;height: 500px;">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="nav nav-tabs pull-left ui-sortable-handle smart-ul-w">
+                                <li class="pull-left header" style="font-size:15px;">d 卖家确认情况分析 (日)</li>
+                            </ul>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="info-box-instruments-panel">
+                                        <div class="info-box-content info-box-center">
+                                            <span class="info-box-text chart-subtitle hand-title">平均每日确认量
+                                                <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="卖家侧平均每日确认的物品数量、比例"></a>
+                                            </span>
+                                            <span class="info-box-number text-up"><span data-set="confirm-num">-</span> <span class="money-dw">台</span> | <span data-set="confirm-num-percent-int">-</span>.<span data-set="confirm-num-percent-smart">-</span>%　<span trend-color-set="confirm-num" class="description-percentage text-red text-letter-down"><i trend-set="confirm-num" class="fa fa-caret-down"></i> <span data-set="confirm-num-trend-int">-</span>.<span data-set="confirm-num-trend-smart">-</span>%</span></span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="info-box-instruments-panel">
+                                        <div class="info-box-content info-box-center">
+                                            <span class="info-box-text chart-subtitle hand-title">平均确认时长
+                                                <a href="#" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" data-placement="top" title="平均时长（买家待确认-确认完成）"></a>
+                                            </span>
+                                            <span class="info-box-number text-up"><span data-set="confirm-hour">-</span> <span class="money-dw-hour">h </span>  <span trend-color-set="confirm-hour" class="description-percentage text-green text-letter-down"><i trend-set="confirm-hour" class="fa fa-caret-up"></i> <span data-set="confirm-hour-trend-int">-</span>.<span data-set="confirm-hour-trend-smart">-</span>%</span></span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-xs-12 loading" id="sellerConfirmChartLoading">
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <div class='loading-anim'>
+                                        <div class='border out'></div>
+                                        <div class='border in'></div>
+                                        <div class='border mid'></div>
+                                        <div class='circle'>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                            <span class='dot'></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-xs-12" id="sellerConfirmChartPanel">
+                                    <!-- Morris chart - Sales -->
+                                    <div class="chart tab-pane active" id="sellerConfirmChart" style="position: relative; width:98%;height: 500px;">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--垫资分析这版不做-->
+            <!--<div class="row" style="width:98%;margin: 0 auto;">
+                <div class="nav-tabs-custom" style="cursor: move;">
+                    &lt;!&ndash; Tabs within a box &ndash;&gt;
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <li class="pull-right header">
+                            <span style="font-size:12px;">时间段：</span>
+                            <button type="button" class="btn btn-default pull-right" id="fund-analysis-date-range-btn" style="background:#fff !important;font-size:12px;margin-top:5px;">
+                                <i class="fa fa-calendar"></i>
+                                <span>时间</span>
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                        </li>
+                        <li class="pull-left header" style="font-weight: bold;"><i class="fa fa-inbox"></i>垫资分析</li>
+                    </ul>
+                    <div class="tab-content no-padding">
+                        &lt;!&ndash; Morris chart - Sales &ndash;&gt;
+                        <div class="row">
+                            <div class="col-md-4 col-xs-12">
+                                <div class="info-box-instruments-panel">
+                                    <div class="info-box-content info-box-center">
+                                        <span class="info-box-text chart-subtitle hand-title"  data-toggle="tooltip" data-html="true" data-placement="top" title="所选时间点，总垫资金额">总垫资</span>
+                                        <span class="info-box-number text-up">1,410 <span class="money-dw">元</span>　<span class="description-percentage text-red text-letter-down"><i class="fa fa-caret-down"></i> 18%</span></span>
+                                    </div>
+                                    &lt;!&ndash; /.info-box-content &ndash;&gt;
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xs-12">
+                                <div class="info-box-instruments-panel">
+                                    <div class="info-box-content info-box-center">
+                                        <span class="info-box-text chart-subtitle hand-title" data-toggle="tooltip" data-html="true" data-placement="top" title="所选时间点，卖家结算垫资金额|占总垫资金额的比例">卖家结算垫资</span>
+                                        <span class="info-box-number text-up">30 <span class="money-dw">元</span> | 84%　<span class="description-percentage text-green text-letter-down"><i class="fa fa-caret-up"></i> 20%</span></span>
+                                    </div>
+                                    &lt;!&ndash; /.info-box-content &ndash;&gt;
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xs-12">
+                                <div class="info-box-instruments-panel">
+                                    <div class="info-box-content info-box-center">
+                                        <span class="info-box-text chart-subtitle hand-title"  data-toggle="tooltip" data-html="true" data-placement="top" title="所选时间点，预付款垫资金额|占总垫资金额的比例">预付款垫资</span>
+                                        <span class="info-box-number text-up">30 <span class="money-dw">元</span> | 16%　<span class="description-percentage text-green text-letter-down"><i class="fa fa-caret-up"></i> 20%</span></span>
+                                    </div>
+                                    &lt;!&ndash; /.info-box-content &ndash;&gt;
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="chart tab-pane active" id="fundAnalysisChart" style="position: relative; width:98%;height: 500px;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+        </section>
+    </div>
+</template>

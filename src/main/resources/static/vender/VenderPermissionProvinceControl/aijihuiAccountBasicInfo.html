@@ -1,0 +1,203 @@
+<template name="aijihuiAccountBasicInfo">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+
+            <div id="chartContent" class="template-dashboard content body">
+
+                <!--<span style="color:red">注：</span><span>只包含官网和M版流量</span>-->
+                <div class="row desktop-only c-border">
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请选择查看时间:</span>
+
+                        <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+
+                        <span>请选择客户所在省份:</span>
+                        <select  class="province c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+
+                        <span>请选择客户:</span>
+                        <!--<select class="account selectpicker" data-live-search="true" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;"></select>-->
+                        <!--<select class="account c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>-->
+                        <input class="account c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;"/>
+
+                        <span>请选择活跃度:</span>
+                        <select class="active c-mleft5" style="margin-left: 10px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                            <option value="all">全部</option>
+                            <option value="threeDay">三天未登录</option>
+                            <option value="oneWeek">一周未登录</option>
+                            <option value="threeWeek">三周未登录</option>
+                            <option value="oneMonth">一月未登录</option>
+                        </select>
+
+                        <a href="#" class="glyphicon glyphicon-question-sign pull-right" style="margin-top:1%;margin-bottom: 1%;" data-toggle="tooltip"
+                           title="说明：
+1、活跃度适用于总账户和子账户，门店没有活跃度选项
+2、三个表格中的省份皆是总账户所属的省份"></a>
+
+                        <button class="btn btn-primary search">查询</button>
+
+                    </div>
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+
+                    </div>
+
+                </div>
+                <div class="row mobile-only desktop-none">
+
+                    <div>
+
+                        <div class="">
+                            <span>请选择客户所在省份:</span>
+                            <select  class="province c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                            </select>
+                        </div>
+                            <div class="">
+                                <span>请选择客户:</span>
+                                <select  class="account" style="margin-left: 28px;width:200px;border-radius: 4px;padding: 6px 12px;">
+
+                                </select>
+                            </div>
+
+                            <div>
+                                <span>请选择活跃度:</span>
+                                <select class="active c-mleft5" style="margin-left: 10px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                                    <option value="all">全部</option>
+                                    <option value="threeDay">三天未登录</option>
+                                    <option value="oneWeek">一周未登录</option>
+                                    <option value="threeWeek">三周未登录</option>
+                                    <option value="oneMonth">一月未登录</option>
+                                </select>
+                            </div>
+
+                    </div>
+                </div>
+                <div >
+
+                    <label style="margin-top:20px">总账户基本信息数据列表</label>
+                    <div id="etable" class="row" style="margin-top: 15px;border: 1px solid gray">
+                        <div style="text-align: center;margin-top: 150px" id="loading2">
+                            <img src="/images/loading.gif">
+                        </div>
+                        <div id="righte" class="col-md-12 col-sm-12 col-xs-12" style="">
+                            <table id="tablee"
+                                   data-toggle="table"
+                                   data-show-export="true"
+                                   data-pagination="true"
+                                   data-click-to-select="true"
+                            >
+                                <thead>
+                                <tr>
+                                    <th data-field="vender_parent_name" data-sortable="true">客户名称</th>
+                                    <th data-field="vender_account" data-sortable="true">账户名</th>
+                                    <th data-field="contact_name" data-sortable="true">联系人</th>
+                                    <th data-field="vender_mobile_txt" data-sortable="true">手机号</th>
+                                    <th data-field="vender_detail_address" data-sortable="true">客户详细地址</th>
+                                    <th data-field="district" data-sortable="true">母账户所在地区</th>
+                                    <th data-field="area_agent_name" data-sortable="true">所属代理商</th>
+                                    <th data-field="observer_account_user_name" data-sortable="true">所属业务员</th>
+                                    <th data-field="vender_status" data-sortable="true">状态</th>
+                                    <th data-field="contract_start_date" data-sortable="true">合同开始日期</th>
+                                </tr>
+                                </thead>
+
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div >
+
+                    <label style="margin-top:20px">门店基本信息数据列表</label>
+                    <div id="grouptable" class="row" style="margin-top: 15px;border: 1px solid gray">
+                        <div style="text-align: center;margin-top: 150px" id="loadinggroup">
+                            <img src="/images/loading.gif">
+                        </div>
+                        <div id="rightgroup" class="col-md-12 col-sm-12 col-xs-12" style="">
+                            <table id="tablegroup"
+                                   data-toggle="table"
+                                   data-show-export="true"
+                                   data-pagination="true"
+                                   data-click-to-select="true"
+                            >
+                                <thead>
+                                <tr>
+                                    <th data-field="vender_group_name" data-sortable="true">门店名称</th>
+                                    <th data-field="vender_parent_name" data-sortable="true">客户名称</th>
+                                    <th data-field="vender_province_name" data-sortable="true">省份</th>
+                                    <th data-field="vender_group_owner_name" data-sortable="true">店长姓名</th>
+                                    <th data-field="vender_group_owner_mobile" data-sortable="true">联系方式</th>
+                                    <th data-field="vender_group_detail_address" data-sortable="true">门店详细地址</th>
+                                    <th data-field="area_agent_name" data-sortable="true">所属代理商</th>
+                                    <th data-field="district" data-sortable="true">所在区域</th>
+                                    <th data-field="vender_group_status_flag" data-sortable="true">状态</th>
+                                    <th data-field="vender_group_create_date" data-sortable="true">门店创建日期</th>
+                                </tr>
+                                </thead>
+
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div >
+
+                    <label style="margin-top:20px">子账户基本信息数据列表</label>
+                    <div id="ftable" class="row" style="margin-top: 15px;border: 1px solid gray">
+                        <div style="text-align: center;margin-top: 150px" id="loading3">
+                            <img src="/images/loading.gif">
+                        </div>
+                        <div id="rightf" class="col-md-12 col-sm-12 col-xs-12" style="">
+                            <table id="tablef"
+                                   data-toggle="table"
+                                   data-show-export="true"
+                                   data-pagination="true"
+                                   data-click-to-select="true"
+                            >
+                                <thead>
+                                <tr>
+                                    <th data-field="vender_name" data-sortable="true">子账户名</th>
+                                    <th data-field="vender_account" data-sortable="true">账户名</th>
+                                    <th data-field="vender_mobile_txt" data-sortable="true">手机号</th>
+                                    <th data-field="vender_group_name" data-sortable="true">所属门店</th>
+                                    <th data-field="district" data-sortable="true">门店所在地区</th>
+                                    <th data-field="vender_parent_name" data-sortable="true">所属总账户</th>
+                                    <th data-field="area_agent_name" data-sortable="true">所属代理商账户</th>
+                                    <th data-field="vender_status" data-sortable="true">状态</th>
+                                    <th data-field="vender_create_date" data-sortable="true">子账户注册时间</th>
+                                </tr>
+                                </thead>
+
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row" style="margin-top: 3%">
+                    <div class="rte col-md-12 col-sm-12 col-xs-12">
+                        <table id="marketingWebTrafficDataTable" class="display compact cell-border" cellspacing="0"
+                               width="100%"></table>
+                    </div>
+                </div>
+
+            </div>
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

@@ -1,0 +1,356 @@
+<template name="OutletsQAReport">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+
+            <div class="template-dashboard content body">
+
+                <div class="row c-border">
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请选择监控周期:</span>
+                        <label>
+                            <select id="periodSelect"
+                                    style="width: 250px;height: 34px;border-radius: 4px;padding: 6px 12px;">
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 监控量与各城市占比-->
+                <div class="box box-primary" style="margin-top: 3%">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">一、监控量与各城市占比</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div id="cityMonitorBarChart" class="col-md-8 col-sm-8 col-xs-8"
+                                 style="height:400px"></div>
+                            <div id="cityMonitorPieChart" class="col-md-4 col-sm-4 col-xs-4"
+                                 style="height:400px"></div>
+                        </div>
+                        <div class="row col-md-8 col-sm-8 col-xs-8">
+                            <table id="cityMonitorTable" class="cell-border"
+                                   data-show-export="true"
+                                   data-toolbar="#toolbar">
+                                <thead>
+                                <tr>
+                                    <th data-field="city" data-sortable="true">城市</th>
+                                    <th data-field="area" data-sortable="true">大区</th>
+                                    <th data-field="monitorCount" data-sortable="true">监控量</th>
+                                    <th data-field="rate" data-editable="false" data-sortable="true">占比</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-8 col-sm-8 col-xs-8">
+                                <label for="textInput1">注释:</label>
+                                <textarea id="textInput1" class="form-control comment" rows="3"></textarea>
+
+                                <div>
+                                    <button id="updateInput1" class="btn btn-primary search1" style="margin-top: 10px">
+                                        更新注释
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+
+
+                <!-- 大区平均分排名-->
+                <div class="box box-primary" style="margin-top: 3%">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">二、大区平均分排名</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div id="areaQAScoreChart" class="col-md-12 col-sm-12 col-xs-12"
+                                 style="height:400px"></div>
+                        </div>
+                        <div class="row col-md-8 col-sm-8 col-xs-8">
+                            <table id="areaQAScoreTable" class="cell-border"
+                                   data-show-export="true"
+                                   data-toolbar="#toolbar">
+                                <thead>
+                                <tr>
+                                    <th data-field="rank" data-sortable="true">排名</th>
+                                    <th data-field="region" data-sortable="true">大区</th>
+                                    <th data-field="avgQAScore" data-sortable="true">平均分</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-8 col-sm-8 col-xs-8">
+                                <label for="textInput4">注释:</label>
+                                <textarea id="textInput4" class="form-control comment" rows="3"></textarea>
+
+                                <div>
+                                    <button id="updateInput4" class="btn btn-primary search1" style="margin-top: 10px">
+                                        更新注释
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+
+                <!-- 大区平均分排名-->
+                <div class="box box-primary" style="margin-top: 3%">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">三、城市平均分排名</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div id="cityQAScoreChart" class="col-md-12 col-sm-12 col-xs-12"
+                                 style="height:400px"></div>
+                        </div>
+                        <div class="row col-md-8 col-sm-8 col-xs-8">
+                            <table id="cityQAScoreTable" class="cell-border"
+                                   data-show-export="true"
+                                   data-toolbar="#toolbar">
+                                <thead>
+                                <tr>
+                                    <th data-field="rank" data-sortable="true">排名</th>
+                                    <th data-field="region" data-sortable="true">城市</th>
+                                    <th data-field="avgQAScore" data-sortable="true">平均分</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-8 col-sm-8 col-xs-8">
+                                <label for="textInput5">注释:</label>
+                                <textarea id="textInput5" class="form-control comment" rows="3"></textarea>
+
+                                <div>
+                                    <button id="updateInput5" class="btn btn-primary search1" style="margin-top: 10px">
+                                        更新注释
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+
+                <!-- 各城市平均分&个人排名-->
+                <div class="box box-primary" style="margin-top: 3%">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">四、各城市平均分&门店排名</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                                <span>请选择城市:</span>
+                                <label>
+                                    <select id="citySelect"
+                                            style="width: 150px;height: 34px;border-radius: 4px;padding: 6px 12px;">
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="shopQAScoreChart" class="col-md-12 col-sm-12 col-xs-12"
+                                 style="height:400px"></div>
+                        </div>
+                        <div class="row col-md-8 col-sm-8 col-xs-8">
+                            <table id="shopQAScoreTable" class="cell-border"
+                                   data-show-export="true"
+                                   data-toolbar="#toolbar">
+                                <thead>
+                                <tr>
+                                    <th data-field="rank" data-sortable="true">排名</th>
+                                    <th data-field="shop" data-sortable="true">门店名</th>
+                                    <th data-field="avgQAScore" data-sortable="true">平均分</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-8 col-sm-8 col-xs-8">
+                                <label for="textInput6">注释:</label>
+                                <textarea id="textInput6" class="form-control comment" rows="3"></textarea>
+
+                                <div>
+                                    <button id="updateInput6" class="btn btn-primary search1" style="margin-top: 10px">
+                                        更新注释
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+
+                <!-- 各评估项出错量&占比-->
+                <div class="box box-primary" style="margin-top: 3%">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">五、各评估项出错量&占比</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div id="nonKeyErrorDetailChart" class="col-md-8 col-sm-8 col-xs-8"
+                                 style="height:400px"></div>
+                            <div id="nonKeyErrorDetailPieChart" class="col-md-4 col-sm-4 col-xs-4"
+                                 style="height:400px"></div>
+                        </div>
+                        <div class="row col-md-8 col-sm-8 col-xs-8">
+                            <table id="nonKeyErrorDetailTable" class="cell-border"
+                                   data-show-export="true"
+                                   data-toolbar="#toolbar">
+                                <thead>
+                                <tr>
+                                    <th data-field="rank" data-sortable="true">排名</th>
+                                    <th data-field="errorName" data-sortable="true">评估项</th>
+                                    <th data-field="nonKeyErrorCount" data-sortable="true">出错量</th>
+                                    <th data-field="monitorCount" data-sortable="true">监控量</th>
+                                    <th data-field="nonKeyErrorRate" data-sortable="true">出错率</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-8 col-sm-8 col-xs-8">
+                                <label for="textInput7">注释:</label>
+                                <textarea id="textInput7" class="form-control comment" rows="3"></textarea>
+
+                                <div>
+                                    <button id="updateInput7" class="btn btn-primary search1" style="margin-top: 10px">
+                                        更新注释
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+
+                <!-- 各评估项出错率与上期对比分析-->
+                <div class="box box-primary" style="margin-top: 3%">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">六、各评估项出错率与上期对比分析</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                                <span>请选择对比周期:</span>
+                                <label>
+                                    <select id="tarMonitorPeriodSelect"
+                                            style="width: 150px;height: 34px;border-radius: 4px;padding: 6px 12px;">
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="nonKeyErrorCompareChart" class="col-md-12 col-sm-12 col-xs-12"
+                                 style="height:400px"></div>
+                        </div>
+                        <div class="row col-md-8 col-sm-8 col-xs-8">
+                            <table id="nonKeyErrorCompareTable" class="cell-border"
+                                   data-show-export="true"
+                                   data-toolbar="#toolbar">
+                                <thead>
+                                <tr>
+                                    <th data-field="errorName" data-sortable="true">评估项</th>
+                                    <th data-field="srcRate" data-sortable="true">本期出错率</th>
+                                    <th data-field="tarRate" data-sortable="true">上期出错率</th>
+                                    <th data-field="rateDiff" data-sortable="true">升降幅</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-8 col-sm-8 col-xs-8">
+                                <label for="textInput8">注释:</label>
+                                <textarea id="textInput8" class="form-control comment" rows="3"></textarea>
+
+                                <div>
+                                    <button id="updateInput8" class="btn btn-primary search1" style="margin-top: 10px">
+                                        更新注释
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+
+                <!-- 评估项出错率单项分析-->
+                <div class="box box-primary" style="margin-top: 3%">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">七、评估项出错率单项分析</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                                <span>请选择评估项(已按出错率排序):</span>
+                                <label>
+                                    <select id="errorNameSelect"
+                                            style="width: 150px;height: 34px;border-radius: 4px;padding: 6px 12px;">
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="singleNonKeyErrorChart" class="col-md-12 col-sm-12 col-xs-12"
+                                 style="height:400px"></div>
+                        </div>
+                        <div class="row col-md-8 col-sm-8 col-xs-8">
+                            <table id="singleNonKeyErrorTable" class="cell-border"
+                                   data-show-export="true"
+                                   data-toolbar="#toolbar">
+                                <thead>
+                                <tr>
+                                    <th data-field="city" data-sortable="true">城市</th>
+                                    <th data-field="area" data-sortable="true">大区</th>
+                                    <th data-field="nonKeyErrorCount" data-sortable="true">出错量</th>
+                                    <th data-field="monitorCount" data-sortable="true">监控量</th>
+                                    <th data-field="nonKeyErrorRate" data-editable="false" data-sortable="true">出错率</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-8 col-sm-8 col-xs-8">
+                                <label for="textInput9">注释:</label>
+                                <textarea id="textInput9" class="form-control comment" rows="3"></textarea>
+
+                                <div>
+                                    <button id="updateInput9" class="btn btn-primary search1" style="margin-top: 10px">
+                                        更新注释
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+
+                <!-- 质检建议-->
+                <div class="box box-primary" style="margin-top: 3%">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="border-style: none;font-weight: bold">八、质检建议</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="form-group col-md-8 col-sm-8 col-xs-8">
+                                <label for="textInput10">建议:</label>
+                                <textarea id="textInput10" class="form-control comment" rows="3"></textarea>
+
+                                <div>
+                                    <button id="updateInput10" class="btn btn-primary search1" style="margin-top: 10px">
+                                        更新建议
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+
+            </div>
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

@@ -1,0 +1,125 @@
+<template name="innovationDashboard">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <div class="template-ipmonitor content body">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-md-offset-1 col-md-2 col-sm-4 col-xs-6">
+                            <a href="#" style="display: inline-block;">
+                                <p style="text-align: center;font-size: 14pt;">订单设备数</p>
+                                <p style="text-align: center;" >昨日同时:<span id="yorderItemNum">...</span></p>
+                                <div class="c-circle" id="orderItemNum">...</div>
+                                <i style="text-align: center; display: block"
+                                   class="glyphicon glyphicon-chevron-down flag" data-value="1"></i>
+                            </a>
+                        </div>
+                        <div class="col-md-2 col-sm-4  col-xs-6">
+                            <a href="#" style="display: inline-block;">
+                                <p style="text-align: center;font-size: 14pt;">收货设备数</p>
+                                <p style="text-align: center;" >昨日同时:<span id="ydeliveryNum">...</span></p>
+                                <span class="c-circle" id="">
+                                    <span id="deliveryNum">...</span>
+                                </span>
+
+                                <i style="text-align: center;; display: block"
+                                   class="glyphicon glyphicon-chevron-down flag" data-value="2"></i>
+                            </a>
+                        </div>
+                        <div class="col-md-2 col-sm-4 col-xs-6">
+                            <a href="#" style="display: inline-block;">
+                                <p style="text-align: center;font-size: 14pt;">验货设备数</p>
+                                <p style="text-align: center;" >昨日同时:<span id="yvalidateNum">...</span></p>
+                                <span class="c-circle" id="validateNum">...</span>
+                                <i style="text-align: center;; display: block"
+                                   class="glyphicon glyphicon-chevron-down flag" data-value="3"></i>
+                            </a>
+                        </div>
+                        <div class="col-md-2 col-sm-4  col-xs-6">
+                            <a href="#" style="display: inline-block;">
+                                <p style="text-align: center;font-size: 14pt;">入库设备数</p>
+                                <p style="text-align: center;" >昨日同时:<span id="yinWarehouseNum">...</span></p>
+                                <span class="c-circle" id="inWarehouseNum">...</span>
+                                <i style="text-align: center;; display: block"
+                                   class="glyphicon glyphicon-chevron-down flag" data-value="4"></i>
+                            </a>
+                        </div>
+                        <div class="col-md-2 col-sm-4  col-xs-6">
+                            <a href="#" style="display: inline-block;">
+                                <p style="text-align: center;font-size: 14pt;">库存设备数</p>
+                                <p style="text-align: center;" >昨日同时:<span id="yinventoryNum">...</span></p>
+                                <span class="c-circle" id="inventoryNum">...</span>
+                                <i style="text-align: center;; display: block"
+                                   class="glyphicon glyphicon-chevron-down flag" data-value="5"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class=" col-md-12 col-sm-12 col-xs-12" id="chart">
+                        <div class="row box box-primary collapse" data-value="1" style="width: auto;">
+                            <div class="box-header with-border">
+                                <h3 class="box-title" style="border-style: none;font-weight: bold">订单设备数</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="row" style="">
+                                    <div id="orderChannel" style="height:400px" class="col-md-7 col-sm-12"></div>
+                                    <div id="orderMethod" style="height:400px" class="col-md-5 col-sm-12"></div>
+                                </div>
+                            </div><!-- /.box-body -->
+                        </div>
+
+                        <div class="row box box-primary collapse" data-value="2" style="width: auto;">
+                            <div class="box-header with-border">
+                                <h3 class="box-title" style="border-style: none;font-weight: bold">收货设备数</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="row" style="">
+                                    <div class="col-md-6 col-sm-12" id="comparison" style="height: 400px"></div>
+                                </div>
+                            </div><!-- /.box-body -->
+                        </div>
+                        <div class="row box box-primary collapse" data-value="3" style="width: auto;">
+                            <div class="box-header with-border">
+                                <h3 class="box-title" style="border-style: none;font-weight: bold">验货设备数</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="row" style="">
+                                    <div class="col-md-6 col-sm-12" id="oncePassRate" style="height: 400px"></div>
+                                    <div class="col-md-6 col-sm-12" id="checkErrRate" style="height: 400px"></div>
+                                </div>
+                            </div><!-- /.box-body -->
+                        </div>
+                        <div class="row box box-primary collapse" data-value="4" style="width: auto;">
+                            <div class="box-header with-border">
+                                <h3 class="box-title" style="border-style: none;font-weight: bold">入库设备数</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="row" style="">
+                                    <div class="col-md-6 col-sm-12" id="inwarehouseCategory" style="height: 400px"></div>
+                                    <div class="col-md-6 col-sm-12" id="inwarehouseChannel" style="height: 400px"></div>
+                                    <div class="col-md-6 col-sm-12" id="inwarehouseChannel2" style="height: 400px"></div>
+                                </div>
+                            </div><!-- /.box-body -->
+                        </div>
+                        <div class="row box box-primary collapse" data-value="5" style="width: auto;">
+                            <div class="box-header with-border">
+                                <h3 class="box-title" style="border-style: none;font-weight: bold">库存设备数</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="row" style=" margin-left: -10px; margin-right: -10px;">
+                                    <table id="inventoryTable"
+                                           data-toggle="table"
+                                           data-click-to-select="true"
+                                    ></table>
+                                </div>
+                            </div><!-- /.box-body -->
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

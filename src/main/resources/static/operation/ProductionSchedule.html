@@ -1,0 +1,81 @@
+<template name="ProductionScheduleTemplate">
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <div class="template-inspector content body">
+
+                <div class="row box box-primary " data-value="1" style="width: auto;">
+                        <div class="box-header with-border">
+                            <h3 class="box-title" style="border-style: none;font-weight: bold">OPT排产数据</h3>
+                        </div><!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="row" style="margin: 15px;">
+
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <label>请选择查看时间：</label>
+                                    <button type="button" class="daily btn btn-default dateBtn" style="border: 1px gray solid;width:240px;background-color:white">
+                                        <i class="fa fa-calendar"></i>
+                                        <span class="dateSelectLabel"></span>
+                                        <span id="start-hidden" class="start-hidden" style="display:none;">0</span>
+                                        <span id="end-hidden" class="end-hidden" style="display:none;">0</span>
+                                        <i class="fa fa-caret-down"></i>
+                                    </button>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <label>运营中心：</label>
+                                    <select style="height: 34px;width: 240px;border-radius: 4px;" id="operationCenter" my-init="true">
+                                        <option value="0">不限</option>
+                                        <option value="1">上海运营中心</option>
+                                        <option value="3">成都运营中心</option>
+                                        <option value="4">深圳运营中心</option>
+                                        <option value="5">天津运营中心</option>
+                                        <option value="6">武汉运营中心</option>
+                                        <option value="10">常州运营中心</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <label>代拍单号：</label>
+                                    <input type="text" id="orderNo" style="height:34px;width:240px;border:1px solid rgb(169, 169, 169);border-radius: 4px;">
+                                </div>
+
+                                <div class="col-md-2 col-sm-6 col-xs-12">
+                                    <button type="button" id="search-btn" class="btn btn-primary search" style="width:100px;">查询</button>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <table id="rtTable" class="table"
+                                       data-toggle="table"
+                                       data-show-export="true"
+                                       data-pagination="true"
+                                       data-search="true"
+                                       data-click-to-select="true">
+                                    </table>
+                                </div>
+                            </div>
+                            <div style="text-align: center;margin-top: 150px;" id="loading">
+                                <img src="/images/loading.gif">
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div>
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">
+
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div name="showContent"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </div>
+</template>

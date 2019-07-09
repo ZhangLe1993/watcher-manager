@@ -1,0 +1,70 @@
+<template name="liangpinTrade">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+            <div class="template-dashboard content body">
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <div class="small-box bg-light-blue ">
+                                <div class="inner">
+                                    <h3 id="tradeNum">0</h3>
+                                    <span id="tradeNumYesterday" style="font-size: medium">test</span>
+
+                                    <p> 优品订单提交量</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 id="dealNum">0 </h3>
+                                    <span id="dealNumYesterday" style="font-size: medium">test</span>
+
+                                    <p>优品订单成交量(订单进入待配货状态即视为成交)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3 id="dealAmount">0 </h3>
+                                    <span id="dealAmountYesterday" style="font-size: medium">test</span>
+
+                                    <p>优品订单成交金额</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div id="realTimeLiangpinTradeTypeMixedChart" class="col-md-12 col-sm-12 col-xs-12"
+                             style="height:400px;margin-top: 3%">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="realTimeLiangpinTradeItemTypeMixedChart" class="col-md-12 col-sm-12 col-xs-12"
+                             style="height:400px;margin-top: 3%">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div id="realTimeLiangpinTradeTypeDistributeChart" class="col-md-6 col-sm-12 col-xs-12"
+                             style="height:500px;margin-top: 3%">
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

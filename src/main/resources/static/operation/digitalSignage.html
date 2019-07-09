@@ -1,0 +1,522 @@
+<template name="digitalSignage">
+    <div id="controller" class="content" style="background:#eee;">
+        <style>
+            /*.nav-tabs-custom > .nav-tabs > li.active {
+                border-top-color: #131111;
+            }*/
+            h3{
+                font-size:31px;font-weight:BOLD;margin-top:-10px;margin-left: 38px;
+            }
+            .box {
+                position: relative;
+                border-radius: 3px;
+                background: #ffffff;
+                border-top: 3px solid #d2d6de;
+                margin-bottom: 5px;
+                width: 100%;
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            }
+            .chart-po-max{
+                position: relative; width:100%;height: 300px;margin-top:-50px;margin-bottom:-20px;
+            }
+            .chart-po-min{
+                position: relative; width:100%;height: 250px;margin-top:-50px;margin-bottom:-25px;
+            }
+
+            .progress-min{
+                margin-top:5px;height:150px;
+            }
+
+            .progress {
+                height: 5px;
+                margin-bottom: 16px;
+                background-color: #666666 !important;
+            }
+            .progress-bar-success {
+                color: #ffffff;
+                text-align: center;
+                background-color: #17b08f !important;
+            }
+            .progress-bar-dangers {
+                color: #ffffff;
+                text-align: center;
+                background-color: #1890ff !important;
+            }
+            .progress-bar {
+                color: #ffffff;
+                text-align: center;
+                background-color: #fc413a;
+            }
+            .info-box-number {
+                display: block;
+                font-weight: normal;
+                font-size: 18px;
+            }
+
+            .success-radius{
+                width:25px;height:25px;display:block;float:left;background:#17b08f;border-radius:25px;margin-top:-2px;margin-right:3px;color:#fff;text-align:center;
+            }
+            .error-radius{
+                width:25px;height:25px;display:block;float:left;background:#fc413a;border-radius:25px;margin-top:-2px;margin-right:3px;color:#fff;text-align:center;
+            }
+            .danger-radius{
+                width:25px;height:25px;display:block;float:left;background:#1890ff;border-radius:25px;margin-top:-2px;margin-right:3px;color:#fff;text-align:center;
+            }
+
+            .box-header{
+                background-color:rgba(22,155,213,1) !important;color:#fff !important;text-align:center;
+            }
+        </style>
+        <section class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs" id="pageTab">
+                            <li id="d-home" class="active"><a href="#home" data-toggle="tab" aria-expanded="false">首页</a></li>
+                            <li id="d-other" class=""><a href="#other" data-toggle="tab" aria-expanded="true">次页</a></li>
+                        </ul>
+                        <div class="tab-content">
+
+                            <div class="tab-pane active" id="home">
+
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="box box-solid box-default">
+                                                    <div class="box-header">
+                                                        <h3 class="box-title">运营中心质检量 (实时)</h3>
+                                                    </div>
+                                                    <div class="box-body">
+                                                        <div class="row">
+                                                            <!--<div class="col-sm-12" id="qualityNumLoadingPanel">
+                                                                <br>
+                                                                <br>
+                                                                <div class="spinner">
+                                                                    <div class="bounce1"></div>
+                                                                    <div class="bounce2"></div>
+                                                                    <div class="bounce3"></div>
+                                                                </div>
+                                                                <br>
+                                                            </div>-->
+                                                            <div class="col-sm-12" id="qualityNumPanel">
+                                                                <h3><span data-set="currentQualityNum">0</span></h3>
+                                                                <div class="chart tab-pane active chart-po-max" id="qualityNumChart">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="box box-solid box-default">
+                                                    <div class="box-header">
+                                                        <h3 class="box-title">运营中心质检完成率 (实时)</h3>
+                                                    </div>
+                                                    <div class="box-body">
+                                                        <div class="row">
+                                                            <!--<div class="col-sm-12" id="qualityCompletionRateLoadingPanel">
+                                                                <br>
+                                                                <br>
+                                                                <div class="spinner">
+                                                                    <div class="bounce1"></div>
+                                                                    <div class="bounce2"></div>
+                                                                    <div class="bounce3"></div>
+                                                                </div>
+                                                                <br>
+                                                            </div>-->
+                                                            <div class="col-sm-12" id="qualityCompletionRatePanel">
+                                                                <h3><span data-set="currentQualityCompletionRate">0.0</span>%</h3>
+                                                                <div class="chart tab-pane active chart-po-max" id="qualityCompletionRateChart">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="box box-solid box-default">
+                                                    <div class="box-header">
+                                                        <h3 class="box-title">运营中心质检失误率</h3>
+                                                    </div>
+                                                    <div class="box-body">
+                                                        <div class="row">
+                                                            <!--<div class="col-sm-12" id="qualityNumLoadingPanel">
+                                                                <br>
+                                                                <br>
+                                                                <div class="spinner">
+                                                                    <div class="bounce1"></div>
+                                                                    <div class="bounce2"></div>
+                                                                    <div class="bounce3"></div>
+                                                                </div>
+                                                                <br>
+                                                            </div>-->
+                                                            <div class="col-sm-12" id="qualityErrorRatePanel">
+                                                                <div class="chart tab-pane active chart-po-min" id="qualityErrorRateChart">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="box box-solid box-default">
+                                                    <div class="box-header">
+                                                        <h3 class="box-title">运营中心退货失误率</h3>
+                                                    </div>
+                                                    <div class="box-body">
+                                                        <div class="row">
+                                                            <!--<div class="col-sm-12" id="qualityNumLoadingPanel">
+                                                                <br>
+                                                                <br>
+                                                                <div class="spinner">
+                                                                    <div class="bounce1"></div>
+                                                                    <div class="bounce2"></div>
+                                                                    <div class="bounce3"></div>
+                                                                </div>
+                                                                <br>
+                                                            </div>-->
+                                                            <div class="col-sm-12" id="returnErrorRatePanel">
+                                                                <div class="chart tab-pane active chart-po-min" id="returnErrorRateChart">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="box box-solid box-default">
+                                                    <div class="box-header">
+                                                        <h3 class="box-title">个人质检失误率</h3>
+                                                    </div>
+                                                    <div class="box-body">
+                                                        <div class="row">
+                                                            <!--<div class="col-sm-12" id="qualityNumLoadingPanel">
+                                                                <br>
+                                                                <br>
+                                                                <div class="spinner">
+                                                                    <div class="bounce1"></div>
+                                                                    <div class="bounce2"></div>
+                                                                    <div class="bounce3"></div>
+                                                                </div>
+                                                                <br>
+                                                            </div>-->
+                                                            <div class="col-sm-12" id="personQualityErrorRatePanel">
+                                                                <div class="chart tab-pane active chart-po-min progress-min" id="personQualityErrorRateChart">
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="info-box-content" style="margin-left:5px;">
+                                                                                <span class="info-box-number"><span class="error-radius">1</span><span name-set="person-quality-error-rate-first">待定</span> (<span data-set="person-quality-error-rate-first">0.0</span>%)</span>
+                                                                                <div class="progress" style="background:#666666 !important;">
+                                                                                    <div progress-set="person-quality-error-rate-first" class="progress-bar" style="width: 0%"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="info-box-content" style="margin-left:5px;">
+                                                                                <span class="info-box-number"><span class="error-radius">2</span><span name-set="person-quality-error-rate-second">待定</span> (<span data-set="person-quality-error-rate-second">0.0</span>%)</span>
+                                                                                <div class="progress" style="background:#666666 !important;">
+                                                                                    <div progress-set="person-quality-error-rate-second" class="progress-bar" style="width: 0%"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="info-box-content" style="margin-left:5px;">
+                                                                                <span class="info-box-number"><span class="error-radius">3</span><span name-set="person-quality-error-rate-third">待定</span> (<span data-set="person-quality-error-rate-third">0.0</span>%)</span>
+                                                                                <div class="progress" style="background:#666666 !important;">
+                                                                                    <div progress-set="person-quality-error-rate-third" class="progress-bar" style="width: 0%"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="box box-solid box-default">
+                                                    <div class="box-header">
+                                                        <h3 class="box-title">不规范操作扣分</h3>
+                                                    </div>
+                                                    <div class="box-body">
+                                                        <div class="row">
+                                                            <!--<div class="col-sm-12" id="qualityNumLoadingPanel">
+                                                                <br>
+                                                                <br>
+                                                                <div class="spinner">
+                                                                    <div class="bounce1"></div>
+                                                                    <div class="bounce2"></div>
+                                                                    <div class="bounce3"></div>
+                                                                </div>
+                                                                <br>
+                                                            </div>-->
+                                                            <div class="col-sm-12" id="personReturnErrorRatePanel">
+                                                                <div class="chart tab-pane active chart-po-min progress-min" id="personReturnErrorRateChart">
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="info-box-content" style="margin-left:5px;">
+                                                                                <span class="info-box-number"><span class="error-radius">1</span><span name-set="person-quality-return-error-rate-first">待定</span> (<span data-set="person-quality-return-error-rate-first">0</span>)</span>
+                                                                                <div class="progress" style="background:#666666 !important;">
+                                                                                    <div progress-set="person-quality-return-error-rate-first" class="progress-bar" style="width: 0%"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="info-box-content" style="margin-left:5px;">
+                                                                                <span class="info-box-number"><span class="error-radius">2</span><span name-set="person-quality-return-error-rate-second">待定</span> (<span data-set="person-quality-return-error-rate-second">0</span>)</span>
+                                                                                <div class="progress" style="background:#666666 !important;">
+                                                                                    <div progress-set="person-quality-return-error-rate-second" class="progress-bar" style="width: 0%"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="info-box-content" style="margin-left:5px;">
+                                                                                <span class="info-box-number"><span class="error-radius">3</span><span name-set="person-quality-return-error-rate-third">待定</span> (<span data-set="person-quality-return-error-rate-third">0</span>)</span>
+                                                                                <div class="progress" style="background:#666666 !important;">
+                                                                                    <div progress-set="person-quality-return-error-rate-third" class="progress-bar" style="width: 0%"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="box box-solid box-default">
+                                                    <div class="box-header">
+                                                        <h3 class="box-title">个人质检量 (实时)</h3>
+                                                    </div>
+                                                    <div class="box-body">
+                                                        <div class="row">
+                                                            <!--<div class="col-sm-12" id="qualityCompletionRateLoadingPanel">
+                                                                <br>
+                                                                <br>
+                                                                <div class="spinner">
+                                                                    <div class="bounce1"></div>
+                                                                    <div class="bounce2"></div>
+                                                                    <div class="bounce3"></div>
+                                                                </div>
+                                                                <br>
+                                                            </div>-->
+                                                            <div class="col-sm-12" id="personQualityNumPanel">
+                                                                <div class="chart tab-pane active" id="personQualityNumChart" style="position: relative; width:98%;height: 340px;">
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="info-box-content" style="margin-left:5px;">
+                                                                                <span class="info-box-number"><span class="success-radius">1</span><span name-set="person-quality-num-first">待定</span> (<span data-set="person-quality-num-first">0</span>)</span>
+                                                                                <div class="progress" style="background:#666666 !important;">
+                                                                                    <div progress-set="person-quality-num-first" class="progress-bar progress-bar-success" style="width: 0%"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="info-box-content" style="margin-left:5px;">
+                                                                                <span class="info-box-number"><span class="success-radius">2</span><span name-set="person-quality-num-second">待定</span> (<span data-set="person-quality-num-second">0</span>)</span>
+                                                                                <div class="progress" style="background:#666666 !important;">
+                                                                                    <div progress-set="person-quality-num-second" class="progress-bar progress-bar-success" style="width: 0%"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="info-box-content" style="margin-left:5px;border-bottom:2px dashed #666666;">
+                                                                                <span class="info-box-number"><span class="success-radius">3</span><span name-set="person-quality-num-third">待定</span> (<span data-set="person-quality-num-third">0</span>)</span>
+                                                                                <div class="progress" style="background:#666666 !important;">
+                                                                                    <div progress-set="person-quality-num-third" class="progress-bar progress-bar-success" style="width: 0%"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="info-box-content" style="margin-left:5px;">
+                                                                                <span class="info-box-number"><span class="error-radius">3</span><span name-set="person-quality-num-lastthird">待定</span> (<span data-set="person-quality-num-lastthird">0</span>)</span>
+                                                                                <div class="progress" style="background:#666666 !important;">
+                                                                                    <div progress-set="person-quality-num-lastthird" class="progress-bar" style="width: 0%"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="info-box-content" style="margin-left:5px;">
+                                                                                <span class="info-box-number"><span class="error-radius">2</span><span name-set="person-quality-num-lastsecond">待定</span> (<span data-set="person-quality-num-lastsecond">0</span>)</span>
+                                                                                <div class="progress" style="background:#666666 !important;">
+                                                                                    <div progress-set="person-quality-num-lastsecond" class="progress-bar" style="width: 0%"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="info-box-content" style="margin-left:5px;">
+                                                                                <span class="info-box-number"><span class="error-radius">1</span><span name-set="person-quality-num-lastfirst">待定</span> (<span data-set="person-quality-num-lastfirst">0</span>)</span>
+                                                                                <div class="progress" style="background:#666666 !important;">
+                                                                                    <div progress-set="person-quality-num-lastfirst" class="progress-bar" style="width: 0%"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="box box-solid box-default">
+                                                    <div class="box-header">
+                                                        <h3 class="box-title">个人质检完成率 (实时)</h3>
+                                                    </div>
+                                                    <div class="box-body">
+                                                        <div class="row">
+                                                            <!--<div class="col-sm-12" id="qualityCompletionRateLoadingPanel">
+                                                                <br>
+                                                                <br>
+                                                                <div class="spinner">
+                                                                    <div class="bounce1"></div>
+                                                                    <div class="bounce2"></div>
+                                                                    <div class="bounce3"></div>
+                                                                </div>
+                                                                <br>
+                                                            </div>-->
+                                                            <div class="col-sm-12" id="personQualityCompletionRatePanel">
+                                                                <div class="chart tab-pane active" id="personQualityCompletionRateChart" style="position: relative; width:98%;height: 340px;">
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="info-box-content" style="margin-left:5px;">
+                                                                                <span class="info-box-number"><span class="danger-radius">1</span><span name-set="person-quality-completion-rate-first">待定</span> (<span data-set="person-quality-completion-rate-first">0.0</span>%)</span>
+                                                                                <div class="progress" style="background:#666666 !important;">
+                                                                                    <div progress-set="person-quality-completion-rate-first" class="progress-bar progress-bar-dangers" style="width: 0%"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="info-box-content" style="margin-left:5px;">
+                                                                                <span class="info-box-number"><span class="danger-radius">2</span><span name-set="person-quality-completion-rate-second">待定</span> (<span data-set="person-quality-completion-rate-second">0.0</span>%)</span>
+                                                                                <div class="progress" style="background:#666666 !important;">
+                                                                                    <div progress-set="person-quality-completion-rate-second" class="progress-bar progress-bar-dangers" style="width: 0%"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="info-box-content" style="margin-left:5px;border-bottom:2px dashed #666666;">
+                                                                                <span class="info-box-number"><span class="danger-radius">3</span><span name-set="person-quality-completion-rate-third">待定</span> (<span data-set="person-quality-completion-rate-third">0.0</span>%)</span>
+                                                                                <div class="progress" style="background:#666666 !important;">
+                                                                                    <div progress-set="person-quality-completion-rate-third" class="progress-bar progress-bar-dangers" style="width: 0%"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+
+
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="info-box-content" style="margin-left:5px;">
+                                                                                <span class="info-box-number"><span class="error-radius">3</span><span name-set="person-quality-completion-rate-lastthird">待定</span> (<span data-set="person-quality-completion-rate-lastthird">0.0</span>%)</span>
+                                                                                <div class="progress" style="background:#666666 !important;">
+                                                                                    <div progress-set="person-quality-completion-rate-lastthird" class="progress-bar" style="width: 0%"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="info-box-content" style="margin-left:5px;">
+                                                                                <span class="info-box-number"><span class="error-radius">2</span><span name-set="person-quality-completion-rate-lastsecond">待定</span> (<span data-set="person-quality-completion-rate-lastsecond">0.0</span>%)</span>
+                                                                                <div class="progress" style="background:#666666 !important;">
+                                                                                    <div progress-set="person-quality-completion-rate-lastsecond" class="progress-bar" style="width: 0%"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="info-box-content" style="margin-left:5px;">
+                                                                                <span class="info-box-number"><span class="error-radius">1</span><span name-set="person-quality-completion-rate-lastfirst">待定</span> (<span data-set="person-quality-completion-rate-lastfirst">0.0</span>%)</span>
+                                                                                <div class="progress" style="background:#666666 !important;">
+                                                                                    <div progress-set="person-quality-completion-rate-lastfirst" class="progress-bar" style="width: 0%"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="other">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="box box-solid box-default">
+                                            <div class="box-header" style="background:#fff !important;">
+                                                <span class="box-title" style="font-size:30px;font-weight:BOLD;margin-top:20px;color:#000;">运营中心质检量堆积图</span>
+                                                <div class="pull-right">
+                                                    <span id="clock-time" style="font-size:35px;font-weight:BOLD;color:#999;">HH:mm:ss</span><br>
+
+                                                    <span id="clock-date" style="font-size:18px;font-weight:BOLD;color:#999;">yyyy年MM月dd日</span>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="row">
+                                                    <div class="col-sm-12" id="qualityNumCumuliPanel">
+                                                        <div class="chart tab-pane active chart-po-max" id="qualityNumCumuliChart" style="height:700px;">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</template>

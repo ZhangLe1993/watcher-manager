@@ -1,0 +1,103 @@
+<template name="UVCityDistribution">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+            <div class="template-dashboard content body">
+                <div class="row" style="background-color: #404a59">
+                    <div class="col-md-2 col-sm-2 col-xs-12" style="margin-top: 1%">
+                        <select id="dateTypeSelect" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                            <option selected="selected" value="daily">按日期选择</option>
+                            <option value="weekly">按周选择</option>
+                            <option value="monthly">按月选择</option>
+                        </select>
+                    </div>
+                    <div id="dateSelectDiv" class="col-md-3 col-sm-2 col-xs-12" style="margin-top: 1%">
+                        <button type="button" class="btn btn-primary webTrafficUVCityRange" style="width: 100%">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                    </div>
+                    <div id="weekSelectDiv" class="col-md-4 col-sm-3 col-xs-12 hide" style="margin-top: 1%">
+                        <button type="button" class="btn btn-primary webTrafficUVCityWeek" style="width: 100%">
+                            <i class="fa fa-calendar"></i>
+                            <span class="weekSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                    </div>
+                    <div id="monthSelectDiv" class="col-md-4 col-sm-3 col-xs-12 hide" style="margin-top: 1%">
+                        <button type="button" class="btn btn-primary webTrafficUVCityMonth" style="width: 100%">
+                            <i class="fa fa-calendar"></i>
+                            <span class="monthSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                    </div>
+                    <div class="col-md-5 col-sm-5 col-xs-12" style="margin-top: 1%">
+                        <select id="siteSelect" class="form-control select2 select2-hidden-accessible" multiple="" data-placeholder="选择网站(可多选)" style="width: 100%;"
+                            tabindex="-1" aria-hidden="true">
+                            <optgroup label="爱回收">
+                                <option value="www.aihuishou.com">爱回收官网PC版</option>
+                                <option value="m.aihuishou.com">爱回收官网M版</option>
+                                <option value="wx.aihuishou.com">爱回收微信</option>
+                                <option value="mk.aihuishou.com">爱回收市场活动PC版</option>
+                                <option value="m.mk.aihuishou.com">爱回收市场活动M版</option>
+                            </optgroup>
+                            <optgroup label="爱维修">
+                                <option value="www.aiweixiu.com">爱维修官网PC版</option>
+                                <option value="m.aiweixiu.com">爱维修官网M版</option>
+                                <option value="mk.aiweixiu.com">爱维修市场活动PC版</option>
+                                <option value="m.mk.aiweixiu.com">爱维修市场活动M版</option>
+                            </optgroup>
+                            <optgroup label="口袋优品">
+                                <option value="www.aiershou.com">口袋优品官网PC版</option>
+                                <option value="m.aiershou.com">口袋优品官网M版</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="col-md-1 col-sm-1 col-xs-12" style="margin-top: 1%">
+                        <button id="queryCityUV" type="button" class="btn btn-primary pull-left" style="margin-right: 1%">
+                            查询
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="UVCityDistributionGeoChart" class="col-md-12 col-sm-12 col-xs-12" style="height:800px">
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 3%">
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        <div id="ctable" class="row" style="margin-top: 15px">
+
+                            <div id="right" class="col-md-12 col-sm-12 col-xs-12" style="border: 1px solid gray">
+                                <table id="table"
+                                       data-toggle="table"
+                                       data-show-export="true"
+                                       data-pagination="true"
+                                       data-click-to-select="true"
+                                >
+                                    <thead>
+                                    <tr>
+                                            <th data-field="date" data-sortable="true">日期</th>
+                                            <th data-field="site" data-sortable="true">网站</th>
+                                            <th data-field="cityName" data-sortable="true">城市</th>
+                                            <th data-field="sessionNum" data-sortable="true">访问用户数</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="UVCityDistributionPieChart" class="col-md-5 col-sm-5 col-xs-12" style="height:400px">
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+</template>

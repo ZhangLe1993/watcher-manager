@@ -1,0 +1,330 @@
+<template name="tradePredict">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#total" data-toggle="tab">总数</a></li>
+                            <!--<li><a href="#jingdong" data-toggle="tab">京东</a></li>
+                            <li><a href="#xiaoMi" data-toggle="tab">小米</a></li>
+                            <li><a href="#dajiang" data-toggle="tab">大疆</a></li>
+                            <li><a href="#others" data-toggle="tab">其他</a></li>-->
+                            <li class="pull-right">
+                                <a href="#" class="text-muted">
+                                    <button type="button" class="btn btn-primary reportRangeTradePredict "
+                                            style="margin-left: 3%">
+                                        <i class="fa fa-calendar"></i>
+                                        <span class="dateSelectLabel">最近30天</span>
+                                        <i class="fa fa-caret-down"></i>
+                                    </button>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="active tab-pane" id="total">
+                                <div style="text-align:center;color: #666;padding: 10px 0;">
+                                    <div class="row desktop-only">
+                                        <div class="col-md-10 col-md-offset-1"
+                                             style="background-color:#f5f5f5;border:1px solid #ecf0f5;border-radius: 5px;padding: 7px 0 5px 0;min-height: 76px;">
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>昨日快递订单提交量</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    {{yesterdayStats.submitCount}}
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>昨日实际快递收货量</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    {{yesterdayStats.receiptCount}}
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>昨日预测到货快递量</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    {{yesterdayStats.tradePredict}}
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>昨日准确率</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    {{yesterdayStats.accuracy}}
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>今日预测到货快递量</div>
+                                                <div style="font-size: 30px;font-weight: 900;color: red">
+                                                    {{todayPredict}}
+                                                </div>
+                                            </div>
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>明日预测到货快递量</div>
+                                                <div style="font-size: 30px;font-weight: 900;color: red">
+                                                    {{tomorrowPredict}}
+                                                </div>
+                                            </div>
+                                            <div class="pull-left" style="width: 25%">
+                                                <div>后日预测到货快递量</div>
+                                                <div style="font-size: 30px;font-weight: 900;color: red">
+                                                    {{tomorrow2Predict}}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div  class="row mobile-only desktop-none">
+                                        <div class="col-md-12 col-xs-12">
+                                            <div style="text-align: left">
+                                                <span>昨日快递订单提交量:</span>
+                                                <span style=";color: red">
+                                                    {{yesterdayStats.submitCount}}
+                                                </span>
+                                            </div>
+
+                                            <div style="text-align: left">
+                                                <span>昨日实际快递收货量:</span>
+                                                <span style=";color: red">
+                                                    {{yesterdayStats.receiptCount}}
+                                                </span>
+                                            </div>
+
+                                            <div style="text-align: left">
+                                                <span>昨日预测到货快递量:</span>
+                                                <span style=";color: red">
+                                                    {{yesterdayStats.tradePredict}}
+                                                </span>
+                                            </div>
+
+                                            <div style="text-align: left">
+                                                <span>昨日准确率:</span>
+                                                <span style=";color: red">
+                                                    {{yesterdayStats.accuracy}}
+                                                </span>
+                                            </div>
+                                            <div style="text-align: left">
+                                                <span>今日预测到货快递量:</span>
+                                                <span style=";color: red">
+                                                    {{todayPredict}}
+                                                </span>
+                                            </div>
+                                            <div style="text-align: left">
+                                                <span>明日预测到货快递量:</span>
+                                                <span style=";color: red">
+                                                    {{tomorrowPredict}}
+                                                </span>
+                                            </div>
+                                            <div style="text-align: left">
+                                                <span>后日预测到货快递量:</span>
+                                                <span style=";color: red">
+                                                    {{tomorrow2Predict}}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div id="totalTradePredictChart" class="col-md-12 col-sm-12 col-xs-12"
+                                             style="height:350px;margin-top: 3%"></div>
+                                    </div>
+                                    <div class="row" style="margin-top: 3%">
+                                        <div class="col-md-10 col-md-offset-1">
+                                            <div class="rte">
+                                                {{> tabular table=TabularTables.tradePredict selector=selector
+                                                class="table table-striped table-bordered table-condensed rte rteTradePredict"}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="jingdong">
+                                <div style="text-align:center;color: #666;padding: 10px 0;">
+                                    <div class="row desktop-only">
+                                        <div class="col-md-10 col-md-offset-1 "
+                                             style="background-color:#f5f5f5;border:1px solid #ecf0f5;border-radius: 5px;padding: 7px 0 5px 0;min-height: 76px;">
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>昨日快递订单提交量</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    0
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>昨日实际快递收货量</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    0
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>昨日预测到货快递量</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    0
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>昨日准确率</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    0
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>今日预测到货快递量</div>
+                                                <div style="font-size: 30px;font-weight: 900;color: red">
+                                                    0
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="xiaoMi">
+                                <div style="text-align:center;color: #666;padding: 10px 0;">
+                                    <div class="row desktop-only">
+                                        <div class="col-md-10 col-md-offset-1 "
+                                             style="background-color:#f5f5f5;border:1px solid #ecf0f5;border-radius: 5px;padding: 7px 0 5px 0;min-height: 76px;">
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>昨日快递订单提交量</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    0
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>昨日实际快递收货量</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    0
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>昨日预测到货快递量</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    0
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>昨日准确率</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    0
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>今日预测到货快递量</div>
+                                                <div style="font-size: 30px;font-weight: 900;color: red">
+                                                    0
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="dajiang">
+                                <div style="text-align:center;color: #666;padding: 10px 0;">
+                                    <div class="row desktop-only">
+                                        <div class="col-md-10 col-md-offset-1 "
+                                             style="background-color:#f5f5f5;border:1px solid #ecf0f5;border-radius: 5px;padding: 7px 0 5px 0;min-height: 76px;">
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>昨日快递订单提交量</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    0
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>昨日实际快递收货量</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    0
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>昨日预测到货快递量</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    0
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>昨日准确率</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    0
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>今日预测到货快递量</div>
+                                                <div style="font-size: 30px;font-weight: 900;color: red">
+                                                    0
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="others">
+                                <div style="text-align:center;color: #666;padding: 10px 0;">
+                                    <div class="row desktop-only">
+                                        <div class="col-md-10 col-md-offset-1 "
+                                             style="background-color:#f5f5f5;border:1px solid #ecf0f5;border-radius: 5px;padding: 7px 0 5px 0;min-height: 76px;">
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>昨日快递订单提交量</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    0
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>昨日实际快递收货量</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    0
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>昨日预测到货快递量</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    0
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>昨日准确率</div>
+                                                <div style="font-size: 30px;font-weight: 900;">
+                                                    0
+                                                </div>
+                                            </div>
+
+                                            <div class="pull-left" style="width: 20%">
+                                                <div>今日预测到货快递量</div>
+                                                <div style="font-size: 30px;font-weight: 900;color: red">
+                                                    0
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div>
+                </div>
+            </div>
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

@@ -1,0 +1,140 @@
+<template name="liangpinCusStatistics">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+
+            <div class="template-dashboard content body">
+
+                <div id="chartContent">
+
+                    <div class="row desktop-only c-border" style="margin-bottom:1%">
+                        <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                            <span>请选择查看类型:</span>
+                            <select  class="dateType" style="width: 150px;height: 34px;border-radius: 4px;padding: 6px 12px;">
+                                <option value="daily">按日期选择</option>
+                                <option value="weekly">按周选择</option>
+                                <option value="monthly">按月选择</option>
+                            </select>
+                            <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                                <i class="fa fa-calendar"></i>
+                                <span class="dateSelectLabel"></span>
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                            <button type="button" class="daily btn btn-default webTrafficFunnelWeek"  style="border: 1px gray solid;width:240px;background-color:white">
+                                <i class="fa fa-calendar"></i>
+                                <span class="weekSelectLabel"></span>
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                            <button type="button" class="daily btn btn-default webTrafficFunnelMonth"  style="border: 1px gray solid;width:240px;background-color:white">
+                                <i class="fa fa-calendar"></i>
+                                <span class="monthSelectLabel"></span>
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                            <span>请选择平台:</span>
+                            <select  class="web" style="width: 150px;height: 34px;border-radius: 4px;padding: 6px 12px;">
+                                <!--<option value="pc">爱回收PC版</option>-->
+                                <!--<option value="m">爱回收M版</option>-->
+                                <!--<option value="monthly">按月选择</option>-->
+                            </select>
+                            <span>请选择区域:</span>
+                            <select  class="area" style="width: 150px;height: 34px;border-radius: 4px;padding: 6px 12px;">
+                                <!--<option value="pc">物流</option>-->
+                                <!--<option value="m">华北大区</option>-->
+                                <!--<option value="pc">华东大区</option>-->
+                                <!--<option value="m">华南大区</option>-->
+                                <!--<option value="pc">华西大区</option>-->
+                            </select>
+                            <span>请选择城市:</span>
+                            <select  class="city" style="width: 150px;height: 34px;border-radius: 4px;padding: 6px 12px;">
+                            </select>
+                            <button class="btn btn-primary search">查询</button>
+
+                            <button type="button" class="export pull-right" style="border-radius: 4px;padding: 6px 12px; background-color:#3c8dbc; border-color:
+transparent; color:white; height:34px; margin-left: 3%">导出文件</button>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="box box-primary " style="border-top-color: transparent;">
+                            <div class="box-header with-border">
+                                <h3 class="box-title" style="border-style: none;font-weight: bolder">访客数统计图</h3>
+                            </div>
+                            <div class="box-body">
+                                <div class="small-box bg-light-blue">
+                                </div>
+                                <div id="cusStaChart"
+                                     style="height:400px;margin-top: 3%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--<div class="col-md-6 col-sm-6 col-xs-12">-->
+                        <!--<div class="box box-primary " style="border-top-color: transparent;">-->
+                            <!--<div class="box-header with-border">-->
+                                <!--<h3 class="box-title" style="border-style: none;font-weight: bolder">老访客数统计图</h3>-->
+                                <!--&lt;!&ndash;<h2 class="box-title" style="border-style: none;font-weight: bolder; color:gray; font-size:12px;">(从2016/05/26至今)</h2>&ndash;&gt;-->
+                            <!--</div>-->
+                            <!--<div class="box-body">-->
+                                <!--<div class="small-box bg-light-blue">-->
+                                <!--</div>-->
+                                <!--<div id="oldCusStaChart"-->
+                                     <!--style="height:400px;margin-top: 3%">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="col-md-6 col-sm-6 col-xs-12">-->
+                        <!--<div class="box box-primary " style="border-top-color: transparent;">-->
+                            <!--<div class="box-header with-border">-->
+                                <!--<h3 class="box-title" style="border-style: none;font-weight: bolder">新增访客数统计图</h3>-->
+                            <!--</div>-->
+                            <!--<div class="box-body">-->
+                                <!--<div class="small-box bg-light-blue">-->
+                                <!--</div>-->
+                                <!--<div id="newCusStaChart"-->
+                                     <!--style="height:400px;margin-top: 3%">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="box box-primary " style="border-top-color: transparent;">
+                            <div class="box-header with-border">
+                                <h3 class="box-title" style="border-style: none;font-weight: bolder">新老访客占比统计图</h3>
+                            </div>
+                            <div class="box-body">
+                                <div class="small-box bg-light-blue">
+                                </div>
+                                <div id="allCusStaChart"
+                                     style="height:400px;margin-top: 3%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="box box-primary " style="border-top-color: transparent;">
+                            <div class="box-header with-border">
+                                <h3 class="box-title" style="border-style: none;font-weight: bolder">新老访客访问时间统计图</h3>
+                            </div>
+                            <div class="box-body">
+                                <div class="small-box bg-light-blue">
+                                </div>
+                                <div id="allCusStayTimeStaChart"
+                                     style="height:400px;margin-top: 3%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

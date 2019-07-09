@@ -1,0 +1,137 @@
+<template name="riskControlRemittedDataInfo">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+
+            <div id="chartContent" class="template-dashboard content body">
+
+                <!--<span style="color:red">注：</span><span>只包含官网和M版流量</span>-->
+                <div class="row desktop-only c-border">
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请选择查看时间:</span>
+                        <!--<select  class="dateType" style="width: 120px;height: 34px;border-radius: 4px;padding: 6px 12px;">-->
+                            <!--<option value="daily">按日期选择</option>-->
+                            <!--<option value="weekly">按周选择</option>-->
+                            <!--<option value="monthly">按月选择</option>-->
+                        <!--</select>-->
+                        <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+
+                        <a href="#" class="glyphicon glyphicon-question-sign pull-right" style="margin-top:1%;margin-bottom: 1%;" data-toggle="tooltip"
+                           title="说明：&#10;
+特殊豁免情况
+a 、当月累积特殊豁免金额及比率
+在一张表格中呈现，列出累积特殊豁免金额及比率，比率 = 豁免金额 / 成交金额。
+b 、当月特殊豁免的客户和豁免金额
+在一张表格中呈现，列出特殊豁免的客户名称和相应的豁免金额。
+c 、补贴率的累计两周走势
+在一张图表中呈现，时间维度是2周，横坐标是日期，纵坐标是补贴率。补贴率 = 特殊豁免金额 / 当日成交金额。
+                           "></a>
+
+                    </div>
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+
+                    </div>
+
+                </div>
+                <div class="row mobile-only desktop-none">
+                    <div>
+                        <span>请选择查看时间:</span>
+
+                    </div>
+                    <div>
+                        <span>请选择起始时间:</span>
+                        <button type="button" style="border: 1px gray solid;width:200px;background-color:white" class="daily btn btn-default campaignStartDatePicker">
+                            <i class="fa fa-calendar"></i>
+                            <span class="startDateSelectLabel"></span>
+                            <i class="fa fa-caret-down" style="margin-left: 78px"></i>
+                        </button>
+                        <select  class="weekly startWeek" style="width:200px;border-radius: 4px;padding: 6px 12px;">
+
+                        </select>
+                    </div>
+                    <div>
+                        <span>请选择结束时间:</span>
+                        <button type="button" style="border: 1px gray solid;width:200px;background-color:white" class="daily btn btn-default campaignEndDatePicker">
+                            <i class="fa fa-calendar"></i>
+                            <span class="endDateSelectLabel"></span>
+                            <i class="fa fa-caret-down" style="margin-left: 78px"></i>
+                        </button>
+                        <select  class="weekly endWeek" style="width:200px;border-radius: 4px;padding: 6px 12px;">
+
+                        </select>
+                    </div>
+                </div>
+
+                <div >
+
+                    <label style="margin-top:20px">累积特殊豁免金额及比率</label>
+                    <div id="etable" class="row" style="margin-top: 15px;border: 1px solid gray">
+                        <div style="text-align: center;margin-top: 150px" id="loading2">
+                            <img src="/images/loading.gif">
+                        </div>
+                        <div id="righte" class="col-md-12 col-sm-12 col-xs-12" style="">
+                            <table id="tablee"
+                                   data-toggle="table"
+                                   data-show-export="true"
+                                   data-pagination="true"
+                                   data-click-to-select="true"
+                            >
+                                <thead>
+                                <tr>
+                                    <th data-field="remittedNum" data-sortable="true">特殊豁免金额</th>
+                                    <th data-field="rate" data-sortable="true">比率</th>
+                                </tr>
+                                </thead>
+
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div >
+
+                    <label style="margin-top:20px">特殊豁免的客户和豁免金额</label>
+                    <div id="etablee" class="row" style="margin-top: 15px;border: 1px solid gray">
+                        <div style="text-align: center;margin-top: 150px" id="loading3">
+                            <img src="/images/loading.gif">
+                        </div>
+                        <div id="rightee" class="col-md-12 col-sm-12 col-xs-12" style="">
+                            <table id="tableee"
+                                   data-toggle="table"
+                                   data-show-export="true"
+                                   data-pagination="true"
+                                   data-click-to-select="true"
+                            >
+                                <thead>
+                                <tr>
+                                    <th data-field="date" data-sortable="true">总账户</th>
+                                    <th data-field="cnt" data-sortable="true">豁免金额</th>
+                                </tr>
+                                </thead>
+
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="venderTradeTrendMixedChart" class="col-md-12 col-sm-12 col-xs-12"
+                     style="height:400px;margin-top: 3%">
+                </div>
+
+            </div>
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

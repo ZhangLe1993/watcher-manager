@@ -1,0 +1,20 @@
+<template name="inquiryException">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>
+                询价异常记录
+                <small></small>
+            </h1>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <div class="template-ipmonitor content body">
+
+                <div class="rte">
+                    {{> tabular table=TabularTables.inquiryException selector=selector class="table table-striped table-bordered table-condensed rte rteIP"}}
+                </div>
+            </div>
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

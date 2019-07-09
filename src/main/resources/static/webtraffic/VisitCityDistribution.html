@@ -1,0 +1,47 @@
+<template name="VisitCityDistribution">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+            <div class="template-dashboard content body">
+                <div class="row" style="background-color: #404a59">
+
+                    <button type="button" class="btn btn-primary webTrafficUVCityRangestart pull-right"
+                            style="margin-right: 1%;margin-top: 1%">
+                        <i class="fa fa-calendar"></i>
+                        <span class="dateSelectLabel">{{updateTime}}</span>
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <label class="datelabend pull-right" style="font-size:25px; color:#3c8dbc; margin-top: 1%;margin-right:1%">到</label>
+                    <button type="button" class="btn btn-primary webTrafficUVCityRangeend pull-right"
+                            style="margin-right: 1%;margin-top: 1%">
+                        <i class="fa fa-calendar"></i>
+                        <span class="dateSelectLabel">{{updateTime}}</span>
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <label class="datelabstart pull-right" style="font-size:25px; color:#3c8dbc; margin-top: 1%;margin-right:1%">日期从</label>
+                </div>
+                <div class="row">
+                   <!-- <a class="" data-fancybox-type="iframe"
+                       href="/BaiduMapDistribution/test"></a>-->
+                    <div id="UVCityDistributionGeoChart" class="col-md-12 col-sm-12 col-xs-12"
+                         style="height:800px">
+                    </div>
+
+                </div>
+                <!--fancybox弹出效果-->
+<!--                <div class="row">
+                    <a class="variousTest" data-fancybox-type="iframe"
+                       href="/datareport/sourceTypeTradeReport">
+                        <div id="sourceTypeTradePieReport" class="col-md-3 col-sm-6 col-xs-12"
+                             style="height:300px;margin-top: 3%">
+                        </div>
+                    </a>
+                </div>-->
+            </div>
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

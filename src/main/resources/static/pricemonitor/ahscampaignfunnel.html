@@ -1,0 +1,156 @@
+<template name="ahscampaignfunnel">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+
+            <div class="template-dashboard content body">
+
+                <div class="row desktop-only c-border">
+                    <div class="tempExplain"><label class="templabel" style="margin-left: 1%;font-weight:bold;">注：用户在浏览过程中访问过活动页面，就算活动引来的量，活动的参数值已排除带有数字的参数。</label></div>
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请选择查看类型:</span>
+                        <select  class="dateType" style="width: 150px;height: 34px;border-radius: 4px;padding: 6px 12px;">
+                            <option value="daily">按日期选择</option>
+                            <option value="weekly">按周选择</option>
+                            <option value="monthly">按月选择</option>
+                        </select>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelWeek"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="weekSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelMonth"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="monthSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <span>城市:</span>
+                        <select  class="city c-mleft5" style="margin-left: 15px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                        <span>utm_source:</span>
+                        <select  class="source c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                        <span>utm_medium:</span>
+                        <select class="medium c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                        <span>utm_campaign:</span>
+                        <select  class="campaign c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                        <button class="btn btn-primary search">查询</button>
+                        <!--<a href="#" class="glyphicon glyphicon-question-sign pull-right" style="margin-top:1%;margin-bottom: 1%;" data-toggle="tooltip"-->
+                           <!--title="说明：&#10;活动的参数值已排除带有数字的参数。"></a>-->
+                    </div>
+                </div>
+                <div class="row mobile-only desktop-none">
+                    <div class="tempExplain"><label class="templabel" style="margin-left: 1%;font-weight:bold;">注：用户在浏览过程中访问过活动页面，就算活动引来的量，活动的参数值已排除带有数字的参数</label></div>
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请选择查看类型:</span>
+                        <select  class="dateType" style="width: 150px;height: 34px;border-radius: 4px;padding: 6px 12px;">
+                            <option value="daily">按日期选择</option>
+                            <option value="weekly">按周选择</option>
+                            <option value="monthly">按月选择</option>
+                        </select>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelWeek"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="weekSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelMonth"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="monthSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                    <div class="">
+                        <span>城市:</span>
+                        <select id="city" style="border-radius: 4px;padding: 6px 12px;">
+                            <option value="">All</option>
+                        </select>
+                    </div>
+                    <div class="">
+                        <span>utm_source:</span>
+                        <select id="source" style="border-radius: 4px;padding: 6px 12px;">
+                            <option value="">All</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <span>utm_medium:</span>
+                        <select id="medium" class="medium" style="border-radius: 4px;padding: 6px 12px;">
+                            <option value="">All</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span>utm_campaign:</span>
+                        <select id="campaign" class="campaign" style="border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                    </div>
+                        <button class="btn btn-primary search">查询</button>
+                    </div>
+                </div>
+
+                <div id="chartContent">
+
+                <div class="row">
+
+                    <div id="trafficFunnelChart" class="col-md-5 col-sm-5 col-xs-12"
+                         style="height:400px;margin-top: 3%;">
+                    </div>
+
+                    <div id="trafficStackChart" class="col-md-7 col-sm-7 col-xs-12"
+                         style="height:400px;margin-top: 3%;/*border: 1px solid gray*/">
+                    </div>
+
+                </div>
+
+                <div id="ctable" class="row" style="margin-top: 15px">
+
+                    <div id="right" class="col-md-12 col-sm-12 col-xs-12" style="border: 1px solid gray">
+                        <table id="table"
+                               data-toggle="table"
+                               data-show-export="true"
+                               data-pagination="true"
+                               data-click-to-select="true"
+                        >
+                            <thead>
+                            <tr>
+                                <th data-field="date" data-sortable="true">日期</th>
+                                <th data-field="idsite" data-sortable="true">网址id</th>
+                                <th data-field="city" data-sortable="true">城市</th>
+                                <th data-field="source" data-sortable="true">来源</th>
+                                <th data-field="medium" data-sortable="true">媒介</th>
+                                <th data-field="campaign" data-sortable="true">活动</th>
+                                <th data-field="uv" data-sortable="true">总访客数</th>
+                                <th data-field="inquiryUv" data-sortable="true">询价访客数</th>
+                                <th data-field="submitSuccessUv" data-sortable="true">提交访客数</th>
+                            </tr>
+                            </thead>
+
+
+                        </table>
+
+                    </div>
+                </div>
+                </div>
+                <div style="text-align: center;margin-top: 150px" id="loading">
+                    <img src="/images/loading.gif">
+                </div>
+            </div>
+
+
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

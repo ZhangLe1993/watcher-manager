@@ -1,0 +1,65 @@
+<template name="couponIframe">
+
+    <!-- Main content -->
+    <section class="content" style="background-color: #ecf0f5">
+
+        <!-- Your Page Content Here -->
+
+        <div class="template-datareport content body">
+            <div class="row c-border" style="padding-left: 15px;padding-right: 15px;">
+                <div class="col-md-12 col-sm-12 col-xs-12 "
+                     style="display:flex;flex-wrap:wrap;">
+
+                    <div class="col-md-3 col-sm-4 col-xs-12">
+                        <span style="width: 100px">请选择时间:</span>
+                        <button type="button" style="border: 1px gray solid;background-color:white;width:200px"
+                                class="daily btn btn-default datePicker">
+                            <i class="fa fa-calendar" style="    margin-left: -3px;"></i>
+                            <span class="selectLabel">2017-01-01~2017-01-01</span>
+                            <i class="fa fa-caret-down" style="margin-left: 0px"></i>
+                        </button>
+                    </div>
+                    <div class="col-md-3 col-sm-4 col-xs-12">
+                        <span>领取包编码:</span>
+                        <input class="" style="     padding: 10px 5px;     height: 34px;
+    border-radius: 5px;  border: 1px gray solid;;width:200px" id="packageCode"/>
+                    </div>
+                    <div class="col-md-3 col-sm-4 col-xs-12">
+                        <span>优惠券编码:</span>
+                        <input style="      padding: 10px 5px;  height: 34px;
+    border-radius: 5px;    border: 1px gray solid;;width:200px" id="couponCode"/>
+                    </div>
+                    <div class="col-md-3 col-sm-4 col-xs-12">
+                        <span style="visibility:hidden">领取包编码:</span>
+                        <button class="btn btn-primary" id="search" style="padding: 5px 84px;">查询</button>
+                    </div>
+
+                </div>
+            </div>
+            <div style="text-align: center;margin-top: 150px" id="loading">
+                <img src="/images/loading.gif">
+            </div>
+            <div id="chartContent">
+                <div class="row" style="height: 400px" id="line"></div>
+                <div class="row" >
+                    <div class="col-md-6 col-sm-12 col-xs-12" style="height:600px" id="channel"></div>
+                    <div class="col-md-6 col-sm-12 col-xs-12" style="height:600px" id="tradeMethod"></div>
+                </div>
+                <div class="row" style="">
+                    <div class="col-md-offset-1 col-md-10 col-sm-12 col-xs-12" style="">
+                        <table id="table"
+                               data-toggle="table"
+                               data-show-export="true"
+                               data-search="true"
+                               data-pagination="true"
+                               data-click-to-select="true"
+                        >
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section><!-- /.content -->
+
+</template>

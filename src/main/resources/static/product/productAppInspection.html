@@ -1,0 +1,101 @@
+<template name="productAppInspection">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+
+            <div class="template-dashboard content body">
+                <span style="color:red">注：</span><span>自检流程在ios app上线的时间是12/12左右；在安卓app上线的时间是12/06左右。</span>
+                <div class="row desktop-only c-border">
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请选择查看类型:</span>
+                        <select  class="dateType" style="width: 150px;height: 34px;border-radius: 4px;padding: 6px 12px;">
+                            <option value="daily">按日期选择</option>
+                            <option value="weekly">按周选择</option>
+                            <option value="monthly">按月选择</option>
+                        </select>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelWeek"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="weekSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelMonth"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="monthSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+
+                        <!--<a href="#" class="glyphicon glyphicon-question-sign pull-right" style="margin-top:1%;margin-bottom: 1%;" data-toggle="tooltip"-->
+                           <!--title="说明：&#10;自检流程在ios app上线的时间是12/12左右；在安卓app上线的时间是12/06左右。"></a>-->
+                        <!--<button class="btn btn-primary search">查询</button>-->
+                    </div>
+                </div>
+                <div>
+                    <label id="UVCount" style="font-size:15px; color:#3c8dbc; margin-left: 1%; margin-top:1%; margin-bottom:0%"></label>
+                </div>
+                <div class="row mobile-only desktop-none">
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请选择查看类型:</span>
+                        <select  class="dateType" style="width: 150px;height: 34px;border-radius: 4px;padding: 6px 12px;">
+                            <option value="daily">按日期选择</option>
+                            <option value="weekly">按周选择</option>
+                            <option value="monthly">按月选择</option>
+                        </select>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:150px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelWeek"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="weekSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelMonth"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="monthSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <!--<button class="btn btn-primary search">查询</button>-->
+                    </div>
+
+                </div>
+
+                <div id="chartContent">
+
+                    <div class="row">
+
+                        <div id="webTrafficStackChartPortal" class="col-md-offset-1 col-md-10 col-sm-10 col-xs-12"
+                             style="height:400px">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="ctable" class="row" style="margin-top: 15px">
+
+                    <div id="right" class="col-md-12 col-sm-12 col-xs-12" style="border: 1px solid gray">
+                        <table id="table"
+                               data-toggle="table"
+                               data-show-export="true"
+                               data-pagination="true"
+                               data-click-to-select="true"
+                        >
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+</template>

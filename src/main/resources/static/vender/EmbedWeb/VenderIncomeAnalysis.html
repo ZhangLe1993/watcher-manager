@@ -1,0 +1,139 @@
+<template name="VenderIncomeAnalysis">
+    <!-- Content Wrapper. Contains page content -->
+    <!--<div class="content-wrapper">-->
+        <!-- Main content -->
+        <section class="content" style="background-color: white">
+
+            <!-- Your Page Content Here -->
+
+            <div class="template-dashboard content body">
+
+                <div class="row desktop-only c-border">
+                    <!--<div class="tempExplain"><label id="templabel" style="margin-left: 1%;font-weight:bold;">注：用户在浏览过程中访问过活动页面，就算活动引来的量</label></div>-->
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请选择查看类型:</span>
+                        <select  class="dateType" style="width: 150px;height: 34px;border-radius: 4px;padding: 6px 12px;">
+                            <option value="daily">按日期选择</option>
+                            <option value="weekly">按周选择</option>
+                            <option value="monthly">按月选择</option>
+                        </select>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelWeek"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="weekSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelMonth"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="monthSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <span>请选择省份:</span>
+                        <select  class="province c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                        <span class="cityOption">市:</span>
+                        <select  class="city c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                        <span class="districtOption">县区:</span>
+                        <select class="district c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+
+                        <button class="btn btn-primary search">查询</button>
+                    </div>
+                </div>
+                <div class="row mobile-only desktop-none ">
+                    <!--<div class="tempExplain"><label id="templabel" style="margin-left: 1%;font-weight:bold;">注：用户在浏览过程中访问过活动页面，就算活动引来的量</label></div>-->
+                    <div class=" col-md-12 col-sm-12 col-xs-12 ">
+                        <span>请选择查看类型:</span>
+                        <select  class="dateType" style="width: 150px;height: 34px;border-radius: 4px;padding: 6px 12px;">
+                            <option value="daily">按日期选择</option>
+                            <option value="weekly">按周选择</option>
+                            <option value="monthly">按月选择</option>
+                        </select>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelDate"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="dateSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelWeek"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="weekSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button type="button" class="daily btn btn-default webTrafficFunnelMonth"  style="border: 1px gray solid;width:240px;background-color:white">
+                            <i class="fa fa-calendar"></i>
+                            <span class="monthSelectLabel"></span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <div>
+                            <span>请选择省份:</span>
+                            <select  class="province c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                            </select>
+                        </div>
+                    <div class="">
+                        <span class="cityOption">地市:</span>
+                        <select  class="city c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                    </div>
+
+                    <div>
+                        <span class="districtOption">县区:</span>
+                        <select class="district c-mleft5" style="margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;">
+                        </select>
+                    </div>
+
+                        <button class="btn btn-primary search">查询</button>
+                    </div>
+                </div>
+
+
+                <div class="row box box-primary" style="width: auto; margin-top:25px">
+                    <div class="box-body">
+                        <div id="chartContent">
+
+                            <div class="row" style="background-color: white">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <table class="cell-border"
+                                           data-show-export="true"
+                                           data-toggle="table"
+                                           data-pagination="true"
+                                           data-click-to-select="true"
+                                           id="IncomeAnalysisTable">
+
+                                        <thead>
+                                        <tr>
+                                            <th data-field="vender_province_name" data-sortable="true">省份</th>
+                                            <th data-field="vender_city_name" data-sortable="true">地市</th>
+                                            <th data-field="vender_district_name" data-sortable="true">县区</th>
+                                            <th data-field="vender_parent_name" data-sortable="true">客户名称</th>
+                                            <th data-field="registerCnt" data-sortable="true">累计验货成功成交金额（元）</th>
+                                            <th data-field="liveShopCnt" data-sortable="true">累计验货差异额（元）</th>
+                                            <th data-field="zeroShopCnt" data-sortable="true">累计失误率</th>
+                                            <th data-field="orderCnt" data-sortable="true">累计成交旧机现款（元）</th>
+                                            <th data-field="recycleNum" data-sortable="true">冻结资金（元）</th>
+                                            <th data-field="oldNewOrderCnt" data-sortable="true">特殊豁免旧机款差额（元）</th>
+                                            <th data-field="rate" data-sortable="true">特殊豁免服务费（元）</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.box-body -->
+                </div>
+
+                <div style="text-align: center;margin-top: 150px" id="loading">
+                    <img src="/images/loading.gif">
+                </div>
+            </div>
+
+
+
+        </section><!-- /.content -->
+    <!--</div>&lt;!&ndash; /.content-wrapper &ndash;&gt;-->
+</template>

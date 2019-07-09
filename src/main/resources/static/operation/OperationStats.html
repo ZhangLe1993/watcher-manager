@@ -1,0 +1,1354 @@
+<template name="OperationStats">
+    <style>
+        @media (min-width: 768px){
+            .re-modal-dialog {
+                width: 1200px;
+                margin: 30px auto;
+            }
+        }
+    </style>
+    <div class="content-wrapper">
+
+        <section class="content">
+            <div class="col-md-12">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs" id="pageTab">
+                        <li class="active"><a href="#operationIndex" data-toggle="tab">运营指标</a></li>
+                        <li><a href="#dailyEmptyIndex" data-toggle="tab">日清指标</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <!--运营指标内容-->
+                        <div class=" active tab-pane" id="operationIndex">
+                            <div class="template-operation content body">
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">收货指标</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="tradeExpressCount">……</h3>
+
+                                                        <p>快递单量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue" id="clickThis">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="reverseExpressCount">……</h3>
+
+                                                        <p>逆向物流量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="tradeReceiptCount">……</h3>
+
+                                                        <p>确认收货量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="otherTradeReceiptCount">……</h3>
+
+                                                        <p>其他手机确认收货量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!--<div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="transferReceiptCount">……</h3>
+                                                        (点击查看订单号)
+                                                        <p>订单转收货量</p>
+                                                    </div>
+                                                </div>
+                                            </div>-->
+
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                </div>
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">OPT指标</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="operationData" id="optshl">……</h3>
+
+                                                        <p>OPT收货量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="optrkl">……</h3>
+
+                                                        <p>OPT入库量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="operationData" id="optdrkl">……</h3>
+                                                        <p>OPT待入库量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="optkcl">……</h3>
+                                                        <p>OPT库存量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="operationData" id="optsjl">……</h3>
+                                                        <p>OPT上架量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="operationData" id="optdsjl">……</h3>
+                                                        <p>OPT待上架量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="operationData" id="optzcl">……</h3>
+                                                        <p>OPT暂存量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="operationData" id="optdthl">……</h3>
+                                                        <p>OPT待退货量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" >
+                                                        <h3 name="operationData" id="optthl">……</h3>
+                                                        <p>OPT退货量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="operationData" id="optycl">……</h3>
+                                                        <p>OPT异常量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="operationData" id="optdptjl">……</h3>
+                                                        <p>OPT代拍提交量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                </div>
+
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">质检指标</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="expressInspection">……</h3>
+
+                                                        <p>物流质检量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="expressWaitInspection">……</h3>
+
+                                                        <p>物流待质检量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="OPTInspection">……</h3>
+
+                                                        <p>OPT质检量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="OPTWaitInspection">……</h3>
+
+                                                        <p>OPT待质检量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="APPInspectionSum">……</h3>
+
+                                                        <p>APP质检量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="AppWaitInspection">……</h3>
+
+                                                        <p>APP待质检量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                </div>
+
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">退货指标</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="preReturnCount">……</h3>
+                                                        <!--<a href="{{pathFor 'preReturnDetail'}}"
+                                                           style="font-size: medium;color: white">
+                                                            (点击查看订单号)
+                                                        </a>-->
+                                                        <p>15:00 前待退货订单量(点击查看订单号)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="returnedCount">……</h3>
+
+                                                        <p>15:30 前已退货订单量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--<div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="preReturnReceiveCount">……</h3>
+                                                        (点击查看订单号)
+                                                        <p>回收商退货中待退货接收</p>
+                                                    </div>
+                                                </div>
+                                            </div>-->
+                                            <!--<div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="preReCheckCount">……</h3>
+                                                        (点击查看订单号)
+                                                        <p>回收商退货中待移交退货复检</p>
+                                                    </div>
+                                                </div>
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                </div>
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">仓库指标</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="tallyInWarehouse">……</h3>
+
+                                                        <p>理货入库量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="transferInWarehouse">……</h3>
+
+                                                        <p>调拨入库量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="soldOutWarehouse">……</h3>
+
+                                                        <p>商家销售出库量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="transferOutWarehouse">……</h3>
+
+                                                        <p>调拨出库量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                </div>
+                                <!--<div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">周转箱及库位</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div name="operationData" class="inner">
+                                                        <h3 name="operationData" id="usedContainerCount">……</h3>
+
+                                                        <p>周转箱占用数量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="freeContainerCount">……</h3>
+
+                                                        <p>剩余周转箱数量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="usedTrolleyCount">……</h3>
+
+                                                        <p>占用库位数量(容量)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner">
+                                                        <h3 name="operationData" id="freeTrolleyCount">……</h3>
+
+                                                        <p>剩余库位数量(容量)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                </div>-->
+                            </div>
+                        </div>
+                        <!--日清指标内容-->
+                        <div class="tab-pane" id="dailyEmptyIndex">
+                            <h5 class="description-header" style="text-align:right;margin-right:15px;"><span id="receiveGoodsNum" class="num-z">最新更新时间:</span> <span class="unit-s"></span> &nbsp;&nbsp;更新频率:12分钟</h5>
+                            <div class="template-operation content body">
+
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">收货日清指标</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="shrqwlshdyjl">……</h3>
+                                                        <p>物流收货待移交量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="shrqdbshdyjl">……</h3>
+                                                        <p>调拨收货待移交量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="shrqdpshdyjl">……</h3>
+                                                        <p>代拍收货待移交量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="shrqcgshdyjl">……</h3>
+                                                        <p>采购收货待移交量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="shrqwlycdcll">……</h3>
+                                                        <p>物流异常待处理量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="shrqdpycdcll">……</h3>
+                                                        <p>代拍异常待处理量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="shrqyhycdcll">……</h3>
+                                                        <p>验货异常待处理量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="shrqydjdcll">……</h3>
+                                                        <p>已登记待处理量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="shrqycjcdyjl">……</h3>
+                                                        <p>异常解除待移交量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                </div>
+
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">质检日清指标</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="zjrqdjsl">……</h3>
+                                                        <p>待接收量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="zjrqdyhl">……</h3>
+                                                        <p>待验货量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="zjrqdyjl">……</h3>
+                                                        <p>待移交量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                </div>
+
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">优品复检日清指标</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="ypfjrqdjsl">……</h3>
+                                                        <p>待接收量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="ypfjrqdyhl">……</h3>
+                                                        <p>待验货量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="ypfjrqdyjl">……</h3>
+                                                        <p>待移交量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                </div>
+
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">UQC日清指标</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="fjrqdjsl">……</h3>
+                                                        <p>待接收量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="fjrqdyhl">……</h3>
+                                                        <p>待验货量<br/></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="fjrqdyjl">……</h3>
+                                                        <p>待移交量<br/></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                </div>
+
+                                <!--新抽检-->
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">抽检日清指标</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="cjrqdjsl">……</h3>
+                                                        <p>待接收量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="cjrqdyhl">……</h3>
+                                                        <p>待验货量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="cjrqdyjl">……</h3>
+                                                        <p>待移交量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                </div>
+
+                                <!--新隐私清除-->
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">隐私清除日清指标</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="ysqcrqdjsl">……</h3>
+                                                        <p>待接收量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="ysqcrqdyjl">……</h3>
+                                                        <p>待移交量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="ysqcrqdqcl_new">……</h3>
+                                                        <p>待清除量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                </div>
+
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">配件日清指标</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue" style="background-color: orange !important;">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="pjcksjl">……</h3>
+                                                        <p>配件仓库上架量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="pjckxjl">……</h3>
+                                                        <p>配件仓库下架量(15:30前移交)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                </div>
+
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">理货日清指标</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="lhdjsl">……</h3>
+                                                        <p> 待接收量<br/></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="lhdtjlcddthlhzc">……</h3>
+                                                        <p> 待移交量(除订单退货,理货暂存库)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="lhdtjlcddthflhzc">……</h3>
+                                                        <p> 待移交量(除订单退货,非理货暂存库)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="lhdyjlddth">……</h3>
+                                                        <p> 待移交量(订单退货)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                </div>
+
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">退货日清指标</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="thdjsl">……</h3>
+                                                        <p>待接收量<br/>(15:30前申请退货)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="thdthl">……</h3>
+                                                        <p> 待退货量<br/>(15:30前申请退货)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                </div>
+
+                                <!--退货审核日清指标-新-->
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">退货审核日清指标</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="thrqdjsl">……</h3>
+                                                        <p>待接收量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="thrqdshl">……</h3>
+                                                        <p> 待审核量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="thrqdyjl">……</h3>
+                                                        <p> 待移交量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                </div>
+
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">出库日清指标</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="ckthshdyjl">……</h3>
+                                                        <p>退货收货待移交量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!--<div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="ckdjhl">……</h3>
+                                                        <p>待拣货量</p>
+                                                    </div>
+                                                </div>
+                                            </div>-->
+
+                                            <!--<div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="ckdhdl">……</h3>
+                                                        <p>待核对量</p>
+                                                    </div>
+                                                </div>
+                                            </div>-->
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="ckdzfl">……</h3>
+                                                        <p>待直发量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-red">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="ckdztl">……</h3>
+                                                        <p>待自提量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="temp-to-be-pick">……</h3>
+                                                        <p>待拣货量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="temp-to-be-check">……</h3>
+                                                        <p>待核对量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="temp-to-be-package">……</h3>
+                                                        <p>待打包量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                </div>
+
+                                <!--<div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">理货暂存库日清指标</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="lhzckdjsl">……</h3>
+                                                        <p>理货暂存库待接受量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="lhzckdsjl">……</h3>
+                                                        <p>理货暂存库待上架量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="lhzckdxjl">……</h3>
+                                                        <p>理货暂存库待下架量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                </div>-->
+
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-bar-chart-o"></i>
+
+                                        <h3 class="box-title">入库日清指标</h3>
+
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <!--<div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="rkdjsllhzck">……</h3>
+                                                        <p>入库待接收量(理货暂存库)</p>
+                                                    </div>
+                                                </div>
+                                            </div>-->
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="rkdjslflhzck">……</h3>
+                                                        <p>入库待接收量(非理货暂存库)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                                <div class="small-box bg-light-blue">
+                                                    <div class="inner" style="cursor: pointer">
+                                                        <h3 name="clearData" id="rkdrkl">……</h3>
+                                                        <p>待入库量</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--add by hank -->
+                    </div>
+                </div>
+            </div>
+            <!-- Your Page Content Here -->
+            <div>
+                <!-- 质检日清分定级质检，仓库抽检，退货质检弹框 -->
+                <div class="modal fade" id="modal" tabindex="-1" data-target="#modal" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                    <div class="modal-dialog re-modal-dialog">
+                        <div class="modal-content" style="height:600px;">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                </button>
+                                <h4 class="modal-title" id="modalLabel">
+
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <!--content开始-->
+                                <div name="showContent">
+                                    <div class="row" style="width:100%;position:relative;margin:0 auto;background:#f9f9f9;padding-top:10px;">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <div class="small-box bg-light-blue">
+                                                <div class="inner" style="cursor: pointer">
+                                                    <h3 name="clearData" id="djzj">……</h3>
+                                                    <p>定级质检（等级）</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <div class="small-box bg-light-blue">
+                                                <div class="inner" style="cursor: pointer">
+                                                    <h3 name="clearData" id="ckcj">……</h3>
+                                                    <p>仓库抽检（等级）</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <div class="small-box bg-light-blue">
+                                                <div class="inner" style="cursor: pointer">
+                                                    <h3 name="clearData" id="thzj">……</h3>
+                                                    <p>退货质检（等级）</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <div class="small-box bg-light-blue">
+                                                <div class="inner" style="cursor: pointer">
+                                                    <h3 name="clearData" id="bjzj">……</h3>
+                                                    <p>备件库质检（等级）</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--content结束-->
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </div>
+
+            <div>
+                <!-- 抽检日清分IPQC，RQC，仓库抽检弹框 -->
+                <div class="modal fade" id="cjModal" tabindex="-1" role="dialog" aria-labelledby="cjModalLabel" aria-hidden="true">
+                    <div class="modal-dialog re-modal-dialog">
+                        <div class="modal-content" style="height:600px;">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                </button>
+                                <h4 class="modal-title" id="cjModalLabel">
+
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <!--content开始-->
+                                <div name="showContent">
+                                    <div class="row" style="width:100%;position:relative;margin:0 auto;background:#f9f9f9;padding-top:10px;">
+                                        <div class="col-md-4 col-sm-6 col-xs-6">
+                                            <div class="small-box bg-light-blue">
+                                                <div class="inner" style="cursor: pointer">
+                                                    <h3 name="clearData" id="ipqc">……</h3>
+                                                    <p>IPQC</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-sm-6 col-xs-6">
+                                            <div class="small-box bg-light-blue">
+                                                <div class="inner" style="cursor: pointer">
+                                                    <h3 name="clearData" id="rqc">……</h3>
+                                                    <p>RQC</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--content结束-->
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </div>
+
+            <div>
+                <!-- 出库日清待拣货量分待指派量，待下架量弹框 -->
+                <div class="modal fade" id="tbModal" tabindex="-1" role="dialog" aria-labelledby="tbModalLabel" aria-hidden="true">
+                    <div class="modal-dialog re-modal-dialog">
+                        <div class="modal-content" style="height:600px;">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                </button>
+                                <h4 class="modal-title" id="tbModalLabel">
+
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <!--content开始-->
+                                <div name="showContent">
+                                    <div class="row" style="width:100%;position:relative;margin:0 auto;background:#f9f9f9;padding-top:10px;">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <div class="small-box bg-light-blue">
+                                                <div class="inner" style="cursor: pointer">
+                                                    <h3 name="clearData" id="to_be_append">……</h3>
+                                                    <p>待指派量(新)</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <div class="small-box bg-light-blue">
+                                                <div class="inner" style="cursor: pointer">
+                                                    <h3 name="clearData" id="to_be_off">……</h3>
+                                                    <p>待下架量(新)</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--content结束-->
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </div>
+
+            <div>
+                <!-- 复检日清分理货暂存库，非理货暂存库 弹框 -->
+                <div class="modal fade" id="fjModal" tabindex="-1" role="dialog" aria-labelledby="fjModalLabel" aria-hidden="true">
+                    <div class="modal-dialog re-modal-dialog">
+                        <div class="modal-content" style="height:600px;">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                </button>
+                                <h4 class="modal-title" id="fjModalLabel">
+
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <!--content开始-->
+                                <div name="showContent">
+                                    <div class="row" style="width:100%;position:relative;margin:0 auto;background:#f9f9f9;padding-top:10px;">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <div class="small-box bg-light-blue">
+                                                <div class="inner" style="cursor: pointer">
+                                                    <h3 name="clearData" id="lhzck">……</h3>
+                                                    <p>理货暂存库</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <div class="small-box bg-light-blue">
+                                                <div class="inner" style="cursor: pointer">
+                                                    <h3 name="clearData" id="flhzck">……</h3>
+                                                    <p>非理货暂存库</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--content结束-->
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </div>
+
+            <div>
+                <!-- 隐私清楚日清分爱情出，blancoo 弹框 -->
+                <div class="modal fade" id="ysModal" tabindex="-1" role="dialog" aria-labelledby="ysModalLabel" aria-hidden="true">
+                    <div class="modal-dialog re-modal-dialog">
+                        <div class="modal-content" style="height:600px;">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                </button>
+                                <h4 class="modal-title" id="ysModalLabel">
+
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <!--content开始-->
+                                <div name="showContent">
+                                    <div class="row" style="width:100%;position:relative;margin:0 auto;background:#f9f9f9;padding-top:10px;">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <div class="small-box bg-light-blue">
+                                                <div class="inner" style="cursor: pointer">
+                                                    <h3 name="clearData" id="aqc">……</h3>
+                                                    <p>爱清除</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <div class="small-box bg-light-blue">
+                                                <div class="inner" style="cursor: pointer">
+                                                    <h3 name="clearData" id="blancoo">……</h3>
+                                                    <p>blancoo</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--content结束-->
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </div>
+
+            <div>
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">
+
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <table id="modalContent" data-toggle="table"
+                                       data-show-export="true"
+                                       data-pagination="true"
+                                       data-click-to-select="true"></table>
+                            </div>
+                            <!--<div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    关闭
+                                </button>
+                               &lt;!&ndash; <button type="button" class="btn btn-primary">
+                                    提交更改
+                                </button>&ndash;&gt;
+                            </div>-->
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </div>
+        </section>
+    </div>
+</template>
