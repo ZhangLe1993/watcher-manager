@@ -31,7 +31,7 @@ cas:
 proxy:
     watcher:
         servlet_url: /watcher/*
-        target_url: http://watcher.intra.aihuishou.com:8809/watcher
+        target_url: http://watcher.intra.aihuishou.com:8808/watcher
         logging_enabled: true
 
 
