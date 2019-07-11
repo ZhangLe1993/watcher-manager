@@ -28,6 +28,9 @@ public class ProxyServletConfiguration {
         ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new ProxyServlet(), servletUrl);
         servletRegistrationBean.addInitParameter(P_TARGET_URI, targetUrl);
         servletRegistrationBean.addInitParameter(ProxyServlet.P_LOG, loggingEnabled);
+        servletRegistrationBean.addInitParameter(ProxyServlet.P_CONNECTIONREQUESTTIMEOUT, "100000");
+        servletRegistrationBean.addInitParameter(ProxyServlet.P_CONNECTTIMEOUT, "200000");
+        servletRegistrationBean.addInitParameter(ProxyServlet.P_READTIMEOUT, "200000");
         return servletRegistrationBean;
     }
 

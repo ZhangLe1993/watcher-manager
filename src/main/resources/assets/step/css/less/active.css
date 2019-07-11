@@ -1,0 +1,82 @@
+
+.step-arrow li.active-this a:before {
+    background: #ffffff;
+    color: #000;
+}
+/*.step-arrow li.active-this a:after {
+    background-color: #000;
+}*/
+/*.step-arrow li.active-this a,
+.step-arrow li.active-this a:hover {
+    background-color: #000;
+    color: #ffffff;
+}*/
+.step-arrow li.active-this a:before,
+.step-arrow li.active-this a:hover:before {
+    background-color: #ffffff;
+    color: #000;
+}
+/*.step-arrow li.active-this a:after,
+.step-arrow li.active-this a:hover:after {
+    background-color: #000 !important;
+}*/
+.step-square > li:active-this a:before,
+.step-square > li.active-this a:before {
+    background-color: #000;
+    color: #ffffff;
+    border-color: #000;
+}
+
+/*.step-square > li:active-this a:after,
+.step-square > li.active-this a:after {
+    background-color: #000;
+}*/
+
+/*.step-square > li.active-this > a,
+.step-square > li.active-this > a:focus,
+.step-square > li.active-this > a:hover {
+    color: #000;
+    background: transparent;
+}*/
+
+/*.step-round > li.active-this > a,
+.step-round > li.active-this > a:hover,
+.step-round > li.active-this > a:focus {
+    background: transparent;
+    color: #000;
+}*/
+.step-round > li.active-this > a:before,
+/*.step-round > li.active-this > a:hover:before,*/
+.step-round > li.active-this > a:focus:before {
+    background-color: #000;
+    color: #ffffff;
+}
+/*.step-round > li.active-this > a:after,
+.step-round > li.active-this > a:hover:after,
+.step-round > li.active-this > a:focus:after {
+    background-color: #000;
+}*/
+
+/*.step-progress > li.active-this > a,
+.step-progress > li.active-this > a:hover,
+.step-progress > li.active-this > a:focus {
+    color: #000;
+    background: transparent;
+}*/
+.step-progress > li.active-this > a:before,
+/*.step-progress > li.active-this > a:hover:before,*/
+.step-progress > li.active-this > a:focus:before {
+    background-color: #000;
+    color: #ffffff;
+}
+/*.step-progress > li.active-this > a:after,
+.step-progress > li.active-this > a:hover:after,
+.step-progress > li.active-this > a:focus:after {
+    background-color: #000;
+}*/
+/*.step-progress > li.active-this > a:after {
+    -webkit-animation: progress-bar-stripes 2s linear infinite;
+    -o-animation: progress-bar-stripes 2s linear infinite;
+    animation: progress-bar-stripes 2s linear infinite;
+}*/
+
