@@ -6,7 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
@@ -35,13 +34,13 @@ public class SysService {
     }*/
 
 
-    @Cacheable(value = "position-map", keyGenerator = "watcherManagerKeyGenerator")
+//    @Cacheable(value = "position-map", keyGenerator = "watcherManagerKeyGenerator")
     public Map<String, String> getPositionMap() {
         String target = path + SysConf.OLD_FILE_FOLDER;
         Set<String> files = ScanFolder.traverseFolder(target);
         assert files != null;
         Map<String, String> positionMap = files.parallelStream().collect(Collectors.toMap(p -> StringUtils.substringAfterLast(getAfter(getUrl(p), SysConf.URL_SEPARATOR + SysConf.OLD_FILE_FOLDER), SysConf.URL_SEPARATOR), p -> getAfter(getUrl(p),SysConf.URL_SEPARATOR + SysConf.OLD_FILE_FOLDER),(oldVal, currVal) -> currVal));
-        logger.info(positionMap.toString());
+//        logger.info(positionMap.toString());
         return positionMap;
     }
 

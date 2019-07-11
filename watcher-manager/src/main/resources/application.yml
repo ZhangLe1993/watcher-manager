@@ -36,4 +36,4 @@ proxy:
 
 
 watcher:
-  templates: D:\workspace\IntelliJ\refact\watcher-manager\target\classes\
+  templates: /project/watcher-manager/target/classes/
