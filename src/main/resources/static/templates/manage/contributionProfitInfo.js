@@ -19,7 +19,7 @@ Template.contributionProfitInfo.rendered = function () {
     //         break;
     // }
 
-    this.autorun(function () {
+    // this.autorun(function () {
         // var from = Template.currentData().from;
         // switch(from){
         //     case "manage":
@@ -31,7 +31,7 @@ Template.contributionProfitInfo.rendered = function () {
         //         $('#priceContributionProfitInfo').addClass('active');
         //         break;
         // }
-    });
+    // });
 
     drawPublicPage(0);
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
