@@ -7,30 +7,30 @@ Template.contributionProfitInfo.rendered = function () {
         $('.sidebar-toggle').click();
     }
 
-    var from = Template.currentData().from;
-    switch(from){
-        case "manage":
-            $('#managereport').addClass('active');
-            $('#contributionProfitInfo').addClass('active');
-            break;
-        case "price":
-            $('#pricemonitor').addClass('active');
-            $('#priceContributionProfitInfo').addClass('active');
-            break;
-    }
+    // var from = Template.currentData().from;
+    // switch(from){
+    //     case "manage":
+    //         $('#managereport').addClass('active');
+    //         $('#contributionProfitInfo').addClass('active');
+    //         break;
+    //     case "price":
+    //         $('#pricemonitor').addClass('active');
+    //         $('#priceContributionProfitInfo').addClass('active');
+    //         break;
+    // }
 
     this.autorun(function () {
-        var from = Template.currentData().from;
-        switch(from){
-            case "manage":
-                $('#managereport').addClass('active');
-                $('#contributionProfitInfo').addClass('active');
-                break;
-            case "price":
-                $('#pricemonitor').addClass('active');
-                $('#priceContributionProfitInfo').addClass('active');
-                break;
-        }
+        // var from = Template.currentData().from;
+        // switch(from){
+        //     case "manage":
+        //         $('#managereport').addClass('active');
+        //         $('#contributionProfitInfo').addClass('active');
+        //         break;
+        //     case "price":
+        //         $('#pricemonitor').addClass('active');
+        //         $('#priceContributionProfitInfo').addClass('active');
+        //         break;
+        // }
     });
 
     drawPublicPage(0);
