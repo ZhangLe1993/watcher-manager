@@ -20,10 +20,5 @@ spring:
 server:
   port: 8080
 
-cas:
-   client:
-     host: http://10.25.169.133:8112
-
-
 watcher:
-  templates: /root/code/watcher-manager/watcher-manager/src/main/resources/
+  templates: D:\workspace\IntelliJ\refact\watcher-manager\watcher-manager\target\classes\
