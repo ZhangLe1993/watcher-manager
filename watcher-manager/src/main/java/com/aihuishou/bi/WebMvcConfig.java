@@ -14,6 +14,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/fonts/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "fonts/");
         registry.addResourceHandler("/assets/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "assets/");
         registry.addResourceHandler("/images/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "images/");
+        registry.addResourceHandler("/*.html").addResourceLocations("classpath:/templates/dist/");
+        registry.addResourceHandler("/*.js").addResourceLocations("classpath:/templates/dist/");
+        registry.addResourceHandler("/*.css").addResourceLocations("classpath:/templates/dist/");
         registry.addResourceHandler("/favicon.ico")
                 .addResourceLocations("/")
                 .setCachePeriod(0);

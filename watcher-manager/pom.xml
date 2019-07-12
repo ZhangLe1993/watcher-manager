@@ -154,7 +154,7 @@
 			</resource>
 			<resource>
 				<directory>../watcher-web/dist</directory>
-				<targetPath>static/dist</targetPath>
+				<targetPath>templates/dist</targetPath>
 			</resource>
 		</resources>
 	</build>

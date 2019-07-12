@@ -10,7 +10,7 @@ public class IndexC {
     @RequestMapping(value = {"/back/**","/"})
     public String index() {
         System.out.println("indexC===>index");
-        return "index";
+        return "dist/index";
     }
 
     @RequestMapping("_health_check")
