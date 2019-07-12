@@ -43,7 +43,7 @@ function getSelectedFilter() {
     startDateEmbed = startDate;
     endDateEmbed = endDate;
     var filter = {};
-    filter.account_key = Meteor.user().profile.name;
+    filter.account_key = getUserName();
     filter.startDate = startDate;
     filter.endDate = endDate;
 

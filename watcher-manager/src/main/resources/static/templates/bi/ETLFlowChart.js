@@ -115,8 +115,10 @@ Template.ETLFlowChart.rendered = function () {
         zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
     });
 
-    userId = Meteor.user().profile.name;
-    userName = Meteor.user().profile.username;
+    // userId = getUserName();
+    // userName = getUserName();
+    userId = getUserId();
+    userName = getUserName();
     //js-mind
     /*$("#jsmind_container").css("height", '800px');
     var mind = {

@@ -144,7 +144,7 @@ function getSelectedFilterGroup() {
 function getPermissionArea(){
     //clean parameters
     var dfd = $.Deferred();
-    var accountId = Meteor.user().profile.name;
+    var accountId = getUserName();
     requestURL(dataService+"/Vender/getProvinceNameJsonByAccountId", {"accountId":accountId}).done(function (ret) {
         dfd.resolve(ret)
     });

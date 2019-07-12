@@ -44,8 +44,10 @@ Template.ETLTaskManage.rendered = function () {
                         var fileName = arr[arr.length-1];
                         $("#fileNameHtml").show();
                         $("#fileNameHtml").html(fileName);
-                        var userId = Meteor.user().profile.name;
-                        var userName = Meteor.user().profile.username;
+                        // var userId = getUserName();
+                        // var userName = getUserName();
+                        var userId = getUserId();
+                        var userName = getUserName();
                         //添加访问日志
                         requestURL(dataService+"/withoutBi/generateLogForJobManagePro",{fileName:fileName,sid:userId,userName:userName,opType:'0'}).done(function(rem){
                             if(rem.msg=="OK"){
@@ -111,8 +113,10 @@ Template.ETLTaskManage.rendered = function () {
                 $.get(scriptService + '/watcher/runJob',{commandInfo:cmd.trimLeft(),fileName:fileName,directory:directory,runType:"check"},function(data){
                     if(data.code==200){
                         isCheck = true;
-                        var userId = Meteor.user().profile.name;
-                        var userName = Meteor.user().profile.username;
+                        // var userId = getUserName();
+                        // var userName = getUserName();
+                        var userId = getUserId();
+                        var userName = getUserName();
                         //添加访问日志
                         requestURL(dataService+"/withoutBi/generateLogForJobManagePro",{fileName:fileName,sid:userId,userName:userName,opType:'1'}).done(function(rem){
                             if(rem.msg=="OK"){
@@ -150,8 +154,10 @@ Template.ETLTaskManage.rendered = function () {
                                 if(res.code == 200){
                                     var form = document.getElementById("fileForm");
                                     form.reset();
-                                    var userId = Meteor.user().profile.name;
-                                    var userName = Meteor.user().profile.username;
+                                    // var userId = getUserName();
+                                    // var userName = getUserName();
+                                    var userId = getUserId();
+                                    var userName = getUserName();
                                     //添加访问日志
                                     requestURL(dataService+"/withoutBi/generateLogForJobManagePro",{fileName:fileName,sid:userId,userName:userName,opType:'2'}).done(function(rem){
                                         if(rem.msg=="OK"){
@@ -198,8 +204,10 @@ Template.ETLTaskManage.rendered = function () {
                     _error('审核失败，请检查命令');
                 }
             },'json')
-            var userId = Meteor.user().profile.name;
-            var userName = Meteor.user().profile.username;
+            // var userId = getUserName();
+            var userId = getUserId();
+            // var userName = getUserName();
+            var userName = getUserName();
             requestURL(dataService+"/withoutBi/generateLogForJobManagePro",{fileName:cmd.trimLeft(),sid:userId,userName:userName,opType:'5'}).done(function(rem){});
         }
     });
@@ -221,8 +229,10 @@ Template.ETLTaskManage.rendered = function () {
                 }
                 $.get(scriptService + '/watcher/runJob',{commandInfo:cmd.trimLeft(),fileName:"runJob",directory:directory,runType:"run"},function(data){
                     if(data.code==200){
-                        var userId = Meteor.user().profile.name;
-                        var userName = Meteor.user().profile.username;
+                        var userId = getUserId();
+                        // var userId = getUserName();
+                        // var userName = getUserName();
+                        var userName = getUserName();
                         //添加访问日志
                         requestURL(dataService+"/withoutBi/generateLogForJobManagePro",{fileName:cmd.trim(),sid:userId,userName:userName,opType:'3'}).done(function(rem){});
 
@@ -282,7 +292,7 @@ function renderTable(){
                     sortable:true,
                     formatter:function(value,row,index){
                         //添加访问日志
-                        return "<a href='#' onclick='$.get(\"http://47.97.240.5:8899/script/watcher/killRunPro\",{proId:"+row.proId+"},function(data){$.get(\"http://watcher.intra.aihuishou.com:8809/watcher/withoutBi/generateLogForJobManagePro\",{fileName:\""+row.proName.replace(/ /g,"_")+"\",sid:"+Meteor.user().profile.name+",userName:\""+Meteor.user().profile.username+"\",opType:\"4\"}).done(function(rem){zeroModal.success(\"正在执行关闭，请刷新查看\")})})'>关闭</a>"
+                        return "<a href='#' onclick='$.get(\"http://47.97.240.5:8899/script/watcher/killRunPro\",{proId:"+row.proId+"},function(data){$.get(\"http://watcher.intra.aihuishou.com:8809/watcher/withoutBi/generateLogForJobManagePro\",{fileName:\""+row.proName.replace(/ /g,"_")+"\",sid:"+getUserName()+",userName:\""+getUserId()+"\",opType:\"4\"}).done(function(rem){zeroModal.success(\"正在执行关闭，请刷新查看\")})})'>关闭</a>"
                     }
                 }
             ]
@@ -315,8 +325,10 @@ function _confirm2(text,subtext,fileName,directory) {
                     if(ret.code == 200){
                         var form = document.getElementById("fileForm");
                         form.reset();
-                        var userId = Meteor.user().profile.name;
-                        var userName = Meteor.user().profile.username;
+                        // var userId = getUserName();
+                        // var userName = getUserName();
+                        var userId = getUserId();
+                        var userName = getUserName();
                         //添加访问日志
                         requestURL(dataService+"/withoutBi/generateLogForJobManagePro",{fileName:fileName,sid:userId,userName:userName,opType:'2'}).done(function(rem){});
                         _success('发布成功');

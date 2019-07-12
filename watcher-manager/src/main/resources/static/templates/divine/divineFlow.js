@@ -566,8 +566,8 @@ function customWarnModal(title, modelSelector, titleSelector, obj, type){
                 return;
             }
             $('#loading').modal('show');
-            var userId = Meteor.user().profile.name;
-            var userName = Meteor.user().profile.username;
+            var userId = getUserName();
+            var userName = getUserName();
             result.uName = userName;
             result.openId = "";
 
@@ -627,8 +627,8 @@ function customWarnModal(title, modelSelector, titleSelector, obj, type){
                 page_type_name: category,
                 platform: platform};
 
-            var userId = Meteor.user().profile.name;
-            var userName = Meteor.user().profile.username;
+            var userId = getUserName();
+            var userName = getUserName();
             result.uName = userName;
             result.openId = obj.id;
 
@@ -721,8 +721,8 @@ function _success(text,old,current,type) {
             //zeroModal.closeAll();
             $("#myWarnModal").modal('hide');
             if(type == 'edit') {
-                var userId = Meteor.user().profile.name;
-                var userName = Meteor.user().profile.username;
+                var userId = getUserName();
+                var userName = getUserName();
                 requestURLPost(dataService+"/divine/saveLogInfo", {uid:userId,uName:userName,old:old,current:current}).done(function (data) {
 
                 });

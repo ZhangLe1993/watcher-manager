@@ -76,8 +76,8 @@ Template.dataDictionary.rendered = function () {
         zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
     });
 
-    userId = Meteor.user().profile.name;
-    userName = Meteor.user().profile.username;
+    userId = getUserName();
+    userName = getUserName();
 };
 var userId = 0;
 var userName = "系统";
