@@ -8,7 +8,7 @@ Template.BDMSTR.rendered = function () {
     if(isAndroid||isiOS){
         $('.sidebar-toggle').click();
     }
-    var flag = this.data.flag;
+    // var flag = this.data.flag;
     var query = {
         "accountType": 'bd',
         "project":"Prod"

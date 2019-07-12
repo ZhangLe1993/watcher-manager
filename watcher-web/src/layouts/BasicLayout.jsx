@@ -92,6 +92,8 @@ const BasicLayout = props => {
   };
 
   const myclick = (e, it) => {
+    // console.log(it, '-it-');
+    window.sessionStorage.setItem('flag', it.component);
     e.stopPropagation();
     getPage(it.component);
   };
