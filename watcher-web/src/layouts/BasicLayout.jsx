@@ -64,9 +64,9 @@ const BasicLayout = props => {
 
   useEffect(() => {
     if (dispatch) {
-      dispatch({
-        type: 'user/fetchCurrent',
-      });
+      // dispatch({
+      //   type: 'user/fetchCurrent',
+      // });
       dispatch({
         type: 'settings/getSetting',
       });
@@ -87,8 +87,15 @@ const BasicLayout = props => {
     });
 
   const getPage = page => {
-    const iframe = document.getElementById('watcherIframe');
+    // const iframe = document.getElementById('watcherIframe');
+    const layoutContentDom = document.getElementsByClassName('ant-layout-content')[0];
+    const iframe = document.createElement('iframe');
+    iframe.scrolling = 'auto';
+    iframe.frameBorder = '0';
+    iframe.width = '100%';
+    iframe.height = '100%';
     iframe.src = `http://10.25.169.133:8112/route/base?position=${page}`;
+    layoutContentDom.replaceChild(iframe, layoutContentDom.children[0]);
   };
 
   const myclick = (e, it) => {
