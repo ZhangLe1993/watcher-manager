@@ -26,4 +26,4 @@ cas:
 
 
 watcher:
-  templates: /root/code/src/main/resources/
+  templates: /root/code/watcher-manager/src/main/resources/
