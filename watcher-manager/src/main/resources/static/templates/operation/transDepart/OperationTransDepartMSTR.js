@@ -9,7 +9,8 @@ Template.OperationTransDepartMSTR.rendered = function () {
         $('.sidebar-toggle').click();
     }
 
-    var flag = this.data.flag;
+    // var flag = this.data.flag;
+    var flag = window.sessionStorage.getItem('flag');
     $("#operationTransDepart"+flag+"Tab").addClass('active');
     var folderId = ""
     switch (flag) {

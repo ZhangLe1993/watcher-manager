@@ -9,7 +9,8 @@ Template.ChannelTransDepartMSTR.rendered = function () {
         $('.sidebar-toggle').click();
     }
 
-    var flag = this.data.flag;
+    // var flag = this.data.flag;
+    var flag = window.sessionStorage.getItem('flag');
     var accountType=0;
     $("#ChannelTransDepart"+flag+"Tab").addClass('active');
     var folderId = ""

@@ -18,6 +18,7 @@ import logo from '../assets/logo.svg';
  * use Authorized check all menu item
  */
 /* eslint-disable arrow-body-style */
+/* eslint-disable prefer-destructuring */
 
 const menuDataRender = menuList =>
   menuList.map(item => {
@@ -99,8 +100,14 @@ const BasicLayout = props => {
   };
 
   const myclick = (e, it) => {
-    // console.log(it, '-it-');
-    window.sessionStorage.setItem('flag', it.component);
+    console.log(it, '-it-');
+    const { component, path } = it;
+    const flagArr = path.split(`${component}/`);
+    let flag = '';
+    if (Array.isArray(flagArr) && flagArr.length > 1) {
+      flag = path.split(`${component}/`)[1];
+    }
+    window.sessionStorage.setItem('flag', flag);
     e.stopPropagation();
     getPage(it.component);
   };
