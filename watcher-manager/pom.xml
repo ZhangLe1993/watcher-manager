@@ -148,6 +148,15 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>../watcher-web/dist</directory>
+				<targetPath>static/dist</targetPath>
+			</resource>
+		</resources>
 	</build>
 
 </project>
