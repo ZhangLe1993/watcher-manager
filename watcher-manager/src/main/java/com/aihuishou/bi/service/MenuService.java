@@ -53,7 +53,7 @@ public class MenuService {
                 return m.getId().equals(mn.getMount());
             }).collect(Collectors.toList());
             //构造菜单
-            leaf.stream().forEach(n -> { mergeNode(merge, n); });
+            mNodes.stream().forEach(n -> { mergeNode(merge, n); });
         });
         return merge;
     }
