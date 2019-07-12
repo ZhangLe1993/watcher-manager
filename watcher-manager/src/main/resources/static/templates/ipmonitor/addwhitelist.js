@@ -1,6 +1,6 @@
 Template.addwhitelist.events({
     'click #addWhite': function () {
-        Meteor.call("updateIdIPWhiteList",Meteor.user().profile.name,this.obid,this.ip,function(error,result){
+        Meteor.call("updateIdIPWhiteList",getUserName(),this.obid,this.ip,function(error,result){
             if(result){
                 //alert("OPERATION_SUCCESS")
             }else{
@@ -9,7 +9,7 @@ Template.addwhitelist.events({
         })
     },
     'click #addIP': function () {
-        Meteor.call("updateIPWhiteList",Meteor.user().profile.name,this.ip,function(error,result){
+        Meteor.call("updateIPWhiteList",getUserName(),this.ip,function(error,result){
             if(result){
                 //alert("OPERATION_SUCCESS")
             }else{
@@ -18,7 +18,7 @@ Template.addwhitelist.events({
         })
     },
     'click #addPerson': function () {
-        Meteor.call("updateIdWhiteList",Meteor.user().profile.name,this.obid,function(error,result){
+        Meteor.call("updateIdWhiteList",getUserName(),this.obid,function(error,result){
             if(result){
                 //alert("OPERATION_SUCCESS")
             }else{

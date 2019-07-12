@@ -274,6 +274,10 @@ function getUserId() {
     // }
 }
 
+function getUserName() {
+    return 'test';
+}
+
 getSecretKey = function (path) {
     var dfd = $.Deferred();
     // if (Meteor.isClient) {
@@ -479,7 +483,7 @@ hideOwnNaviTab = function (permissionObjList) {
         })
         $('.own').hide();
         $('.otherservice').hide();
-        var obid = Meteor.user().profile.name;
+        var obid = getUserId();
 
         var flag = true;
         permissionList.forEach(function (ele) {

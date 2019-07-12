@@ -38,7 +38,7 @@ function pickWebTrafficFunnelDateRangeCallback(start, end, label) {
 
 function getFilterOptions(){
     var filterOption={};
-    filterOption.account_key=Meteor.user().profile.name
+    filterOption.account_key=getUserName()
     var dfd = $.Deferred();
     requestURL(dataService+"/Vender2/getSansuangS8CollectInfoByAccountkeyFilterOptions",filterOption).done(function(ret){
         dfd.resolve(ret)
@@ -78,7 +78,7 @@ function getSelectedFilter() {
     endDateEmbed = endDate;
     var sansungOffice=$(".office").val();
     var filter = {};
-    filter.account_key = Meteor.user().profile.name;
+    filter.account_key = getUserName();
     filter.startDate = startDate;
     filter.endDate = endDate;
     filter.sansungOffice=sansungOffice;
@@ -117,7 +117,7 @@ function validate(){
     var valid=false;
     var user=["3817","1613","1990","1503","1684","2465"]
     for(b in user){
-        if(Meteor.user().profile.name==user[b]){
+        if(getUserName()==user[b]){
             valid=true;
         }
     }

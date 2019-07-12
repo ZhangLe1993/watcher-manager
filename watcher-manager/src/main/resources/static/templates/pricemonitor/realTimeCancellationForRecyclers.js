@@ -54,7 +54,7 @@ Template.realTimeCancellationForRecyclers.rendered = function () {
     });
 
     //特殊商家重点监控
-    var userId = Meteor.user().profile.name;
+    var userId = getUserName();
     requestURL(dataService+'/recycler/getCurrentDayStatementOfDetails',{uid:userId}).done(function(data){
         if(data.statusText != undefined && data.statusText=='error'){
             showPanelOrLoadingOrError([{id:'statementOfDetailsLoading','on':false},{id:'statementOfDetailsPanel','on':false},{id:'statementOfDetailsError','on':true}]);

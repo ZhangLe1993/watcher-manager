@@ -17,8 +17,8 @@ Template.dataWorkshop.rendered = function () {
         $('.sidebar-toggle').click();
     }
     $('.sidebar-toggle').click();
-    userId = Meteor.user().profile.name;
-    userName = Meteor.user().profile.username;
+    userId = getUserName();
+    userName = getUserName();
     drawDataSubscription();
     drawDataDevelopment();
     drawModelDevelopment();

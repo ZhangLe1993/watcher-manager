@@ -12,7 +12,7 @@ Template.popMonth.rendered = function () {
 
     //绑定提交
     $('#service-submit').on('changed.bs.select',function(e) {
-        uid = Meteor.user().profile.name;
+        uid = getUserName();
         if(uid == undefined || uid == null) {
             _alert("提示", "你的浏览器可能禁用了某部分功能，请刷新或者更换浏览器");
             return;
@@ -23,7 +23,7 @@ Template.popMonth.rendered = function () {
 
     //绑定成交
     $('#service-success').on('changed.bs.select',function(e) {
-        uid = Meteor.user().profile.name;
+        uid = getUserName();
         if(uid == undefined || uid == null) {
             _alert("提示", "你的浏览器可能禁用了某部分功能，请刷新或者更换浏览器");
             return;
@@ -55,7 +55,7 @@ var drawPluralSelect = function(selector, data, containerId) {
 };
 //
 var renderPage = function() {
-    uid = Meteor.user().profile.name;
+    uid = getUserName();
     if(uid == undefined || uid == null) {
         _alert("提示", "你的浏览器可能禁用了某部分功能，请刷新或者更换浏览器");
         return;

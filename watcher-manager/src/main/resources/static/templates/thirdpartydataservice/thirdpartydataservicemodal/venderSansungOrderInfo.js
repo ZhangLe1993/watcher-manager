@@ -13,7 +13,7 @@ Template.venderSansungOrderInfo.rendered = function () {
     sansung_group_name.push(Template.currentData().sansung_group_name);
     startDate=Template.currentData().startDate;
     endDate=Template.currentData().endDate;
-    account_key=Meteor.user().profile.name;
+    account_key=getUserName();
 
     renderPageVender();
 
