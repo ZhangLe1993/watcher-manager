@@ -9,7 +9,8 @@ Template.merchantExpandMSTR.rendered = function () {
         $('.sidebar-toggle').click();
     }
 
-    var flag = this.data.flag;
+    // var flag = this.data.flag;
+    var flag = window.sessionStorage.getItem('flag');
     var folderId="";
     switch(flag){
         case "0":

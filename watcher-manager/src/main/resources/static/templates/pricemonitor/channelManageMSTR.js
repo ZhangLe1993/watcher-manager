@@ -5,7 +5,7 @@ Template.channelManageMSTR.rendered = function () {
     if(isMobile()){
         $('.sidebar-toggle').click();
     }
-    var flag = this.data.flag;
+    // var flag = this.data.flag;
     var query = {
         "accountType": "channel",
         "project":"Prod"

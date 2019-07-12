@@ -7,7 +7,7 @@ Template.checkMonitorMSTR.rendered = function () {
         $('.sidebar-toggle').click();
     }
 
-    var flag = this.data.flag;
+    // var flag = this.data.flag;
     var query = {
         "accountType": 'standard',
         "project":"Prod"

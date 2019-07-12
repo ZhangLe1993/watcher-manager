@@ -7,7 +7,7 @@ Template.PriceMSTR.rendered = function () {
         $('.sidebar-toggle').click();
         $(".icon-toggle").click()
     }
-    var flag = this.data.flag;
+    // var flag = this.data.flag;
     var query = {
         "accountType": 'profit',
         "project":"Prod"
