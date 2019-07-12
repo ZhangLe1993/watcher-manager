@@ -19,4 +19,3 @@ Template.OPTMSTR.rendered = function () {
     });
 };
 
-mstrHost = Meteor.settings.public.mstrService.baseUrl;

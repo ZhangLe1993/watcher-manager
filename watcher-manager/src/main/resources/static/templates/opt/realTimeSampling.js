@@ -1,99 +1,21 @@
 Template.realTimeSampling.rendered = function () {
     $('.navi-tab').removeClass('active');
-    this.autorun(function () {
-        var from = Template.currentData().from;
-        switch(from){
-            case "1":
-                $('#pjtrtSideTab').addClass('active');
-                $('#realTimeSampling').addClass('active');
-                operationCenter = "0";
-                break;
-            case "2":
-                operationCenter = Template.currentData().OperationCenter;
-                switch (parseInt(operationCenter)) {
-                    case 1:
-                        $('#operation').addClass('active');
-                        $('#shanghaiRealTimeSampling').addClass('active');
-                        $('#shanghaiOperationCenter').addClass('active');
-                        break;
-                    case 12:
-                        $('#operation').addClass('active');
-                        $('#shanghaiTestRealTimeSampling').addClass('active');
-                        $('#shanghaiTestOperationCenter').addClass('active');
-                        break;
-                    case 2:
-                        $('#operation').addClass('active');
-                        $('#beijingRealTimeSampling').addClass('active');
-                        $('#beijingOperationCenter').addClass('active');
-                        break;
-                    case 3:
-                        $('#operation').addClass('active');
-                        $('#chengduRealTimeSampling').addClass('active');
-                        $('#chengduOperationCenter').addClass('active');
-                        break;
-                    case 4:
-                        $('#operation').addClass('active');
-                        $('#shenzhenRealTimeSampling').addClass('active');
-                        $('#shenzhenOperationCenter').addClass('active');
-                        break;
-                    case 16:
-                        $('#operation').addClass('active');
-                        $('#shenzhenNewRealTimeSampling').addClass('active');
-                        $('#shenzhenNewOperationCenter').addClass('active');
-                        break;
-                    case 21:
-                        $('#operation').addClass('active');
-                        $('#shenzhenTestRealTimeSampling').addClass('active');
-                        $('#shenzhenTestOperationCenter').addClass('active');
-                        break;
-                    case 5:
-                        $('#operation').addClass('active');
-                        $('#tianjinRealTimeSampling').addClass('active');
-                        $('#tianjinOperationCenter').addClass('active');
-                        break;
-                    case 6:
-                        $('#operation').addClass('active');
-                        $('#wuhanRealTimeSampling').addClass('active');
-                        $('#wuhanOperationCenter').addClass('active');
-                        break;
-                    case 10:
-                        $('#operation').addClass('active');
-                        $('#changzhouRealTimeSampling').addClass('active');
-                        $('#changzhouOperationCenter').addClass('active');
-                        break;
-                    case 0:
-                        $('#operation').removeClass('active');
-                        $('#operationPlatformTab').addClass('active');
-                        $("#overviewOperatingCentersTab").addClass('active');
-                        $('#chinaRealTimeSampling').addClass('active');
-                        break;
-                    case 18:
-                        $('#operation').addClass('active');
-                        $('#changzhouTestRealTimeSampling').addClass('active');
-                        $('#changzhouTestOperationCenter').addClass('active');
-                        break;
-                    default:
-                        break;
-                }
-                break;
-        }
-        //渲染公共部分
-        initForceMap(from);
-        initColorMap(from);
-        drawPublic();
-        initSerialMap();
-        initUrlMap();
-        initTableColumnMap();
-        initExportLinkMap();
-        //初始化只显示质检
-        switchToShow('qualityInspection');
-        //渲染质检页面
-        drawQualityInspection();
-        //drawRandomInspection();
-        //提示框
-        toolTipCustom();
-    });
-
+    //渲染公共部分
+    var from = 0;
+    initForceMap(from);
+    initColorMap(from);
+    drawPublic();
+    initSerialMap();
+    initUrlMap();
+    initTableColumnMap();
+    initExportLinkMap();
+    //初始化只显示质检
+    switchToShow('qualityInspection');
+    //渲染质检页面
+    drawQualityInspection();
+    //drawRandomInspection();
+    //提示框
+    toolTipCustom();
 };
 var operationCenter = "0";
 

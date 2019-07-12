@@ -11,14 +11,15 @@ Template.VenderHQVenderAntCreditPayOrderStatisticsInfo.rendered = function () {
 
     //自动刷新函数
     var autoRun=function() {
-        var flag = Template.currentData().flag;
+        var flag = "ALL";
+        /*var flag = Template.currentData().flag;
         if (flag == "ALL") {
             $('#VenderHQDataInfoTab').addClass('active');
             $('#VenderHQVenderAntCreditPayOrderStatisticsTab').addClass('active');
         } else if (flag == "Province") {
             $('#VenderPermissionControl').addClass('active');
             $('#VenderHQVenderAntCreditPayOrderStatisticsProvinceTab').addClass('active');
-        }
+        }*/
 
         var dateGap = -9;
         var endDate = new Date().getNewDate(-1);
@@ -122,9 +123,7 @@ Template.VenderHQVenderAntCreditPayOrderStatisticsInfo.rendered = function () {
 
     };
 
-    this.autorun(function(){
-        autoRun();
-    });
+    autoRun();
 };
 
 

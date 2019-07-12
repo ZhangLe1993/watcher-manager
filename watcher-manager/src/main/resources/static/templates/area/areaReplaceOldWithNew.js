@@ -1,9 +1,5 @@
 Template.areaReplaceOldWithNew.rendered = function () {
     $('.navi-tab').removeClass('active');
-    refreshActive();
-    this.autorun(function () {
-        refreshActive();
-    });
     var ua = navigator.userAgent.toLowerCase();
     var isAndroid = ua.indexOf("android") > -1;
     var isiOS = ua.indexOf("iphone") > -1;
@@ -63,17 +59,6 @@ var getFilter = function() {
     return {area:area, city:city, store:store, source:source};
 };
 
-var refreshActive = function() {
-    var flag = Template.currentData().flag;
-    if(flag == "realTime"){
-        $('#dashboard').addClass('active');
-        $('#realAreaReplaceOldWithNew').addClass('active');
-    }else if(flag == "live"){
-        $('#aihuishouTab').addClass('active');
-        $('#livesTab').addClass('active');
-        $('#areaReplaceOldWithNew').addClass('active');
-    }
-};
 
 
 var drawFilter = function(obj) {

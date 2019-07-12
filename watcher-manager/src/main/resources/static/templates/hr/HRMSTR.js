@@ -22,5 +22,3 @@ Template.HRMSTR.rendered = function () {
         $('#mainIFrame').attr('src',url );
     });
 };
-
-mstrHost = Meteor.settings.public.mstrService.baseUrl;

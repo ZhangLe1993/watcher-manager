@@ -31,4 +31,3 @@ Template.merchantExpandMSTR.rendered = function () {
     });
 };
 
-mstrHost = Meteor.settings.public.mstrService.baseUrl;
