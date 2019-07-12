@@ -83,7 +83,7 @@ Template.BDTradeSummary.rendered = function () {
     });
 
 };
-var dataService = Meteor.settings.public.dataService.baseUrl;
+// var dataService = Meteor.settings.public.dataService.baseUrl;
 
 function pickDateRangeCallback(start, end, label) {
     var startDate = start.format('YYYY-MM-DD');

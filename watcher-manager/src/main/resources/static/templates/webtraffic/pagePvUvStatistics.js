@@ -263,6 +263,9 @@ function pickWebTrafficFunnelMonthRangeCallback(start, end, label) {
     $('.monthSelectLabel').html(sdt + "~" + edt);
 }
 
+// var dataService = Meteor.settings.public.dataService.baseUrl;
+
+
 function getSelectedFilter(dateType, $this) {
     if (dateType == "daily") {
         var dt = $('.desktop-only .dateSelectLabel').text().replace(/ /g, "").split("~");

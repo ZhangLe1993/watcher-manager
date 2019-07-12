@@ -49,6 +49,10 @@ function pickStartDateRangeCallback(start, end, label) {
     }
 }
 
+
+// var dataService = Meteor.settings.public.dataService.baseUrl;
+
+
 function getSelectedFilter() {
 
     var dt = $('.desktop-only .dateSelectLabel').text().replace(/ /g, "").split("~");

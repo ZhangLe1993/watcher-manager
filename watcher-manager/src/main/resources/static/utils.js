@@ -350,7 +350,7 @@ requestURLPost = function (path, query) {
           type: 'POST',
           url: path,
           contentType: 'application/json',
-          data: query,
+          data: JSON.stringify(query),
           success: function(result) {
             dfd.resolve(result)
           }

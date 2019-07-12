@@ -83,7 +83,7 @@ Template.marketingTrafficMonitor.rendered = function () {
 
 };
 
-var dataService = Meteor.settings.public.dataService.baseUrl;
+// var dataService = Meteor.settings.public.dataService.baseUrl;
 
 function getUVChartsData(filter){
     var query = _.clone(filter);

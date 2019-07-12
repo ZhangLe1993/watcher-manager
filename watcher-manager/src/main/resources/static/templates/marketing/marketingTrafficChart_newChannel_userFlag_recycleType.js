@@ -276,7 +276,7 @@ function renderPage(filter){
     });
 
 }
-var dataService = Meteor.settings.public.dataService.baseUrl;
+// var dataService = Meteor.settings.public.dataService.baseUrl;
 function getUVChartsData(filter){
     var query = _.clone(filter);
     //requestURLPost(dataService+'/webTraffic/getMarketingAggregateTraffic',query).done(function (data) {

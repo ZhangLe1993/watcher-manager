@@ -294,7 +294,7 @@ function pickWebTrafficFunnelMonthRangeCallback(start, end, label) {
     getValue();
 }
 
-var dataService = Meteor.settings.public.dataService.baseUrl;
+// var dataService = Meteor.settings.public.dataService.baseUrl;
 
 
 function getSelectedFilter(){

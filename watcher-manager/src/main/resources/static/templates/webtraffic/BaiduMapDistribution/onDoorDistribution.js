@@ -125,7 +125,7 @@ Template.onDoorDistribution.rendered = function () {
     drawBaiduMapCity();
 };
 
-dataService = Meteor.settings.public.dataService.baseUrl;
+// dataService = Meteor.settings.public.dataService.baseUrl;
 
 var city_name,num,startDate,endDate,lng,lat;
 

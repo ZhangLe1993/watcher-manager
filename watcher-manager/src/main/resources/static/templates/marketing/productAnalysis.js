@@ -368,7 +368,7 @@ function pickWebTrafficFunnelMonthRangeCallback(start, end, label) {
     $('.monthSelectLabel').html(sdt+"~"+edt);
 }
 
-var dataService = Meteor.settings.public.dataService.baseUrl;
+// var dataService = Meteor.settings.public.dataService.baseUrl;
 
 
 function getSelectedFilter(dateType,$this){

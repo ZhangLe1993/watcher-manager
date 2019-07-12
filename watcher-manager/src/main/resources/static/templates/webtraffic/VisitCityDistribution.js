@@ -125,7 +125,7 @@ Template.VisitCityDistribution.rendered = function () {
 
 };
 
-dataService = Meteor.settings.public.dataService.baseUrl;
+// dataService = Meteor.settings.public.dataService.baseUrl;
 
 /*开始时间*/
 function pickstartDateRangeCallback(start, end, label) {

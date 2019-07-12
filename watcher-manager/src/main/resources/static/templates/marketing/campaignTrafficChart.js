@@ -85,7 +85,7 @@ Template.campaignTrafficMonitor.rendered = function () {
 
 };
 
-var dataService = Meteor.settings.public.dataService.baseUrl;
+// var dataService = Meteor.settings.public.dataService.baseUrl;
 
 function cleanParams(filter){
     //clean parameters
