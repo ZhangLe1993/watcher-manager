@@ -347,6 +347,7 @@ requestURLPost = function (path, query) {
         //     dfd.resolve(result)
         // })
         $.ajax({
+          type: 'POST',
           url: path,
           contentType: 'application/json',
           data: query,
