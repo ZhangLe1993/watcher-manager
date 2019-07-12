@@ -343,8 +343,16 @@ requestURL = function (path, query) {
 requestURLPost = function (path, query) {
     if (Meteor.isClient) {
         var dfd = $.Deferred();
-        $.post(path, query, function (result) {
+        // $.post(path, query, function (result) {
+        //     dfd.resolve(result)
+        // })
+        $.ajax({
+          url: path,
+          contentType: 'application/json',
+          data: query,
+          success: function(result) {
             dfd.resolve(result)
+          }
         })
         return dfd.promise()
     }
