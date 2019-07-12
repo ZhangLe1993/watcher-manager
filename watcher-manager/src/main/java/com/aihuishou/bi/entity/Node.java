@@ -27,4 +27,6 @@ public class Node {
 
     private String genre;
 
+    private Long mount;
+
 }

@@ -48,6 +48,10 @@ public class MenuService {
             }).collect(Collectors.toList());
             //构造文件夹
             mRoots.stream().forEach(f -> { mergeList(merge, folders, nodes, f); });
+
+            List<Node> mNodes = leaf.stream().filter(mn -> {
+                return m.getId().equals(mn.getMount());
+            }).collect(Collectors.toList());
             //构造菜单
             leaf.stream().forEach(n -> { mergeNode(merge, n); });
         });

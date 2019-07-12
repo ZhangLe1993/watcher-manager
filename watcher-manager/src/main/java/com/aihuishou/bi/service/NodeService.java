@@ -20,7 +20,7 @@ public class NodeService extends BaseService {
     private DataSource dataSource;
 
     public List<Node> nodes() throws SQLException {
-        String sql = "select id, position, url, auth, path, name, parent_position AS parentPosition from bi_nodes where state='1' order by sort_no;";
+        String sql = "select id, position, url, auth, path, name, parent_position AS parentPosition,mount from bi_nodes where state='1' order by sort_no;";
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<Node>(Node.class));
     }
 
