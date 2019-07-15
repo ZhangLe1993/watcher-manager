@@ -1,11 +1,11 @@
 Template.ondoorOrderByAreaReport.rendered = function () {
     ondoorOrderByAreaReportChart = echarts.init(document.getElementById('ondoorOrderByAreaReportChart'));
     drawOndoorOrderByAreaReportChart();
-    Deps.autorun(function () {
-        if (location.pathname.indexOf('getOndoorOrderByArea') > 0) {
-            drawOndoorOrderByAreaReportChart()
-        }
-    })
+    // Deps.autorun(function () {
+    //     if (location.pathname.indexOf('getOndoorOrderByArea') > 0) {
+    //         drawOndoorOrderByAreaReportChart()
+    //     }
+    // })
 };
 
 function drawOndoorOrderByAreaReportChart(){

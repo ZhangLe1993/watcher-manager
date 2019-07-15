@@ -2,11 +2,11 @@ Template.receiptDetail.rendered = function () {
 
     realTimeSourceTypeReceiptChart = echarts.init(document.getElementById('realTimeSourceTypeReceiptChart'));
     drawRealTimeSourceTypeReceiptChart();
-    Deps.autorun(function () {
-        if (location.pathname.indexOf('receiptDetail') > 0) {
-            drawRealTimeSourceTypeReceiptChart();
-        }
-    })
+    // Deps.autorun(function () {
+    //     if (location.pathname.indexOf('receiptDetail') > 0) {
+    //         drawRealTimeSourceTypeReceiptChart();
+    //     }
+    // })
 };
 
 function drawRealTimeSourceTypeReceiptChart() {

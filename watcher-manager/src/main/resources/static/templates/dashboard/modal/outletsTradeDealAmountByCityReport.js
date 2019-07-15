@@ -1,11 +1,11 @@
 Template.outletsTradeDealAmountByCityReport.rendered = function () {
     outletsTradeDealAmountByCityReportChart = echarts.init(document.getElementById('outletsTradeDealAmountByCityReportChart'));
     drawOutletsTradeDealAmountByCityReportChart();
-    Deps.autorun(function () {
-        if (location.pathname.indexOf('getOndoorTradeDealAmountByCity') > 0) {
-            drawOutletsTradeDealAmountByCityReportChart()
-        }
-    })
+    // Deps.autorun(function () {
+    //     if (location.pathname.indexOf('getOndoorTradeDealAmountByCity') > 0) {
+    //         drawOutletsTradeDealAmountByCityReportChart()
+    //     }
+    // })
 };
 
 function drawOutletsTradeDealAmountByCityReportChart(){

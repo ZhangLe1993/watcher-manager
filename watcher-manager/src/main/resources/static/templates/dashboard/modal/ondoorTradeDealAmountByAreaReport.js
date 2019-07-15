@@ -1,11 +1,11 @@
 Template.ondoorTradeDealAmountByAreaReport.rendered = function () {
     ondoorTradeDealAmountByAreaReportChart = echarts.init(document.getElementById('ondoorTradeDealAmountByAreaReportChart'));
     drawOndoorTradeDealAmountByAreaReportChart();
-    Deps.autorun(function () {
-        if (location.pathname.indexOf('getOndoorTradeDealAmountByArea') > 0) {
-            drawOndoorTradeDealAmountByAreaReportChart()
-        }
-    })
+    // Deps.autorun(function () {
+    //     if (location.pathname.indexOf('getOndoorTradeDealAmountByArea') > 0) {
+    //         drawOndoorTradeDealAmountByAreaReportChart()
+    //     }
+    // })
 };
 
 function drawOndoorTradeDealAmountByAreaReportChart(){

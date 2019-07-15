@@ -1747,14 +1747,14 @@ Template.aijihuiVenderManagerDashboard.rendered = function () {
 
     //updateDashboard();
 
-    Deps.autorun(function () {
-        if (location.pathname.indexOf('VenderDashboard') > 0) {
-            updateDashboard();
-        }
-        if (location.pathname.indexOf('aijihuiManagerDashboard') > 0) {
-            updateDashboard();
-        }
-    });
+    // Deps.autorun(function () {
+    //     if (location.pathname.indexOf('VenderDashboard') > 0) {
+    //         updateDashboard();
+    //     }
+    //     if (location.pathname.indexOf('aijihuiManagerDashboard') > 0) {
+    //         updateDashboard();
+    //     }
+    // });
     window.onresize = function () {
         venderTradeUserMixedChart.resize();
         venderTradeCategoryMixedChart.resize();

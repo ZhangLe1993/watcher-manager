@@ -44,15 +44,15 @@ Template.JDTradeMonitorJDOnly.rendered = function () {
     getYesterdayTradeMethodSubmitStats();
     getYesterdayTradeMethodSuccessStats();
 
-    Deps.autorun(function () {
+    // Deps.autorun(function () {
 
-        getYesterdayTradeOrderStats();
-        getYesterdayTradeSuccessStats();
-        getYesterdayTradeMethodSubmitStats();
-        getYesterdayTradeMethodSuccessStats();
+    //     getYesterdayTradeOrderStats();
+    //     getYesterdayTradeSuccessStats();
+    //     getYesterdayTradeMethodSubmitStats();
+    //     getYesterdayTradeMethodSuccessStats();
 
 
-    });
+    // });
 
 };
 

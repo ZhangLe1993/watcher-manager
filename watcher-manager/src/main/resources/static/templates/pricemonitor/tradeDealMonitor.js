@@ -11,11 +11,11 @@ Template.tradeDealMonitor.rendered = function() {
     productDealChart = echarts.init(document.getElementById('productDealChart'));
 
     drawProductDealChart();
-    Deps.autorun(function () {
-        if(location.pathname.indexOf('tradeDealMonitor')>0){
-            updateProductDealChart(null);
-        }
-    });
+    // Deps.autorun(function () {
+    //     if(location.pathname.indexOf('tradeDealMonitor')>0){
+    //         updateProductDealChart(null);
+    //     }
+    // });
 
 };
 

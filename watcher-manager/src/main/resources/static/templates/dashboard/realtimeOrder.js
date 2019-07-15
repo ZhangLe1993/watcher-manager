@@ -69,52 +69,52 @@ Template.realtimeOrder.rendered = function () {
         }
     });
 
-    Deps.autorun(function () {
-        if (location.pathname.indexOf('realtimeOrder') > 0) {
-            //console.log("!!!!!!!!!!!!!!!!!")
+    // Deps.autorun(function () {
+    //     if (location.pathname.indexOf('realtimeOrder') > 0) {
+    //         //console.log("!!!!!!!!!!!!!!!!!")
 
-            if(window.intervalScatterId){
-                //console.log("clear.....................")
-                clearInterval(window.intervalScatterId)
-                window.intervalScatterId = undefined
-            }
+    //         if(window.intervalScatterId){
+    //             //console.log("clear.....................")
+    //             clearInterval(window.intervalScatterId)
+    //             window.intervalScatterId = undefined
+    //         }
 
-            if(window.timeOutScatterId){
-                clearTimeout(window.timeOutScatterId)
-                window.timeOutScatterId= undefined
-            }
+    //         if(window.timeOutScatterId){
+    //             clearTimeout(window.timeOutScatterId)
+    //             window.timeOutScatterId= undefined
+    //         }
 
-            var data = [];
-            var tmpList = _.groupBy(realtimeOrderSummaryStats.find({status:"submit","date":today}).fetch(),function(obj){return obj.provinceName});
-            var total = 0;
-            for(var key in tmpList){
-                var sum = _.reduce(_.map(tmpList[key],function(obj){return obj.tradeNum;}),function(memo, num){ return memo + num; }, 0)
-                total += sum;
-                data.push({name:key,value:sum})
-                if(province.contains(key)){
-                    //去除
-                    bubble = _.filter(bubble,function(obj){return obj.name!=key})
-                    //重新增加
-                    bubble.push({name:key,value:sum,dt:new Date().getTime()})
-                }
-            }
-            province=[]
-            //去除过时的光圈
-            bubble=_.filter(bubble,function(obj){
-                var flag = new Date().getTime()-obj.dt<3200;
-                if(!flag){
-                    //省份移除
-                    province.remove(obj.name)
-                }
-                return flag
-            })
-            //console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-            //console.log(_.map(bubble,function(obj){return obj.name+obj.value}))
-            $("#currentTotal").text("当前订单:"+total)
+    //         var data = [];
+    //         var tmpList = _.groupBy(realtimeOrderSummaryStats.find({status:"submit","date":today}).fetch(),function(obj){return obj.provinceName});
+    //         var total = 0;
+    //         for(var key in tmpList){
+    //             var sum = _.reduce(_.map(tmpList[key],function(obj){return obj.tradeNum;}),function(memo, num){ return memo + num; }, 0)
+    //             total += sum;
+    //             data.push({name:key,value:sum})
+    //             if(province.contains(key)){
+    //                 //去除
+    //                 bubble = _.filter(bubble,function(obj){return obj.name!=key})
+    //                 //重新增加
+    //                 bubble.push({name:key,value:sum,dt:new Date().getTime()})
+    //             }
+    //         }
+    //         province=[]
+    //         //去除过时的光圈
+    //         bubble=_.filter(bubble,function(obj){
+    //             var flag = new Date().getTime()-obj.dt<3200;
+    //             if(!flag){
+    //                 //省份移除
+    //                 province.remove(obj.name)
+    //             }
+    //             return flag
+    //         })
+    //         //console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    //         //console.log(_.map(bubble,function(obj){return obj.name+obj.value}))
+    //         $("#currentTotal").text("当前订单:"+total)
 
-            submitOrderMapChartFunc(data,bubble);
-        }
-    });
+    //         submitOrderMapChartFunc(data,bubble);
+    //     }
+    // });
 
 
     //月营收

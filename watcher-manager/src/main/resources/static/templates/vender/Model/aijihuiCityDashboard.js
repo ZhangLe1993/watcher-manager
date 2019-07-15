@@ -491,11 +491,11 @@ Template.aijihuiCityDashboard.rendered = function () {
 
     updateDashboard();
 
-    Deps.autorun(function () {
-        if (location.pathname.indexOf('aijihuiCityDashboard') > 0) {
-            updateDashboard();
-        }
-    });
+    // Deps.autorun(function () {
+    //     if (location.pathname.indexOf('aijihuiCityDashboard') > 0) {
+    //         updateDashboard();
+    //     }
+    // });
     window.onresize=function(){
         venderTradeCityMixedChart.resize();
         venderTradeAmountCityMixedChart.resize();

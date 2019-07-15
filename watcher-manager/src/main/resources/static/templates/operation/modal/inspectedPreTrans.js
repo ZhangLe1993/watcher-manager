@@ -1,10 +1,10 @@
 Template.inspectedPreTrans.rendered = function(){
     renderTable();
-    Deps.autorun(function () {
-        if (location.pathname.indexOf('inspectedPreTrans') > 0) {
-            renderTable();
-        }
-    })
+    // Deps.autorun(function () {
+    //     if (location.pathname.indexOf('inspectedPreTrans') > 0) {
+    //         renderTable();
+    //     }
+    // })
 };
 
 function  renderTable(){

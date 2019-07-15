@@ -12,12 +12,12 @@ Template.inspector.rendered = function () {
     inspectionGroupChart = echarts.init(document.getElementById('inspectionGroupChart'));
     drawInspectorChart();
     drawInspectionGroupChart();
-    Deps.autorun(function () {
-        if (location.pathname.indexOf('inspector') > 0) {
-            drawInspectorChart();
-            drawInspectionGroupChart();
-        }
-    })
+    // Deps.autorun(function () {
+    //     if (location.pathname.indexOf('inspector') > 0) {
+    //         drawInspectorChart();
+    //         drawInspectionGroupChart();
+    //     }
+    // })
 };
 
 function drawInspectionGroupChart() {
