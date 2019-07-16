@@ -17,8 +17,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/*.html").addResourceLocations("classpath:/templates/dist/");
         registry.addResourceHandler("/*.js").addResourceLocations("classpath:/templates/dist/");
         registry.addResourceHandler("/*.css").addResourceLocations("classpath:/templates/dist/");
-        registry.addResourceHandler("/favicon.ico")
-                .addResourceLocations("/")
+        registry.addResourceHandler("/favicon.png")
+                .addResourceLocations("classpath:/static/resources/images/favicon.ico")
                 .setCachePeriod(0);
         super.addResourceHandlers(registry);
     }
