@@ -270,12 +270,12 @@ function getUserId() {
     // if (Meteor.user()) {
     //     return Meteor.user().profile.name
     // } else {
-    return "0"
+    return "7205"
     // }
 }
 
 function getUserName() {
-    return 'test';
+    return '7205';
 }
 
 getSecretKey = function (path) {
