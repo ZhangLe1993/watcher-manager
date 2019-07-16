@@ -1,5 +1,5 @@
 Template.VenderTransDepartMSTR.rendered = function () {
-    $('.navi-tab').removeClass('active');
+    /*$('.navi-tab').removeClass('active');
     $('#CustomerServiceTab').addClass('active');
     var ua = navigator.userAgent.toLowerCase();
     var isAndroid = ua.indexOf("android") >-1;
@@ -8,14 +8,14 @@ Template.VenderTransDepartMSTR.rendered = function () {
         $('.sidebar-toggle').click();
     }
 
-    var flag = this.data.flag;
-    $("#operationTransDepart"+flag+"Tab").addClass('active');
-    var folderId = ""
-    switch (flag) {
+    var flag = this.data.flag;*/
+    /*$("#operationTransDepart"+flag+"Tab").addClass('active');*/
+    var folderId = "57E321CD4F1EFBF1FAA270A136DA05AB";
+    /*switch (flag) {
         case "bigOperation":
             folderId = "57E321CD4F1EFBF1FAA270A136DA05AB"
             break
-    }
+    }*/
     var query = {
         "accountType": 'aijihui',
         "project":"Prod",

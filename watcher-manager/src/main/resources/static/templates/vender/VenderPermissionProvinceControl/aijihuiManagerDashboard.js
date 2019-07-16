@@ -16,7 +16,7 @@ Template.aijihuiManagerDashboard.rendered = function () {
 
     toolTipCustom();
 
-    requestURL(dataService + "/Vender/getVenderPermissionControlToGroupIdJsonInfo", {"type":"venderGroup"}).done(function(data){
+    requestURL(dataService + "/Vender/getVenderPermissionControlToGroupIdJsonInfo", {"type":"venderGroup", userId: getUserId()}).done(function(data){
         groupIdInfo=data.venderGroupId;
         updateDashboard();
 
@@ -25,7 +25,7 @@ Template.aijihuiManagerDashboard.rendered = function () {
     })
 
     $(".type").on('change',function(){
-        requestURL(dataService + "/Vender/getVenderPermissionControlToGroupIdJsonInfo", {"type":($(".type").val()=="")?"venderGroup":$(".type").val()}).done(function(data){
+        requestURL(dataService + "/Vender/getVenderPermissionControlToGroupIdJsonInfo", {"type":($(".type").val()=="")?"venderGroup":$(".type").val(), userId: getUserId()}).done(function(data){
             groupIdInfo=data.venderGroupId;
             updateDashboard();
 
@@ -50,7 +50,7 @@ Template.aijihuiManagerDashboard.rendered = function () {
 
     //趋势图
     function getVenderAccumulateTrendOrder(){
-        requestURL(dataService + "/Vender/getVenderAccumulateTrendOrderByUserId", {"type":($(".type").val()=="")?"venderGroup":$(".type").val()}).done(function(data){
+        requestURL(dataService + "/Vender/getVenderAccumulateTrendOrderByUserId", {"type":($(".type").val()=="")?"venderGroup":$(".type").val(), userId: getUserId()}).done(function(data){
             var dateList=[],orderList=[],shopList=[],customerList=[]
             data.forEach(function(obj){
                 dateList.push(obj.date)
@@ -123,7 +123,7 @@ Template.aijihuiManagerDashboard.rendered = function () {
     var tradeDataMap = new Map();
     function getYesterdayCurrentTimeData(isFirst){
 
-        requestURL(dataService + "/Vender/getVenderYesterdayCurrentTimeStatsByUserId", {"type":($(".type").val()=="")?"venderGroup":$(".type").val()}).done(function (ret) {
+        requestURL(dataService + "/Vender/getVenderYesterdayCurrentTimeStatsByUserId", {"type":($(".type").val()=="")?"venderGroup":$(".type").val(), userId: getUserId()}).done(function (ret) {
             var submitFilterData = _.filter(ret, function (obj) {
                 return obj.method == "提交"
             })
@@ -157,7 +157,7 @@ Template.aijihuiManagerDashboard.rendered = function () {
             dfd.resolve(undefined)
         }else {
             var query = {
-                "vender_parent_name": vender_parent_name
+                "vender_parent_name": vender_parent_name, userId: getUserId()
             };
             requestURLPost(dataService + "/Vender2/getVenderShopCount", query).done(function (ret) {
                 dfd.resolve(ret)
