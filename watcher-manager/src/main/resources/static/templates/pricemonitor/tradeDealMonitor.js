@@ -19,18 +19,18 @@ Template.tradeDealMonitor.rendered = function() {
 
 };
 
-Template.tradeDealMonitor.helpers({
-    productDealSelector: function () {
-        var date = dateTradeStats.findOne({},{sort:{createdDt:-1}}).createdDt;
-        return {createdDt:date};
-    }/*,
-    categoryStats:function () {
-        return categoryStats.find({})
-    },
-    brandStats:function(categoryName){
-        return brandStats.find({})
-    }*/
-});
+// Template.tradeDealMonitor.helpers({
+//     productDealSelector: function () {
+//         var date = dateTradeStats.findOne({},{sort:{createdDt:-1}}).createdDt;
+//         return {createdDt:date};
+//     }/*,
+//     categoryStats:function () {
+//         return categoryStats.find({})
+//     },
+//     brandStats:function(categoryName){
+//         return brandStats.find({})
+//     }*/
+// });
 
 Template.tradeDealMonitor.events({
     'click #btnBrand': function () {

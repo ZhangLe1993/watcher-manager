@@ -64,58 +64,58 @@ Template.tradePredict.rendered = function () {
     drawTradePredictChart();
 };
 
-Template.tradePredict.helpers({
-    selector: function () {
-        return {$and: [{date: {$gte: Session.get("start")}},{date: {$lte: Session.get("end")}}]};
-    },
-    todayPredict: function () {
-        var dataSet = operation_express_trade_predict.findOne({date: new Date().format("yyyy-MM-dd")}, {
-            reactive: false
-        });
-        if (dataSet == undefined) {
-            return "数据尚未更新"
-        }
-        return dataSet.tradePredict.toLocaleString();
-    },
-    tomorrowPredict: function () {
-        var dataSet = operation_express_trade_predict.findOne({date: new Date().getNewDate(1)}, {
-            reactive: false
-        });
-        if (dataSet == undefined) {
-            return "数据尚未更新"
-        }
-        return dataSet.tradePredict.toLocaleString();
-    },
-    tomorrow2Predict: function () {
-        var dataSet = operation_express_trade_predict.findOne({date: new Date().getNewDate(2)}, {
-            reactive: false
-        });
-        if (dataSet == undefined) {
-            return "数据尚未更新"
-        }
-        return dataSet.tradePredict.toLocaleString();
-    },
-    yesterdayStats: function () {
-        var dataSet = operation_express_trade_predict.findOne({date: moment().subtract(1, 'days').toDate().format('yyyy-MM-dd')}, {
-            reactive: false
-        });
-        if (dataSet == undefined) {
-            return "数据尚未更新"
-        }
-        var stats = {
-            submitCount: 0,
-            receiptCount: 0,
-            accuracy: 0,
-            tradePredict: 0
-        };
-        stats.submitCount = dataSet.submitCount.toLocaleString();
-        stats.receiptCount = dataSet.receiptCount.toLocaleString();
-        stats.tradePredict = dataSet.tradePredict.toLocaleString();
-        stats.accuracy = (dataSet.accuracy * 100).toFixed(2) + "%";
-        return stats;
+// Template.tradePredict.helpers({
+//     selector: function () {
+//         return {$and: [{date: {$gte: Session.get("start")}},{date: {$lte: Session.get("end")}}]};
+//     },
+//     todayPredict: function () {
+//         var dataSet = operation_express_trade_predict.findOne({date: new Date().format("yyyy-MM-dd")}, {
+//             reactive: false
+//         });
+//         if (dataSet == undefined) {
+//             return "数据尚未更新"
+//         }
+//         return dataSet.tradePredict.toLocaleString();
+//     },
+//     tomorrowPredict: function () {
+//         var dataSet = operation_express_trade_predict.findOne({date: new Date().getNewDate(1)}, {
+//             reactive: false
+//         });
+//         if (dataSet == undefined) {
+//             return "数据尚未更新"
+//         }
+//         return dataSet.tradePredict.toLocaleString();
+//     },
+//     tomorrow2Predict: function () {
+//         var dataSet = operation_express_trade_predict.findOne({date: new Date().getNewDate(2)}, {
+//             reactive: false
+//         });
+//         if (dataSet == undefined) {
+//             return "数据尚未更新"
+//         }
+//         return dataSet.tradePredict.toLocaleString();
+//     },
+//     yesterdayStats: function () {
+//         var dataSet = operation_express_trade_predict.findOne({date: moment().subtract(1, 'days').toDate().format('yyyy-MM-dd')}, {
+//             reactive: false
+//         });
+//         if (dataSet == undefined) {
+//             return "数据尚未更新"
+//         }
+//         var stats = {
+//             submitCount: 0,
+//             receiptCount: 0,
+//             accuracy: 0,
+//             tradePredict: 0
+//         };
+//         stats.submitCount = dataSet.submitCount.toLocaleString();
+//         stats.receiptCount = dataSet.receiptCount.toLocaleString();
+//         stats.tradePredict = dataSet.tradePredict.toLocaleString();
+//         stats.accuracy = (dataSet.accuracy * 100).toFixed(2) + "%";
+//         return stats;
 
-    }
-});
+//     }
+// });
 
 function pickDateRangeCallback(start, end, label) {
     console.log("New date range selected: " + start.format('YYYY-MM-DD') + " to " + end.format('YYYY-MM-DD') + " (predefined range: " + label + ")");
