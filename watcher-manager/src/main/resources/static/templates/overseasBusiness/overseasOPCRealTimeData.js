@@ -16,6 +16,24 @@ Template.overseasOPCRealTimeData.rendered = function () {
     drawPage();
 };
 
+// 去重
+function unique(arr) {
+    let result = [];
+    let obj = {};
+
+    for (let i of arr) {
+        if (!obj[i]) {
+            result.push(i)
+            obj[i] = 1
+        }
+    }
+
+    return result
+}
+
+// 排序
+
+
 var drawPageTop = function(){
     var query = {
         "date": moment().format("YYYY-MM-DD"),
@@ -305,9 +323,20 @@ var drawPage = function(){
 
     //质检效率分时段
     requestURL(dataService + "/overseas/getQualityInspectionByHour", {"operationCenter": '14',"type":"first"}).done(function (data) {
-        var operationNameList=  _.map(data,function(obj){return obj.name}).unique().sort();
-        var inspectNameList = _.map(data,function(obj){return obj.inspector_name}).unique().sort();
-
+        // var operationNameList=  _.map(data,function(obj){return obj.name}).unique().sort();
+        var inspectNameList = _.map(data,function(obj){return obj.inspector_name});
+        if (Array.isArray(inspectNameList) && inspectNameList.length > 0) {
+            inspectNameList = unique(inspectNameList);
+            inspectNameList.sort(function(a, b) {
+                if(a < b) {
+                  return -1;
+                } else if(a > b) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            })
+        }
         renderOptions("#inspectName",["全部"].concat(inspectNameList));
 
         drawQualityInspectionByHourChart(data);
