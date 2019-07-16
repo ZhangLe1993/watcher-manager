@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([[3],{paSq:function(e,t,r){"use strict";var a=r("TqRt");Object.defineProperty(t,"__esModule",{value:!0}),t.default=void 0;var i=a(r("q1tI")),n=function(){return i.default.createElement("iframe",{id:"watcherIframe",title:"watcher",scrolling:"no",frameBorder:"0",width:"100%",height:"100%"})};t.default=n}}]);
