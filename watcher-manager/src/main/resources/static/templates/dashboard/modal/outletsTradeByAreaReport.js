@@ -1,11 +1,11 @@
 Template.outletsTradeByAreaReport.rendered = function () {
     outletsTradeByAreaReportChart = echarts.init(document.getElementById('outletsTradeByAreaReportChart'));
     drawOutletsTradeByAreaReportChart();
-    Deps.autorun(function () {
-        if (location.pathname.indexOf('getOutletsOrderByArea') > 0) {
-            drawOutletsTradeByAreaReportChart()
-        }
-    })
+    // Deps.autorun(function () {
+    //     if (location.pathname.indexOf('getOutletsOrderByArea') > 0) {
+    //         drawOutletsTradeByAreaReportChart()
+    //     }
+    // })
 };
 
 function drawOutletsTradeByAreaReportChart(){

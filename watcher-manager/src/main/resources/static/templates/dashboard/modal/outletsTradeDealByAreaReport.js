@@ -1,11 +1,11 @@
 Template.outletsTradeDealByAreaReport.rendered = function () {
     outletsTradeDealByAreaReportChart = echarts.init(document.getElementById('outletsTradeDealByAreaReportChart'));
     drawOutletsTradeDealByAreaReportChart();
-    Deps.autorun(function () {
-        if (location.pathname.indexOf('getOutletsTradeDealByArea') > 0) {
-            drawOutletsTradeDealByAreaReportChart()
-        }
-    })
+    // Deps.autorun(function () {
+    //     if (location.pathname.indexOf('getOutletsTradeDealByArea') > 0) {
+    //         drawOutletsTradeDealByAreaReportChart()
+    //     }
+    // })
 
     //大区门店城市订单数量
     outletsTradeDealByAreaReportChart.on("click",function(params){

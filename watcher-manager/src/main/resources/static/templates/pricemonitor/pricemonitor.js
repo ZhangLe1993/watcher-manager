@@ -12,12 +12,12 @@ Template.pricemonitor.rendered = function () {
     //realTimeTradeAmountChart = echarts.init(document.getElementById('realTimeTradeAmountChart'));
     drawProductChart();
     //drawRealTimeTradeAmountChart();
-    Deps.autorun(function () {
-        if (location.pathname.indexOf('pricemonitor') > 0) {
-            updateProductChart(null);
-            //drawRealTimeTradeAmountChart();
-        }
-    });
+    // Deps.autorun(function () {
+    //     if (location.pathname.indexOf('pricemonitor') > 0) {
+    //         updateProductChart(null);
+    //         //drawRealTimeTradeAmountChart();
+    //     }
+    // });
 
 };
 

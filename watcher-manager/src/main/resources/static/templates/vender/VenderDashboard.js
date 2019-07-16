@@ -460,11 +460,11 @@ Template.VenderDashboard.rendered = function () {
 
     updateDashboard();
 
-    Deps.autorun(function () {
-        if (location.pathname.indexOf('VenderDashboard') > 0) {
-            updateDashboard();
-        }
-    });
+    // Deps.autorun(function () {
+    //     if (location.pathname.indexOf('VenderDashboard') > 0) {
+    //         updateDashboard();
+    //     }
+    // });
     window.onresize = function () {
         venderTradeCategoryMixedChart.resize();
         venderTradeCityMixedChart.resize();

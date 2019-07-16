@@ -94,12 +94,12 @@ Template.AllExpressTradeDashboard.rendered = function () {
 
     };
 
-    Deps.autorun(function () {
-        if (location.pathname.indexOf('AllExpressTradeDashboard') > 0) {
-            drawRealTimeAllExpressSourceTypeMixedChart();
-            //yesterdayOrderCnt();
-        }
-    });
+    // Deps.autorun(function () {
+    //     if (location.pathname.indexOf('AllExpressTradeDashboard') > 0) {
+    //         drawRealTimeAllExpressSourceTypeMixedChart();
+    //         //yesterdayOrderCnt();
+    //     }
+    // });
 
     yesterdayOrderCnt();
 

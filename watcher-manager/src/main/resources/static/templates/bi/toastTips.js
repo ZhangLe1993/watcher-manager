@@ -32,11 +32,11 @@ Template.toastTipsTmpl.rendered = function () {
             }
         })
     })
-    Deps.autorun(function () {
-        if (location.pathname.indexOf('/bi/toastTips') > -1) {
-            renderTable();
-        }
-    });
+    // Deps.autorun(function () {
+    //     if (location.pathname.indexOf('/bi/toastTips') > -1) {
+    //         renderTable();
+    //     }
+    // });
 
 }
 

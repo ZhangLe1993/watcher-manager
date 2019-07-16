@@ -23,25 +23,25 @@ Template.bdOrderDetailMonitor.rendered = function () {
     TradedAmountCategoryMixedChart = echarts.init(document.getElementById('TradedAmountCategoryMixedChart'));
 
     getYesterdayOrderStats(channel);
-    Deps.autorun(function () {
-        if (location.pathname.indexOf('orderDetailMonitor') > 0||location.pathname.indexOf('JDTradeMonitorJDOnly') > 0) {
+    // Deps.autorun(function () {
+    //     if (location.pathname.indexOf('orderDetailMonitor') > 0||location.pathname.indexOf('JDTradeMonitorJDOnly') > 0) {
 
-            draworderTradeNumMixedChart(channel);
-            draworderTradeAmountMixedChart(channel);
-            drawTradeNumMethodMixedChart(channel);
-            drawTradeAmountMethodMixedChart(channel);
-            drawTradeNumCategoryMixedChart(channel);
-            drawTradeAmountCategoryMixedChart(channel);
+    //         draworderTradeNumMixedChart(channel);
+    //         draworderTradeAmountMixedChart(channel);
+    //         drawTradeNumMethodMixedChart(channel);
+    //         drawTradeAmountMethodMixedChart(channel);
+    //         drawTradeNumCategoryMixedChart(channel);
+    //         drawTradeAmountCategoryMixedChart(channel);
 
-            draworderTradedNumMixedChart(channel);
-            draworderTradedAmountMixedChart(channel);
-            drawTradedNumMethodMixedChart(channel);
-            drawTradedAmountMethodMixedChart(channel);
-            drawTradedNumCategoryMixedChart(channel);
-            drawTradedAmountCategoryMixedChart(channel);
-        }
+    //         draworderTradedNumMixedChart(channel);
+    //         draworderTradedAmountMixedChart(channel);
+    //         drawTradedNumMethodMixedChart(channel);
+    //         drawTradedAmountMethodMixedChart(channel);
+    //         drawTradedNumCategoryMixedChart(channel);
+    //         drawTradedAmountCategoryMixedChart(channel);
+    //     }
 
-    });
+    // });
 
     setInterval(function (){
         getYesterdayOrderStats(channel);
