@@ -1,19 +1,19 @@
 Template.qualityCheckErrorsArea.rendered = function () {
     $('.navi-tab').removeClass('active');
-    this.autorun(function () {
-        var source = Template.currentData().source;
-        switch(source){
-            case 1:
-                $('#district').addClass('active');
-                $('#qualityCheckErrorsArea').addClass('active');
-                break;
-            case 2:
-                $('#operationPlatformTab').addClass('active');
-                $('#qualityCheckTab').addClass('active');
-                $('#qualityCheckErrors').addClass('active');
-                break;
-        }
-    });
+    // this.autorun(function () {
+    //     var source = Template.currentData().source;
+    //     switch(source){
+    //         case 1:
+    //             $('#district').addClass('active');
+    //             $('#qualityCheckErrorsArea').addClass('active');
+    //             break;
+    //         case 2:
+    //             $('#operationPlatformTab').addClass('active');
+    //             $('#qualityCheckTab').addClass('active');
+    //             $('#qualityCheckErrors').addClass('active');
+    //             break;
+    //     }
+    // });
 
     var ua = navigator.userAgent.toLowerCase();
     var isAndroid = ua.indexOf("android") > -1;
