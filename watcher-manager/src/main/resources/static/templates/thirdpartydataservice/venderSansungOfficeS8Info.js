@@ -64,7 +64,7 @@ function renderFilterOptions(){
 
 function renderOptions(sel,data){
     $(sel).empty();
-    data.forEach(function(ele){
+    data && Array.isArray(data)&& data.forEach(function(ele){
         $(sel).append("<option value='"+ele+"'>"+ele+"</option>")
     });
 }
