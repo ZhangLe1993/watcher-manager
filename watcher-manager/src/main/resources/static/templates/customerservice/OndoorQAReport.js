@@ -697,7 +697,7 @@ Template.OndoorQAReport.rendered = function () {
 
         data.forEach(function (e) {
             if (e.employeeName != "整体") {
-                var score = e.avgQAScore.toFixed(2);
+                var score = e.avgQAScore && e.avgQAScore.toFixed(2);
                 stats.employeeName.push(e.employeeName);
                 stats.avgQAScore.push(score);
                 stats.standardScore.push(standardScore);
@@ -705,7 +705,7 @@ Template.OndoorQAReport.rendered = function () {
                     minScore = score
                 }
             } else {
-                totalAvgScore = e.avgQAScore.toFixed(2);
+                totalAvgScore = e.avgQAScore && e.avgQAScore.toFixed(2);
             }
         });
 

@@ -36,9 +36,25 @@ Template.priceComparison.rendered = function () {
 
 
 }
+
+// 去重
+function unique(arr) {
+    let result = [];
+    let obj = {};
+
+    for (let i of arr) {
+        if (!obj[i]) {
+            result.push(i)
+            obj[i] = 1
+        }
+    }
+
+    return result
+}
+
 function rendOptions(data) {
     $(".category,.brand,.product,.sku,.level").attr("multiple", "multiple")
-    renderSelectOption(".category", _.map(data,function(obj){return obj.category}).unique())
+    renderSelectOption(".category", unique(_.map(data,function(obj){return obj.category})))
     renderSelectOption(".brand", [])
     renderSelectOption(".product", [])
     renderSelectOption(".sku", [])
@@ -47,11 +63,11 @@ function rendOptions(data) {
         var category= $(this).val()
         var brand_name = []
         if(category){
-            brand_name=_.map(_.filter(data,function(obj){
+            brand_name= unique(_.map(_.filter(data,function(obj){
                 return category.contains(obj.category)
             }),function(obj){
                 return obj.product_brand_name
-            }).unique()
+            }))
         }
         renderSelectOption(".brand", brand_name);
         $(".brand").select2({
@@ -68,11 +84,11 @@ function rendOptions(data) {
         var brand= $(this).val()
         var product_name = []
         if(brand){
-            product_name=_.map(_.filter(data,function(obj){
+            product_name= unique(_.map(_.filter(data,function(obj){
                 return brand.contains(obj.product_brand_name)&&category.contains(obj.category)
             }),function(obj){
                 return obj.product_name
-            }).unique()
+            }))
         }
         renderSelectOption(".product", product_name);
         $(".product").select2({
@@ -91,11 +107,11 @@ function rendOptions(data) {
         var sku_name = []
         if(product){
 
-            sku_name=_.map(_.filter(data,function(obj){
+            sku_name=unique(_.map(_.filter(data,function(obj){
                 return product.contains(obj.product_name)&&brand.contains(obj.product_brand_name)&&category.contains(obj.category)
             }),function(obj){
                 return obj.product_sku_name
-            }).unique()
+            }))
         }
         renderSelectOption(".sku", sku_name)
         $(".level").empty()
@@ -114,11 +130,11 @@ function rendOptions(data) {
         var level_name = []
         if(sku){
 
-            level_name=_.map(_.filter(data,function(obj){
+            level_name=unique(_.map(_.filter(data,function(obj){
                 return sku.contains(obj.product_sku_name)&&product.contains(obj.product_name)&&brand.contains(obj.product_brand_name)&&category.contains(obj.category)
             }),function(obj){
                 return obj.product_level_name
-            }).unique()
+            }))
         }
         renderSelectOption(".level", level_name)
         $(".level").select2({

@@ -325,7 +325,7 @@ function inWarehouseFunc(){
                 sum:_.reduce(categoryObj[key],function(num,tmp){return num+tmp.num},0)
             })
         }
-        var channelList = _.map(data,function(obj){return obj.channel}).unique();
+        var channelList = _.unique(_.map(data,function(obj){return obj.channel}));
         var seriesList=[]
         //初始化series模板
         channelList.forEach(function(ele){
@@ -413,7 +413,7 @@ function inWarehouseFunc(){
                 sum:sum
             })
         }
-        var levelList = _.map(data,function(obj){return obj.level}).unique();
+        var levelList = _.unique(_.map(data,function(obj){return obj.level}));
         var seriesList=[]
         //初始化series模板
         levelList.forEach(function(ele){
@@ -495,7 +495,7 @@ function inWarehouseFunc(){
                 sum:sum
             })
         }
-        var levelList = _.map(data,function(obj){return obj.level}).unique();
+        var levelList = _.unique(_.map(data,function(obj){return obj.level}));
         var seriesList=[]
         //初始化series模板
         levelList.forEach(function(ele){

@@ -170,7 +170,7 @@ function drawCharts(query) {
             return obj.date;
         });
         var dateList = [];
-        var chanelList = _.map(tempResult,function(obj){return obj.source}).unique();
+        var chanelList = _.unique(_.map(tempResult,function(obj){return obj.source}));
         var channel ={};
         chanelList.forEach(function(ele){
             channel[ele] = []
@@ -556,7 +556,7 @@ function getCalcData(data) {
         "努比亚":{},
         "酷派":{}
     };*/
-    var chanelList = _.map(data,function(tmp){return tmp.source}).unique();
+    var chanelList = _.unique(_.map(data,function(tmp){return tmp.source}));
     var obj = {};
     chanelList.forEach(function(ele) {
         obj[ele] = {};

@@ -18,7 +18,8 @@ Template.InspectionEffectHour.rendered = function () {
             return (obj.name==operationName||operationName=="全部")&&(obj.inspector_name==inspectName||inspectName=="全部")
         });
 
-        var hourList = (_.map(data,function(obj){return obj.hour})).unique().sort()//所有时间
+        // var hourList = _.unique(_.map(data,function(obj){return obj.hour})).sort()//所有时间
+        var hourList = _.unique(_.map(data,function(obj){return obj.hour}))//所有时间
         var type = $("#type").val();
         var series = [];
         var dataByGroup = {};
@@ -125,7 +126,8 @@ Template.InspectionEffectHour.rendered = function () {
         var data = _.filter(data,function(obj){
             return (obj.name==operationName||operationName=="全部")&&(obj.inspector_name==inspectName||inspectName=="全部")
         });
-        var hourList = (_.map(data,function(obj){return obj.hour})).unique().sort()//所有时间
+        // var hourList = (_.map(data,function(obj){return obj.hour})).unique().sort()//所有时间
+        var hourList = _unique(_.map(data,function(obj){return obj.hour}))//所有时间
         var type = $("#typeRecheck").val();
         var series = [];
         var dataByGroup = {};
@@ -294,8 +296,10 @@ Template.InspectionEffectHour.rendered = function () {
             "operationCenter": operationCenter,
             "type":"first"
         }).done(function (data) {
-            var operationNameList=  _.map(data,function(obj){return obj.name}).unique().sort();
-            var inspectNameList = _.map(data,function(obj){return obj.inspector_name}).unique().sort();
+            // var operationNameList=  _.unique(_.map(data,function(obj){return obj.name})).sort();
+            var operationNameList=  _.unique(_.map(data,function(obj){return obj.name}));
+            // var inspectNameList = _.map(data,function(obj){return obj.inspector_name}).unique().sort();
+            var inspectNameList = _.unique(_.map(data,function(obj){return obj.inspector_name}));
             renderOptions("#operationName",["全部"].concat(operationNameList));
             renderOptions("#inspectName",["全部"].concat(inspectNameList));
 
