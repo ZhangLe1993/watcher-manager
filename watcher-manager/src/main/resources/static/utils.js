@@ -277,13 +277,13 @@ function getUserName() {
 }
 
 getUser = function() {
-    var dfd = $.Deferred();
-    $.getJSON(window.origin + "/user/currentUser", {}, function (result) {
-        dfd.resolve(result)
-    }).error(function (result) {
-        dfd.resolve(result);
-    });
-    return dfd.promise();
+    if (Meteor.isClient) {
+        var dfd = $.Deferred();
+        $.getJSON(window.origin + "/user/currentUser", {}, function (result) {
+            dfd.resolve(result)
+        });
+        return dfd.promise();
+    }
 };
 
 getSecretKey = function (path) {
