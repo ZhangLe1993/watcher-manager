@@ -272,6 +272,7 @@ function getUserId() {
 }
 
 function getUserName() {
+    var user = getUser();
     return user.name;
 }
 
