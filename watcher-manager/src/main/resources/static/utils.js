@@ -267,16 +267,23 @@ year_week_num = function () {
 };
 
 function getUserId() {
-    // if (Meteor.user()) {
-    //     return Meteor.user().profile.name
-    // } else {
-    return "7205"
-    // }
+    var user = getUser();
+    return user.id;
 }
 
 function getUserName() {
-    return '7205';
+    return user.name;
 }
+
+getUser = function() {
+    var dfd = $.Deferred();
+    $.getJSON(window.origin + "/user/currentUser", {}, function (result) {
+        dfd.resolve(result)
+    }).error(function (result) {
+        dfd.resolve(result);
+    });
+    return dfd.promise();
+};
 
 getSecretKey = function (path) {
     var dfd = $.Deferred();
