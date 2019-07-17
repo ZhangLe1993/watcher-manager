@@ -1,7 +1,7 @@
 import React from 'react';
 // import { Spin } from 'antd';
 
-// import style from './index.less';
+import style from './index.less';
 
 class Iframe extends React.Component {
   constructor(props) {
