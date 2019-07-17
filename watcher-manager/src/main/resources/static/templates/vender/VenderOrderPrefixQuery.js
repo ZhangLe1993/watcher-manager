@@ -9,6 +9,8 @@ Template.VenderOrderPrefixQuery.rendered = function () {
         $('.sidebar-toggle').click();
     }
 
+
+
     var renderDataTable = function (dataSet) {
         var table = $('#VenderOrderPrefixQueryTable');
 
@@ -29,7 +31,7 @@ Template.VenderOrderPrefixQuery.rendered = function () {
         $('#VenderOrderPrefixQueryTable').hide();
 
         var query = {
-            tradePrefix: $('#orderID').val()
+            tradePrefix: $('#orderID').val(), userId : userId
         };
 
         requestURL(dataService + "/Vender/VenderOrderPrefixQuery", query).done(function (data) {
@@ -51,7 +53,7 @@ Template.VenderOrderPrefixQuery.rendered = function () {
         $('#loading').show();
         $('#VenderOrderPrefixQueryTable').hide();
         var query = {
-            imeiPrefix: $('#imeiID').val()
+            imeiPrefix: $('#imeiID').val(), userId : userId
         };
 
         requestURL(dataService + "/Vender/VenderImeiPrefixQuery", query).done(function (data) {
@@ -79,4 +81,4 @@ Template.VenderOrderPrefixQuery.rendered = function () {
     $('#loading').hide();
 
 };
-
+var userId = getUserId();

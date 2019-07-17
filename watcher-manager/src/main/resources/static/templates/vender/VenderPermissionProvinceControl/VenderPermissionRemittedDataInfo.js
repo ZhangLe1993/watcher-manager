@@ -157,6 +157,7 @@ Template.VenderPermissionRemittedDataInfo.rendered = function () {
     filter.startDate=startDate;
     filter.endDate=endDate;
     filter.status="part";
+    filter.userId = userId;
     renderPageDay(filter);
 
     //var dt = $('.monthSelectLabel').text().replace(/ /g, "").split("~");
@@ -169,7 +170,7 @@ Template.VenderPermissionRemittedDataInfo.rendered = function () {
     };
 
 var filter={};
-
+var userId = getUserId();
 function pickWebTrafficFunnelDateRangeCallback(start, end, label) {
     var sdt = start.format('YYYY-MM-DD');
     var edt = end.format('YYYY-MM-DD');
@@ -177,6 +178,7 @@ function pickWebTrafficFunnelDateRangeCallback(start, end, label) {
     filter.startDate=sdt;
     filter.endDate=edt;
     filter.status="part";
+    filter.userId = userId;
     renderPageDay(filter);
 }
 
@@ -187,6 +189,7 @@ function pickWebTrafficFunnelMonthRangeCallback(start, end, label) {
     filter.startDate=sdt;
     filter.endDate=edt;
     filter.status="part";
+    filter.userId = userId;
     renderPageMonth(filter);
 }
 
@@ -207,6 +210,7 @@ function getSelectedFilter(dateType, $this) {
 
     filter.startDate=startDate;
     filter.endDate=endDate;
+    filter.userId = userId;
 
     return cleanParams(filter);
 }
@@ -450,6 +454,7 @@ function getRiskControlRemittedStatistic(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     if (flag == "daily" || !flag) {
         requestURL(dataService + "/Vender/getRiskControlRemittedStatistic", query).done(function (ret) {
@@ -467,6 +472,7 @@ function getRiskControlRemittedVenderStatistic(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     if (flag == "daily" || !flag) {
         requestURL(dataService + "/Vender/getRiskControlRemittedVenderStatistic", query).done(function (ret) {

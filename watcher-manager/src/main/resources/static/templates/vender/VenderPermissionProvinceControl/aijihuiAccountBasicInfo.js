@@ -30,6 +30,7 @@ Template.aijihuiAccountBasicInfo.rendered = function () {
         var endDate = dt[1];
         filter.startDate=startDate;
         filter.endDate=endDate;
+        filter.userId = userId;
         renderFilterOptions(filter);
         renderPage(filter);
 
@@ -46,15 +47,17 @@ Template.aijihuiAccountBasicInfo.rendered = function () {
     //})
 
 };
-
+var userId = getUserId();
 var filter={};
 
 function pickWebTrafficFunnelDateRangeCallback(start, end, label) {
+
     var sdt = start.format('YYYY-MM-DD');
     var edt = end.format('YYYY-MM-DD');
     $('.dateSelectLabel').html(sdt + "~" + edt);
     filter.startDate=sdt;
     filter.endDate=edt;
+    filter.userId = userId;
     //renderPage(filter);
 }
 var accountList = [];
@@ -122,6 +125,7 @@ function getSelectedFilter(dateType, $this) {
     var endDate = dt[1];
     filter.active = [];
     filter.account = [];
+    filter.userId = userId;
     var active=$(".active :selected").val();  //获取选中值
     if(active=="threeDay"){
         filter.active.push(3);
@@ -509,6 +513,7 @@ function getVenderPermissionControlParentVenderBasicInfo(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     if (flag == "daily" || !flag) {
         requestURL(dataService + "/Vender/getVenderPermissionControlParentVenderBasicInfo", query).done(function (ret) {
@@ -526,6 +531,7 @@ function getVenderPermissionControlVenderGroupBasicInfo(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     if (flag == "daily" || !flag) {
         requestURL(dataService + "/Vender/getVenderPermissionControlVenderGroupBasicInfo", query).done(function (ret) {
@@ -543,6 +549,7 @@ function getVenderPermissionControlVenderBasicInfo(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     if (flag == "daily" || !flag) {
         requestURL(dataService + "/Vender/getVenderPermissionControlVenderBasicInfo", query).done(function (ret) {

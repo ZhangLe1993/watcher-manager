@@ -30,6 +30,7 @@ Template.VenderQualityErrorAnalysisControl.rendered = function () {
         var endDate = dt[1];
         filter.startDate=startDate;
         filter.endDate=endDate;
+        filter.userId = userId;
         renderPage(filter);
 
         $(".search").click(function () {
@@ -42,6 +43,7 @@ Template.VenderQualityErrorAnalysisControl.rendered = function () {
 };
 
 var filter={};
+var userId = getUserId();
 
 function pickWebTrafficFunnelDateRangeCallback(start, end, label) {
     var sdt = start.format('YYYY-MM-DD');
@@ -49,6 +51,7 @@ function pickWebTrafficFunnelDateRangeCallback(start, end, label) {
     $('.dateSelectLabel').html(sdt + "~" + edt);
     filter.startDate=sdt;
     filter.endDate=edt;
+    filter.userId = userId;
     renderPage(filter);
 }
 
@@ -94,6 +97,7 @@ function getSelectedFilter(dateType, $this) {
 
     filter.startDate=startDate;
     filter.endDate=endDate;
+    filter.userId = userId;
 
     return cleanParams(filter);
 }
@@ -157,6 +161,7 @@ function getAggregateParentWebTrafficData(filter){
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     requestURL(dataService+"/Vender/getVenderPermissionControlProvinceVenderParentQualityErrorAnalysis",query).done(function(ret){
         dfd.resolve(ret)
@@ -173,6 +178,7 @@ function getAggregateWebTrafficData(filter){
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     requestURL(dataService+"/Vender/getVenderPermissionControlProvinceVenderQualityErrorAnalysis",query).done(function(ret){
         dfd.resolve(ret)

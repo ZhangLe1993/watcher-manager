@@ -39,7 +39,8 @@ Template.VenderOrderLostAnalysisControl.rendered = function () {
         filter.endDate=endDate;
         filter.vender_company_name=vender;
         filter.group=group;
-        filter=cleanParams(filter)
+        filter.userId = userId;
+        filter=cleanParams(filter);
         renderPage(filter);
 
         $(".search").click(function () {
@@ -105,7 +106,7 @@ Template.VenderOrderLostAnalysisControl.rendered = function () {
 };
 
 var filter={};
-
+var userId = getUserId();
 function renderOptions(sel,data){
     $(sel).empty();
     data.forEach(function(ele){
@@ -117,18 +118,21 @@ function pickWebTrafficFunnelDateRangeCallback(start, end, label) {
     var sdt = start.format('YYYY-MM-DD');
     var edt = end.format('YYYY-MM-DD');
     $('.dateSelectLabel').html(sdt+"~"+edt);
+    filter.userId = userId;
 }
 
 function pickWebTrafficFunnelWeekRangeCallback(start, end, label) {
     var sdt = start.format('YYYY-MM-DD');
     var edt = end.format('YYYY-MM-DD');
     $('.weekSelectLabel').html(sdt+"~"+edt);
+    filter.userId = userId;
 }
 
 function pickWebTrafficFunnelMonthRangeCallback(start, end, label) {
     var sdt = start.format('YYYY-MM-DD');
     var edt = end.format('YYYY-MM-DD');
     $('.monthSelectLabel').html(sdt+"~"+edt);
+    filter.userId = userId;
 }
 
 function renderFilterOptions(){
@@ -150,7 +154,7 @@ function renderFilterOptions(){
 function getPermissionArea(){
     //clean parameters
     var dfd = $.Deferred();
-    var accountId = getUserName();
+    var accountId = userId;
     requestURL(dataService+"/Vender/getProvinceNameJsonByAccountId", {"accountId":accountId}).done(function (ret) {
         dfd.resolve(ret)
     });
@@ -160,6 +164,7 @@ function getPermissionArea(){
 function cleanParams(filter){
     //clean parameters
     var query = _.clone(filter);
+    query.userId = userId;
     for(var key in query){
         if(!query[key]&&key!="offset"){
             delete query[key]
@@ -196,7 +201,7 @@ function getSelectedFilter() {
     filter.vender_company_name=vender;
     filter.group=group;
     filter.level=level;
-
+    filter.userId = userId;
     return cleanParams(filter);
 }
 
@@ -243,6 +248,7 @@ function getAllWebTrafficData(filter){
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     requestURL(dataService+"/Vender/getVenderPermissionControlOrderLostDayAnalysis",query).done(function(ret){
         dfd.resolve(ret)
@@ -259,6 +265,7 @@ function getVenderPermissionControlOrderLostAnalysis(filter){
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     requestURL(dataService+"/Vender/getVenderPermissionControlOrderLostAnalysis",query).done(function(ret){
         dfd.resolve(ret)

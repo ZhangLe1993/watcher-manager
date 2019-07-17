@@ -1,5 +1,5 @@
 Template.OperationMSTR.rendered = function () {
-    $('.navi-tab').removeClass('active');
+    /*$('.navi-tab').removeClass('active');
     $('#operation').addClass('active');
     $('#OperationDataTab').addClass('active');
     $('#OperationMSTRTab').addClass('active');
@@ -9,7 +9,7 @@ Template.OperationMSTR.rendered = function () {
     if(isAndroid||isiOS){
         $('.sidebar-toggle').click();
     }
-
+*/
     // var flag = this.data.flag;
 
     var query = {

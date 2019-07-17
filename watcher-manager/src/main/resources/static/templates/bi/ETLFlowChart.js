@@ -117,7 +117,7 @@ Template.ETLFlowChart.rendered = function () {
 
     // userId = getUserName();
     // userName = getUserName();
-    userId = getUserId();
+
     userName = getUserName();
     //js-mind
     /*$("#jsmind_container").css("height", '800px');

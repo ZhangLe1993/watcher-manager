@@ -40,12 +40,13 @@ Template.venderBussinessWeekDataInfo.rendered = function () {
     })
 
 };
-
+var userId = getUserId();
 function pickStartWeekDateRangeCallback(start, end, label) {
     console.log("New date range selected: " + start.format('YYYY-MM-DD') + " to " + end.format('YYYY-MM-DD') + " (predefined range: " + label + ")");
     var sdt = moment(end).subtract(6, 'days').format('YYYY-MM-DD');
     var edt = start.format('YYYY-MM-DD');
     $('.startWeekDateSelectLabel').html(sdt+"~"+edt);
+    filter.userId = userId;
 }
 
 function getSelectedFilter() {
@@ -59,6 +60,7 @@ function getSelectedFilter() {
     filter.startDate=startDate;
     filter.endDate=endDate;
     filter.vender_parent_name=vender_parent_name;
+    filter.userId = userId;
 
     return cleanParams(filter);
 }
@@ -74,6 +76,7 @@ function getLastWeekSelectedFilter() {
     filter.startDate=moment(startDate).subtract(7, 'days').format('YYYY-MM-DD');
     filter.endDate=moment(endDate).subtract(7, 'days').format('YYYY-MM-DD');
     filter.vender_parent_name=vender_parent_name;
+    filter.userId = userId;
 
     return cleanParams(filter);
 }
@@ -504,6 +507,7 @@ function getBussinessWeekDataInfo(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     requestURL(dataService + "/Vender/getBussinessWeekDataInfo", query).done(function (ret) {
         dfd.resolve(ret)
@@ -518,6 +522,7 @@ function getBussinessOrderSubmitCntRankDataInfo(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     if (flag == "daily" || !flag) {
         requestURL(dataService + "/Vender/getBussinessOrderSubmitCntRankDataInfo", query).done(function (ret) {
@@ -534,6 +539,7 @@ function getBussinessInspectErrorCntRankDataInfo(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     if (flag == "daily" || !flag) {
         requestURL(dataService + "/Vender/getBussinessInspectErrorCntRankDataInfo", query).done(function (ret) {
@@ -550,6 +556,7 @@ function getBussinessInspectErrorReasonCntRankDataInfo(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     if (flag == "daily" || !flag) {
         requestURL(dataService + "/Vender/getBussinessInspectErrorReasonCntRankDataInfo", query).done(function (ret) {
@@ -567,6 +574,7 @@ function getVenderPermissionControlOrderLostDayAnalysis(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     requestURL(dataService + "/Vender/getVenderPermissionControlOrderLostDayAnalysis", query).done(function (ret) {
         dfd.resolve(ret)
@@ -583,6 +591,7 @@ function getBussinessGroupOrderCntDataInfo(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     requestURL(dataService + "/Vender/getBussinessGroupOrderCntDataInfo", query).done(function (ret) {
         dfd.resolve(ret)

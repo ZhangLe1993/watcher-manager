@@ -26,6 +26,7 @@ Template.VenderPermissionControlSalesKpiInfoControl.rendered = function () {
     var endDate = dt[1];
     filter.startDate=startDate;
     filter.endDate=endDate;
+    filter.userId = userId;
     renderPage(filter);
 
     $(".search").click(function () {
@@ -34,7 +35,7 @@ Template.VenderPermissionControlSalesKpiInfoControl.rendered = function () {
     });
 
 };
-
+var userId = getUserId();
 var filter={};
 
 function pickWebTrafficFunnelDateRangeCallback(start, end, label) {
@@ -43,6 +44,7 @@ function pickWebTrafficFunnelDateRangeCallback(start, end, label) {
     $('.dateSelectLabel').html(sdt + "~" + edt);
     filter.startDate=sdt;
     filter.endDate=edt;
+    filter.userId = userId;
     renderPage(filter);
 }
 
@@ -53,6 +55,7 @@ function getSelectedFilter() {
 
     filter.startDate=startDate;
     filter.endDate=endDate;
+    filter.userId = userId;
 
     return cleanParams(filter);
 }
@@ -95,6 +98,7 @@ function getAggregateParentWebTrafficData(filter){
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     requestURL(dataService+"/Vender/getVenderPermissionControlSalesKpiDataInfo",query).done(function(ret){
         dfd.resolve(ret)

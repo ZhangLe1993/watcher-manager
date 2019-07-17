@@ -35,6 +35,7 @@ Template.VenderGroupDailyActivityOrderStatistics.rendered = function () {
         var endDate = dt[1];
         filter.startDate=startDate;
         filter.endDate=endDate;
+        filter.userId = userId;
         filter=getSelectedFilter();
         renderPage(filter);
         var filterGroup=getSelectedFilterGroup();
@@ -88,7 +89,7 @@ Template.VenderGroupDailyActivityOrderStatistics.rendered = function () {
 };
 
 var filter={};
-
+var userId = getUserId();
 function pickWebTrafficFunnelDateRangeCallback(start, end, label) {
     var sdt = start.format('YYYY-MM-DD');
     var edt = end.format('YYYY-MM-DD');
@@ -118,6 +119,7 @@ function getSelectedFilter() {
 
     filter.startDate=startDate;
     filter.endDate=endDate;
+    filter.userId = userId;
 
     return cleanParams(filter);
 }
@@ -129,6 +131,7 @@ function getSelectedFilterGroup() {
 
     filter.startDate=startDate;
     filter.endDate=endDate;
+    filter.userId = userId;
 
     if($(".orderFlagGroup").val()=="订单量"){
         var orderFlag="cnt"
@@ -144,7 +147,7 @@ function getSelectedFilterGroup() {
 function getPermissionArea(){
     //clean parameters
     var dfd = $.Deferred();
-    var accountId = getUserName();
+    var accountId = userId;
     requestURL(dataService+"/Vender/getProvinceNameJsonByAccountId", {"accountId":accountId}).done(function (ret) {
         dfd.resolve(ret)
     });
@@ -303,6 +306,7 @@ function getVenderPermissionControlGroupDailyActiveAllDataInfo(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     requestURL(dataService + "/Vender/getVenderPermissionControlGroupDailyActiveAllDataInfo", query).done(function (ret) {
         dfd.resolve(ret)
@@ -319,6 +323,7 @@ function getVenderPermissionControlGroupDailyActiveParDataInfo(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     requestURL(dataService + "/Vender/getVenderPermissionControlGroupDailyActiveParDataInfo", query).done(function (ret) {
         dfd.resolve(ret)

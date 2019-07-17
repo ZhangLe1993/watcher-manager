@@ -12,7 +12,7 @@ Template.currentMonthSellerAuthority.rendered = function () {
     //绑定卖家下单
     $('#service-order').on('changed.bs.select',function(e) {
         var value = $('#service-order').val();
-        uid = getUserName();
+        uid = getUserId();
         if(uid == undefined || uid == null) {
             _alert("提示", "你的浏览器可能禁用了某部分功能，请刷新或者更换浏览器");
             return;
@@ -22,7 +22,7 @@ Template.currentMonthSellerAuthority.rendered = function () {
 
     //绑定卖家下单
     $('#service-send').on('changed.bs.select',function(e) {
-        uid = getUserName();
+        uid = getUserId();
         if(uid == undefined || uid == null) {
             _alert("提示", "你的浏览器可能禁用了某部分功能，请刷新或者更换浏览器");
             return;
@@ -33,7 +33,7 @@ Template.currentMonthSellerAuthority.rendered = function () {
 
     //绑定竞得选项
     $('#service-compete').on('changed.bs.select',function(e) {
-        uid = getUserName();
+        uid = getUserId();
         if(uid == undefined || uid == null) {
             _alert("提示", "你的浏览器可能禁用了某部分功能，请刷新或者更换浏览器");
             return;
@@ -44,7 +44,7 @@ Template.currentMonthSellerAuthority.rendered = function () {
     });
 
     $('#method').on('changed.bs.select',function(e) {
-        uid = getUserName();
+        uid = getUserId();
         if(uid == undefined || uid == null) {
             _alert("提示", "你的浏览器可能禁用了某部分功能，请刷新或者更换浏览器");
             return;
@@ -81,7 +81,7 @@ var drawPluralSelect = function(selector, data, containerId) {
 //
 var renderPage = function() {
 
-    uid = getUserName();
+    uid = getUserId();
     if(uid == undefined || uid == null) {
         _alert("提示", "你的浏览器可能禁用了某部分功能，请刷新或者更换浏览器");
         return;
@@ -669,3 +669,13 @@ var drawChartNone = function(title, chartId) {
     var res = {current:[], last:[]};
     drawProvinceChart(label, res, title, chartId);
 };
+
+function _alert(text,subtext) {
+    zeroModal.alert({
+        content: text,
+        contentDetail: subtext,
+        okFn: function() {
+
+        }
+    });
+}

@@ -33,8 +33,9 @@ Template.VenderGroupOrderStatistics.rendered = function () {
         var dt = $('.desktop-only .dateSelectLabel').text().replace(/ /g, "").split("~");
         var startDate = dt[0];
         var endDate = dt[1];
-        filter.startDate=startDate;
-        filter.endDate=endDate;
+        filter.startDate = startDate;
+        filter.endDate = endDate;
+        filter.userId = userId;
         filter=getSelectedFilter();
         renderPage(filter);
         var filterGroup=getSelectedFilterGroup();
@@ -107,7 +108,7 @@ function renderOptions(sel,data){
         $(sel).append("<option value='"+ele+"'>"+ele+"</option>")
     });
 }
-
+var userId = getUserId();
 function getSelectedFilter(dateType, $this) {
     var dt = $('.desktop-only .dateSelectLabel').text().replace(/ /g, "").split("~");
     var startDate = dt[0];
@@ -116,6 +117,7 @@ function getSelectedFilter(dateType, $this) {
     filter.startDate=startDate;
     filter.endDate=endDate;
 
+    filter.userId = userId;
     var orderCnt=$(".cnt").val();
     if (orderCnt == "") {
         orderCnt = "0";
@@ -142,7 +144,7 @@ function getSelectedFilterGroup(dateType, $this) {
 
     filter.startDate=startDate;
     filter.endDate=endDate;
-
+    filter.userId = userId;
     var orderCnt=$(".cntGroup").val();
     if (orderCnt == "") {
         orderCnt = "0";
@@ -165,7 +167,7 @@ function getSelectedFilterGroup(dateType, $this) {
 function getPermissionArea(){
     //clean parameters
     var dfd = $.Deferred();
-    var accountId = getUserName();
+    var accountId = userId;
     requestURL(dataService+"/Vender/getProvinceNameJsonByAccountId", {"accountId":accountId}).done(function (ret) {
         dfd.resolve(ret)
     });
@@ -229,6 +231,7 @@ function getVenderPermissionControlVenderGroupOrderStatisticsVenderAnalysis(filt
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     requestURL(dataService + "/Vender/getVenderPermissionControlVenderGroupOrderStatisticsVenderAnalysis", query).done(function (ret) {
         dfd.resolve(ret)
@@ -245,6 +248,7 @@ function getVenderPermissionControlVenderOrderStatisticsVenderAnalysis(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     requestURL(dataService + "/Vender/getVenderPermissionControlVenderOrderStatisticsVenderAnalysis", query).done(function (ret) {
         dfd.resolve(ret)

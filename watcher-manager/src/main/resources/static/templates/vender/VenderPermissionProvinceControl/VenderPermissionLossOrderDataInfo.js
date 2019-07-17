@@ -153,9 +153,11 @@ Template.VenderPermissionLossOrderDataInfo.rendered = function () {
     var date = dt;
     filter.date=date;
     filter.status="part";
+    filter.userId = userId;
     renderPageSystem(filter);
     };
 
+var userId = getUserId();
 var filter={},startDateEmbed,endDateEmbed;
 
 function pickWebTrafficFunnelDateRangeCallbackS(start, end, label) {
@@ -166,6 +168,7 @@ function pickWebTrafficFunnelDateRangeCallbackS(start, end, label) {
     endDateEmbed=edt;
     filter.startDate=sdt;
     filter.endDate=edt;
+    filter.userId = userId;
     renderPageVender(filter);
 }
 
@@ -173,6 +176,7 @@ function pickWebTrafficFunnelDateRangeCallback3(start, end, label) {
     $('.webTrafficFunnelDate3').html(start.format('YYYY-MM-DD'));
     filter.date=start.format('YYYY-MM-DD');
     filter.status="part";
+    filter.userId = userId;
     renderPageSystem(filter);
 }
 
@@ -193,7 +197,7 @@ function getSelectedFilter(dateType, $this) {
 
     filter.startDate=startDate;
     filter.endDate=endDate;
-
+    filter.userId = userId;
     return cleanParams(filter);
 }
 
@@ -697,6 +701,7 @@ function getRiskControlProfitVenderStatistic(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     if (flag == "daily" || !flag) {
         requestURL(dataService + "/Vender/getRiskControlProfitVenderStatistic", query).done(function (ret) {
@@ -714,6 +719,7 @@ function getRiskControlProfitLostVenderGroupInfoStatistic(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     if (flag == "daily" || !flag) {
         requestURL(dataService + "/Vender/getRiskControlProfitLostVenderGroupInfoStatistic", query).done(function (ret) {
@@ -731,6 +737,7 @@ function getRiskControlProfitOrderAppleStatistic(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     if (flag == "daily" || !flag) {
         requestURL(dataService + "/Vender/getRiskControlProfitOrderAppleStatistic", query).done(function (ret) {
@@ -748,6 +755,7 @@ function getRiskControlProfitOrderAndroidStatistic(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     if (flag == "daily" || !flag) {
         requestURL(dataService + "/Vender/getRiskControlProfitOrderAndroidStatistic", query).done(function (ret) {
@@ -765,6 +773,7 @@ function getRiskControlProfitLostVenderEmbedDetailInfoStatistic(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     if (flag == "daily" || !flag) {
         requestURL(dataService + "/Vender/getRiskControlProfitLostVenderEmbedDetailInfoStatistic", query).done(function (ret) {
@@ -782,6 +791,7 @@ function getRiskControlProfitLostVenderGroupEmbedDetailInfoStatistic(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     if (flag == "daily" || !flag) {
         requestURL(dataService + "/Vender/getRiskControlProfitLostVenderGroupEmbedDetailInfoStatistic", query).done(function (ret) {

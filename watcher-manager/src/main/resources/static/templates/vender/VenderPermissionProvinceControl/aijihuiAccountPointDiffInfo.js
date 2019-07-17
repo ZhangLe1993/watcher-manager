@@ -32,6 +32,7 @@ Template.aijihuiAccountPointDiffInfo.rendered = function () {
         var endDate = dt[1];
         filter.startDate=startDate;
         filter.endDate=endDate;
+        filter.userId = userId;
         renderFilterOptions(filter);
         renderPage(filter);
 
@@ -42,7 +43,7 @@ Template.aijihuiAccountPointDiffInfo.rendered = function () {
     //})
 
 };
-
+var userId = getUserId();
 var filter={},vender_company_key,vender_company_name;
 
 function pickWebTrafficFunnelDateRangeCallback(start, end, label) {
@@ -51,6 +52,7 @@ function pickWebTrafficFunnelDateRangeCallback(start, end, label) {
     $('.dateSelectLabel').html(sdt + "~" + edt);
     filter.startDate=sdt;
     filter.endDate=edt;
+    filter.userId = userId;
     //renderPage(filter);
 }
 
@@ -105,7 +107,8 @@ function getFilterOptionsCompany(){
 
     var filter = {
         "vender_company_key":vender_company_key,
-        "company":company
+        "company":company,
+        userId : userId
     };
 
     filter=cleanParams(filter);
@@ -137,14 +140,14 @@ function getSelectedFilter() {
 
     filter.startDate=startDate;
     filter.endDate=endDate;
-
+    filter.userId = userId;
     return cleanParams(filter);
 }
 
 function getPermissionArea(){
     //clean parameters
     var dfd = $.Deferred();
-    var accountId = getUserName();
+    var accountId = userId;
     requestURL(dataService+"/Vender/getProvinceNameJsonByAccountId", {"accountId":accountId}).done(function (ret) {
         dfd.resolve(ret)
     });
@@ -484,6 +487,7 @@ function getVenderPermissionControlVenderPointDiffAnalysis(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     if (flag == "daily" || !flag) {
         requestURL(dataService + "/Vender/getVenderPermissionControlVenderPointDiffAnalysis", query).done(function (ret) {
@@ -501,6 +505,7 @@ function getVenderPermissionControlVenderGroupPointDiffAnalysis(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     if (flag == "daily" || !flag) {
         requestURL(dataService + "/Vender/getVenderPermissionControlVenderGroupPointDiffAnalysis", query).done(function (ret) {

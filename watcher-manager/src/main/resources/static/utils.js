@@ -268,21 +268,34 @@ year_week_num = function () {
 
 function getUserId() {
     var user = getUser();
+    console.log(user);
     return user.id;
 }
 
 function getUserName() {
     var user = getUser();
-    return user.name;
+    console.log(user);
+    return user.username;
 }
 
 getUser = function() {
     if (Meteor.isClient) {
         var dfd = $.Deferred();
-        $.getJSON(window.origin + "/user/currentUser", {}, function (result) {
+        /*$.get(window.origin + "/user/currentUser", {}, function (result) {
             dfd.resolve(result)
+        });*/
+        var res = {id : 0,name : ""};
+        $.ajax({
+            type: 'GET',
+            url: window.origin + "/user/currentUser",
+            async: false,
+            dataType: 'json',
+            success: function(result) {
+                res = result;
+            }
         });
-        return dfd.promise();
+        console.log(res);
+        return res;
     }
 };
 

@@ -29,6 +29,7 @@ Template.aijihuiAccountInfo.rendered = function () {
         var endDate = dt[1];
         filter.startDate=startDate;
         filter.endDate=endDate;
+        filter.userId = userId;
         startDateEmbed=startDate;
         endDateEmbed=endDate;
         renderPage(filter);
@@ -41,7 +42,7 @@ Template.aijihuiAccountInfo.rendered = function () {
     //})
 
 };
-
+var userId = getUserId();
 var filter={},startDateEmbed,endDateEmbed;
 
 function pickWebTrafficFunnelDateRangeCallback(start, end, label) {
@@ -50,6 +51,7 @@ function pickWebTrafficFunnelDateRangeCallback(start, end, label) {
     $('.dateSelectLabel').html(sdt + "~" + edt);
     filter.startDate=sdt;
     filter.endDate=edt;
+    filter.userId = userId;
     renderPage(filter);
 }
 
@@ -59,6 +61,7 @@ function pickWebTrafficFunnelWeekRangeCallback(start, end, label) {
     $('.weekSelectLabel').html(sdt + "~" + edt);
     filter.startDate=sdt;
     filter.endDate=edt;
+    filter.userId = userId;
     renderPage(filter);
 }
 
@@ -68,6 +71,7 @@ function pickWebTrafficFunnelMonthRangeCallback(start, end, label) {
     $('.monthSelectLabel').html(sdt + "~" + edt);
     filter.startDate=sdt;
     filter.endDate=edt;
+    filter.userId = userId;
     renderPage(filter);
 }
 
@@ -95,6 +99,7 @@ function getSelectedFilter(dateType, $this) {
 
     filter.startDate=startDate;
     filter.endDate=endDate;
+    filter.userId = userId;
     startDateEmbed=startDate;
     endDateEmbed=endDate;
 
@@ -104,7 +109,7 @@ function getSelectedFilter(dateType, $this) {
 function getPermissionArea(){
     //clean parameters
     var dfd = $.Deferred();
-    var accountId = getUserName();
+    var accountId = userId;
     requestURL(dataService+"/Vender/getProvinceNameJsonByAccountId", {"accountId":accountId}).done(function (ret) {
         dfd.resolve(ret)
     });
@@ -315,6 +320,7 @@ function getVenderPermissionControlVenderDetailInfo(filter) {
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
+    query.userId = userId;
     var dfd = $.Deferred();
     if (flag == "daily" || !flag) {
         requestURL(dataService + "/Vender/getVenderPermissionControlVenderDetailInfo", query).done(function (ret) {

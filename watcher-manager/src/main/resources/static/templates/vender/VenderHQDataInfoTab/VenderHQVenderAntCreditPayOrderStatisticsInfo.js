@@ -69,7 +69,8 @@ Template.VenderHQVenderAntCreditPayOrderStatisticsInfo.rendered = function () {
                 "startDate": startDate,
                 "endDate": endDate,
                 "order": order,
-                "flag":flag
+                "flag":flag,
+                "userId": getUserId()
             };
             return filter;
         }
@@ -91,7 +92,8 @@ Template.VenderHQVenderAntCreditPayOrderStatisticsInfo.rendered = function () {
                 "endDate": endDate,
                 "order": order,
                 "createTime":createTime,
-                "flag":flag
+                "flag":flag,
+                "userId":getUserId()
             };
 
             return filter;
@@ -115,7 +117,8 @@ Template.VenderHQVenderAntCreditPayOrderStatisticsInfo.rendered = function () {
                 "order": order,
                 "createTime":createTime,
                 "area":area,
-                "flag":flag
+                "flag":flag,
+                "userId":getUserId()
             };
 
             return filter;

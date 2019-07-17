@@ -1,77 +1,5 @@
-Template.aijihuiDashboard.helpers({
-    todayTradeStats: function () {
-        var dataSet = aijihuiTradeStats.find({sourceTypeName: "爱机汇"});
-        var tradeNum = 0;
-        var tradeAmount = 0;
-        var dealNum = 0;
-        var dealAmount = 0;
-        var junkTradeNum = 0;
-        var junkTradeAmount = 0;
-        var junkDealNum = 0;
-        var junkDealAmount = 0;
-        var date = "";
-        var cancelTradeNum = 0;
-        var cancelTradeAmount = 0;
-        dataSet.forEach(function (e) {
-            date = e.date;
-            if (e.junkFlag == 0) {
-                switch (e.orderType) {
-                    case "submit":
-                        tradeNum += e.tradeNum;
-                        tradeAmount += e.payAmount;
-                        break;
-                    case "deal":
-                        dealNum += e.tradeNum;
-                        dealAmount += e.payAmount;
-                        break;
-                    default:
-                        break;
-                }
-            } else if (e.junkFlag == 1) {
-                switch (e.orderType) {
-                    case "submit":
-                        junkTradeNum += e.tradeNum;
-                        junkTradeAmount += e.payAmount;
-                        break;
-                    case "deal":
-                        junkDealNum += e.tradeNum;
-                        junkDealAmount += e.payAmount;
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            if (e.orderCancel == 1) {
-                switch (e.orderType) {
-                    case "submit":
-                        cancelTradeNum += e.tradeNum;
-                        cancelTradeAmount += e.payAmount;
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-        return {
-            date: date,
-            tradeNum: tradeNum.toLocaleString(),
-            tradeAmount: "￥" + tradeAmount.toLocaleString(),
-            dealNum: dealNum.toLocaleString(),
-            dealAmount: "￥" + dealAmount.toLocaleString(),
-            junkTradeNum: junkTradeNum.toLocaleString(),
-            totalTradeNum: (tradeNum + junkTradeNum - cancelTradeNum).toLocaleString(),
-            junkTradeAmount: "￥" + junkTradeAmount.toLocaleString(),
-            junkDealNum: junkDealNum.toLocaleString(),
-            junkDealAmount: "￥" + junkDealAmount.toLocaleString(),
-            cancelTradeNum: (-cancelTradeNum).toLocaleString(),
-            cancelTradeAmount: "￥" + (-cancelTradeAmount).toLocaleString()
-        }
-    }
-});
-
 Template.aijihuiDashboard.rendered = function () {
-    $('.navi-tab').removeClass('active');
+    /*$('.navi-tab').removeClass('active');
     $('#VenderTab').addClass('active');
     $('#aijihuiDashboardTab').addClass('active');
     var ua = navigator.userAgent.toLowerCase();
@@ -79,7 +7,7 @@ Template.aijihuiDashboard.rendered = function () {
     var isiOS = ua.indexOf("iphone") > -1;
     if (isAndroid || isiOS) {
         $('.sidebar-toggle').click();
-    }
+    }*/
     toolTipCustom()
 
     //昨日同时间
@@ -320,7 +248,7 @@ Template.aijihuiDashboard.rendered = function () {
             dfd.resolve(undefined)
         } else {
             var query = {
-                "vender_parent_name": vender_parent_name
+                "vender_parent_name": vender_parent_name,userId:userId
             };
             requestURLPost(dataService + "/Vender2/getVenderShopCount", query).done(function (ret) {
                 dfd.resolve(ret)
@@ -1891,3 +1819,5 @@ Template.aijihuiDashboard.rendered = function () {
         venderTradeTrendMixedChart.resize();
     }
 };
+
+var userId = getUserId();
