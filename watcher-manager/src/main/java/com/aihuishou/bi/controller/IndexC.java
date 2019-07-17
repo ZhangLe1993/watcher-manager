@@ -30,9 +30,8 @@ public class IndexC {
     @Value("${proxy.watcher.target_url}")
     private String targetUrl;
 
-    @RequestMapping(value = {"/back/**", "/"})
+    @RequestMapping(value = {"/back/**", "/", "/page/**"})
     public String index() {
-        System.out.println("indexC===>index");
         return "dist/index";
     }
 
