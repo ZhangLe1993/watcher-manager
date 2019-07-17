@@ -311,7 +311,7 @@ var drawDataSubscription = function(){
                         field:'operate',
                         title:'操作',
                         width:'120px',
-                        events:operateEvents,
+                        events:'operateEvents',
                         formatter: function (value, row, index){
                             var temp = '';
                             var edit = '';

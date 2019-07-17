@@ -1,34 +1,34 @@
-Template.VenderDashboard.helpers({
-    todayTradeStats: function () {
+// Template.VenderDashboard.helpers({
+//     todayTradeStats: function () {
 
-        var dataSet = aijihuiTradeStats.find({ "sourceTypeName": "人人机" });
+//         var dataSet = aijihuiTradeStats.find({ "sourceTypeName": "人人机" });
 
-        var tradeNum = 0;
-        var dealNum = 0;
-        var dealAmount = 0;
-        var date = "";
-        dataSet.forEach(function (e) {
-            date = e.date;
-            switch (e.orderType) {
-                case "submit":
-                    tradeNum += e.tradeNum;
-                    break;
-                case "deal":
-                    dealNum += e.tradeNum;
-                    dealAmount += e.payAmount;
-                    break;
-                default:
-                    break;
-            }
-        });
-        return {
-            date: date,
-            tradeNum: tradeNum.toLocaleString(),
-            dealNum: dealNum.toLocaleString(),
-            dealAmount: "￥" + dealAmount.toLocaleString()
-        }
-    }
-});
+//         var tradeNum = 0;
+//         var dealNum = 0;
+//         var dealAmount = 0;
+//         var date = "";
+//         dataSet.forEach(function (e) {
+//             date = e.date;
+//             switch (e.orderType) {
+//                 case "submit":
+//                     tradeNum += e.tradeNum;
+//                     break;
+//                 case "deal":
+//                     dealNum += e.tradeNum;
+//                     dealAmount += e.payAmount;
+//                     break;
+//                 default:
+//                     break;
+//             }
+//         });
+//         return {
+//             date: date,
+//             tradeNum: tradeNum.toLocaleString(),
+//             dealNum: dealNum.toLocaleString(),
+//             dealAmount: "￥" + dealAmount.toLocaleString()
+//         }
+//     }
+// });
 
 Template.VenderDashboard.rendered = function () {
     $('.navi-tab').removeClass('active');

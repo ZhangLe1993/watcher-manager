@@ -57,59 +57,59 @@ Template.JDTradeMonitorJDOnly.rendered = function () {
 };
 
 
-Template.JDTradeMonitor.helpers({
+// Template.JDTradeMonitor.helpers({
 
-    todayOrderTradeObj: function () {
-        //return
-        var records = jdOrderTradeStats.find({}, {sort: {createdDt: -1}}).fetch();
-        //提交
-        var order_nums = 0;
-        var order_amount = 0;
-        //成交
-        var trade_nums = 0;
-        var trade_amount = 0;
-        var dt;
-        var jdPlatform = "";
-        records.forEach(function (obj) {
-            dt = obj.createdDt;
-            jdPlatform = obj.jdPlatform;
-            if (obj.type == "0") {
-                order_nums += obj.tradeNum;
-                order_amount += obj.payAmount;
-            } else if (obj.type == "1") {
-                trade_nums += obj.tradeNum;
-                trade_amount += obj.payAmount;
-            }
-        });
-        return {
-            "jdPlatform": jdPlatform,
-            "order_nums": order_nums.toLocaleString(),
-            "order_amount": "￥" + order_amount.toLocaleString(),
-            "trade_nums": trade_nums.toLocaleString(),
-            "trade_amount": "￥" + trade_amount.toLocaleString(),
-            "dt": dt
-        };
-    },
-    yestOrderTradeObj: function () {
-        var query = {};
-        var obj = {
-            "trade_num": 0,
-            "trade_price_num": 0
-        };
-        requestURL(dataService + "/dashboard/GetJDyData", query).done(function (ret) {
-            var trade_num = 0;
-            var trade_price = 0;
-            ret.forEach(function (e) {
-                trade_num = trade_num + e.trade_num;
-                trade_price = trade_price + e.trade_price_num;
-            });
-            obj.trade_num = trade_num;
-            obj.trade_price_num = trade_price
+//     todayOrderTradeObj: function () {
+//         //return
+//         var records = jdOrderTradeStats.find({}, {sort: {createdDt: -1}}).fetch();
+//         //提交
+//         var order_nums = 0;
+//         var order_amount = 0;
+//         //成交
+//         var trade_nums = 0;
+//         var trade_amount = 0;
+//         var dt;
+//         var jdPlatform = "";
+//         records.forEach(function (obj) {
+//             dt = obj.createdDt;
+//             jdPlatform = obj.jdPlatform;
+//             if (obj.type == "0") {
+//                 order_nums += obj.tradeNum;
+//                 order_amount += obj.payAmount;
+//             } else if (obj.type == "1") {
+//                 trade_nums += obj.tradeNum;
+//                 trade_amount += obj.payAmount;
+//             }
+//         });
+//         return {
+//             "jdPlatform": jdPlatform,
+//             "order_nums": order_nums.toLocaleString(),
+//             "order_amount": "￥" + order_amount.toLocaleString(),
+//             "trade_nums": trade_nums.toLocaleString(),
+//             "trade_amount": "￥" + trade_amount.toLocaleString(),
+//             "dt": dt
+//         };
+//     },
+//     yestOrderTradeObj: function () {
+//         var query = {};
+//         var obj = {
+//             "trade_num": 0,
+//             "trade_price_num": 0
+//         };
+//         requestURL(dataService + "/dashboard/GetJDyData", query).done(function (ret) {
+//             var trade_num = 0;
+//             var trade_price = 0;
+//             ret.forEach(function (e) {
+//                 trade_num = trade_num + e.trade_num;
+//                 trade_price = trade_price + e.trade_price_num;
+//             });
+//             obj.trade_num = trade_num;
+//             obj.trade_price_num = trade_price
 
-        });
-        return obj;
-    }
-});
+//         });
+//         return obj;
+//     }
+// });
 function getYesterdayTradeOrderStats() {
     var query = {};
     var obj = {

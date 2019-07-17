@@ -99,42 +99,42 @@ function getYesterdayOrderStats(channel){
     });
 }
 
-Template.bdOrderDetailMonitor.helpers({
+// Template.bdOrderDetailMonitor.helpers({
 
-    todayOrderTradeObj: function () {
-        var channel = (this.channel);
-        //return
-        var records = bdOrderTradeDetailStats.find({cooperation:channel}, { sort: { createdDt: -1 } }).fetch();
-        //提交
-        var order_nums = 0;
-        var order_amount = 0;
-        //成交
-        var trade_nums = 0;
-        var trade_amount = 0;
-        var dt;
-        var jdPlatform = "";
-        records.forEach(function (obj) {
-            dt = obj.createdDt;
-            jdPlatform = obj.jdPlatform;
-            if (obj.type == "0") {
-                order_nums += obj.tradeNum;
-                order_amount += obj.payAmount;
-            } else if (obj.type == "1") {
-                trade_nums += obj.tradeNum;
-                trade_amount += obj.payAmount;
-            }
-        });
-        return {
-            "jdPlatform": jdPlatform,
-            "order_nums": order_nums.toLocaleString(),
-            "order_amount": "￥" + order_amount.toLocaleString(),
-            "trade_nums": trade_nums.toLocaleString(),
-            "trade_amount": "￥" + trade_amount.toLocaleString(),
-            "dt": dt
-        };
-    },
+//     todayOrderTradeObj: function () {
+//         var channel = (this.channel);
+//         //return
+//         var records = bdOrderTradeDetailStats.find({cooperation:channel}, { sort: { createdDt: -1 } }).fetch();
+//         //提交
+//         var order_nums = 0;
+//         var order_amount = 0;
+//         //成交
+//         var trade_nums = 0;
+//         var trade_amount = 0;
+//         var dt;
+//         var jdPlatform = "";
+//         records.forEach(function (obj) {
+//             dt = obj.createdDt;
+//             jdPlatform = obj.jdPlatform;
+//             if (obj.type == "0") {
+//                 order_nums += obj.tradeNum;
+//                 order_amount += obj.payAmount;
+//             } else if (obj.type == "1") {
+//                 trade_nums += obj.tradeNum;
+//                 trade_amount += obj.payAmount;
+//             }
+//         });
+//         return {
+//             "jdPlatform": jdPlatform,
+//             "order_nums": order_nums.toLocaleString(),
+//             "order_amount": "￥" + order_amount.toLocaleString(),
+//             "trade_nums": trade_nums.toLocaleString(),
+//             "trade_amount": "￥" + trade_amount.toLocaleString(),
+//             "dt": dt
+//         };
+//     },
 
-});
+// });
 
 
 function parseAgentSource(agentSource) {

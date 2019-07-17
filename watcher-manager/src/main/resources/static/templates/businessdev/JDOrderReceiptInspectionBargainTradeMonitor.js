@@ -19,7 +19,8 @@ Template.JDOrderReceiptInspectionBargainTradeMonitor.rendered = function () {
     }
 
 
-    var channel = this.data.channel;
+    // var channel = this.data.channel;
+    var channel = '京东';
     //今天
     $(".tdDate").html(new Date().getNewDate(0));
     renderTodayPage(channel);

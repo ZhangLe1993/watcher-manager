@@ -21,18 +21,18 @@ Template.pricemonitor.rendered = function () {
 
 };
 
-Template.pricemonitor.helpers({
-    productSelector: function () {
-        var date = dateTradeStats.findOne({}, {sort: {createdDt: -1}}).createdDt;
-        return {createdDt: date};
-    }/*,
-    categoryStats: function () {
-        return categoryStats.find({})
-    },
-    brandStats: function (categoryName) {
-        return brandStats.find({})
-    }*/
-});
+// Template.pricemonitor.helpers({
+//     productSelector: function () {
+//         var date = dateTradeStats.findOne({}, {sort: {createdDt: -1}}).createdDt;
+//         return {createdDt: date};
+//     }/*,
+//     categoryStats: function () {
+//         return categoryStats.find({})
+//     },
+//     brandStats: function (categoryName) {
+//         return brandStats.find({})
+//     }*/
+// });
 
 Template.pricemonitor.events({
     'click #btnBrand': function () {

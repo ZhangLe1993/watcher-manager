@@ -376,7 +376,7 @@ function drawDataBaseTable(nodeId,param,value){
                         field:'operate',
                         title:'操作',
                         width:'70px',
-                        events:operateEvents,
+                        events:'operateEvents',
                         formatter: function (value, row, index){
                             var temp = '';
                             var edit = '';
@@ -661,7 +661,7 @@ function drawTableTable(nodeId,param,value){
                         field:'operate',
                         title:'操作',
                         width:'70px',
-                        events:operateEvents,
+                        events:'operateEvents',
                         formatter: function (value, row, index){
                             var temp = '<a data-row="'+JSON.stringify(row).replace(/"/g, '&quot;')+'" operation="show-detail" style="cursor:pointer;height:25px;" class="btn" href="javascript:void(0)"><img src="/assets/icon/mdms-preview.png" width="25px" height="25px"/></a>';
                             var edit = '<a field-index="'+index+'" data-row="'+JSON.stringify(row).replace(/"/g, '&quot;')+'" operation="edit" style="cursor:pointer;height:25px;" class="btn" href="javascript:void(0)"><img src="/assets/icon/mdms-edit.png" width="25px" height="25px"/></a>';

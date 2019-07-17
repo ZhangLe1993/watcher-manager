@@ -1,11 +1,11 @@
-Template.ipmonitor.helpers({
-    userIpStats: function() {   
-        return obIPRecord.find().fetch()
-    },
-    selector: function () {
-        return {isWhite:false}; // this could be pulled from a Session var or something that is reactive
-  }
-});
+// Template.ipmonitor.helpers({
+//     userIpStats: function() {   
+//         return obIPRecord.find().fetch()
+//     },
+//     selector: function () {
+//         return {isWhite:false}; // this could be pulled from a Session var or something that is reactive
+//   }
+// });
 
 Template.ipmonitor.rendered = function() {
    $('#whitelist').removeClass('active')
