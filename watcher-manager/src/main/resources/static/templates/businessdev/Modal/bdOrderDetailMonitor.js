@@ -1,6 +1,6 @@
 Template.bdOrderDetailMonitor.rendered = function () {
 
-    var channel = this.data.channel;
+    var channel = Template.channel;
     var first = true;
 
     if(isMobile()){

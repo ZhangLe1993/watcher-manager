@@ -234,6 +234,7 @@ function renderPage(){
 
 
 }
+/*
 Template.etljobTmpl.onDestroyed(function () {
     console.log("etljobTmpl.onDestroyed...")
-});
+});*/

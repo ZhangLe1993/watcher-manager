@@ -1,4 +1,4 @@
-Template.BiddingEmpty.rendered = function () {
+Template.biddingEmpty.rendered = function () {
     $('.navi-tab').removeClass('active');
     $('#channelSideTab').addClass('active');
     $('#biddingEmptybak').addClass('active');

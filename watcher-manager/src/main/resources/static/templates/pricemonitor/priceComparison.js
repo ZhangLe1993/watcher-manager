@@ -1,7 +1,3 @@
-/**
- * Created by liufangliang on 2017/3/13.
- */
-
 Template.priceComparison.rendered = function () {
     $('.navi-tab').removeClass('active');
     $('#pricemonitor').addClass('active');
@@ -14,7 +10,7 @@ Template.priceComparison.rendered = function () {
         $('.sidebar-toggle').click();
     }
     try{
-        var type = this.data.type;
+        var type = Template.type;
     }catch(e) {
         var type = "other";
     }
@@ -32,9 +28,6 @@ Template.priceComparison.rendered = function () {
     $(".btn").click(function () {
         getData(type)
     })
-
-
-
 }
 
 // 去重

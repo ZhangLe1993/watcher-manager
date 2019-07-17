@@ -535,7 +535,7 @@ var drawQualityInspectionByHourChart = function(data){
         return (obj.inspector_name==inspectName||inspectName=="全部");
     });
 
-    var hourList = (_.map(data,function(obj){return obj.hour})).unique().sort();//所有时间
+    var hourList = _.uniq(_.map(data,function(obj){return obj.hour})).sort();//所有时间
     var type = $("#type").val();
     var series = [];
     var dataByGroup = {};

@@ -12,7 +12,7 @@ Array.prototype.unique = function () {
     return r;
 };
 
-Template.financeCapitalRiskControlPro.rendered = function () {
+Template.financeCaptialRiskControlPro.rendered = function () {
     $('.navi-tab').removeClass('active');
     $('#FinanceTab').addClass('active');
     $("#FinanceCapitalRiskControlPro").addClass('active');

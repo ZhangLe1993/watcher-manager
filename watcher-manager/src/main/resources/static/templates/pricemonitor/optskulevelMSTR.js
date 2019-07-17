@@ -1,4 +1,4 @@
-Template.optskuleveloutTmpl.rendered = function () {
+Template.optskulevelMSTR.rendered = function () {
     $('.navi-tab').removeClass('active');
     $('#pricemonitor').addClass('active');
     $('#optskulevelMSTRTab').addClass('active');

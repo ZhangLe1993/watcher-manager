@@ -11,42 +11,24 @@ Template.tradeDealMonitor.rendered = function() {
     productDealChart = echarts.init(document.getElementById('productDealChart'));
 
     drawProductDealChart();
-    // Deps.autorun(function () {
-    //     if(location.pathname.indexOf('tradeDealMonitor')>0){
-    //         updateProductDealChart(null);
-    //     }
-    // });
 
-};
-
-// Template.tradeDealMonitor.helpers({
-//     productDealSelector: function () {
-//         var date = dateTradeStats.findOne({},{sort:{createdDt:-1}}).createdDt;
-//         return {createdDt:date};
-//     }/*,
-//     categoryStats:function () {
-//         return categoryStats.find({})
-//     },
-//     brandStats:function(categoryName){
-//         return brandStats.find({})
-//     }*/
-// });
-
-Template.tradeDealMonitor.events({
-    'click #btnBrand': function () {
+    $("#btnBrand").click(function() {
         filterResult()
-    },
-    'click #btnCategory': function () {
+    });
+
+
+    $("#btnCategory").click(function() {
         filterResult()
-    },
-    'keypress input': function(event) {
+    });
+
+    $("input").keypress(function(event) {
         if (event.keyCode == 13) {
             filterResult();
             event.stopPropagation();
             return false;
         }
-    }
-});
+    })
+};
 
 var date="";
 var originSelector = {};

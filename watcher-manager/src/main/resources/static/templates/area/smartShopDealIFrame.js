@@ -1,34 +1,21 @@
-Template.dealSmartShopReport.rendered = function () {
-    var userId = this.data.userId;
-    var from = Template.currentData().from;
-    switch(from){
-        case "1":
-            $("#controller").attr("class","content");
-            break;
-        case "2":
-            $("#controller").attr("class","content-wrapper");
-            $('.navi-tab').removeClass('active');
-            $('#district').addClass('active');
-            $('#createSmartShopReport').addClass('active');
-            break;
-    }
-
-    var promise = getSmartStoreData(userId);
+Template.smartShopDealIFrame.rendered = function () {
+    //var userId = getUserName();
+    var promise = getSmartStoreData();
     promise.done(function (data) {
         finalList = data;
         renderSelectOption(data);
-        renderPage(userId, finalList);
+        renderPage(finalList);
         $("#search").click(function() {
-            renderPage(userId, finalList)
+            renderPage(finalList)
         })
     });
 };
 
 var finalList = [];
 
-function getSmartStoreData(userId) {
+function getSmartStoreData() {
     var dfd = $.Deferred();
-    requestURL(dataService + "/join/getFinalSmartStoreData", {uid : userId}).done(function (ret) {
+    requestURL(dataService + "/join/getFinalSmartStoreData", {}).done(function (ret) {
         dfd.resolve(ret)
     });
     return dfd.promise()
@@ -403,7 +390,7 @@ function drawSuccessAmountFunc(obj, col, dataList, id, title, subtitle) {
     window.addEventListener('resize', outletsDealAmountTable.resize)
 }
 
-function renderPage(userId, data) {
+function renderPage(data) {
     //获取门店成交订单量
     var areaFilter = $("#area").val();
     var cityFilter = $("#city").val();

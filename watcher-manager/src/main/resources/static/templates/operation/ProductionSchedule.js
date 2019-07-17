@@ -1,4 +1,4 @@
-Template.ProductionScheduleTemplate.rendered = function () {
+Template.ProductionSchedule.rendered = function () {
     $('.navi-tab').removeClass('active');
     $('#operationPlatformTab').addClass('active');
     $("#overviewOperatingCentersTab").addClass('active');

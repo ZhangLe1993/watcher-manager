@@ -8,9 +8,7 @@ Template.recyclerMonitor.rendered = function () {
     }
     $("#loading").show();
     $("#data-div").hide();
-    this.autorun(function () {
-        drawTable();
-    });
+    drawTable();
     requestURL(dataService + "/recycler/updateRecyclerAmountNew", {}).done(function (data) {
         if (data.result != 'OK') {
             alert("更新失败！！！");

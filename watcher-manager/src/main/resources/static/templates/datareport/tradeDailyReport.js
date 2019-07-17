@@ -8,9 +8,8 @@ Template.tradeDailyReport.rendered = function () {
         $('.sidebar-toggle').click();
     }*/
 
-    var autoRun=function() {//自动刷新函数
-
-        var flag = "ALL";
+    var autoRun = function() {//自动刷新函数
+        var flag = Template.flag;
         var dateRangeSelect = $('.reportRange');
         var weekRangeSelect = $('.reportWeekRange');
         var monthRangeSelect = $('.reportMonthRange');

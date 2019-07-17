@@ -55,9 +55,9 @@ public class IndexC {
         URI uri = new URI(request.getRequestURI());
         String q = request.getQueryString();
         if (StringUtils.isNotBlank(q)) {
-            q += "&userId=" + obId + "&uid=" + obId;
+            q += "&userId=" + obId + "&uid=" + obId + "&accountId=" + obId;
         } else {
-            q = "userId=" + obId + "&uid=" + obId;
+            q = "userId=" + obId + "&uid=" + obId + "&accountId=" + obId;
         }
         URI newUri = new URI(targetUrl + uri.getPath() + "?" + q);
         //执行代理查询

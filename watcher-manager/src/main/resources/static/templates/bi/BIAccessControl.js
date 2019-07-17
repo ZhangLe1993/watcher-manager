@@ -1,4 +1,4 @@
-Template.AccessControl.rendered = function () {
+Template.BIAccessControl.rendered = function () {
     $('.navi-tab').removeClass('active');
     $('#BITab').addClass('active');
     $('#BIAccessControl').addClass('active');

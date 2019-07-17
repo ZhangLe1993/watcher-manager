@@ -1,4 +1,4 @@
-Template.OnLineTelReport.rendered = function () {
+Template.CRMOnlineTelReport.rendered = function () {
     $('.navi-tab').removeClass('active');
     $('#CustomerServiceTab').addClass('active');
     $('#CustomerOnlineTelReportTab').addClass('active');

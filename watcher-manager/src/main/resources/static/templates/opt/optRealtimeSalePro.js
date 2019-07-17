@@ -5,14 +5,14 @@ Template.optRealtimeSalePro.rendered = function () {
 
     //renderPage()
 
-    showPanelOrLoading(['saleAmountRatioChart'],true);
+    /*showPanelOrLoading(['saleAmountRatioChart'],true);
     drawBToBDPCollectData();
 
     drawAhsAndAjhCollectData();
 
-    drawAhsAndAjhCollectByOutHouseData();
+    drawAhsAndAjhCollectByOutHouseData();*/
 
-    $("#sales").click(function(){
+    /*$("#sales").click(function(){
         console.log("渲染销售情况");
         setRealTimeSaleTabLoading();
         showPanelOrLoading(['saleAmountRatioChart'],true);
@@ -21,15 +21,20 @@ Template.optRealtimeSalePro.rendered = function () {
         drawAhsAndAjhCollectData();
 
         drawAhsAndAjhCollectByOutHouseData();
-    });
+    });*/
 
-    $("#revenue").click(function(){
+    /*$("#revenue").click(function(){
         console.log("渲染库存情况");
         setRealTimeStockTabLoading();
         showPanelOrLoading(['stockAmountRatioChart'],true);
         showPanelOrLoading(['stockDetail'],true);
         drawRealTimeInventory();
-    });
+    });*/
+
+    setRealTimeStockTabLoading();
+    showPanelOrLoading(['stockAmountRatioChart'],true);
+    showPanelOrLoading(['stockDetail'],true);
+    drawRealTimeInventory();
 
     $("li[def-events='on']").mouseenter(function(){
         $(this).children("img").attr("src","/assets/icon/download.png");

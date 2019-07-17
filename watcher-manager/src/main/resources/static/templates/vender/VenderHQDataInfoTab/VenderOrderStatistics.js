@@ -7,8 +7,12 @@ Template.VenderOrderStatistics.rendered = function () {
     $('#HQDataInfoTab').addClass('active');
     $('#VenderOrderStatistics').addClass('active');
 
-    vender_company_name.push(Template.currentData().companyName);
-    vender_company_key=Template.currentData().companyKey;
+    var source = Template.source;
+    var obj = JSON.parse(source);
+    var companyName = obj.companyName;
+    var companyKey = obj.companyKey;
+    vender_company_name.push(companyName);
+    vender_company_key=companyKey;
 
     var ua = navigator.userAgent.toLowerCase();
     var isAndroid = ua.indexOf("android") >-1;

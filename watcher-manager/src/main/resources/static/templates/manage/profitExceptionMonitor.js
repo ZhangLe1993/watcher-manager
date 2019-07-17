@@ -1,6 +1,6 @@
 Template.profitExceptionMonitor.rendered = function () {
     /*$('.navi-tab').removeClass('active');*/
-    //var flag = this.data.flag
+    var flag = Template.flag;
     /*$(".notAijihuiTab").addClass("active");
     $(".ctab").removeClass("active")*/
     /*if(flag=='aijihui'){

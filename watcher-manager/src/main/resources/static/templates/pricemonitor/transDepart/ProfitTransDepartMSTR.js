@@ -9,8 +9,7 @@ Template.ProfitTransDepartMSTR.rendered = function () {
         $('.sidebar-toggle').click();
     }
 
-    var flag = this.data.flag;
-    $("#ProfitTransDepart"+flag+"Tab").addClass('active');
+    var flag = Template.flag;
     var folderId = ""
     switch (flag) {
         case "bigOperation":

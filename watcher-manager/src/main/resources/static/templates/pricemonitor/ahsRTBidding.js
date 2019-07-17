@@ -1,7 +1,5 @@
-Template.AHSRTBidding.rendered = function () {
-    $('.navi-tab').removeClass('active');
-    $('#pricemonitor').addClass('active');
-    $('#AHSRTBiddingTab').addClass('active');
+Template.ahsRTBidding.rendered = function () {
+
     renderPage()
 };
 

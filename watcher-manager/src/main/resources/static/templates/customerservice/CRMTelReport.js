@@ -1,4 +1,4 @@
-Template.UETelReport.rendered = function () {
+Template.CRMTelReport.rendered = function () {
     $('.navi-tab').removeClass('active');
     $('#CustomerServiceTab').addClass('active');
     $('#CustomerTelReportTab').addClass('active');

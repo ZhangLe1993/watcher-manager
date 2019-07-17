@@ -1,4 +1,4 @@
-Template.ETLJobList.rendered = function () {
+Template.BIETLJobs.rendered = function () {
     $('.navi-tab').removeClass('active');
     $('#BITab').addClass('active');
     $('#BIETLJobs').addClass('active');

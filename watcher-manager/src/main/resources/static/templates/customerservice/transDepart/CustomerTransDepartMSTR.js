@@ -9,17 +9,10 @@ Template.CustomerTransDepartMSTR.rendered = function () {
     }
 
     // var flag = this.data.flag;
-    var flag = window.sessionStorage.getItem('flag');
-    $("#operationTransDepart"+flag+"Tab").addClass('active');
-    var folderId = ""
-    switch (flag) {
-        case "All":
-            folderId = "1A8AE43049B9AA1B81798BA44CF35B82"
-            break
-    }
+    var folderId = "1A8AE43049B9AA1B81798BA44CF35B82";
     var query = {
         "accountType": 'customer',
-        "project":"Prod",
+        "project":"Prod"
     };
 
 

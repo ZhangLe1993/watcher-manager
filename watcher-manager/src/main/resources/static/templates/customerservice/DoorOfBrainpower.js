@@ -12,7 +12,7 @@ Template.DoorOfBrainpower.rendered = function () {
     $("#loading").show()
 
 
-    var from = Template.currentData().from;
+    /*var from = Template.currentData().from;
     switch(from){
         case "1":
             $("#controller").attr("class","content");
@@ -23,7 +23,7 @@ Template.DoorOfBrainpower.rendered = function () {
             $('#district').addClass('active');
             $('#intelligenceShopArea').addClass('active');
             break;
-    }
+    }*/
 
 
     var dateGap = -14;
