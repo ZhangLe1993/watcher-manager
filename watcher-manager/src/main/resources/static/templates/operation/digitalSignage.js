@@ -13,77 +13,13 @@ Template.digitalSignage.rendered = function () {
     clock.display([document.getElementById("clock-time"),document.getElementById("clock-date")]);
 
     var operationCenterName = "";
-    var operationCenter = Template.currentData().OperationCenter;
-    switch (parseInt(operationCenter)) {
-        case 1:
-            $('#shanghaiDigitalSignage').addClass('active');
-            $('#shanghaiOperationCenter').addClass('active');
-            operationCenterName = "上海";
-            break;
-        case 12:
-            $('#shanghaiTestDigitalSignage').addClass('active');
-            $('#shanghaiTestOperationCenter').addClass('active');
-            operationCenterName = "上海(流程测试专用)";
-            break;
-        case 2:
-            $('#beijingDigitalSignage').addClass('active');
-            $('#beijingOperationCenter').addClass('active');
-            operationCenterName = "北京";
-            break;
-        case 3:
-            $('#chengduDigitalSignage').addClass('active');
-            $('#chengduOperationCenter').addClass('active');
-            operationCenterName = "成都";
-            break;
-        case 4:
-            $('#shenzhenDigitalSignage').addClass('active');
-            $('#shenzhenOperationCenter').addClass('active');
-            operationCenterName = "深圳(物流)";
-            break;
-        case 16:
-            $('#shenzhenNewDigitalSignage').addClass('active');
-            $('#shenzhenNewOperationCenter').addClass('active');
-            operationCenterName = "深圳";
-            break;
-        case 5:
-            $('#tianjinDigitalSignage').addClass('active');
-            $('#tianjinOperationCenter').addClass('active');
-            operationCenterName = "天津";
-            break;
-        case 6:
-            $('#wuhanDigitalSignage').addClass('active');
-            $('#wuhanOperationCenter').addClass('active');
-            operationCenterName = "武汉";
-            break;
-        case 10:
-            $('#changzhouDigitalSignage').addClass('active');
-            $('#changzhouOperationCenter').addClass('active');
-            operationCenterName = "常州";
-            break;
-        case 0:
-            $('#ChinaDigitalSignage').addClass('active');
-            $('#chinaOperationCenter').addClass('active');
-            operationCenterName = "全国";
-            break;
-        case 18:
-            $('#changzhouTestDigitalSignage').addClass('active');
-            $('#changzhouTestOperationCenter').addClass('active');
-            operationCenterName = "常州(流程测试专用)";
-            break;
-        default:
-            break;
-    }
-
-    var ours = Template.currentData().ours;
-    switch(ours){
-        case 1:
-            $("#controller").attr("class","content-wrapper");
-            break;
-        case 2:
-            $("#controller").attr("class","content");
-            break;
-    }
-
+    var operationCenter = Template.OperationCenter;
+    drawPage(operationCenter);
+    drawUnRealTimePart(operationCenter);
+    clearInterval(interval);
+    interval = setInterval(function(){
+        drawPage(operationCenter);
+    },1000*60*2);
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         //获取已激活的标签页的名称
         var activeTab = e.target.hash;
@@ -102,99 +38,6 @@ Template.digitalSignage.rendered = function () {
                 interval = setInterval(function(){
                     getCumuliData(operationCenter);
                 },1000*60*2);
-                break;
-        }
-    });
-
-    this.autorun(function () {
-        operationCenter = Template.currentData().OperationCenter;
-        switch (parseInt(operationCenter)) {
-            case 1:
-                $('#shanghaiDigitalSignage').addClass('active');
-                $('#shanghaiOperationCenter').addClass('active');
-                operationCenterName = "上海";
-                break;
-            case 12:
-                $('#shanghaiTestDigitalSignage').addClass('active');
-                $('#shanghaiTestOperationCenter').addClass('active');
-                operationCenterName = "上海(流程测试专用)";
-                break;
-            case 2:
-                $('#beijingDigitalSignage').addClass('active');
-                $('#beijingOperationCenter').addClass('active');
-                operationCenterName = "北京";
-                break;
-            case 3:
-                $('#chengduDigitalSignage').addClass('active');
-                $('#chengduOperationCenter').addClass('active');
-                operationCenterName = "成都";
-                break;
-            case 4:
-                $('#shenzhenDigitalSignage').addClass('active');
-                $('#shenzhenOperationCenter').addClass('active');
-                operationCenterName = "深圳(物流)";
-                break;
-            case 16:
-                $('#shenzhenNewDigitalSignage').addClass('active');
-                $('#shenzhenNewOperationCenter').addClass('active');
-                operationCenterName = "深圳";
-                break;
-            case 5:
-                $('#tianjinDigitalSignage').addClass('active');
-                $('#tianjinOperationCenter').addClass('active');
-                operationCenterName = "天津";
-                break;
-            case 6:
-                $('#wuhanDigitalSignage').addClass('active');
-                $('#wuhanOperationCenter').addClass('active');
-                operationCenterName = "武汉";
-                break;
-            case 0:
-                $('#ChinaDigitalSignage').addClass('active');
-                $('#chinaOperationCenter').addClass('active');
-                operationCenterName = "全国";
-                break;
-            case 10:
-                $('#changzhouDigitalSignage').addClass('active');
-                $('#changzhouOperationCenter').addClass('active');
-                operationCenterName = "常州";
-                break;
-            case 18:
-                $('#changzhouTestDigitalSignage').addClass('active');
-                $('#changzhouTestOperationCenter').addClass('active');
-                operationCenterName = "常州(流程测试专用)";
-                break;
-            default:
-                break;
-        }
-        ours = Template.currentData().ours;
-        switch(ours){
-            case 1:
-                $("#controller").attr("class","content-wrapper");
-                break;
-            case 2:
-                $("#controller").attr("class","content");
-                break;
-        }
-        switch ($("ul#pageTab li.active").text()) {
-            case '首页':
-                //console.log('首页');
-                drawPage(operationCenter);
-                drawUnRealTimePart(operationCenter);
-                clearInterval(interval);
-                interval = setInterval(function(){
-                    drawPage(operationCenter);
-                },1000*60*2);
-                break;
-            case '次页':
-                //console.log('次页');
-                getCumuliData(operationCenter);
-                clearInterval(interval);
-                interval = setInterval(function(){
-                    getCumuliData(operationCenter);
-                },1000*60*2);
-                break;
-            default:
                 break;
         }
     });

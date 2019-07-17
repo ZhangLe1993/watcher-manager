@@ -1,15 +1,18 @@
 Template.TradePredictByCenterKey.rendered=function(){
-    $('.navi-tab').removeClass('active');
-    $('#operation').addClass('active');
+    /*$('.navi-tab').removeClass('active');
+    $('#operation').addClass('active');*/
     var ua = navigator.userAgent.toLowerCase();
     var isAndroid = ua.indexOf("android") > -1;
     var isiOS = ua.indexOf("iphone") > -1;
     if (isAndroid || isiOS) {
-        $('.sidebar-toggle').click();
+        /*$('.sidebar-toggle').click();*/
     }
 
-    var autoRun=function(){
-    centerKey = Template.currentData().centerKey;
+    autoRun();
+};
+
+var autoRun = function() {
+    centerKey = Template.OperationCenter;
     switch(parseInt(centerKey)){
         case 1:
             $('#shanghaiOperationCenter').addClass('active');
@@ -147,15 +150,7 @@ Template.TradePredictByCenterKey.rendered=function(){
         }
 
     })
-        getValue();
-    }
-    this.autorun(function(){
-        autoRun()
-    })
-
-
-
-
+    getValue();
 }
 
 function getValue(startDate, endDate) {

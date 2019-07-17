@@ -45,6 +45,7 @@
     <script src="https://cdn.bootcss.com/fancybox/2.1.1/jquery.fancybox.min.js"></script>
     <link href="https://cdn.bootcss.com/fancybox/2.1.1/jquery.fancybox.min.css" rel="stylesheet">
     <script src="/static/resources/js/jquery-ui.js"></script>
+    <script src="/static/resources/js/Clock.js"></script>
 </head>
 <body>
 <div id="page1">
@@ -53,6 +54,11 @@
 <script th:inline="javascript">
     Template = {};
     Template[eval('"' + [[${model.position}]] + '"')] = {};
+    var isMapping = [[${is_mapping}]];
+    if(isMapping) {
+        var value = [[${param_value}]];
+        Template[eval('"' + [[${param_key}]] + '"')] = value;
+    }
 </script>
 <script th:src="${model.loadName}" type="text/javascript"></script>
 <!--<script th:src="@{/static/davinci/aihuishou/areaCK.js}" type="text/javascript"></script>-->
