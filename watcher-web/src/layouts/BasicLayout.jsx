@@ -5,7 +5,7 @@
  */
 import ProLayout from '@ant-design/pro-layout';
 import React, { useEffect, useState } from 'react';
-// import Link from 'umi/link';
+import Link from 'umi/link';
 import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
 import Authorized from '@/utils/Authorized';
@@ -95,7 +95,8 @@ const BasicLayout = props => {
     iframe.frameBorder = '0';
     iframe.width = '100%';
     iframe.height = '100%';
-    iframe.src = `http://10.25.169.133:8112/route/base?position=${page}`;
+    // iframe.src = `http://10.25.169.133:8112/route/base?position=${page}`;
+    iframe.src = `/route/base?position=${page}`;
     layoutContentDom.replaceChild(iframe, layoutContentDom.children[0]);
   };
 
@@ -119,6 +120,12 @@ const BasicLayout = props => {
       menuItemRender = { (menuItemProps, dom) => {
         return <div onClick={e => myclick(e, menuItemProps)}>{dom}</div>;
       }}
+      // menuItemRender={(menuItemProps, defaultDom) => {
+      //   if (menuItemProps.isUrl) {
+      //     return defaultDom;
+      //   }
+      //   return <Link to={`/watcher/${menuItemProps.component}`}>{defaultDom}</Link>;
+      // }}
       breadcrumbRender={(routers = []) => [
         {
           path: '/',
