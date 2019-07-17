@@ -10,8 +10,7 @@ Template.StandardTransDepartMSTR.rendered = function () {
     }
 
     // var flag = this.data.flag;
-    var flag = window.sessionStorage.getItem('flag');
-    $("#StandardTransDepart"+flag+"Tab").addClass('active');
+    var flag = Template.source;
     var folderId = ""
     switch (flag) {
         case "bigOperation":
