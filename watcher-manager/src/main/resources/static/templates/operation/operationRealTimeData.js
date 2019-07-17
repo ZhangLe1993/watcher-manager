@@ -7,384 +7,223 @@ Template.operationRealTimeData.rendered = function () {
         $('.sidebar-toggle').click();
     }
 
-    var operationCenter = Template.currentData().OperationCenter;
+    var operationCenter = Template.OperationCenter;
     var operationCenterName = "";
-    switch (parseInt(operationCenter)) {
-        case 1:
-            $('#operation').addClass('active');
-            $('#shanghaiOperationRealTimeData').addClass('active');
-            $('#shanghaiOperationCenter').addClass('active');
-            operationCenterName = "上海";
-            break;
-        case 12:
-            $('#operation').addClass('active');
-            $('#shanghaiTestOperationRealTimeData').addClass('active');
-            $('#shanghaiTestOperationCenter').addClass('active');
-            operationCenterName = "上海(流程测试专用)";
-            break;
-        case 2:
-            $('#operation').addClass('active');
-            $('#beijingOperationRealTimeData').addClass('active');
-            $('#beijingOperationCenter').addClass('active');
-            operationCenterName = "北京";
-            break;
-        case 3:
-            $('#operation').addClass('active');
-            $('#chengduOperationRealTimeData').addClass('active');
-            $('#chengduOperationCenter').addClass('active');
-            operationCenterName = "成都";
-            break;
-        case 4:
-            $('#operation').addClass('active');
-            $('#shenzhenOperationRealTimeData').addClass('active');
-            $('#shenzhenOperationCenter').addClass('active');
-            operationCenterName = "深圳(物流)";
-            break;
-        case 16:
-            $('#operation').addClass('active');
-            $('#shenzhenNewOperationRealTimeData').addClass('active');
-            $('#shenzhenNewOperationCenter').addClass('active');
-            operationCenterName = "深圳";
-            break;
-        case 21:
-            $('#operation').addClass('active');
-            $('#shenzhenTestOperationRealTimeData').addClass('active');
-            $('#shenzhenTestOperationCenter').addClass('active');
-            operationCenterName = "深圳(流程测试专用)";
-            break;
-        case 5:
-            $('#operation').addClass('active');
-            $('#tianjinOperationRealTimeData').addClass('active');
-            $('#tianjinOperationCenter').addClass('active');
-            operationCenterName = "天津";
-            break;
-        case 6:
-            $('#operation').addClass('active');
-            $('#wuhanOperationRealTimeData').addClass('active');
-            $('#wuhanOperationCenter').addClass('active');
-            operationCenterName = "武汉";
-            break;
-        case 10:
-            $('#operation').addClass('active');
-            $('#changzhouOperationRealTimeData').addClass('active');
-            $('#changzhouOperationCenter').addClass('active');
-            operationCenterName = "常州";
-            break;
-        case 0:
-            $('#operation').removeClass('active');
-            $('#operationPlatformTab').addClass('active');
-            $("#overviewOperatingCentersTab").addClass('active');
-            $('#chinaOperationRealTimeData').addClass('active');
-            operationCenterName = "全国";
-            break;
-        case 18:
-            $('#operation').addClass('active');
-            $('#changzhouTestOperationRealTimeData').addClass('active');
-            $('#changzhouTestOperationCenter').addClass('active');
-            operationCenterName = "常州(流程测试专用)";
-            break;
-        default:
-            break;
-    }
-
-    var drawPage = function(){
-        setTopLoading();
-        requestURL(dataService + "/operationCenter/getRealTimeDataCacheUpdateTime", {"operationCenter":operationCenter}).done(function (data) {
-            console.log("更新时间：" + data);
-            $("#cacheUpdateTime").html(data);
-        });
-        //收货
-        requestURL(dataService + "/operationCenter/receiveGoods", {"operationCenter":operationCenter}).done(function (data) {
-            if(data.statusText != undefined && data.statusText == 'error'){
-                $("#receiveGoodsChart").html("<span class='none-span'>今日暂无!</span>");
-            }else{
-                var res = {mode:['物流收货','代拍收货','采购收货','调拨收货','退货收货'],num:[0,0,0,0,0]};
-                if(data.length > 0) {
-                    _.each(data,function(ele) {
-                        if(ele['receive_id'].indexOf('物流') > -1) {
-                            res.num[0] = accMul(ele['receipt_cnt'],1);
-                        } else if(ele['receive_id'].indexOf('代拍') > -1) {
-                            res.num[1] = accMul(ele['receipt_cnt'],1);
-                        } else if(ele['receive_id'].indexOf('采购') > -1) {
-                            res.num[2] = accMul(ele['receipt_cnt'],1);
-                        } else if(ele['receive_id'].indexOf('调拨') > -1) {
-                            res.num[3] = accMul(ele['receipt_cnt'],1);
-                        } else if(ele['receive_id'].indexOf('退货') > -1) {
-                            res.num[4] = accMul(ele['receipt_cnt'],1);
-                        }
-                    });
-                }
-                document.getElementById('receiveGoodsChart').setAttribute('_echarts_instance_', '');
-                drawPublicChart('receiveGoodsChart','收货量',res);
-                //求和
-                var total = _.reduce(res.num,function(num,temp){return num + temp},0);
-                cancelLoading('receiveGoods');
-                $("#receiveGoodsNum").html(total.toLocaleString());
-            }
-        });
-
-        //质检和抽检
-        requestURL(dataService + "/operationCenter/qualityAndRandomCheck", {"operationCenter":operationCenter}).done(function (data) {
-            if(data.statusText != undefined && data.statusText == 'error'){
-                $("#qualityCheckChart").html("<span class='none-span'>今日暂无!</span>");
-                $("#randomCheckChart").html("<span class='none-span'>今日暂无!</span>");
-            }else{
-                //物流收货
-                var logistics = _.filter(data,function(ele){ return ele['ins_type'].indexOf("物流收货") > -1});
-                //代拍收货
-                var act = _.filter(data,function(ele){ return ele['ins_type'].indexOf("代拍收货") > -1});
-                //调拨收货
-                var allocation = _.filter(data,function(ele){ return ele['ins_type'].indexOf("调拨收货") > -1});
-
-                var qualityCheckRes = getQualityCheckData(logistics,act,allocation);
-                document.getElementById('qualityCheckChart').setAttribute('_echarts_instance_', '');
-                drawQualityCheckChart(qualityCheckRes);
-
-                var randomCheckRes = getRandomCheckData(logistics,act,allocation);
-                document.getElementById('randomCheckChart').setAttribute('_echarts_instance_', '');
-                drawRandomCheckChart(randomCheckRes);
-
-                //质检总数
-                var qualityCheckTotalData = _.filter(data,function(ele){ return (ele['ins_type'].indexOf("定级质检等级") > -1 || ele['ins_type'].indexOf("退货质检等级") > -1 || ele['ins_type'].indexOf("仓库抽检等级") > -1 || ele['ins_type'].indexOf("备件质检等级") > -1); });
-                var qualityCheckTotal = _.reduce(qualityCheckTotalData,function(num,temp){ return num + accMul(temp['inspection_cnt'],1)},0);
-                cancelLoading('qualityCheck');
-                $("#qualityCheckNum").html(qualityCheckTotal.toLocaleString());
-
-                //抽检总数
-                var randomCheckTotalData = _.filter(data,function(ele){ return (ele['ins_type'].indexOf("IPQC") > -1 || ele['ins_type'].indexOf("RQC") > -1 || ele['ins_type'].indexOf("UQC") > -1 || ele['ins_type'].indexOf("优品复检") > -1); });
-                var randomCheckTotal =  _.reduce(randomCheckTotalData,function(num,temp){ return num + accMul(temp['inspection_cnt'],1)},0);
-                cancelLoading('randomCheck');
-                $("#randomCheckNum").html(randomCheckTotal.toLocaleString());
-            }
-        });
-
-        //入库
-        requestURL(dataService + "/operationCenter/inHouse", {"operationCenter":operationCenter}).done(function (data) {
-            if(data.statusText != undefined && data.statusText == 'error'){
-                $("#inHouseChart").html("<span class='none-span'>今日暂无!</span>");
-            }else{
-                var res = {mode:['理货入库','调拨入库','其他入库'],num:[0,0,0]};
-                if(data.length > 0) {
-                    _.each(data,function(ele){
-                        if(ele['category'].indexOf('理货入库') > -1){
-                            res.num[0] += accMul(ele['in_cnt'],1);
-                        } else if(ele['category'].indexOf('暂存入库') > -1){
-                            res.num[0] += accMul(ele['in_cnt'],1);
-                        } else if(ele['category'].indexOf('调拨入库') > -1){
-                            res.num[1] = accMul(ele['in_cnt'],1);
-                        } else {
-                            res.num[2] += accMul(ele['in_cnt'],1);
-                        }
-                    });
-                }
-                document.getElementById('inHouseChart').setAttribute('_echarts_instance_', '');
-                drawPublicChart('inHouseChart','入库量',res);
-                //入库总量
-                var total = _.reduce(res.num,function(num,temp){ return num + temp},0);
-                cancelLoading('inHouse');
-                $("#inHouseNum").html(total.toLocaleString());
-            }
-        });
-
-        //出库
-        requestURL(dataService + "/operationCenter/outHouse", {"operationCenter":operationCenter}).done(function (data) {
-            if(data.statusText != undefined && data.statusText == 'error'){
-                $("#outHouseChart").html("<span class='none-span'>今日暂无!</span>");
-            }else {
-                var res = {mode:['商家竞价出库','小爱优品出库','抽检出库','调拨出库','退货出库','其他出库'],num:[0,0,0,0,0,0]};
-                if(data.length > 0){
-                    _.each(data,function(ele){
-                        if(ele['category'].indexOf('商家竞价出库') > -1){
-                            res.num[0] = accMul(ele['out_cnt'],1);
-                        }else if(ele['category'].indexOf('小爱优品出库') > -1){
-                            res.num[1] = accMul(ele['out_cnt'],1);
-                        }else if(ele['category'].indexOf('抽检出库') > -1){
-                            res.num[2] = accMul(ele['out_cnt'],1);
-                        }else if(ele['category'].indexOf('调拨出库') > -1){
-                            res.num[3] = accMul(ele['out_cnt'],1);
-                        }else if(ele['category'].indexOf('退货出库') > -1){
-                            res.num[4] = accMul(ele['out_cnt'],1);
-                        }else{
-                            res.num[5] += accMul(ele['out_cnt'],1);
-                        }
-                    });
-                }
-                document.getElementById('outHouseChart').setAttribute('_echarts_instance_', '');
-                drawPublicChart('outHouseChart','出库量',res);
-                //出库总量
-                var total = _.reduce(res.num,function(num,temp){ return num + temp},0);
-                cancelLoading('outHouse');
-                $("#outHouseNum").html(total.toLocaleString());
-            }
-        });
-
-        //发货
-        requestURL(dataService + "/operationCenter/sendGoods", {"operationCenter":operationCenter}).done(function (data) {
-            if(data.statusText != undefined && data.statusText == 'error'){
-                $("#sendGoodsChart").html("<span class='none-span'>今日暂无!</span>");
-            }else{
-                if(data.length == 0){
-                    $("#sendGoodsChart").html("<span class='none-span'>今日暂无!</span>");
-                    cancelLoading('sendGoods');
-                    $("#sendGoodsNum").html(0);
-                    return;
-                }
-                var map = _.groupBy(data,'serial_no');
-                var legendArr = [];
-                var mapArray = [];
-                _.each(map,function(value,key){
-                    legendArr.push(key);
-                    mapArray.push({'name':key,'value':_.reduce(value,function(num,temp){ return num + accMul(temp.in_out_cnt,1)},0)});
+    drawPage(operationCenter);
+};
+var drawPage = function(operationCenter){
+    setTopLoading();
+    requestURL(dataService + "/operationCenter/getRealTimeDataCacheUpdateTime", {"operationCenter":operationCenter}).done(function (data) {
+        console.log("更新时间：" + data);
+        $("#cacheUpdateTime").html(data);
+    });
+    //收货
+    requestURL(dataService + "/operationCenter/receiveGoods", {"operationCenter":operationCenter}).done(function (data) {
+        if(data.statusText != undefined && data.statusText == 'error'){
+            $("#receiveGoodsChart").html("<span class='none-span'>今日暂无!</span>");
+        }else{
+            var res = {mode:['物流收货','代拍收货','采购收货','调拨收货','退货收货'],num:[0,0,0,0,0]};
+            if(data.length > 0) {
+                _.each(data,function(ele) {
+                    if(ele['receive_id'].indexOf('物流') > -1) {
+                        res.num[0] = accMul(ele['receipt_cnt'],1);
+                    } else if(ele['receive_id'].indexOf('代拍') > -1) {
+                        res.num[1] = accMul(ele['receipt_cnt'],1);
+                    } else if(ele['receive_id'].indexOf('采购') > -1) {
+                        res.num[2] = accMul(ele['receipt_cnt'],1);
+                    } else if(ele['receive_id'].indexOf('调拨') > -1) {
+                        res.num[3] = accMul(ele['receipt_cnt'],1);
+                    } else if(ele['receive_id'].indexOf('退货') > -1) {
+                        res.num[4] = accMul(ele['receipt_cnt'],1);
+                    }
                 });
-                document.getElementById('sendGoodsChart').setAttribute('_echarts_instance_', '');
-                drawSendGoodsChart('sendGoodsChart',legendArr,mapArray);
-
-                //发货总量
-                var total = _.reduce(data,function(num,temp){ return num + accMul(temp['in_out_cnt'],1)},0);
-                cancelLoading('sendGoods');
-                $("#sendGoodsNum").html(total.toLocaleString());
             }
-        });
-
-        //异常
-        requestURL(dataService + "/operationCenter/exception", {"operationCenter":operationCenter}).done(function (data) {
-            if(data.statusText != undefined && data.statusText == 'error'){
-                $("#exceptionChart").html("<span class='none-span'>今日暂无!</span>");
-            }else {
-                var res = {mode:["新增","处理","库存"],num:[0,0,0]};
-                if(data.length > 0){
-                    res.num[0] = (data[0]['num_add']*1) == undefined ? 0 : (data[0]['num_add']*1);
-                    res.num[1] = (data[0]['num_deal']*1) == undefined ? 0 : (data[0]['num_deal']*1);
-                    res.num[2] = (data[0]['num_stock']*1) == undefined ? 0 : (data[0]['num_stock']*1);
-                }
-                document.getElementById('exceptionChart').setAttribute('_echarts_instance_', '');
-                drawPublicChart('exceptionChart','异常量',res);
-            }
-        });
-
-        //退货
-        requestURL(dataService + "/operationCenter/rejectGoods", {"operationCenter":operationCenter}).done(function (data) {
-            if(data.statusText != undefined && data.statusText == 'error'){
-                $("#rejectGoodsChart").html("<span class='none-span'>今日暂无!</span>");
-            }else{
-                var res = {mode:["供应商退货","用户退货","回收商退货拒退"],num:[0,0,0]};
-                if(data.length > 0){
-                    _.each(data,function(ele){
-                        if(res.mode[0] == ele['sample']){
-                            res.num[0] = accMul(ele['num'],1);
-                        }
-                        if(res.mode[1] == ele['sample']){
-                            res.num[1] = accMul(ele['num'],1);
-                        }
-                        if(res.mode[2] == ele['sample']){
-                            res.num[2] = accMul(ele['num'],1);
-                        }
-                    });
-                }
-                document.getElementById('rejectGoodsChart').setAttribute('_echarts_instance_', '');
-                drawPublicChart('rejectGoodsChart','退货量',res);
-                //退货总量
-                var total = _.reduce(res.num,function(num,temp){ return num + temp},0);
-                cancelLoading('rejectGoods');
-                $("#rejectGoodsNum").html(total.toLocaleString());
-            }
-        });
-
-        //库存
-        requestURL(dataService + "/operationCenter/stock", {"operationCenter":operationCenter}).done(function (data) {
-            if(data.statusText != undefined && data.statusText == 'error'){
-                console.log('库存查询接口异常');
-            }else{
-                cancelLoading('stock');
-                $("#stockNum").html(accMul(data,1).toLocaleString());
-            }
-        });
-    };
-
-    this.autorun(function () {
-        operationCenter = Template.currentData().OperationCenter;
-        operationCenterName = "";
-        switch (parseInt(operationCenter)) {
-            case 1:
-                $('#operation').addClass('active');
-                $('#shanghaiOperationRealTimeData').addClass('active');
-                $('#shanghaiOperationCenter').addClass('active');
-                operationCenterName = "上海";
-                break;
-            case 12:
-                $('#operation').addClass('active');
-                $('#shanghaiTestOperationRealTimeData').addClass('active');
-                $('#shanghaiTestOperationCenter').addClass('active');
-                operationCenterName = "上海(流程测试专用)";
-                break;
-            case 2:
-                $('#operation').addClass('active');
-                $('#beijingOperationRealTimeData').addClass('active');
-                $('#beijingOperationCenter').addClass('active');
-                operationCenterName = "北京";
-                break;
-            case 3:
-                $('#operation').addClass('active');
-                $('#chengduOperationRealTimeData').addClass('active');
-                $('#chengduOperationCenter').addClass('active');
-                operationCenterName = "成都";
-                break;
-            case 4:
-                $('#operation').addClass('active');
-                $('#shenzhenOperationRealTimeData').addClass('active');
-                $('#shenzhenOperationCenter').addClass('active');
-                operationCenterName = "深圳(物流)";
-                break;
-            case 16:
-                $('#operation').addClass('active');
-                $('#shenzhenNewOperationRealTimeData').addClass('active');
-                $('#shenzhenNewOperationCenter').addClass('active');
-                operationCenterName = "深圳";
-                break;
-            case 21:
-                $('#operation').addClass('active');
-                $('#shenzhenTestOperationRealTimeData').addClass('active');
-                $('#shenzhenTestOperationCenter').addClass('active');
-                operationCenterName = "深圳(流程测试专用)";
-                break;
-            case 5:
-                $('#operation').addClass('active');
-                $('#tianjinOperationRealTimeData').addClass('active');
-                $('#tianjinOperationCenter').addClass('active');
-                operationCenterName = "天津";
-                break;
-            case 6:
-                $('#operation').addClass('active');
-                $('#wuhanOperationRealTimeData').addClass('active');
-                $('#wuhanOperationCenter').addClass('active');
-                operationCenterName = "武汉";
-                break;
-            case 10:
-                $('#operation').addClass('active');
-                $('#changzhouOperationRealTimeData').addClass('active');
-                $('#changzhouOperationCenter').addClass('active');
-                operationCenterName = "常州";
-                break;
-            case 0:
-                $('#operation').removeClass('active');
-                $('#operationPlatformTab').addClass('active');
-                $("#overviewOperatingCentersTab").addClass('active');
-                $('#chinaOperationRealTimeData').addClass('active');
-                operationCenterName = "全国";
-                break;
-            case 18:
-                $('#operation').addClass('active');
-                $('#changzhouTestOperationRealTimeData').addClass('active');
-                $('#changzhouTestOperationCenter').addClass('active');
-                operationCenterName = "常州(流程测试专用)";
-                break;
-            default:
-                break;
+            document.getElementById('receiveGoodsChart').setAttribute('_echarts_instance_', '');
+            drawPublicChart('receiveGoodsChart','收货量',res);
+            //求和
+            var total = _.reduce(res.num,function(num,temp){return num + temp},0);
+            cancelLoading('receiveGoods');
+            $("#receiveGoodsNum").html(total.toLocaleString());
         }
-        drawPage();
+    });
+
+    //质检和抽检
+    requestURL(dataService + "/operationCenter/qualityAndRandomCheck", {"operationCenter":operationCenter}).done(function (data) {
+        if(data.statusText != undefined && data.statusText == 'error'){
+            $("#qualityCheckChart").html("<span class='none-span'>今日暂无!</span>");
+            $("#randomCheckChart").html("<span class='none-span'>今日暂无!</span>");
+        }else{
+            //物流收货
+            var logistics = _.filter(data,function(ele){ return ele['ins_type'].indexOf("物流收货") > -1});
+            //代拍收货
+            var act = _.filter(data,function(ele){ return ele['ins_type'].indexOf("代拍收货") > -1});
+            //调拨收货
+            var allocation = _.filter(data,function(ele){ return ele['ins_type'].indexOf("调拨收货") > -1});
+
+            var qualityCheckRes = getQualityCheckData(logistics,act,allocation);
+            document.getElementById('qualityCheckChart').setAttribute('_echarts_instance_', '');
+            drawQualityCheckChart(qualityCheckRes);
+
+            var randomCheckRes = getRandomCheckData(logistics,act,allocation);
+            document.getElementById('randomCheckChart').setAttribute('_echarts_instance_', '');
+            drawRandomCheckChart(randomCheckRes);
+
+            //质检总数
+            var qualityCheckTotalData = _.filter(data,function(ele){ return (ele['ins_type'].indexOf("定级质检等级") > -1 || ele['ins_type'].indexOf("退货质检等级") > -1 || ele['ins_type'].indexOf("仓库抽检等级") > -1 || ele['ins_type'].indexOf("备件质检等级") > -1); });
+            var qualityCheckTotal = _.reduce(qualityCheckTotalData,function(num,temp){ return num + accMul(temp['inspection_cnt'],1)},0);
+            cancelLoading('qualityCheck');
+            $("#qualityCheckNum").html(qualityCheckTotal.toLocaleString());
+
+            //抽检总数
+            var randomCheckTotalData = _.filter(data,function(ele){ return (ele['ins_type'].indexOf("IPQC") > -1 || ele['ins_type'].indexOf("RQC") > -1 || ele['ins_type'].indexOf("UQC") > -1 || ele['ins_type'].indexOf("优品复检") > -1); });
+            var randomCheckTotal =  _.reduce(randomCheckTotalData,function(num,temp){ return num + accMul(temp['inspection_cnt'],1)},0);
+            cancelLoading('randomCheck');
+            $("#randomCheckNum").html(randomCheckTotal.toLocaleString());
+        }
+    });
+
+    //入库
+    requestURL(dataService + "/operationCenter/inHouse", {"operationCenter":operationCenter}).done(function (data) {
+        if(data.statusText != undefined && data.statusText == 'error'){
+            $("#inHouseChart").html("<span class='none-span'>今日暂无!</span>");
+        }else{
+            var res = {mode:['理货入库','调拨入库','其他入库'],num:[0,0,0]};
+            if(data.length > 0) {
+                _.each(data,function(ele){
+                    if(ele['category'].indexOf('理货入库') > -1){
+                        res.num[0] += accMul(ele['in_cnt'],1);
+                    } else if(ele['category'].indexOf('暂存入库') > -1){
+                        res.num[0] += accMul(ele['in_cnt'],1);
+                    } else if(ele['category'].indexOf('调拨入库') > -1){
+                        res.num[1] = accMul(ele['in_cnt'],1);
+                    } else {
+                        res.num[2] += accMul(ele['in_cnt'],1);
+                    }
+                });
+            }
+            document.getElementById('inHouseChart').setAttribute('_echarts_instance_', '');
+            drawPublicChart('inHouseChart','入库量',res);
+            //入库总量
+            var total = _.reduce(res.num,function(num,temp){ return num + temp},0);
+            cancelLoading('inHouse');
+            $("#inHouseNum").html(total.toLocaleString());
+        }
+    });
+
+    //出库
+    requestURL(dataService + "/operationCenter/outHouse", {"operationCenter":operationCenter}).done(function (data) {
+        if(data.statusText != undefined && data.statusText == 'error'){
+            $("#outHouseChart").html("<span class='none-span'>今日暂无!</span>");
+        }else {
+            var res = {mode:['商家竞价出库','小爱优品出库','抽检出库','调拨出库','退货出库','其他出库'],num:[0,0,0,0,0,0]};
+            if(data.length > 0){
+                _.each(data,function(ele){
+                    if(ele['category'].indexOf('商家竞价出库') > -1){
+                        res.num[0] = accMul(ele['out_cnt'],1);
+                    }else if(ele['category'].indexOf('小爱优品出库') > -1){
+                        res.num[1] = accMul(ele['out_cnt'],1);
+                    }else if(ele['category'].indexOf('抽检出库') > -1){
+                        res.num[2] = accMul(ele['out_cnt'],1);
+                    }else if(ele['category'].indexOf('调拨出库') > -1){
+                        res.num[3] = accMul(ele['out_cnt'],1);
+                    }else if(ele['category'].indexOf('退货出库') > -1){
+                        res.num[4] = accMul(ele['out_cnt'],1);
+                    }else{
+                        res.num[5] += accMul(ele['out_cnt'],1);
+                    }
+                });
+            }
+            document.getElementById('outHouseChart').setAttribute('_echarts_instance_', '');
+            drawPublicChart('outHouseChart','出库量',res);
+            //出库总量
+            var total = _.reduce(res.num,function(num,temp){ return num + temp},0);
+            cancelLoading('outHouse');
+            $("#outHouseNum").html(total.toLocaleString());
+        }
+    });
+
+    //发货
+    requestURL(dataService + "/operationCenter/sendGoods", {"operationCenter":operationCenter}).done(function (data) {
+        if(data.statusText != undefined && data.statusText == 'error'){
+            $("#sendGoodsChart").html("<span class='none-span'>今日暂无!</span>");
+        }else{
+            if(data.length == 0){
+                $("#sendGoodsChart").html("<span class='none-span'>今日暂无!</span>");
+                cancelLoading('sendGoods');
+                $("#sendGoodsNum").html(0);
+                return;
+            }
+            var map = _.groupBy(data,'serial_no');
+            var legendArr = [];
+            var mapArray = [];
+            _.each(map,function(value,key){
+                legendArr.push(key);
+                mapArray.push({'name':key,'value':_.reduce(value,function(num,temp){ return num + accMul(temp.in_out_cnt,1)},0)});
+            });
+            document.getElementById('sendGoodsChart').setAttribute('_echarts_instance_', '');
+            drawSendGoodsChart('sendGoodsChart',legendArr,mapArray);
+
+            //发货总量
+            var total = _.reduce(data,function(num,temp){ return num + accMul(temp['in_out_cnt'],1)},0);
+            cancelLoading('sendGoods');
+            $("#sendGoodsNum").html(total.toLocaleString());
+        }
+    });
+
+    //异常
+    requestURL(dataService + "/operationCenter/exception", {"operationCenter":operationCenter}).done(function (data) {
+        if(data.statusText != undefined && data.statusText == 'error'){
+            $("#exceptionChart").html("<span class='none-span'>今日暂无!</span>");
+        }else {
+            var res = {mode:["新增","处理","库存"],num:[0,0,0]};
+            if(data.length > 0){
+                res.num[0] = (data[0]['num_add']*1) == undefined ? 0 : (data[0]['num_add']*1);
+                res.num[1] = (data[0]['num_deal']*1) == undefined ? 0 : (data[0]['num_deal']*1);
+                res.num[2] = (data[0]['num_stock']*1) == undefined ? 0 : (data[0]['num_stock']*1);
+            }
+            document.getElementById('exceptionChart').setAttribute('_echarts_instance_', '');
+            drawPublicChart('exceptionChart','异常量',res);
+        }
+    });
+
+    //退货
+    requestURL(dataService + "/operationCenter/rejectGoods", {"operationCenter":operationCenter}).done(function (data) {
+        if(data.statusText != undefined && data.statusText == 'error'){
+            $("#rejectGoodsChart").html("<span class='none-span'>今日暂无!</span>");
+        }else{
+            var res = {mode:["供应商退货","用户退货","回收商退货拒退"],num:[0,0,0]};
+            if(data.length > 0){
+                _.each(data,function(ele){
+                    if(res.mode[0] == ele['sample']){
+                        res.num[0] = accMul(ele['num'],1);
+                    }
+                    if(res.mode[1] == ele['sample']){
+                        res.num[1] = accMul(ele['num'],1);
+                    }
+                    if(res.mode[2] == ele['sample']){
+                        res.num[2] = accMul(ele['num'],1);
+                    }
+                });
+            }
+            document.getElementById('rejectGoodsChart').setAttribute('_echarts_instance_', '');
+            drawPublicChart('rejectGoodsChart','退货量',res);
+            //退货总量
+            var total = _.reduce(res.num,function(num,temp){ return num + temp},0);
+            cancelLoading('rejectGoods');
+            $("#rejectGoodsNum").html(total.toLocaleString());
+        }
+    });
+
+    //库存
+    requestURL(dataService + "/operationCenter/stock", {"operationCenter":operationCenter}).done(function (data) {
+        if(data.statusText != undefined && data.statusText == 'error'){
+            console.log('库存查询接口异常');
+        }else{
+            cancelLoading('stock');
+            $("#stockNum").html(accMul(data,1).toLocaleString());
+        }
     });
 };
-
 //top部分
 var topModelList = ['receiveGoods','qualityCheck','randomCheck','inHouse','outHouse','stock','sendGoods','rejectGoods'];
 

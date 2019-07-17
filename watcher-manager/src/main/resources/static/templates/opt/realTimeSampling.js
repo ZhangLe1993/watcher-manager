@@ -1,9 +1,9 @@
 Template.realTimeSampling.rendered = function () {
     $('.navi-tab').removeClass('active');
     //渲染公共部分
-    var from = 0;
-    initForceMap(from);
-    initColorMap(from);
+    operationCenter = Template.OperationCenter;
+    initForceMap(operationCenter);
+    initColorMap(operationCenter);
     drawPublic();
     initSerialMap();
     initUrlMap();
@@ -50,18 +50,14 @@ var initColorMap = function(from){
     colorMap.set('仓库抽检','#1b9acf');
     colorMap.set('出库','#1b9acf');
     switch(from) {
-        case "1":
+        case "0":
             colorMap.set('维修','#1b9acf');
             serialList = ['异常','定级质检','RQC','IPQC','UQC','维修','隐私清除','仓库抽检','退货审核','入库','暂存','用户退货','出库','库存','竞拍','锁库'];
             break;
-        case "2":
+        default:
             colorMap.set('维修','#999');
             //将维修等环节设置为不可用状态
             serialList = ['异常','定级质检','RQC','IPQC','UQC','仓库抽检','隐私清除','退货审核','入库','暂存','用户退货','出库','库存','竞拍','锁库'];
-            break;
-        default:
-            colorMap.set('维修','#1b9acf');
-            serialList = ['异常','定级质检','RQC','IPQC','UQC','维修','仓库抽检','隐私清除','退货审核','入库','暂存','用户退货','出库','库存','竞拍','锁库'];
             break;
     }
 };
@@ -85,10 +81,7 @@ var initForceMap = function(from){
     forceMap.set('退货审核','rejectAudit');
     forceMap.set('锁库','lockStock');
     switch(from) {
-        case "1":
-            forceMap.set('维修','repair');
-            break;
-        case "2":
+        case "0":
             break;
         default:
             forceMap.set('维修','repair');
