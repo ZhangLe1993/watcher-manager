@@ -128,12 +128,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.mitre.dsmiley.httpproxy</groupId>
-			<artifactId>smiley-http-proxy-servlet</artifactId>
-			<version>1.11</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 		</dependency>

@@ -30,10 +30,7 @@ cas:
 
 proxy:
     watcher:
-        servlet_url: /watcher/*
-        target_url: http://watcher.intra.aihuishou.com:8808/watcher
-        logging_enabled: true
-
+        target_url: http://watcher.intra.aihuishou.com:8808
 
 watcher:
   templates: /project/watcher-manager/target/classes/
