@@ -18,7 +18,7 @@ spring:
     mode: HTML
 
 server:
-  port: 8080
+  port: 8112
 
 cas:
   server:
