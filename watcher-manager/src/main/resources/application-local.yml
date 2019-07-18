@@ -29,4 +29,4 @@ cas:
     host: http://127.0.0.1:8080
 
 watcher:
-  templates: /project/watcher-manager/watcher-manager/target/classes
+  templates: /project/watcher-manager/watcher-manager/target/classes/
