@@ -121,7 +121,7 @@ const BasicLayout = props => {
         if (menuItemProps.isUrl) {
           return defaultDom;
         }
-        return <Link to={`/watcher/${menuItemProps.component}`}>{defaultDom}</Link>;
+        return <Link to={`/page/${menuItemProps.component}`}>{defaultDom}</Link>;
       }}
       breadcrumbRender={(routers = []) => [
         {

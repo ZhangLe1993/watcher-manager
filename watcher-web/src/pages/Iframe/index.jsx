@@ -12,15 +12,15 @@ class Iframe extends React.Component {
   }
 
   componentDidMount() {
-    const position = this.props.location.pathname.split('/watcher/')[1];
+    const position = this.props.location.pathname.split('/page/')[1];
     const watcherIframe = document.getElementById('watcherIframe');
     watcherIframe.src = `/route/base?position=${position}`;
   }
 
 
   componentWillReceiveProps(nextProps) {
-    const prePosition = this.props.location.pathname.split('/watcher/')[1];
-    const nextPosition = nextProps.location.pathname.split('/watcher/')[1];
+    const prePosition = this.props.location.pathname.split('/page/')[1];
+    const nextPosition = nextProps.location.pathname.split('/page/')[1];
     if (prePosition !== nextPosition) {
       const watcherIframe = document.getElementById('watcherIframe');
       watcherIframe.src = `/route/base?position=${nextPosition}`;

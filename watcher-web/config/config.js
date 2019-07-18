@@ -97,7 +97,7 @@ export default {
           component: './Welcome',
         },
         {
-          path: '/watcher/:id',
+          path: '/page/:id',
           name: 'iframe',
           icon: 'smile',
           component: './Iframe',
