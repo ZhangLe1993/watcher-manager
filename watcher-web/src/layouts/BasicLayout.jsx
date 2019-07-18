@@ -99,19 +99,9 @@ const BasicLayout = props => {
     );
   };
 
-  const getPage = page => {
-    const layoutContentDom = document.getElementsByClassName('ant-layout-content')[0];
-    const iframe = document.createElement('iframe');
-    iframe.scrolling = 'auto';
-    iframe.frameBorder = '0';
-    iframe.width = '100%';
-    iframe.height = '100%';
-    // iframe.src = `http://10.25.169.133:8112/route/base?position=${page}`;
-    iframe.src = `/route/base?position=${page}`;
-    layoutContentDom.replaceChild(iframe, layoutContentDom.children[0]);
-  };
-
   const myclick = (e, it) => {
+    // e.preventDefault();
+    // e.stopPropagation();
     saveMenuName(it.name);
     router.push(`/page/${it.component}`);
   };
@@ -123,13 +113,6 @@ const BasicLayout = props => {
       menuItemRender = { (menuItemProps, dom) => {
         return <div onClick={e => myclick(e, menuItemProps, dom)}>{dom}</div>;
       }}
-      // menuItemRender={(menuItemProps, defaultDom) => {
-      //   console.log(menuItemProps, '-menuItemProps-');
-      //   if (menuItemProps.isUrl) {
-      //     return defaultDom;
-      //   }
-      //   return <Link to={`/page/${menuItemProps.component}`}>{defaultDom}</Link>;
-      // }}
       breadcrumbRender={(routers = []) => [
         {
           path: '/',

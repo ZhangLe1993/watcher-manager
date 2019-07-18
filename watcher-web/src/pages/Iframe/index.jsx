@@ -16,7 +16,7 @@ class Iframe extends React.Component {
   componentDidMount() {
     const position = this.props.location.pathname.split('/page/')[1];
     const watcherIframe = document.getElementById('watcherIframe');
-    watcherIframe.src = `http://10.25.169.133:8112/route/base?position=${position}`;
+    watcherIframe.src = `/route/base?position=${position}`;
   }
 
 
@@ -25,7 +25,7 @@ class Iframe extends React.Component {
     const nextPosition = nextProps.location.pathname.split('/page/')[1];
     if (prePosition !== nextPosition) {
       const watcherIframe = document.getElementById('watcherIframe');
-      watcherIframe.src = `http://10.25.169.133:8112/route/base?position=${nextPosition}`;
+      watcherIframe.src = `/route/base?position=${nextPosition}`;
     }
   }
 
