@@ -30,4 +30,4 @@ cas:
 
 
 watcher:
-  templates: /root/code/watcher-manager/watcher-manager/src/main/resources/
+  templates: /root/code/watcher-manager/watcher-manager/src/main/resources
