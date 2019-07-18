@@ -31,6 +31,3 @@ cas:
 proxy:
     watcher:
         target_url: http://watcher.intra.aihuishou.com:8808
-
-watcher:
-  templates: /project/watcher-manager/target/classes/
