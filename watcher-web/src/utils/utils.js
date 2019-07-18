@@ -1,4 +1,5 @@
 /* eslint no-useless-escape:0 import/prefer-default-export:0 */
+/* eslint-disable no-param-reassign */
 const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/;
 
 const isUrl = path => reg.test(path);
@@ -37,4 +38,14 @@ const handleMenuData = data => {
   return arr;
 };
 
-export { isAntDesignProOrDev, isAntDesignPro, isUrl, handleMenuData };
+const addKey = data => {
+  data.forEach(it => {
+    if (it.children) {
+      addKey(it.children);
+    } else {
+      it.key = `${it.path}&${it.name}`;
+    }
+  });
+};
+
+export { isAntDesignProOrDev, isAntDesignPro, isUrl, handleMenuData, addKey };

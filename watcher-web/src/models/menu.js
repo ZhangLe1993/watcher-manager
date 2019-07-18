@@ -1,5 +1,5 @@
 import { queryMenuData } from '@/services/menu';
-import { handleMenuData } from '@/utils/utils';
+import { handleMenuData, addKey } from '@/utils/utils';
 
 const MenuModel = {
   namespace: 'menu',
@@ -11,6 +11,9 @@ const MenuModel = {
   effects: {
     *fetchMenuData(_, { call, put }) {
       const response = yield call(queryMenuData);
+      if (response) {
+        addKey(response);
+      }
       yield put({
         type: 'saveMenuData',
         payload: response,

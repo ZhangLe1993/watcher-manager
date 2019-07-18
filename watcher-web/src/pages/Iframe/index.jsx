@@ -16,6 +16,7 @@ class Iframe extends React.Component {
   componentDidMount() {
     const position = this.props.location.pathname.split('/page/')[1];
     const watcherIframe = document.getElementById('watcherIframe');
+    watcherIframe.style.height = `${watcherIframe.offsetHeight}px`;// 设置iframe高度，避免出现滚动条
     watcherIframe.src = `/route/base?position=${position}`;
   }
 
@@ -25,6 +26,7 @@ class Iframe extends React.Component {
     const nextPosition = nextProps.location.pathname.split('/page/')[1];
     if (prePosition !== nextPosition) {
       const watcherIframe = document.getElementById('watcherIframe');
+      watcherIframe.style.height = `${watcherIframe.offsetHeight}px`;// 设置iframe高度，避免出现滚动条
       watcherIframe.src = `/route/base?position=${nextPosition}`;
     }
   }
