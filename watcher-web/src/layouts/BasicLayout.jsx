@@ -14,6 +14,7 @@ import { Icon, Layout, Button } from 'antd';
 import router from 'umi/router';
 import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
+// import sensors from 'sa-sdk-javascript';
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import GlobalFooter from '@/components/GlobalFooter/index';
@@ -24,6 +25,7 @@ import logo from '../assets/logo.svg';
 /* eslint-disable arrow-body-style */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-plusplus */
+/* eslint-disable quote-props */
 
 const menuDataRender = menuList =>
   menuList.map(item => {
@@ -46,6 +48,26 @@ const footerRender = () => {
   );
 };
 
+// sensors.init({
+//   server_url: 'https://bi-log.aihuishou.com/trace/log/debug',
+//   // heatmap_url神策分析中点击分析及触达分析功能代码，代码生成工具会自动生成。
+//   // 如果神策代码中 `sensorsdata.min.js` 版本是 1.9.1 及以上版本，这个参数必须配置，低于此版本不需要配置。
+//   heatmap_url: '../libs/heatmap.min.js',
+//   // web_url 神策分析中点击分析及触达分析功能会用到此地址，代码生成工具会自动生成。
+//   // 如果神策后台版本及 `sensorsdata.min.js` 均是 1.10 及以上版本，这个参数不需要配置。
+//   // web_url: '神策分析后台地址',
+//   heatmap: {
+//      // 是否开启点击图，默认 default 表示开启，自动采集 $WebClick 事件，可以设置 'not_collect' 表示关闭
+//      // 需要 JSSDK 版本号大于 1.7
+//      clickmap: 'default',
+//      // 是否开启触达注意力图，默认 default 表示开启，自动采集 $WebStay 事件，可以设置 'not_collect' 表示关闭
+//      // 需要 JSSDK 版本号大于 1.9.1
+//      scroll_notice_map: 'not_collect',
+//   },
+// });
+
+// sensors.login('108663');
+// sensors.quick('autoTrack');
 
 const BasicLayout = props => {
   const {
@@ -100,6 +122,10 @@ const BasicLayout = props => {
   };
 
   const myclick = (e, it) => {
+    // sensors.track('trackHeatMap', {
+    //   '$element_id': it.component,
+    //   '$element_name': it.name,
+    // });
     // e.preventDefault();
     // e.stopPropagation();
     saveMenuName(it.name);
@@ -109,10 +135,12 @@ const BasicLayout = props => {
   return (
     <ProLayout
       logo={logo}
-      onCollapse={handleMenuCollapse}
       menuItemRender = { (menuItemProps, dom) => {
         return <div onClick={e => myclick(e, menuItemProps, dom)}>{dom}</div>;
       }}
+      // menuItemRender = { (menuItemProps, dom) => {
+      //   return <Link to={menuItemProps.path}>{dom}</Link>;
+      // }}
       breadcrumbRender={(routers = []) => [
         {
           path: '/',
