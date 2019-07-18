@@ -1,9 +1,12 @@
 import { queryMenuData } from '@/services/menu';
+import { handleMenuData } from '@/utils/utils';
 
 const MenuModel = {
   namespace: 'menu',
   state: {
     menuData: [],
+    nameStrArr: [],
+    menuName: '',
   },
   effects: {
     *fetchMenuData(_, { call, put }) {
@@ -12,11 +15,22 @@ const MenuModel = {
         type: 'saveMenuData',
         payload: response,
       });
+      const nameStrArr = handleMenuData(response);
+      yield put({
+        type: 'saveNameStrArr',
+        payload: nameStrArr,
+      });
     },
   },
   reducers: {
     saveMenuData(state, action) {
       return { ...state, menuData: action.payload || [] };
+    },
+    saveNameStrArr(state, action) {
+      return { ...state, nameStrArr: action.payload || [] };
+    },
+    saveMenuName(state, action) {
+      return { ...state, menuName: action.payload || '' };
     },
   },
 };

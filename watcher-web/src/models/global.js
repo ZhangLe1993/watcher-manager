@@ -69,14 +69,18 @@ const GlobalModel = {
     },
   },
   reducers: {
-    changeLayoutCollapsed(
-      state = {
-        notices: [],
-        collapsed: true,
-      },
-      { payload },
-    ) {
-      return { ...state, collapsed: payload };
+    // changeLayoutCollapsed(
+    //   state = {
+    //     notices: [],
+    //     collapsed: true,
+    //   },
+    //   { payload },
+    // ) {
+    //   return { ...state, collapsed: payload };
+    // },
+
+    changeLayoutCollapsed(state, { payload }) {
+      return { ...state, collapsed: !payload };
     },
 
     saveNotices(state, { payload }) {

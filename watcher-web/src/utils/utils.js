@@ -21,4 +21,20 @@ const isAntDesignProOrDev = () => {
   return isAntDesignPro();
 };
 
-export { isAntDesignProOrDev, isAntDesignPro, isUrl };
+const handleMenuData = data => {
+  const arr = [];
+  for (let i = 0, len = data.length; i < len; i += 1) {
+    const { name, children } = data[i];
+    if (children) {
+      const temp = handleMenuData(children);
+      temp.forEach(it => {
+        arr.push(`${name}/${it}`);
+      });
+    } else {
+      arr.push(name);
+    }
+  }
+  return arr;
+};
+
+export { isAntDesignProOrDev, isAntDesignPro, isUrl, handleMenuData };

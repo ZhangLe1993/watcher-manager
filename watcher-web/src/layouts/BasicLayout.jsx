@@ -7,26 +7,23 @@ import ProLayout from '@ant-design/pro-layout';
 import React,
 {
   useEffect,
-  // useState,
   Fragment,
 } from 'react';
-import { Icon, Layout } from 'antd';
-import Link from 'umi/link';
+import { Icon, Layout, Button } from 'antd';
+// import Link from 'umi/link';
+import router from 'umi/router';
 import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import GlobalFooter from '@/components/GlobalFooter/index';
-// import { isAntDesignPro } from '@/utils/utils';
 import logo from '../assets/logo.svg';
-
-// import { queryPageView } from '../services/menu';
-
 /**
  * use Authorized check all menu item
  */
 /* eslint-disable arrow-body-style */
 /* eslint-disable prefer-destructuring */
+/* eslint-disable no-plusplus */
 
 const menuDataRender = menuList =>
   menuList.map(item => {
@@ -49,6 +46,7 @@ const footerRender = () => {
   );
 };
 
+
 const BasicLayout = props => {
   const {
     dispatch,
@@ -62,9 +60,6 @@ const BasicLayout = props => {
 
   useEffect(() => {
     if (dispatch) {
-      // dispatch({
-      //   type: 'user/fetchCurrent',
-      // });
       dispatch({
         type: 'settings/getSetting',
       });
@@ -82,10 +77,29 @@ const BasicLayout = props => {
     dispatch({
       type: 'global/changeLayoutCollapsed',
       payload,
-    });
+  });
+
+  const saveMenuName = payload =>
+    dispatch &&
+    dispatch({
+      type: 'menu/saveMenuName',
+      payload,
+  });
+
+  const headerRender = () => {
+    const { nameStrArr, menuName } = props;
+    const title = nameStrArr.filter(it => it.indexOf(menuName) > -1)[0];
+    return (
+      <div style={{ backgroundColor: '#fff', display: 'flex', alignItems: 'center', paddingLeft: '30px' }}>
+        <Button type="primary" onClick={() => handleMenuCollapse(props.collapsed)}>
+          <Icon type={props.collapsed ? 'menu-unfold' : 'menu-fold'} />
+        </Button>
+        <div style={{ marginLeft: '22px', fontSize: '20px' }}>{title}</div>
+      </div>
+    );
+  };
 
   const getPage = page => {
-    // const iframe = document.getElementById('watcherIframe');
     const layoutContentDom = document.getElementsByClassName('ant-layout-content')[0];
     const iframe = document.createElement('iframe');
     iframe.scrolling = 'auto';
@@ -98,31 +112,24 @@ const BasicLayout = props => {
   };
 
   const myclick = (e, it) => {
-    // console.log(it, '-it-');
-    const { component, path } = it;
-    const flagArr = path.split(`${component}/`);
-    let flag = '';
-    if (Array.isArray(flagArr) && flagArr.length > 1) {
-      flag = path.split(`${component}/`)[1];
-    }
-    window.sessionStorage.setItem('flag', flag);
-    e.stopPropagation();
-    getPage(it.component);
+    saveMenuName(it.name);
+    router.push(`/page/${it.component}`);
   };
 
   return (
     <ProLayout
       logo={logo}
       onCollapse={handleMenuCollapse}
-      // menuItemRender = { (menuItemProps, dom) => {
-      //   return <div onClick={e => myclick(e, menuItemProps)}>{dom}</div>;
-      // }}
-      menuItemRender={(menuItemProps, defaultDom) => {
-        if (menuItemProps.isUrl) {
-          return defaultDom;
-        }
-        return <Link to={`/page/${menuItemProps.component}`}>{defaultDom}</Link>;
+      menuItemRender = { (menuItemProps, dom) => {
+        return <div onClick={e => myclick(e, menuItemProps, dom)}>{dom}</div>;
       }}
+      // menuItemRender={(menuItemProps, defaultDom) => {
+      //   console.log(menuItemProps, '-menuItemProps-');
+      //   if (menuItemProps.isUrl) {
+      //     return defaultDom;
+      //   }
+      //   return <Link to={`/page/${menuItemProps.component}`}>{defaultDom}</Link>;
+      // }}
       breadcrumbRender={(routers = []) => [
         {
           path: '/',
@@ -133,6 +140,7 @@ const BasicLayout = props => {
         },
         ...routers,
       ]}
+      headerRender={headerRender}
       footerRender={footerRender}
       menuDataRender={() => menuDataRender(menuData)}
       formatMessage={formatMessage}
@@ -149,4 +157,6 @@ export default connect(({ global, settings, menu }) => ({
   collapsed: global.collapsed,
   settings,
   menuData: menu.menuData,
+  nameStrArr: menu.nameStrArr,
+  menuName: menu.menuName,
 }))(BasicLayout);
