@@ -67,6 +67,7 @@
         window.addEventListener('message', function(rs) {
             console.log('子接受的数据:' + rs);
             let data = JSON.parse(rs.data);
+            console.log('子接受的数据data:' + data);
             if (rs.origin !== data.parentOrigin){
               return
             }
