@@ -26,16 +26,22 @@ class Iframe extends React.Component {
     this.setState({ loading: true }, () => {
       watcherIframe.onload = () => {
         that.setState({ loading: false });
-      //   setTimeout(() => {
-      //     const frame = watcherIframe.contentWindow;
-      //     const message = { parentOrigin: window.origin, msg: '收到请回复' };
-      //     frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
-      //     console.log('父发送成功');
-      // }, 2000);
-        const frame = watcherIframe.contentWindow;
-        const message = { parentOrigin: window.origin, msg: '收到请回复' };
-        frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
-        console.log('父发送成功');
+        setTimeout(() => {
+          const frame = watcherIframe.contentWindow;
+          const message = { parentOrigin: window.origin, msg: '收到请回复' };
+          frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
+          console.log('父发送成功1');
+        }, 3000);
+        setTimeout(() => {
+          const frame = watcherIframe.contentWindow;
+          const message = { parentOrigin: window.origin, msg: '收到请回复' };
+          frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
+          console.log('父发送成功2');
+        }, 6000);
+        // const frame = watcherIframe.contentWindow;
+        // const message = { parentOrigin: window.origin, msg: '收到请回复' };
+        // frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
+        // console.log('父发送成功');
         window.addEventListener('message', this.receiveMessage, false);
         watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
       };
@@ -55,10 +61,18 @@ class Iframe extends React.Component {
       this.setState({ loading: true }, () => {
         watcherIframe.onload = () => {
           that.setState({ loading: false });
-          const frame = watcherIframe.contentWindow;
-          const message = { parentOrigin: window.origin, msg: '收到请回复' };
-          frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
-          console.log('父发送成功');
+          setTimeout(() => {
+            const frame = watcherIframe.contentWindow;
+            const message = { parentOrigin: window.origin, msg: '收到请回复' };
+            frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
+            console.log('父发送成功3');
+          }, 3000);
+          setTimeout(() => {
+            const frame = watcherIframe.contentWindow;
+            const message = { parentOrigin: window.origin, msg: '收到请回复' };
+            frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
+            console.log('父发送成功4');
+          }, 6000);
           window.addEventListener('message', this.receiveMessage, false);
           watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
         };
