@@ -65,7 +65,7 @@
         $("body").append($("template")[0].content);
         Template[eval('"' + [[${model.position}]] + '"')].rendered();
         window.addEventListener('message', function(rs) {
-            console.log('子接受的数据:' + JSON.parse(rs));
+            console.log('子接受的数据:' + rs);
             let data = JSON.parse(rs.data);
             if (rs.origin !== data.parentOrigin){
               return
