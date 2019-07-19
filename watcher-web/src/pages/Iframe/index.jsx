@@ -26,6 +26,13 @@ class Iframe extends React.Component {
     this.setState({ loading: true }, () => {
       watcherIframe.onload = () => {
         that.setState({ loading: false });
+        setTimeout(() => {
+          const frame = watcherIframe.contentWindow;
+          const message = { parentOrigin: window.origin, msg: '收到请回复' };
+          frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
+          console.log('父发送成功');
+      }, 2000);
+        window.addEventListener('message', this.receiveMessage, false);
         watcherIframe.style.minHeight = `${height}px`;// 设置iframe高度，避免出现滚动条
       };
     });
@@ -55,6 +62,16 @@ class Iframe extends React.Component {
     const sHeight = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight);
     const height = Math.max(cHeight, sHeight);
     return height;
+  }
+
+  receiveMessage = event => {
+    console.log(event, '子消息回来了');
+    if (event.origin !== 'http://10.25.169.133:8112') {
+        return;
+    }
+    const watcherIframe = document.getElementById('watcherIframe');
+    watcherIframe.style.height = `${event.data}px`;
+    window.removeEventListener('message', this.receiveMessage, false);
   }
 
   render() {

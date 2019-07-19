@@ -64,6 +64,17 @@
     $("#page1").load([[${model.staticName}]], function (tpl) {
         $("body").append($("template")[0].content);
         Template[eval('"' + [[${model.position}]] + '"')].rendered();
+        window.addEventListener('message', function(rs) {
+            console.log('子接受的数据:' + rs);
+            let data = JSON.parse(rs.data);
+            if (rs.origin !== data.parentOrigin){
+              return
+            }
+            console.log('我返回页面高度:' + document.body.scrollHeight);
+            setTimeout(() => {
+                rs.source.postMessage(document.body.scrollHeight,rs.origin)
+            }, 1000);
+        })
     });
 </script>
 
