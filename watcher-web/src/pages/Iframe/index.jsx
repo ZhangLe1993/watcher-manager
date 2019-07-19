@@ -19,7 +19,9 @@ class Iframe extends React.Component {
     const that = this;
     const position = this.props.location.pathname.split('/page/')[1];
     const watcherIframe = document.getElementById('watcherIframe');
-    watcherIframe.style.height = `${watcherIframe.offsetHeight}px`;// 设置iframe高度，避免出现滚动条
+    const height = document.body.scrollHeight ||
+    document.documentElement.scrollHeight;
+    watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
     watcherIframe.src = `/route/base?position=${position}`;
     this.setState({ loading: true }, () => {
       watcherIframe.onload = () => {
@@ -35,21 +37,23 @@ class Iframe extends React.Component {
     const nextPosition = nextProps.location.pathname.split('/page/')[1];
     if (prePosition !== nextPosition) {
       const watcherIframe = document.getElementById('watcherIframe');
+      const height = document.body.scrollHeight ||
+      document.documentElement.scrollHeight;
       this.setState({ loading: true }, () => {
         watcherIframe.onload = () => {
           that.setState({ loading: false });
         };
       });
-      watcherIframe.style.height = `${watcherIframe.offsetHeight}px`;// 设置iframe高度，避免出现滚动条
+      watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
       watcherIframe.src = `/route/base?position=${nextPosition}`;
     }
   }
 
   render() {
     return (
-      <div style={{ height: '100%' }}>
+      <div style={{ height: '100%' }} id="iframeWrapper">
         <Spin delay={200} spinning={this.state.loading}>
-        <iframe id="watcherIframe" title="watcher" scrolling="auto" frameBorder="0" width="100%" height="100%" minHeight="1000px">{/* 占位 */}iframe</iframe>
+        <iframe id="watcherIframe" title="watcher" scrolling="auto" frameBorder="0" width="100%" height="100%">{/* 占位 */}iframe</iframe>
         </Spin>
       </div>
     );
