@@ -29,10 +29,27 @@ const handleMenuData = data => {
     if (children) {
       const temp = handleMenuData(children);
       temp.forEach(it => {
+        // [${name}/${it[0]},[data].concat(it[1])]
         arr.push(`${name}/${it}`);
       });
     } else {
       arr.push(name);
+    }
+  }
+  return arr;
+};
+
+const handleMenuData2 = data => {
+  const arr = [];
+  for (let i = 0, len = data.length; i < len; i += 1) {
+    const { name, children } = data[i];
+    if (children) {
+      const temp = handleMenuData(children);
+      temp.forEach(it => {
+        arr.push(`${i}${name}/${it}`);
+      });
+    } else {
+      arr.push(`${i}${name}`);
     }
   }
   return arr;
@@ -48,4 +65,4 @@ const addKey = data => {
   });
 };
 
-export { isAntDesignProOrDev, isAntDesignPro, isUrl, handleMenuData, addKey };
+export { isAntDesignProOrDev, isAntDesignPro, isUrl, handleMenuData, handleMenuData2, addKey };
