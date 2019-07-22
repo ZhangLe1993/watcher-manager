@@ -1,5 +1,5 @@
 import { queryMenuData } from '@/services/menu';
-import { handleMenuData } from '@/utils/utils';
+import { handleMenuData, handleMenuData2, addKey } from '@/utils/utils';
 
 const MenuModel = {
   namespace: 'menu',
@@ -7,18 +7,27 @@ const MenuModel = {
     menuData: [],
     nameStrArr: [],
     menuName: '',
+    searchKeys: [],
   },
   effects: {
     *fetchMenuData(_, { call, put }) {
       const response = yield call(queryMenuData);
+      if (response) {
+        addKey(response);
+      }
       yield put({
         type: 'saveMenuData',
         payload: response,
       });
       const nameStrArr = handleMenuData(response);
+      const searchKeys = handleMenuData2(response);
       yield put({
         type: 'saveNameStrArr',
         payload: nameStrArr,
+      });
+      yield put({
+        type: 'searchKeys',
+        payload: searchKeys,
       });
     },
   },
@@ -31,6 +40,9 @@ const MenuModel = {
     },
     saveMenuName(state, action) {
       return { ...state, menuName: action.payload || '' };
+    },
+    searchKeys(state, action) {
+      return { ...state, searchKeys: action.payload || [] };
     },
   },
 };
