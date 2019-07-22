@@ -20,7 +20,7 @@ public class MappingService {
     @Resource
     private DataSource dataSource;
 
-    @Cacheable(value = "position-mapping-model", keyGenerator = "watcherManagerKeyGenerator", key = "#source")
+    @Cacheable(value = "position-mapping-model", keyGenerator = "watcherManagerKeyGenerator")
     public Mapping getModel(String source) throws SQLException {
         String sql = "select id, source_position AS source, target_position AS target, param_key AS `key`, param_value AS `value` from replace_mapping  where source_position = ?;";
         return new QueryRunner(dataSource).query(sql, new BeanHandler<>(Mapping.class), source);
