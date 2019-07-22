@@ -1,8 +1,15 @@
 package com.aihuishou.bi.controller;
 
 import com.aihuishou.bi.cas.CasUtil;
-import com.google.common.collect.ImmutableMap;
+import com.aihuishou.bi.entity.User;
+import com.aihuishou.bi.service.AuthService;
+import com.aihuishou.bi.service.UserService;
+import com.aihuishou.bi.utils.ExceptionInfo;
+import com.aihuishou.bi.utils.LoggerTemplate;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.client.ClientHttpRequest;
@@ -18,14 +25,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class IndexC {
+
+    private final static Logger logger = LoggerFactory.getLogger(IndexC.class);
+
+    @Autowired
+    private UserService userService;
 
 
     @Value("${proxy.watcher.target_url}")
@@ -43,9 +54,14 @@ public class IndexC {
 
     @ResponseBody
     @RequestMapping("/api/currentUser")
-    public Map currentUser() {
-        //TODO
-        return ImmutableMap.of("id", CasUtil.getId(), "username", CasUtil.getUserName());
+    public User currentUser() throws SQLException {
+        try {
+            String obId = CasUtil.getId();
+            return userService.getUserByObId(obId);
+        } catch (Exception e) {
+            LoggerTemplate.error(logger, "获取当前登录用户", e);
+        }
+        return null;
     }
 
     @RequestMapping("/watcher/**")
