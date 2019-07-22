@@ -1,6 +1,7 @@
 package com.aihuishou.bi.controller;
 
 import com.aihuishou.bi.cas.CasUtil;
+import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
@@ -44,7 +45,7 @@ public class IndexC {
     @RequestMapping("/api/currentUser")
     public Map currentUser() {
         //TODO
-        return new HashMap();
+        return ImmutableMap.of("id", CasUtil.getId(), "username", CasUtil.getUserName());
     }
 
     @RequestMapping("/watcher/**")
