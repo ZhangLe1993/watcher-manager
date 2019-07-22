@@ -4,9 +4,11 @@ import com.aihuishou.bi.entity.NodeAuth;
 import com.aihuishou.bi.utils.ExceptionInfo;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,9 @@ public class AuthService {
 
     private final static Logger logger = LoggerFactory.getLogger(AuthService.class);
 
+    @Autowired
+    private MappingService mappingService;
+
     @Resource
     private DataSource dataSource;
 
@@ -31,10 +36,14 @@ public class AuthService {
     private DataSource greenPlum;
 
 
-    public boolean auth(String position, Map<String, List<String>> menuAuthMap, List<String> userAuthList) {
+    public boolean auth(String position, Map<String, List<String>> menuAuthMap, List<String> userAuthList, Map<String, String> mapping) {
         try {
+            String target = position;
+            if(mapping != null && StringUtils.isNotBlank(mapping.get(position))) {
+                target = mapping.get(target);
+            }
             //菜单权限
-            List<String> menuAuthList = menuAuthMap.get(position);
+            List<String> menuAuthList = menuAuthMap.get(target);
             //如果菜单没有配置权限，意味所有人都能看
             return menuAuthList == null || menuAuthList.size() == 0 || menuAuthList.retainAll(userAuthList);
         } catch (Exception e) {

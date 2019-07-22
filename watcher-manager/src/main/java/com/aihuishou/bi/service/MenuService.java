@@ -29,6 +29,9 @@ public class MenuService {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private MappingService mappingService;
+
     public List<Map<String,Object>> merge() throws SQLException {
         List<Map<String,Object>> merge = new ArrayList<>();
         List<Mount> mounts = mountService.mounts();
@@ -47,6 +50,8 @@ public class MenuService {
         Map<String, List<String>> menuAuthMap = authService.menuAuth();
         String obId = CasUtil.getId();
         List<String> userAuthList = authService.userAuth(obId);
+        Map<String, String> mapping = mappingService.getMapping();
+
         mounts.stream().forEach(m -> {
             //构造挂载点
             mergeMount(merge, m);
@@ -55,13 +60,13 @@ public class MenuService {
                 return m.getId().equals(mr.getMount());
             }).collect(Collectors.toList());
             //构造文件夹
-            mRoots.stream().forEach(f -> { mergeList(merge, folders, nodes, f, menuAuthMap, userAuthList); });
+            mRoots.stream().forEach(f -> { mergeList(merge, folders, nodes, f, menuAuthMap, userAuthList, mapping); });
 
             List<Node> mNodes = leaf.stream().filter(mn -> {
                 return m.getId().equals(mn.getMount());
             }).collect(Collectors.toList());
             //构造菜单
-            mNodes.stream().forEach(n -> { mergeNode(merge, n, menuAuthMap, userAuthList); });
+            mNodes.stream().forEach(n -> { mergeNode(merge, n, menuAuthMap, userAuthList, mapping); });
         });
         return merge;
     }
@@ -74,28 +79,28 @@ public class MenuService {
         merge.add(mount);
     }
 
-    private void mergeList(List<Map<String, Object>> merge, List<Folder> folders, List<Node> nodes, Folder f, Map<String, List<String>> menuAuthMap, List<String> userAuthList) {
+    private void mergeList(List<Map<String, Object>> merge, List<Folder> folders, List<Node> nodes, Folder f, Map<String, List<String>> menuAuthMap, List<String> userAuthList, Map<String, String> mapping) {
         Map<String,Object> folder = new HashMap<>();
         /*folder.put("path", "");*/
         folder.put("icon", "folder");
         folder.put("name", f.getName());
-        List<Map<String, Object>> children = getMaps(folders, nodes, f, menuAuthMap, userAuthList);
+        List<Map<String, Object>> children = getMaps(folders, nodes, f, menuAuthMap, userAuthList, mapping);
         folder.put("position", f.getPosition());
         folder.put("children", children);
         merge.add(folder);
     }
 
-    private void mergeNode(List<Map<String, Object>> merge, Node n, Map<String, List<String>> menuAuthMap, List<String> userAuthList) {
+    private void mergeNode(List<Map<String, Object>> merge, Node n, Map<String, List<String>> menuAuthMap, List<String> userAuthList, Map<String, String> mapping) {
         Map<String, Object> node = new HashMap<>();
         node.put("path", n.getUrl());
         node.put("icon", "monitor");
         node.put("name", n.getName());
         node.put("component", n.getPosition());
-        node.put("auth", (Boolean) authService.auth(n.getPosition(), menuAuthMap, userAuthList));
+        node.put("auth", (Boolean) authService.auth(n.getPosition(), menuAuthMap, userAuthList, mapping));
         merge.add(node);
     }
 
-    private List<Map<String, Object>> getMaps(List<Folder> folders, List<Node> nodes, Folder f, Map<String, List<String>> menuAuthMap, List<String> userAuthList) {
+    private List<Map<String, Object>> getMaps(List<Folder> folders, List<Node> nodes, Folder f, Map<String, List<String>> menuAuthMap, List<String> userAuthList, Map<String, String> mapping) {
         List<Map<String,Object>> children = new ArrayList<>();
         List<Folder> tempF = folders.stream().filter(filter -> {
             return filter.getParentPosition().equalsIgnoreCase(f.getPosition());
@@ -106,11 +111,11 @@ public class MenuService {
         }).collect(Collectors.toList());
 
         tempF.stream().forEach(ele -> {
-            mergeList(children, folders, nodes, ele, menuAuthMap, userAuthList);
+            mergeList(children, folders, nodes, ele, menuAuthMap, userAuthList, mapping);
         });
 
         tempN.stream().forEach(ele -> {
-            mergeNode(children, ele, menuAuthMap, userAuthList);
+            mergeNode(children, ele, menuAuthMap, userAuthList, mapping);
         });
         return children;
     }
