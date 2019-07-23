@@ -162,5 +162,9 @@ export default {
       target: 'http://10.25.169.133:8112',
       changeOrigin: true,
     },
+    '/api': {
+      target: 'http://10.25.169.133:8112',
+      changeOrigin: true,
+    },
   },
 };

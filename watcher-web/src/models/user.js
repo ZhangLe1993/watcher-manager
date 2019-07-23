@@ -20,6 +20,7 @@ const UserModel = {
         type: 'saveCurrentUser',
         payload: response,
       });
+      window.sessionStorage.setItem('currentUser', JSON.stringify(response));
     },
   },
   reducers: {
