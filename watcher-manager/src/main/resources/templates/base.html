@@ -67,10 +67,7 @@
         const { name, obId, employeeNo } = currentUser || {};
         const { auth, component, name: menu_name, path: menu_path } = currentMenuItem || {};
         const trackInfo = {
-          platform:'web_pc',
-          app_name: 'watcher',
           user_name: name,
-          obId,
           employee_no:employeeNo,
           menu_name,
           menu_path,
@@ -79,6 +76,10 @@
         };
         // if (auth) {
            sensors.quick('autoTrack', {
+              platform:'web_pc',
+              app_name: 'watcher',
+              app_channel: '',
+              user_key: obId,
               properties_ext: JSON.stringify(trackInfo)
             });
         // }
