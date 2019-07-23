@@ -35,7 +35,7 @@ public class SysService {
     }*/
 
 
-    @Cacheable(value = "position-map", keyGenerator = "watcherManagerKeyGenerator")
+    /*@Cacheable(value = "position-map", keyGenerator = "watcherManagerKeyGenerator")*/
     public Map<String, String> getPositionMap() {
         String target = path + SysConf.OLD_FILE_FOLDER;
         Set<String> files = ScanFolder.traverseFolder(target);
