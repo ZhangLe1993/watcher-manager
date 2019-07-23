@@ -65,8 +65,8 @@
             console.log(window.sessionStorage.getItem('currentUser'), '-currentUser-');
         }
         const { name, obId, employeeNo } = currentUser || {};
-        const { auth, component, menu_name: name, menu_path: path } = currentMenuItem;
-        if (auth) {
+        const { auth, component, menu_name: name, menu_path: path } = currentMenuItem || {};
+        // if (auth) {
            sensors.quick('autoTrack', {
               platform:'web_pc',
               app_name: 'watcher',
@@ -78,7 +78,7 @@
               visit_time: new Date(),
               full_name,
             });
-        }
+        // }
     </script>
     <script type="text/javascript">
         Meteor = {
