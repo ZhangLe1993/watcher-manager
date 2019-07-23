@@ -31,3 +31,7 @@ cas:
 
 watcher:
   templates: /root/code/watcher-manager/src/main/resources/
+
+basic.mongodb.host: 192.168.3.200
+basic.mongodb.port: 27017
+basic.mongodb.database: watcher
