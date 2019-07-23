@@ -65,7 +65,7 @@
             console.log(window.sessionStorage.getItem('currentUser'), '-currentUser-');
         }
         const { name, obId, employeeNo } = currentUser || {};
-        const { auth, component, menu_path: path } = currentMenuItem || {};
+        const { auth, component, name: menu_name, path: menu_path } = currentMenuItem || {};
         // if (auth) {
            sensors.quick('autoTrack', {
               platform:'web_pc',
@@ -73,7 +73,7 @@
               user_name: name,
               obId,
               employee_no:employeeNo,
-              menu_name: currentMenuItem.name,
+              menu_name,
               menu_path,
               visit_time: new Date(),
               full_name,
