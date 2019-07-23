@@ -9,13 +9,13 @@
                 <div class="small-box bg-light-blue">
                     <div class="inner">
                         <h3>
-                            <span>{{todayTradeStats.tradeNum}}</span>
+                            <span><span id="tradeNum"></span></span>
                             <span id = "yesterdaySubmit" style="font-size: medium">昨日····</span></h3>
 
-                        <p>{{todayTradeStats.date}} 订单提交量<B>(不含废旧机和取消订单)</B></p>
-                        <p><B>(废旧机提交量(排除取消)：{{todayTradeStats.junkTradeNum}})</B></p>
-                        <p><B>(取消订单提交量：{{todayTradeStats.cancelTradeNum}})</B></p>
-                        <p><B>(总提交量：{{todayTradeStats.totalTradeNum}})</B></p>
+                        <p><span id="date"></span> 订单提交量<B>(不含废旧机和取消订单)</B></p>
+                        <p><B>(废旧机提交量(排除取消)：<span id="junkTradeNum"></span>)</B></p>
+                        <p><B>(取消订单提交量：<span id="cancelTradeNum"></span>)</B></p>
+                        <p><B>(总提交量：<span id="totalTradeNum"></span>)</B></p>
                     </div>
                 </div>
                 <div class="row">
@@ -41,12 +41,12 @@
                 <div class="small-box bg-light-blue">
                     <div class="inner">
                         <h3>
-                            <span style="font-size: 34px;">{{todayTradeStats.tradeAmount}}</span>
+                            <span style="font-size: 34px;"><span id="tradeAmount"></span></span>
                             <p><span id="yesterdaySubmitPrice" style="font-size: medium">昨日····</span></p>
                         </h3>
                         <p>{{todayTradeStats.date}} 订单提交金额(不含废旧机和取消订单)</p>
-                        <p><B>(废旧机提交金额(排除取消)：{{todayTradeStats.junkTradeAmount}})</B></p>
-                        <p><B>(取消订单提交金额：{{todayTradeStats.cancelTradeAmount}})</B></p>
+                        <p><B>(废旧机提交金额(排除取消)：<span id="junkTradeAmount"></span>)</B></p>
+                        <p><B>(取消订单提交金额：<span id="cancelTradeAmount"></span>)</B></p>
                     </div>
                 </div>
                 <div class="row">
@@ -64,10 +64,10 @@
                     <div class="template-dashboard  body">
                         <div class="small-box bg-light-blue">
                             <div class="inner">
-                                <h3>{{todayTradeStats.dealNum}}
+                                <h3><span id="dealNum"></span>
                                     <span id="yesterdayDealOrder" style="font-size: medium">昨日同时间····</span>
                                 </h3>
-                                <p>{{todayTradeStats.date}} 订单成交量(废旧机成交量{{todayTradeStats.junkDealNum}})</p>
+                                <p><span id="date_t"></span> 订单成交量(废旧机成交量<span id="junkDealNum"></span>)</p>
                             </div>
                         </div>
                     </div>
@@ -90,10 +90,10 @@
                     <div class="small-box bg-light-blue">
                         <div class="inner">
                             <h3>
-                                <span>{{todayTradeStats.dealAmount}}</span>
+                                <span><span id="dealAmount"></span></span>
                                 <p><span id="yesterdayDealPrice" style="font-size: medium">昨日同时间····</span></p>
                             </h3>
-                            <p>{{todayTradeStats.date}} 订单成交金额(废旧机成交金额{{todayTradeStats.junkDealAmount}})</p>
+                            <p><span id="date_tt"></span> 订单成交金额(废旧机成交金额<span id="junkDealAmount"></span>)</p>
                         </div>
                     </div>
                 </div>

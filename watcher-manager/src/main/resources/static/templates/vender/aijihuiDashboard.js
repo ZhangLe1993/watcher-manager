@@ -8,8 +8,98 @@ Template.aijihuiDashboard.rendered = function () {
     if (isAndroid || isiOS) {
         $('.sidebar-toggle').click();
     }*/
-    toolTipCustom()
+    toolTipCustom();
 
+    var todayTradeStats = {};
+    requestURL(window.origin + "/mongo/aijihuiTradeStats", {sourceTypeName: "爱机汇"}).done(function (ret) {
+        var dataSet = ret;
+        var tradeNum = 0;
+        var tradeAmount = 0;
+        var dealNum = 0;
+        var dealAmount = 0;
+        var junkTradeNum = 0;
+        var junkTradeAmount = 0;
+        var junkDealNum = 0;
+        var junkDealAmount = 0;
+        var date = "";
+        var cancelTradeNum = 0;
+        var cancelTradeAmount = 0;
+        dataSet.forEach(function (e) {
+            date = e.date;
+            if (e.junkFlag == 0) {
+                switch (e.orderType) {
+                    case "submit":
+                        tradeNum += e.tradeNum;
+                        tradeAmount += e.payAmount;
+                        break;
+                    case "deal":
+                        dealNum += e.tradeNum;
+                        dealAmount += e.payAmount;
+                        break;
+                    default:
+                        break;
+                }
+            } else if (e.junkFlag == 1) {
+                switch (e.orderType) {
+                    case "submit":
+                        junkTradeNum += e.tradeNum;
+                        junkTradeAmount += e.payAmount;
+                        break;
+                    case "deal":
+                        junkDealNum += e.tradeNum;
+                        junkDealAmount += e.payAmount;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            if (e.orderCancel == 1) {
+                switch (e.orderType) {
+                    case "submit":
+                        cancelTradeNum += e.tradeNum;
+                        cancelTradeAmount += e.payAmount;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
+        $("#date").html(date);
+        $("#date_t").html(date);
+        $("#date_tt").html(date);
+        $("#tradeNum").html(tradeNum.toLocaleString());
+        $("#tradeAmount").html("￥" + tradeAmount.toLocaleString());
+        $("#dealNum").html(dealNum.toLocaleString());
+        $("#dealAmount").html("￥" + dealAmount.toLocaleString());
+        $("#junkTradeNum").html(junkTradeNum.toLocaleString());
+        $("#totalTradeNum").html((tradeNum + junkTradeNum - cancelTradeNum).toLocaleString());
+        $("#junkTradeAmount").html("￥" + junkTradeAmount.toLocaleString());
+        $("#junkDealNum").html(junkDealNum.toLocaleString());
+        $("#junkDealAmount").html("￥" + junkDealAmount.toLocaleString());
+        $("#cancelTradeNum").html((-cancelTradeNum).toLocaleString());
+        $("#cancelTradeAmount").html("￥" + (-cancelTradeAmount).toLocaleString());
+
+        /*todayTradeStats = {
+            date: date,
+            tradeNum: tradeNum.toLocaleString(),
+            tradeAmount: "￥" + tradeAmount.toLocaleString(),
+            dealNum: dealNum.toLocaleString(),
+            dealAmount: "￥" + dealAmount.toLocaleString(),
+            junkTradeNum: junkTradeNum.toLocaleString(),
+            totalTradeNum: (tradeNum + junkTradeNum - cancelTradeNum).toLocaleString(),
+            junkTradeAmount: "￥" + junkTradeAmount.toLocaleString(),
+            junkDealNum: junkDealNum.toLocaleString(),
+            junkDealAmount: "￥" + junkDealAmount.toLocaleString(),
+            cancelTradeNum: (-cancelTradeNum).toLocaleString(),
+            cancelTradeAmount: "￥" + (-cancelTradeAmount).toLocaleString()
+        }*/
+        //return
+    });
+    /*todayTradeStats: function () {
+
+    }*/
     //昨日同时间
     var submitDataMap = new Map();
     var tradeDataMap = new Map();
@@ -22,20 +112,6 @@ Template.aijihuiDashboard.rendered = function () {
             var tradeFilterData = _.filter(ret, function (obj) {
                 return obj.method == "成交"
             })
-            //submitDataMap.set("全国", {
-            //    "masterAccount": _.map(submitFilterData, function (obj) {
-            //        return obj.masterAccountCnt
-            //    }).sum(), "subAccount": _.map(submitFilterData, function (obj) {
-            //        return obj.subAccountCnt
-            //    }).sum()
-            //})
-            //tradeDataMap.set("全国", {
-            //    "masterAccount": _.map(tradeFilterData, function (obj) {
-            //        return obj.masterAccountCnt
-            //    }).sum(), "subAccount": _.map(tradeFilterData, function (obj) {
-            //        return obj.subAccountCnt
-            //    }).sum()
-            //})
             ret.forEach(function (obj) {
                 var method = obj.method
                 if (method == "提交") {
@@ -47,7 +123,6 @@ Template.aijihuiDashboard.rendered = function () {
                     tradeDataMap.set(obj.name, {"masterAccount": obj.masterAccountCnt, "subAccount": obj.subAccountCnt})
                 }
             })
-            //console.log(submitDataMap)
             updateDashboard()
         })
     }
@@ -261,7 +336,7 @@ Template.aijihuiDashboard.rendered = function () {
     var drawVenderTradeUserMixedChart = function (data) {
         var colors = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'].reverse();
         var tmpData = []
-        var gdata = _.groupBy(_.filter(data.fetch(), function (obj) {
+        var gdata = _.groupBy(_.filter(data, function (obj) {
             return obj.junkFlag == 0
         }), function (obj) {
             return obj.sourceAgentName
@@ -637,7 +712,7 @@ Template.aijihuiDashboard.rendered = function () {
     var drawVenderTradeAmountUserMixedChart = function (data) {
         var colors = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'].reverse();
         var tmpData = []
-        var gdata = _.groupBy(_.filter(data.fetch(), function (obj) {
+        var gdata = _.groupBy(_.filter(data, function (obj) {
             return obj.junkFlag == 0
         }), function (obj) {
             return obj.sourceAgentName
@@ -1014,7 +1089,7 @@ Template.aijihuiDashboard.rendered = function () {
         var colors = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'].reverse();
 
         var tmpData = []
-        var gdata = _.groupBy(_.filter(data.fetch(), function (obj) {
+        var gdata = _.groupBy(_.filter(data, function (obj) {
             return obj.junkFlag == 0
         }), function (obj) {
             return obj.sourceAgentName
@@ -1383,7 +1458,7 @@ Template.aijihuiDashboard.rendered = function () {
     var drawVenderTradeDealAmountUserMixedChart = function (data) {
         var colors = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'].reverse();
         var tmpData = []
-        var gdata = _.groupBy(_.filter(data.fetch(), function (obj) {
+        var gdata = _.groupBy(_.filter(data, function (obj) {
             return obj.junkFlag == 0
         }), function (obj) {
             return obj.sourceAgentName
@@ -1394,7 +1469,7 @@ Template.aijihuiDashboard.rendered = function () {
                 value: _.map(gdata[key], function (obj) {
                     return obj.payAmount
                 }).sum()
-            }
+            };
             tmpData.push(tmpObj)
         }
         var count = 0;
@@ -1769,31 +1844,31 @@ Template.aijihuiDashboard.rendered = function () {
         })
     }
 
-    getYesterdayData()
-    setInterval(getYesterdayData, 1000 * 60 * 5)
+    getYesterdayData();
+    setInterval(getYesterdayData, 1000 * 60 * 5);
 
 
     var updateDashboard = function () {
-        var submitData = aijihuiTradeStats.find({sourceTypeName: "爱机汇", orderType: "submit"});
-        drawVenderTradeUserMixedChart(submitData);
+        requestURL(window.origin + "/mongo/aijihuiTradeStats", {sourceTypeName: "爱机汇", orderType: "submit"}).done(function (ret) {
+            var submitData = ret;
+            drawVenderTradeUserMixedChart(submitData);
+            drawVenderTradeProvinceMixedChart(submitData, submitDataMap);
+            drawVenderTradeCategoryMixedChart(submitData);
+            drawVenderTradeAmountUserMixedChart(submitData);
+            drawVenderTradeAmountProvinceMixedChart(submitData, submitDataMap);
+            drawVenderTradeAmountCategoryMixedChart(submitData);
+        });
 
-        drawVenderTradeProvinceMixedChart(submitData, submitDataMap);
-
-        drawVenderTradeCategoryMixedChart(submitData);
-        drawVenderTradeAmountUserMixedChart(submitData);
-        drawVenderTradeAmountProvinceMixedChart(submitData, submitDataMap);
-        drawVenderTradeAmountCategoryMixedChart(submitData);
-
-        var dealData = aijihuiTradeStats.find({sourceTypeName: "爱机汇", orderType: "deal"});
-        drawVenderTradeDealUserMixedChart(dealData);
-        drawVenderTradeDealProvinceMixedChart(dealData, tradeDataMap);
-        drawVenderTradeDealCategoryMixedChart(dealData);
-        drawVenderTradeDealAmountUserMixedChart(dealData);
-        drawVenderTradeDealAmountProvinceMixedChart(dealData, tradeDataMap);
-        drawVenderTradeDealAmountCategoryMixedChart(dealData);
+        requestURL(window.origin + "/mongo/aijihuiTradeStats", {sourceTypeName: "爱机汇", orderType: "deal"}).done(function (ret) {
+            var dealData = ret;
+            drawVenderTradeDealUserMixedChart(dealData);
+            drawVenderTradeDealProvinceMixedChart(dealData, tradeDataMap);
+            drawVenderTradeDealCategoryMixedChart(dealData);
+            drawVenderTradeDealAmountUserMixedChart(dealData);
+            drawVenderTradeDealAmountProvinceMixedChart(dealData, tradeDataMap);
+            drawVenderTradeDealAmountCategoryMixedChart(dealData);
+        });
     };
-
-    //updateDashboard();
 
     // Deps.autorun(function () {
     //     if (location.pathname.indexOf('VenderDashboard') > 0) {

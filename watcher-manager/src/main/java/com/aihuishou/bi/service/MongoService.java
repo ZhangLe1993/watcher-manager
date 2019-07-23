@@ -1,6 +1,7 @@
 package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.live.model.AiJiHuiTradeStats;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -8,6 +9,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,8 +20,14 @@ public class MongoService {
     @Qualifier(value = "basicMongoTemplate")
     private MongoTemplate mongoTemplate;
 
-    public List<AiJiHuiTradeStats> aijihuiTradeStats() {
-        Query query = new Query(Criteria.where("sourceTypeName").is("爱机汇").and("orderType").is("submit"));
+    public List<AiJiHuiTradeStats> aiJiHuiTradeStats(String sourceTypeName, String orderType) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String today = sdf.format(new Date());
+        Criteria criteria = Criteria.where("sourceTypeName").is(sourceTypeName).and("date").is(today);
+        if(StringUtils.isNotBlank(orderType)) {
+            criteria.and("orderType").is(orderType);
+        }
+        Query query = new Query(criteria);
         return mongoTemplate.find(query, AiJiHuiTradeStats.class, "aijihuiTradeStats");
     }
 }
