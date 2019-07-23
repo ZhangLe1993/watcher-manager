@@ -55,21 +55,29 @@
     <script>
         let currentUser;
         let currentMenuItem;
+        const full_name = window.sessionStorage.getItem('full_name');
         if (window.sessionStorage.getItem('currentMenuItem')) {
             currentMenuItem = JSON.parse(window.sessionStorage.getItem('currentMenuItem'));
             console.log(currentMenuItem, '-currentMenuItem-');
         }
         if (window.sessionStorage.getItem('currentUser')) {
             currentUser = JSON.parse(window.sessionStorage.getItem('currentUser'));
-            const { name, obId, employeeNo } = currentUser;
-            sensors.quick('autoTrack', {
-               platform:'web_pc',
-               app_name: 'watcher',
-               user_name: name,
-               obId,
-               employee_no:employeeNo,
-            });
             console.log(window.sessionStorage.getItem('currentUser'), '-currentUser-');
+        }
+        const { name, obId, employeeNo } = currentUser || {};
+        const { auth, component, menu_name: name, menu_path: path } = currentMenuItem;
+        if (auth) {
+           sensors.quick('autoTrack', {
+              platform:'web_pc',
+              app_name: 'watcher',
+              user_name: name,
+              obId,
+              employee_no:employeeNo,
+              menu_name,
+              menu_path,
+              visit_time: new Date(),
+              full_name,
+            });
         }
     </script>
     <script type="text/javascript">

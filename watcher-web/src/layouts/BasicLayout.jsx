@@ -147,9 +147,14 @@ const BasicLayout = props => {
     // });
     // e.preventDefault();
     // e.stopPropagation();
-    saveMenuName(it.name);
-    router.push(`/page/${it.component}`);
-    window.sessionStorage.setItem('currentMenuItem', JSON.stringify(it));
+    if (it.auth) {
+      const { nameStrArr } = props;
+      const fullName = nameStrArr.filter(item => item.indexOf(it.name) > -1)[0];
+      saveMenuName(it.name);
+      router.push(`/page/${it.component}`);
+      window.sessionStorage.setItem('currentMenuItem', JSON.stringify(it));
+      window.sessionStorage.setItem('full_name', fullName);
+    }
   };
 
   return (
