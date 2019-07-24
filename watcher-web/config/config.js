@@ -103,6 +103,12 @@ export default {
           component: './Iframe',
         },
         {
+          path: '/watcher_manager',
+          name: 'manager',
+          icon: 'smile',
+          component: './watcherManager',
+        },
+        {
           component: './404',
         },
       ],
