@@ -1,5 +1,6 @@
 package com.aihuishou.bi.service;
 
+import com.aihuishou.bi.annotation.AutoFill;
 import com.aihuishou.bi.entity.Folder;
 import com.aihuishou.bi.vo.FolderVO;
 import org.apache.commons.dbutils.QueryRunner;
@@ -27,12 +28,13 @@ public class FolderService extends BaseService {
     }
 
 
+    @AutoFill
     public void createFolder(FolderVO folderVO) throws SQLException {
         String sql = "INSERT INTO bi_folder(position, name, state, parent_position, mount, empno, empname, create_time, update_time, sort_no) VALUES (?,?,?,?,?,?,?,NOW(),NOW(),?);";
         new QueryRunner(dataSource).update(sql, folderVO.getPosition(), folderVO.getName(), folderVO.getState(), folderVO.getMount(), folderVO.getEmpno(), folderVO.getEmpname(), folderVO.getSortNo());
     }
 
-
+    @AutoFill
     public void updateFolder(FolderVO folderVO) throws SQLException {
         //暂时只提供修改名称，修改路径，修改是否上线, 修改排序
         String sql = "UPDATE bi_folder SET name = ?, parent_position = ?, state = ?, sort_no = ? WHERE id = ?;";
@@ -62,11 +64,11 @@ public class FolderService extends BaseService {
     }
 
     public List<Folder> getFolder(String key, String parent, Integer pageIndex, Integer pageSize) {
-        String sql = "SELECT id, name, state, sort_no AS sortNo FROM bi_folder WHERE 1=1 ";
+        String sql = "SELECT id, position, name, state, sort_no AS sortNo FROM bi_folder WHERE 1=1 ";
         String append = " AND name like ? ";
         String append1 = " AND parent_position = ?";
         String suffix = " order by sort_no limit ?,?;";
-        return this.getAbstractPageList(Folder.class, sql, suffix, "%" + key + "%", parent, pageIndex, pageSize, append, append1);
+        return this.getAbstractPageList(Folder.class, sql, suffix, key, parent, pageIndex, pageSize, append, append1);
     }
 
 

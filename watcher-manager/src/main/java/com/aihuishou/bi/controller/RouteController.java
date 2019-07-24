@@ -1,5 +1,6 @@
 package com.aihuishou.bi.controller;
 
+import com.aihuishou.bi.annotation.SystemLog;
 import com.aihuishou.bi.core.SysConf;
 import com.aihuishou.bi.entity.Mapping;
 import com.aihuishou.bi.service.MappingService;
@@ -32,6 +33,7 @@ public class RouteController {
     private MappingService mappingService;
 
 
+    @SystemLog(description = "定位报表")
     @RequestMapping("/base")
     public String loadHtml(@RequestParam(value = "position") String position, ModelMap model) throws FileNotFoundException, SQLException {
         Mapping mapping = mappingService.getModel(position);

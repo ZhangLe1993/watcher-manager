@@ -33,9 +33,10 @@ public class MountService extends BaseService {
         new QueryRunner(dataSource).update(sql, mountVO.getName(), mountVO.getState(), mountVO.getEmpno(), mountVO.getEmpname());
     }
 
+    @AutoFill
     public void updateMount(MountVO mountVO) throws SQLException {
-        String sql = "UPDATE bi_childless SET name = ?, state = ?, update_time = now(), sort_no = ? where id = ?;";
-        new QueryRunner(dataSource).update(sql, mountVO.getName(), mountVO.getState(), mountVO.getSortNo(), mountVO.getId());
+        String sql = "UPDATE bi_childless SET name = ?, state = ?, update_time = now() where id = ?;";
+        new QueryRunner(dataSource).update(sql, mountVO.getName(), mountVO.getState(), mountVO.getId());
     }
 
 
@@ -63,9 +64,10 @@ public class MountService extends BaseService {
     }
 
     public List<Mount> getMount(String key, Integer pageIndex, Integer pageSize) {
-        String sql = "SELECT id, name, state, sort_no AS sortNo FROM bi_childless WHERE name like ? ";
+        String sql = "SELECT id, name, state, sort_no AS sortNo FROM bi_childless WHERE 1=1 ";
+        String append = "AND name like ? ";
         String suffix = " order by sort_no limit ?,?;";
-        return this.getAbstractPageList(Mount.class, sql, suffix, "%" + key + "%",null, pageIndex, pageSize, "", "");
+        return this.getAbstractPageList(Mount.class, sql, suffix, key,null, pageIndex, pageSize, append, "");
     }
 
 

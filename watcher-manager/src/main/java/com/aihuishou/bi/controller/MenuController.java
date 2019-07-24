@@ -1,5 +1,6 @@
 package com.aihuishou.bi.controller;
 
+import com.aihuishou.bi.annotation.SystemLog;
 import com.aihuishou.bi.entity.Folder;
 import com.aihuishou.bi.entity.Mount;
 import com.aihuishou.bi.entity.Node;
@@ -42,6 +43,7 @@ public class MenuController {
     @Autowired
     private NodeService nodeService;
 
+    @SystemLog(description = "获取菜单")
     @GetMapping("")
     public List<Map<String, Object>> menu() {
         try{
@@ -52,6 +54,7 @@ public class MenuController {
         return null;
     }
 
+    @SystemLog(description = "查询挂载点")
     @GetMapping("/mount")
     public ResponseEntity allMount(@RequestParam(value = "key", required = false) String key,
                                 @RequestParam(value = "page_index", required = false) Integer pageIndex,
@@ -69,6 +72,7 @@ public class MenuController {
     }
 
 
+    @SystemLog(description = "新增挂载点")
     @PostMapping("/mount")
     public void createMount(@RequestBody MountVO mountVO) {
         try {
@@ -79,19 +83,17 @@ public class MenuController {
 
     }
 
-
-
-
+    @SystemLog(description = "修改挂载点")
     @PutMapping("/mount")
-    public void updateMount(MountVO mountVO) {
+    public void updateMount(@RequestBody MountVO mountVO) {
         try{
-            //autowired(mountVO, SERVICE_FIELD_EMPLOYEE_NAME, SERVICE_FIELD_EMPLOYEE_NO);
             mountService.updateMount(mountVO);
         } catch(Exception e) {
             logger.error("修改挂载点异常，异常信息: {}", ExceptionInfo.toString(e));
         }
     }
 
+    @SystemLog(description = "删除挂载点")
     @DeleteMapping("/mount")
     public void deleteMount(Long id) {
         try{
@@ -102,7 +104,7 @@ public class MenuController {
     }
 
 
-
+    @SystemLog(description = "查询文件夹")
     @GetMapping("/folder")
     public ResponseEntity allFolder(@RequestParam(value = "key", required = false) String key,
                                   @RequestParam(value = "parent", required = false) String parent,
@@ -120,19 +122,19 @@ public class MenuController {
         return new ResponseEntity(ImmutableMap.of("data", new ArrayList<>(),"total", 0), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-
+    @SystemLog(description = "新增文件夹")
     @PostMapping("/folder")
-    public void createFolder(FolderVO folderVO) {
+    public void createFolder(@RequestBody FolderVO folderVO) {
         try{
-            //autowired(folderVO, SERVICE_FIELD_EMPLOYEE_NAME, SERVICE_FIELD_EMPLOYEE_NO);
             folderService.createFolder(folderVO);
         } catch(Exception e) {
             logger.error("新增文件夹异常，异常信息: {}", ExceptionInfo.toString(e));
         }
     }
 
+    @SystemLog(description = "修改文件夹")
     @PutMapping("/folder")
-    public void updateFolder(FolderVO folderVO) {
+    public void updateFolder(@RequestBody FolderVO folderVO) {
         try{
             folderService.updateFolder(folderVO);
         } catch(Exception e) {
@@ -140,6 +142,7 @@ public class MenuController {
         }
     }
 
+    @SystemLog(description = "删除文件夹")
     @DeleteMapping("/folder")
     public void deleteFolder(Long id) {
         try{
@@ -149,8 +152,7 @@ public class MenuController {
         }
     }
 
-
-
+    @SystemLog(description = "查询报表")
     @GetMapping("/node")
     public ResponseEntity allNode(@RequestParam(value = "key", required = false) String key,
                                     @RequestParam(value = "parent", required = false) String parent,
@@ -168,8 +170,9 @@ public class MenuController {
         return new ResponseEntity(ImmutableMap.of("data", new ArrayList<>(),"total", 0), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @SystemLog(description = "新增报表")
     @PostMapping("/node")
-    public void createNode(NodeVO nodeVO) {
+    public void createNode(@RequestBody NodeVO nodeVO) {
         try{
             nodeService.createNode(nodeVO);
         } catch(Exception e) {
@@ -177,8 +180,9 @@ public class MenuController {
         }
     }
 
+    @SystemLog(description = "修改报表")
     @PutMapping("/node")
-    public void updateNode(NodeVO nodeVO) {
+    public void updateNode(@RequestBody NodeVO nodeVO) {
         try{
             nodeService.updateNode(nodeVO);
         } catch(Exception e) {
@@ -186,6 +190,7 @@ public class MenuController {
         }
     }
 
+    @SystemLog(description = "删除报表")
     @DeleteMapping("/node")
     public void deleteNode(Long id) {
         try{

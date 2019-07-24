@@ -1,5 +1,6 @@
 package com.aihuishou.bi.service;
 
+import com.aihuishou.bi.annotation.AutoFill;
 import com.aihuishou.bi.entity.Folder;
 import com.aihuishou.bi.entity.Node;
 import com.aihuishou.bi.vo.NodeVO;
@@ -24,12 +25,14 @@ public class NodeService extends BaseService {
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<Node>(Node.class));
     }
 
+    @AutoFill
     public void createNode(NodeVO nodeVO) throws SQLException {
         String sql = "INSERT INTO bi_nodes(position, url, auth, path, name, parent_position,state,empno,empname,create_time,update_time,sort_no, genre) VALUES (?,?,?,?,?,?,?,?,?,now(),now(),?,?);";
         new QueryRunner(dataSource).update(sql, nodeVO.getPosition(),nodeVO.getUrl(), nodeVO.getAuth(), nodeVO.getPath(), nodeVO.getName(),
                 nodeVO.getParentPosition(),nodeVO.getState(),nodeVO.getEmpno(),nodeVO.getEmpname(),nodeVO.getSortNo(),nodeVO.getGenre());
     }
 
+    @AutoFill
     public void updateNode(NodeVO nodeVO) throws SQLException {
         String sql = "UPDATE bi_nodes SET position = ?, url = ?, auth = ?, path = ?, name = ?, parent_position = ?, state = ?, update_time = now(), sort_no = ?, genre = ? WHERE id = ?;";
         new QueryRunner(dataSource).update(sql, nodeVO.getPosition(),nodeVO.getUrl(), nodeVO.getAuth(), nodeVO.getPath(), nodeVO.getName(),
@@ -52,7 +55,7 @@ public class NodeService extends BaseService {
         String append = " AND name like ? ";
         String append1 = " AND parent_position = ?";
         String suffix = " order by sort_no limit ?,?;";
-        return this.getAbstractPageList(Node.class, sql, suffix, "%" + key + "%", parent, pageIndex, pageSize, append, append1);
+        return this.getAbstractPageList(Node.class, sql, suffix, key, parent, pageIndex, pageSize, append, append1);
     }
 
 
