@@ -15,7 +15,7 @@ public class NodeVO {
     private String parentPosition;
     private String state;
     private Long sortNo;
-    private Long empno;
+    private String empno;
     private String empname;
     private String genre;
 }

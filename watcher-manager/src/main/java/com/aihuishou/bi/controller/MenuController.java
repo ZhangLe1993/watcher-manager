@@ -42,7 +42,6 @@ public class MenuController {
     @Autowired
     private NodeService nodeService;
 
-
     @GetMapping("")
     public List<Map<String, Object>> menu() {
         try{
@@ -71,8 +70,8 @@ public class MenuController {
 
 
     @PostMapping("/mount")
-    public void createMount(MountVO mountVO) {
-        try{
+    public void createMount(@RequestBody MountVO mountVO) {
+        try {
             mountService.createMount(mountVO);
         } catch(Exception e) {
             logger.error("新增挂载点异常，异常信息: {}", ExceptionInfo.toString(e));
@@ -80,9 +79,13 @@ public class MenuController {
 
     }
 
+
+
+
     @PutMapping("/mount")
     public void updateMount(MountVO mountVO) {
         try{
+            //autowired(mountVO, SERVICE_FIELD_EMPLOYEE_NAME, SERVICE_FIELD_EMPLOYEE_NO);
             mountService.updateMount(mountVO);
         } catch(Exception e) {
             logger.error("修改挂载点异常，异常信息: {}", ExceptionInfo.toString(e));
@@ -121,6 +124,7 @@ public class MenuController {
     @PostMapping("/folder")
     public void createFolder(FolderVO folderVO) {
         try{
+            //autowired(folderVO, SERVICE_FIELD_EMPLOYEE_NAME, SERVICE_FIELD_EMPLOYEE_NO);
             folderService.createFolder(folderVO);
         } catch(Exception e) {
             logger.error("新增文件夹异常，异常信息: {}", ExceptionInfo.toString(e));

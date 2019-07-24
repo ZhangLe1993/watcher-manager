@@ -1,5 +1,6 @@
 package com.aihuishou.bi.service;
 
+import com.aihuishou.bi.annotation.AutoFill;
 import com.aihuishou.bi.entity.Mount;
 import com.aihuishou.bi.vo.MountVO;
 import org.apache.commons.dbutils.QueryRunner;
@@ -26,9 +27,10 @@ public class MountService extends BaseService {
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<Mount>(Mount.class));
     }
 
+    @AutoFill
     public void createMount(MountVO mountVO) throws SQLException {
-        String sql = "INSERT INTO bi_childless(name, state, empno, empname, create_time, update_time, sort_no) VALUES (?, ?, ?, ?, NOW(), NOW(), ?);";
-        new QueryRunner(dataSource).update(sql, mountVO.getName(), mountVO.getState(), mountVO.getEmpno(), mountVO.getEmpname(), mountVO.getSortNo());
+        String sql = "INSERT INTO bi_childless(name, state, empno, empname, create_time, update_time, sort_no) VALUES (?, ?, ?, ?, NOW(), NOW(), select max(sort_no) + 1 from bi_childless);";
+        new QueryRunner(dataSource).update(sql, mountVO.getName(), mountVO.getState(), mountVO.getEmpno(), mountVO.getEmpname());
     }
 
     public void updateMount(MountVO mountVO) throws SQLException {

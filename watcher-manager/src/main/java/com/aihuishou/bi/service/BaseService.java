@@ -1,13 +1,19 @@
 package com.aihuishou.bi.service;
 
+import com.aihuishou.bi.cas.CasUtil;
+import com.aihuishou.bi.core.SysConf;
+import com.aihuishou.bi.entity.User;
+import com.aihuishou.bi.utils.ExceptionInfo;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
@@ -84,5 +90,8 @@ public class BaseService {
         }
         return null;
     }
+
+
+
 
 }

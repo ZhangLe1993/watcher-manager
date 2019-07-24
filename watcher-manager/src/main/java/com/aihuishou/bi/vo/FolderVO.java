@@ -15,7 +15,7 @@ public class FolderVO {
     private String state;
     private String parentPosition;
     private Long mount;
-    private Long empno;
+    private String empno;
     private String empname;
     private Long sortNo;
 
