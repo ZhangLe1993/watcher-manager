@@ -2,9 +2,7 @@ package com.aihuishou.bi.controller;
 
 import com.aihuishou.bi.cas.CasUtil;
 import com.aihuishou.bi.entity.User;
-import com.aihuishou.bi.service.AuthService;
 import com.aihuishou.bi.service.UserService;
-import com.aihuishou.bi.utils.ExceptionInfo;
 import com.aihuishou.bi.utils.LoggerTemplate;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -44,6 +42,7 @@ public class IndexC {
 
     @RequestMapping(value = {"/back/**", "/", "/page/**"})
     public String index() {
+        //TODO 权限校验
         return "dist/index";
     }
 
