@@ -1,13 +1,15 @@
 package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.annotation.AutoFill;
-import com.aihuishou.bi.entity.Folder;
 import com.aihuishou.bi.entity.Node;
+import com.aihuishou.bi.utils.StringEx;
 import com.aihuishou.bi.vo.NodeVO;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -26,17 +28,36 @@ public class NodeService extends BaseService {
     }
 
     @AutoFill
+    @Transactional
     public void createNode(NodeVO nodeVO) throws SQLException {
-        String sql = "INSERT INTO bi_nodes(position, url, auth, path, name, parent_position,state,empno,empname,create_time,update_time,sort_no, genre) VALUES (?,?,?,?,?,?,?,?,?,now(),now(),?,?);";
-        new QueryRunner(dataSource).update(sql, nodeVO.getPosition(),nodeVO.getUrl(), nodeVO.getAuth(), nodeVO.getPath(), nodeVO.getName(),
-                nodeVO.getParentPosition(),nodeVO.getState(),nodeVO.getEmpno(),nodeVO.getEmpname(),nodeVO.getSortNo(),nodeVO.getGenre());
+        String position = StringEx.newUUID();
+        String parent = nodeVO.getParentPosition();
+        if(StringUtils.isBlank(parent)) {
+            parent = "-1";
+        }
+        String mount = nodeVO.getMount();
+        if(StringUtils.isBlank(parent)) {
+            mount = "0";
+        }
+        String sql = "INSERT INTO bi_nodes(position, url, name, mount, parent_position, state, empno, empname, create_time, update_time, sort_no, genre) VALUES (?,?,?,?,?,?,?,now(),now(),select max(sort_no) + 1 from bi_nodes where parent_position = ?,'1');";
+        QueryRunner dbUtils = new QueryRunner(dataSource);
+        dbUtils.update(sql, position, nodeVO.getUrl(), nodeVO.getName(), mount,
+                parent, nodeVO.getState(), nodeVO.getEmpno(), nodeVO.getEmpname(), parent);
+        //sql = "INSERT INTO node_auth(node_position, auth_name) VALUES (?, ?);";
+        //List<String> auth = nodeVO.getAuth();
+        //待实现
+        //dbUtils.update(sql, position, nodeVO.getAuth());
     }
 
     @AutoFill
     public void updateNode(NodeVO nodeVO) throws SQLException {
-        String sql = "UPDATE bi_nodes SET position = ?, url = ?, auth = ?, path = ?, name = ?, parent_position = ?, state = ?, update_time = now(), sort_no = ?, genre = ? WHERE id = ?;";
-        new QueryRunner(dataSource).update(sql, nodeVO.getPosition(),nodeVO.getUrl(), nodeVO.getAuth(), nodeVO.getPath(), nodeVO.getName(),
-                nodeVO.getParentPosition(),nodeVO.getState(),nodeVO.getSortNo(),nodeVO.getGenre(), nodeVO.getId());
+        String sql = "UPDATE bi_nodes SET url = ?, name = ?, mount = ?, parent_position = ?, state = ?, update_time = now() WHERE id = ?;";
+        QueryRunner dbUtils = new QueryRunner(dataSource);
+        dbUtils.update(sql, nodeVO.getUrl(), nodeVO.getName(), nodeVO.getMount(),
+                nodeVO.getParentPosition(), nodeVO.getState(), nodeVO.getId());
+        //sql = "DELETE FROM node_auth WHERE node_position = ? AND auth_name = ?;";
+        //待实现
+        //sql = "INSERT INTO node_auth(node_position, auth_name) VALUES (?, ?);";
     }
 
     public void deleteNode(Long id) throws SQLException {

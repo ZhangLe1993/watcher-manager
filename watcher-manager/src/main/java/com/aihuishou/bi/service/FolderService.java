@@ -2,6 +2,7 @@ package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.annotation.AutoFill;
 import com.aihuishou.bi.entity.Folder;
+import com.aihuishou.bi.utils.StringEx;
 import com.aihuishou.bi.vo.FolderVO;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
@@ -27,18 +28,23 @@ public class FolderService extends BaseService {
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<Folder>(Folder.class));
     }
 
-
     @AutoFill
+    @Transactional
     public void createFolder(FolderVO folderVO) throws SQLException {
-        String sql = "INSERT INTO bi_folder(position, name, state, parent_position, mount, empno, empname, create_time, update_time, sort_no) VALUES (?,?,?,?,?,?,?,NOW(),NOW(),?);";
-        new QueryRunner(dataSource).update(sql, folderVO.getPosition(), folderVO.getName(), folderVO.getState(), folderVO.getMount(), folderVO.getEmpno(), folderVO.getEmpname(), folderVO.getSortNo());
+        String position = StringEx.newUUID();
+        String parent = folderVO.getParentPosition();
+        if(StringUtils.isBlank(parent)) {
+            parent = "-1";
+        }
+        String sql = "INSERT INTO bi_folder(position, name, state, parent_position, mount, empno, empname, create_time, update_time, sort_no) VALUES (?,?,?,?,?,?,?,NOW(),NOW(),select max(sort_no) + 1 from bi_folder where parent_position = ?);";
+        new QueryRunner(dataSource).update(sql, position, folderVO.getName(), folderVO.getState(), parent, folderVO.getMount(), folderVO.getEmpno(), folderVO.getEmpname(), parent);
     }
 
     @AutoFill
     public void updateFolder(FolderVO folderVO) throws SQLException {
-        //暂时只提供修改名称，修改路径，修改是否上线, 修改排序
-        String sql = "UPDATE bi_folder SET name = ?, parent_position = ?, state = ?, sort_no = ? WHERE id = ?;";
-        new QueryRunner(dataSource).update(sql, folderVO.getName(), folderVO.getState(), folderVO.getSortNo(), folderVO.getId());
+        //暂时只提供修改名称，修改路径，修改是否上线, 修改挂载点
+        String sql = "UPDATE bi_folder SET name = ?, parent_position = ?, state = ?,mount = ? WHERE id = ?;";
+        new QueryRunner(dataSource).update(sql, folderVO.getName(), folderVO.getParentPosition(), folderVO.getState(), folderVO.getMount(), folderVO.getId());
     }
 
     @Transactional
