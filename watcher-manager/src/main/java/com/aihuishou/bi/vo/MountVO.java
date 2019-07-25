@@ -9,7 +9,7 @@ public class MountVO {
     private Long id;
     private String name;
     private String state;
-    private Long empno;
+    private String empno;
     private String empname;
     private Long sortNo;
 }

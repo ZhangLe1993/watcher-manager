@@ -2,10 +2,12 @@ package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.entity.NodeAuth;
 import com.aihuishou.bi.utils.ExceptionInfo;
+import com.aihuishou.bi.vo.GrantVO;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ColumnListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 import org.slf4j.Logger;
@@ -13,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -23,7 +26,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class AuthService {
+public class AuthService extends BaseService {
 
     private final static Logger logger = LoggerFactory.getLogger(AuthService.class);
 
@@ -90,4 +93,51 @@ public class AuthService {
         }.toString();
         return new QueryRunner(greenPlum).query(sql, new ColumnListHandler<String>("name"));
     }
+
+
+    @Transactional
+    public void grantAuth(GrantVO grantVO) throws SQLException {
+        String sql = "DELETE FROM node_auth WHERE node_position = ?;";
+        QueryRunner dbUtils = new QueryRunner(dataSource);
+        dbUtils.update(sql, grantVO.getPosition());
+        List<String> authList = grantVO.getAuth();
+        if(authList == null || authList.size() == 0) {
+            return;
+        }
+        sql = "INSERT INTO node_auth(node_position, auth_name) VALUES (?, ?);";
+        Object[][] params = new Object[authList.size()][2];
+        for(int i = 0; i < authList.size(); i++) {
+            params[i] = new Object[]{grantVO.getPosition(), authList.get(i)};
+        }
+        dbUtils.batch(sql, params);
+    }
+
+    public List<String> getAllAuth(String key, Integer pageIndex, Integer pageSize) throws SQLException {
+        String sql = "select distinct name from ods.ods_ob_foundation_operation WHERE 1=1 ";
+        if(StringUtils.isNotBlank(key)) {
+            sql += " AND name like '%" + key + "%'";
+        }
+        if(pageIndex != null && pageSize != null) {
+            int a = (pageIndex - 1) * pageSize;
+            sql += " ORDER BY name DESC LIMIT " + pageSize + " OFFSET " + a + ";";
+        }
+        return new QueryRunner(dataSource).query(sql, new ColumnListHandler<String>("name"));
+    }
+
+
+    public Long countAllAuth(String key) throws SQLException {
+        String sql = "select count(*) AS num from ods.ods_ob_foundation_operation WHERE 1=1 ";
+        if(StringUtils.isNotBlank(key)) {
+            sql += " AND name like '%" + key + "%'";
+        }
+        return new QueryRunner(greenPlum).query(sql, new ScalarHandler<>("num"));
+    }
+
+
+    public List<String> getMenuAuth(String position) throws SQLException {
+        String sql = "SELECT auth_name AS auth FROM node_auth WHERE node_position = ?;";
+        return new QueryRunner(dataSource).query(sql, new ColumnListHandler<>("auth"), position);
+    }
+
+
 }

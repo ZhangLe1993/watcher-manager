@@ -1,5 +1,6 @@
 package com.aihuishou.bi.controller;
 
+import com.aihuishou.bi.annotation.SystemLog;
 import com.aihuishou.bi.cas.CasUtil;
 import com.aihuishou.bi.entity.User;
 import com.aihuishou.bi.service.UserService;
@@ -46,11 +47,13 @@ public class IndexC {
         return "dist/index";
     }
 
+    @SystemLog(description = "健康检查")
     @RequestMapping("_health_check")
     public void healthCheck(HttpServletRequest request) throws IOException {
 
     }
 
+    @SystemLog(description = "获取当前用户")
     @ResponseBody
     @RequestMapping("/api/currentUser")
     public User currentUser() throws SQLException {
@@ -63,6 +66,7 @@ public class IndexC {
         return null;
     }
 
+    @SystemLog(description = "代理转发")
     @RequestMapping("/watcher/**")
     public void proxy(HttpServletRequest request, HttpServletResponse response) throws IOException, URISyntaxException {
         //添加参数
