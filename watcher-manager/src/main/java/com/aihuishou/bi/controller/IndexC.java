@@ -43,6 +43,7 @@ public class IndexC {
 
     @RequestMapping(value = {"/back/**", "/", "/page/**"})
     public String index() {
+        //TODO 权限校验
         return "dist/index";
     }
 
