@@ -52,9 +52,9 @@ public class CacheController {
             cacheService.removeLUA();
             //菜单权限
             cacheService.removeLNA();
-            return new ResponseEntity<>("缓存标准方案清除成功", HttpStatus.OK);
+            return new ResponseEntity<>("套餐 -- 成功", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("缓存标准方案清除失败", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("套餐 -- 失败", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
