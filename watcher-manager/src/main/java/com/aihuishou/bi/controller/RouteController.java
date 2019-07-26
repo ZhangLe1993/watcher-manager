@@ -1,8 +1,10 @@
 package com.aihuishou.bi.controller;
 
 import com.aihuishou.bi.annotation.SystemLog;
+import com.aihuishou.bi.cas.CasUtil;
 import com.aihuishou.bi.core.SysConf;
 import com.aihuishou.bi.entity.Mapping;
+import com.aihuishou.bi.service.AuthService;
 import com.aihuishou.bi.service.MappingService;
 import com.aihuishou.bi.service.SysService;
 import com.google.common.collect.ImmutableMap;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 
@@ -32,16 +35,25 @@ public class RouteController {
     @Autowired
     private MappingService mappingService;
 
+    @Autowired
+    private AuthService authService;
+
 
     @SystemLog(description = "定位报表")
     @RequestMapping("/base")
     public String loadHtml(@RequestParam(value = "position") String position, ModelMap model) throws FileNotFoundException, SQLException {
-        Mapping mapping = mappingService.getModel(position);
         String target = position;
+        boolean auth = auth(position);
         boolean map = false;
-        if(mapping != null && StringUtils.isNotBlank(mapping.getTarget())) {
-            map = true;
-            target = mapping.getTarget();
+        Mapping mapping = null;
+        if(!auth) {
+            target = "home";
+        } else {
+            mapping = mappingService.getModel(position);
+            if(mapping != null && StringUtils.isNotBlank(mapping.getTarget())) {
+                map = true;
+                target = mapping.getTarget();
+            }
         }
         Map<String, String> positionMap = sysService.getPositionMap();
         String loadName = positionMap.get(target) + SysConf.REST_JS_SUFFIX;
@@ -55,6 +67,20 @@ public class RouteController {
             model.addAttribute("param_value", mapping.getValue());
         }
         return "base";
+    }
+
+    /**
+     * 判断当前用户是否有菜单权限
+     * @param position
+     * @return
+     * @throws SQLException
+     */
+    private boolean auth(String position) throws SQLException {
+        Map<String, List<String>> menuAuthMap = authService.menuAuth();
+        String obId = CasUtil.getId();
+        List<String> userAuthList = authService.userAuth(obId);
+        Map<String, String> mapping = mappingService.getMapping();
+        return authService.auth(position, menuAuthMap, userAuthList, mapping);
     }
 
 
