@@ -1,10 +1,12 @@
 package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.cas.CasUtil;
+import com.aihuishou.bi.core.CacheConf;
 import com.aihuishou.bi.entity.Folder;
 import com.aihuishou.bi.entity.Mount;
 import com.aihuishou.bi.entity.Node;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -32,6 +34,7 @@ public class MenuService {
     @Autowired
     private MappingService mappingService;
 
+    @Cacheable(value = CacheConf.REFINED_MENU)
     public List<Map<String,Object>> merge() throws SQLException {
         List<Map<String,Object>> merge = new ArrayList<>();
         List<Mount> mounts = mountService.mounts();

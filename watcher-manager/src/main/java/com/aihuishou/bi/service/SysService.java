@@ -1,5 +1,6 @@
 package com.aihuishou.bi.service;
 
+import com.aihuishou.bi.core.CacheConf;
 import com.aihuishou.bi.core.SysConf;
 import com.aihuishou.bi.utils.ScanFolder;
 import org.apache.commons.lang3.StringUtils;
@@ -35,13 +36,13 @@ public class SysService {
     }*/
 
 
-    /*@Cacheable(value = "position-map", keyGenerator = "watcherManagerKeyGenerator")*/
+    @Cacheable(value = CacheConf.POSITION_MAP)
     public Map<String, String> getPositionMap() {
         String target = path + SysConf.OLD_FILE_FOLDER;
         Set<String> files = ScanFolder.traverseFolder(target);
         assert files != null;
         Map<String, String> positionMap = files.parallelStream().collect(Collectors.toMap(p -> StringUtils.substringAfterLast(getAfter(getUrl(p), SysConf.URL_SEPARATOR + SysConf.OLD_FILE_FOLDER), SysConf.URL_SEPARATOR), p -> getAfter(getUrl(p),SysConf.URL_SEPARATOR + SysConf.OLD_FILE_FOLDER),(oldVal, currVal) -> currVal));
-//        logger.info(positionMap.toString());
+        //logger.info(positionMap.toString());
         return positionMap;
     }
 

@@ -1,5 +1,6 @@
 package com.aihuishou.bi.service;
 
+import com.aihuishou.bi.core.CacheConf;
 import com.aihuishou.bi.entity.NodeAuth;
 import com.aihuishou.bi.utils.ExceptionInfo;
 import com.aihuishou.bi.vo.GrantVO;
@@ -14,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,20 +68,20 @@ public class AuthService extends BaseService {
         }
     }
 
-    /*@Cacheable(value = "map-menu-auth", keyGenerator = "watcherManagerKeyGenerator")*/
+    @Cacheable(value = CacheConf.MAP_MENU_AUTH)
     public Map<String, List<String>> menuAuth() throws SQLException {
         List<NodeAuth> list = cachePull();
         return list.stream().collect(Collectors.groupingBy(NodeAuth::getPosition, Collectors.mapping(NodeAuth::getAuthName, Collectors.toList())));
     }
 
 
-    /*@Cacheable(value = "list-node-auth", keyGenerator = "watcherManagerKeyGenerator")*/
+    @Cacheable(value = CacheConf.LIST_NODE_AUTH)
     private List<NodeAuth> cachePull() throws SQLException {
         String sql = "select node_position AS position,auth_name AS authName from node_auth;";
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<>(NodeAuth.class));
     }
 
-    /*@Cacheable(value = "list-user-auth", keyGenerator = "watcherManagerKeyGenerator")*/
+    @Cacheable(value = CacheConf.LIST_USER_AUTH, key = "#obId")
     public List<String> userAuth(String obId) throws SQLException {
         String sql = new SQL() {
             {
