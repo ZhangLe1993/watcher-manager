@@ -109,6 +109,12 @@ export default {
           component: './watcherManager',
         },
         {
+          path: '/no_authority',
+          name: 'authority',
+          icon: 'smile',
+          component: './noAuthority',
+        },
+        {
           component: './404',
         },
       ],
