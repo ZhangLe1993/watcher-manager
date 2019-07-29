@@ -39,10 +39,10 @@ public class NodeService extends BaseService {
         if(StringUtils.isBlank(parent)) {
             mount = "0";
         }
-        String sql = "INSERT INTO bi_nodes(position, url, name, mount, parent_position, state, empno, empname, create_time, update_time, sort_no, genre) VALUES (?,?,?,?,?,?,?,now(),now(),select max(sort_no) + 1 from bi_nodes where parent_position = ?,'1');";
+        String sql = "INSERT INTO bi_nodes(position, url, name, mount, parent_position, state, empno, empname, create_time, update_time, sort_no, genre) VALUES (?,?,?,?,?,?,?,now(),now(),'1');";
         QueryRunner dbUtils = new QueryRunner(dataSource);
         dbUtils.update(sql, position, nodeVO.getUrl(), nodeVO.getName(), mount,
-                parent, nodeVO.getState(), nodeVO.getEmpno(), nodeVO.getEmpname(), parent);
+                parent, nodeVO.getState(), nodeVO.getEmpno(), nodeVO.getEmpname());
         //sql = "INSERT INTO node_auth(node_position, auth_name) VALUES (?, ?);";
         //List<String> auth = nodeVO.getAuth();
         //待实现

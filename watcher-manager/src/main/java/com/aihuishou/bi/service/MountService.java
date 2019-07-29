@@ -29,7 +29,7 @@ public class MountService extends BaseService {
 
     @AutoFill
     public void createMount(MountVO mountVO) throws SQLException {
-        String sql = "INSERT INTO bi_childless(name, state, empno, empname, create_time, update_time, sort_no) VALUES (?, ?, ?, ?, NOW(), NOW(), select max(sort_no) + 1 from bi_childless);";
+        String sql = "INSERT INTO bi_childless(name, state, empno, empname, create_time, update_time, sort_no) VALUES (?, ?, ?, ?, NOW(), NOW());";
         new QueryRunner(dataSource).update(sql, mountVO.getName(), mountVO.getState(), mountVO.getEmpno(), mountVO.getEmpname());
     }
 

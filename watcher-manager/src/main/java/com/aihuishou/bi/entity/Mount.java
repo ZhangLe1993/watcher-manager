@@ -9,6 +9,8 @@ public class Mount {
 
     private Long id;
 
+    private String state;
+
     private String name;
 
     private Long sortNo;
