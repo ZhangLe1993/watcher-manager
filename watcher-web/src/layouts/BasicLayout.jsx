@@ -14,11 +14,10 @@ import { Icon, Layout, Button, Input } from 'antd';
 import router from 'umi/router';
 import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
-// import sensors from 'sa-sdk-javascript';
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import GlobalFooter from '@/components/GlobalFooter/index';
-import logo from '../assets/logo.svg';
+import style from './basicLayout.less';
 /**
  * use Authorized check all menu item
  */
@@ -26,6 +25,9 @@ import logo from '../assets/logo.svg';
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-plusplus */
 /* eslint-disable quote-props */
+/* eslint-disable no-lonely-if */
+/* eslint-disable no-else-return */
+/* eslint-disable consistent-return */
 
 const menuDataRender = menuList =>
   menuList.map(item => {
@@ -47,28 +49,6 @@ const footerRender = () => {
   </Footer>
   );
 };
-
-// sensors.init({
-//   server_url: 'https://bi-log.aihuishou.com/trace/log/debug',
-//   // heatmap_url神策分析中点击分析及触达分析功能代码，代码生成工具会自动生成。
-//   // 如果神策代码中 `sensorsdata.min.js` 版本是 1.9.1 及以上版本，这个参数必须配置，低于此版本不需要配置。
-//   heatmap_url: '../libs/heatmap.min.js',
-//   // web_url 神策分析中点击分析及触达分析功能会用到此地址，代码生成工具会自动生成。
-//   // 如果神策后台版本及 `sensorsdata.min.js` 均是 1.10 及以上版本，这个参数不需要配置。
-//   // web_url: '神策分析后台地址',
-//   heatmap: {
-//      // 是否开启点击图，默认 default 表示开启，自动采集 $WebClick 事件，可以设置 'not_collect' 表示关闭
-//      // 需要 JSSDK 版本号大于 1.7
-//      clickmap: 'default',
-//      // 是否开启触达注意力图，默认 default 表示开启，自动采集 $WebStay 事件，可以设置 'not_collect' 表示关闭
-//      // 需要 JSSDK 版本号大于 1.9.1
-//      scroll_notice_map: 'not_collect',
-//   },
-//   use_client_time: true,
-// });
-
-// sensors.login('108663');
-// sensors.quick('autoTrack');
 
 const BasicLayout = props => {
   const {
@@ -120,33 +100,80 @@ const BasicLayout = props => {
     .forEach(it => {
       newMenuData.push(menuData[it]);
     });
-    // console.log(newMenuData, '-selectedMenu-');
+  };
+
+  const setCookie = (name, value, n) => {
+    const oDate = new Date();
+    oDate.setDate(oDate.getDate() + n);
+    document.cookie = `${name}=${value};expires=${oDate}`;
+  };
+
+  const handleLogout = () => {
+    window.sessionStorage.removeItem('currentUser');
+    setCookie('JSESSIONID', 1, -1);
+    window.location.reload();
+  };
+
+  const findMenuItem = (pathName, node, prefix) => {
+    const { component, children: children2 } = node;
+    let nameStr;
+    if (prefix) {
+      nameStr = `${prefix}/${node.name}`;
+    } else {
+      nameStr = node.name;
+    }
+    if (children2) {
+      for (let i = 0, len = children2.length; i < len; i += 1) {
+        const temp = findMenuItem(pathName, children2[i], nameStr);
+        if (temp != null) {
+          return temp;
+        }
+      }
+    } else {
+      if (component === pathName) {
+        return nameStr;
+      } else {
+        return null;
+      }
+    }
+  };
+
+  const getCleanArr = arr => {
+    const cleanArr = [];
+    for (let i = 0, len = arr.length; i < len; i += 1) {
+      if (arr[i]) {
+        cleanArr.push(arr[i]);
+      }
+    }
+    return cleanArr;
   };
 
   const headerRender = () => {
-    const { nameStrArr, menuName } = props;
-    const title = nameStrArr.filter(it => it.indexOf(menuName) > -1)[0];
+    const { userName } = props;
+    const pathName = window.sessionStorage.getItem('pathName');
+    const titleArr = [];
+    menuData.forEach(it => {
+      titleArr.push(findMenuItem(pathName, it, ''));
+    });
+    const title = getCleanArr(titleArr)[0];
     return (
-      <div style={{ backgroundColor: '#fff', display: 'flex', alignItems: 'center', paddingLeft: '30px' }}>
-        <Button type="primary" onClick={() => handleMenuCollapse(props.collapsed)}>
-          <Icon type={props.collapsed ? 'menu-unfold' : 'menu-fold'} />
-        </Button>
-        <div style={{ marginLeft: '22px', fontSize: '20px' }}>{title}</div>
-        <Input placeholder="请输入搜索关键字" style={{ width: '300px', marginLeft: '32px' }} onChange={handleMenuKey} />
+      <div className={style.header}>
+        <div className={style.headerLeft}>
+          <Button type="primary" onClick={() => handleMenuCollapse(props.collapsed)}>
+            <Icon type={props.collapsed ? 'menu-unfold' : 'menu-fold'} />
+          </Button>
+          <div className={style.title}>{title}</div>
+          <Input placeholder="请输入搜索关键字" className={style.searchInput} onChange={handleMenuKey} />
+        </div>
+        <div className={style.headerRight}>
+          <div className={style.user}>{userName}</div>
+          <div className={style.loginout} onClick={() => handleLogout()}><Icon type="logout" /></div>
+        </div>
       </div>
     );
   };
 
   const myclick = (e, it) => {
-    // sensors.track('trackHeatMap', {
-    //   '$element_id': it.component,
-    //   '$element_name': it.name,
-    //   platform: 'we_pc',
-    //   app_name: 'wather',
-    //   user_key: '100863',
-    // });
-    // e.preventDefault();
-    // e.stopPropagation();
     if (it.auth) {
       const { nameStrArr } = props;
       const fullName = nameStrArr.filter(item => item.indexOf(it.name) > -1)[0];
@@ -154,13 +181,16 @@ const BasicLayout = props => {
       router.push(`/page/${it.component}`);
       window.sessionStorage.setItem('currentMenuItem', JSON.stringify(it));
       window.sessionStorage.setItem('full_name', fullName);
+      window.sessionStorage.setItem('pathName', it.component);
+    } else {
+      router.push('/no_authority');
     }
   };
 
   return (
     <ProLayout
       openKeys={['/tradeDailyReport/ALL']}
-      logo={logo}
+      logo={false}
       menuItemRender = { (menuItemProps, dom) => {
         return <div onClick={e => myclick(e, menuItemProps, dom)}>{dom}</div>;
       }}
@@ -190,11 +220,12 @@ const BasicLayout = props => {
   );
 };
 
-export default connect(({ global, settings, menu }) => ({
+export default connect(({ global, settings, menu, user }) => ({
   collapsed: global.collapsed,
   settings,
   menuData: menu.menuData,
   nameStrArr: menu.nameStrArr,
   menuName: menu.menuName,
   searchKeys: menu.searchKeys,
+  userName: user.currentUser.name,
 }))(BasicLayout);

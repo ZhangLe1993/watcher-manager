@@ -6,6 +6,9 @@ import style from './index.less';
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-plusplus */
 /* eslint-disable prefer-destructuring */
+/* eslint-disable no-lonely-if */
+/* eslint-disable no-else-return */
+/* eslint-disable consistent-return */
 
 class Iframe extends React.Component {
   constructor(props) {
@@ -18,10 +21,10 @@ class Iframe extends React.Component {
   componentDidMount() {
     const that = this;
     const position = this.props.location.pathname.split('/page/')[1];
+    window.sessionStorage.setItem('pathName', position);
     const watcherIframe = document.getElementById('watcherIframe');
     const height = document.body.scrollHeight ||
     document.documentElement.scrollHeight;
-    // watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
     watcherIframe.src = `/route/base?position=${position}`;
     this.setState({ loading: true }, () => {
       watcherIframe.onload = () => {
@@ -86,6 +89,14 @@ class Iframe extends React.Component {
     }
   }
 
+  saveMenuName = payload => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'menu/saveMenuName',
+      payload,
+    });
+  }
+
   calcPageHeight = doc => {
     const cHeight = Math.max(doc.body.clientHeight, doc.documentElement.clientHeight);
     const sHeight = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight);
@@ -103,6 +114,48 @@ class Iframe extends React.Component {
     window.removeEventListener('message', this.receiveMessage, false);
   }
 
+  getSunbMenuData = () => {
+    const { menuData } = this.props;
+    const subMenuData = [];
+    for (let i = 0, len = menuData.length; i < len; i += 1) {
+      if (menuData[i].children) {
+        subMenuData.push(menuData[i].children);
+      }
+    }
+    return subMenuData;
+  }
+
+  checkedMenuItem = subMenuData => {
+    let checkedName = [];
+    for (let i = 0, len = subMenuData.length; i < len; i += 1) {
+      if (subMenuData[i].children) {
+        this.checkedMenuItem(subMenuData[i].children);
+      } else {
+        checkedName = checkedName.concat(subMenuData[i]);
+      }
+    }
+    return checkedName;
+  }
+
+  findMenuItem = (pathName, node, prefix) => {
+    const { component, name, children } = node;
+    const nameStr = `${prefix}/${node.name}`;
+    if (children) {
+      for (let i = 0, len = children.length; i < len; i += 1) {
+        const temp = this.findMenuItem(pathName, children[i], nameStr);
+        if (temp != null) {
+          return temp;
+        }
+      }
+    } else {
+      if (component === pathName) {
+        return nameStr;
+      } else {
+        return null;
+      }
+    }
+  }
+
   render() {
     return (
       <div style={{ height: '100%' }} id="iframeWrapper">
@@ -114,8 +167,9 @@ class Iframe extends React.Component {
   }
 }
 
-// export default connect(({ menu }) => ({
-//   menuData: menu.menuData,
-// }))(Iframe);
+export default connect(({ menu }) => ({
+  menuData: menu.menuData,
+  nameStrArr: menu.nameStrArr,
+}))(Iframe);
 
-export default Iframe;
+// export default Iframe;
