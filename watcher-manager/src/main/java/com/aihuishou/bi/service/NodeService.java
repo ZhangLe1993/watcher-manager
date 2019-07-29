@@ -39,7 +39,7 @@ public class NodeService extends BaseService {
         if(StringUtils.isBlank(parent)) {
             mount = "0";
         }
-        String sql = "INSERT INTO bi_nodes(position, url, name, mount, parent_position, state, empno, empname, create_time, update_time, sort_no, genre) VALUES (?,?,?,?,?,?,?,now(),now(),'1');";
+        String sql = "INSERT INTO bi_nodes(position, url, name, mount, parent_position, state, empno, empname, create_time, update_time, genre) VALUES (?,?,?,?,?,?,?,now(),now(),'1');";
         QueryRunner dbUtils = new QueryRunner(dataSource);
         dbUtils.update(sql, position, nodeVO.getUrl(), nodeVO.getName(), mount,
                 parent, nodeVO.getState(), nodeVO.getEmpno(), nodeVO.getEmpname());

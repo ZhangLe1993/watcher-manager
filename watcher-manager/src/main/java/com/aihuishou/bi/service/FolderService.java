@@ -37,7 +37,7 @@ public class FolderService extends BaseService {
             parent = "-1";
         }
         //select max(sort_no) + 1 from bi_folder where parent_position = ?
-        String sql = "INSERT INTO bi_folder(position, name, state, parent_position, mount, empno, empname, create_time, update_time, sort_no) VALUES (?,?,?,?,?,?,?,NOW(),NOW());";
+        String sql = "INSERT INTO bi_folder(position, name, state, parent_position, mount, empno, empname, create_time, update_time) VALUES (?,?,?,?,?,?,?,NOW(),NOW());";
         new QueryRunner(dataSource).update(sql, position, folderVO.getName(), folderVO.getState(), parent, folderVO.getMount(), folderVO.getEmpno(), folderVO.getEmpname());
     }
 
