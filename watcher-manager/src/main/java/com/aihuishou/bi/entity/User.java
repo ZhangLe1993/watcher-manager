@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Setter
 public class User implements Serializable {
 
-    private Long obId;
+    private Integer obId;
 
     private String name;
 

@@ -3,11 +3,13 @@ package com.aihuishou.bi.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigInteger;
+
 @Getter
 @Setter
 public class Folder {
 
-    private Long id;
+    private BigInteger id;
 
     private String position;
 
