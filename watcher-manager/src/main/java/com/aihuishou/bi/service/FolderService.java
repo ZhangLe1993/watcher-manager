@@ -28,6 +28,12 @@ public class FolderService extends BaseService {
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<Folder>(Folder.class));
     }
 
+
+    public List<Folder> folders(Integer mount) throws SQLException {
+        String sql = "select id, mount, name, position, parent_position AS parentPosition from bi_folder where state='1' and mount = ?;";
+        return new QueryRunner(dataSource).query(sql, new BeanListHandler<Folder>(Folder.class), mount);
+    }
+
     @AutoFill
     @Transactional
     public void createFolder(FolderVO folderVO) throws SQLException {

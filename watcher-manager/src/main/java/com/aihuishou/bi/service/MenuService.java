@@ -34,6 +34,12 @@ public class MenuService {
     @Autowired
     private MappingService mappingService;
 
+    /**
+     * 获取菜单全部的树
+     * @return
+     * @throws SQLException
+     */
+
     @Cacheable(value = CacheConf.REFINED_MENU)
     public List<Map<String,Object>> merge() throws SQLException {
         List<Map<String,Object>> merge = new ArrayList<>();
@@ -122,6 +128,46 @@ public class MenuService {
 
         tempN.stream().forEach(ele -> {
             mergeNode(children, ele, menuAuthMap, userAuthList, mapping);
+        });
+        return children;
+    }
+
+
+    /**
+     * 获取文件夹树
+     * @return
+     * @throws SQLException
+     */
+    public List<Map<String,Object>> folderTree(Integer mount) throws SQLException {
+        List<Map<String,Object>> merge = new ArrayList<>();
+        List<Folder> folders = folderService.folders(mount);
+        List<Folder> root = folders.stream().filter(f -> {
+            return "-1".equalsIgnoreCase(f.getParentPosition());
+        }).collect(Collectors.toList());
+
+        root.stream().forEach(r -> {
+            treeList(merge, folders, r);
+        });
+        return merge;
+    }
+
+    private void treeList(List<Map<String, Object>> merge, List<Folder> folders, Folder f) {
+        Map<String,Object> folder = new HashMap<>();
+        folder.put("title", f.getName());
+        folder.put("value", f.getName());
+        List<Map<String, Object>> children = treeMaps(folders, f);
+        folder.put("key", f.getPosition());
+        folder.put("children", children);
+        merge.add(folder);
+    }
+
+    private List<Map<String, Object>> treeMaps(List<Folder> folders, Folder f) {
+        List<Map<String,Object>> children = new ArrayList<>();
+        List<Folder> tempF = folders.stream().filter(filter -> {
+            return filter.getParentPosition().equalsIgnoreCase(f.getPosition());
+        }).collect(Collectors.toList());
+        tempF.stream().forEach(ele -> {
+            treeList(children, folders, ele);
         });
         return children;
     }

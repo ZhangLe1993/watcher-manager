@@ -241,5 +241,17 @@ public class MenuController {
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @SystemLog(description = "获取文件夹树")
+    @GetMapping("/folder/tree")
+    public List<Map<String, Object>> folderTree(@RequestParam(value = "mount",required = true) Integer mount) {
+        try{
+            return menuService.folderTree(mount);
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 
 }
