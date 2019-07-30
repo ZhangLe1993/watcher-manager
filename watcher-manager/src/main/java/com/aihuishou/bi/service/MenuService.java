@@ -154,7 +154,7 @@ public class MenuService {
     private void treeList(List<Map<String, Object>> merge, List<Folder> folders, Folder f) {
         Map<String,Object> folder = new HashMap<>();
         folder.put("title", f.getName());
-        folder.put("value", f.getName());
+        folder.put("value", f.getPosition());
         List<Map<String, Object>> children = treeMaps(folders, f);
         folder.put("key", f.getPosition());
         folder.put("children", children);
