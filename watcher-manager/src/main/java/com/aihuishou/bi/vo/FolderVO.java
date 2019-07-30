@@ -1,12 +1,10 @@
 package com.aihuishou.bi.vo;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class FolderVO {
 
     private Long id;
