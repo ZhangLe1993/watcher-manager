@@ -1,7 +1,10 @@
 package com.aihuishou.bi;
 
+import com.aihuishou.bi.interceptor.NotFoundInterceptor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
@@ -21,5 +24,16 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
                 .addResourceLocations("classpath:/static/resources/images/favicon.ico")
                 .setCachePeriod(0);
         super.addResourceHandlers(registry);
+    }
+
+
+    @Bean
+    public NotFoundInterceptor notFoundInterceptor() {
+        return new NotFoundInterceptor();
+    }
+
+    @Override
+    protected void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(notFoundInterceptor()).addPathPatterns("/**");
     }
 }
