@@ -281,11 +281,23 @@ class WatcherManager extends React.Component {
           setFieldsValue({ name, mountState: state });
           break;
         case 'folder':
-          console.log(mount, parentPosition, name, state);
+          // console.log(mount, parentPosition, name, state);
+          queryParentNode(mount).then(res => {
+            this.setState({ folderParentTree: res });
+          });
           setFieldsValue({ mount, parentPosition, folderName: name, folderState: state });
           break;
         default:
-          setFieldsValue({ url, nodeMount: mount, nodeParentPosition: parentPosition, nodename: name, nodeState: state });
+          queryParentNode(mount).then(res => {
+            this.setState({ folderParentTree: res });
+          });
+          setFieldsValue({
+            url,
+            nodeMount: mount,
+            nodeParentPosition: parentPosition,
+            nodename: name,
+            nodeState: state,
+          });
           break;
       }
     }
@@ -454,7 +466,7 @@ class WatcherManager extends React.Component {
   getMountChildren = arr => {
     const children = [];
     for (let i = 0, len = arr.length; i < len; i += 1) {
-      children.push(<Option key={arr[i].id}>{arr[i].name}</Option>);
+      children.push(<Option value={arr[i].id}>{arr[i].name}</Option>);
     }
     return children;
   };
