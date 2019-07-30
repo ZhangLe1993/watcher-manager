@@ -96,7 +96,9 @@ public class IndexC {
         response.setStatus(clientHttpResponse.getStatusCode().value());
         clientHttpResponse.getHeaders().entrySet().forEach((kv) -> {
             kv.getValue().stream().forEach(it -> {
-                response.setHeader(kv.getKey(), it);
+                if(kv.getKey().startsWith("Content-")){
+                    response.setHeader(kv.getKey(), it);
+                }
             });
         });
         StreamUtils.copy(clientHttpResponse.getBody(), response.getOutputStream());
