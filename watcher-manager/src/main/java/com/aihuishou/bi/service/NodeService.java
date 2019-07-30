@@ -72,7 +72,7 @@ public class NodeService extends BaseService {
 
 
     public List<Node> getNodes(String key, String parent, Integer pageIndex, Integer pageSize) {
-        String sql = "SELECT id, position, url, auth, path, name, parent_position AS parentPosition, state, sort_no AS sortNo, genre FROM bi_nodes WHERE 1=1 ";
+        String sql = "SELECT id, position, url, auth, path, name, mount, parent_position AS parentPosition, state, sort_no AS sortNo, genre FROM bi_nodes WHERE 1=1 ";
         String append = " AND name like ? ";
         String append1 = " AND parent_position = ?";
         String suffix = " order by sort_no limit ?,?;";

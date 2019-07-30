@@ -77,7 +77,7 @@ public class FolderService extends BaseService {
     }
 
     public List<Folder> getFolder(String key, String parent, Integer pageIndex, Integer pageSize) {
-        String sql = "SELECT id, position, name, state, sort_no AS sortNo FROM bi_folder WHERE 1=1 ";
+        String sql = "SELECT id, position, name, state, mount, parent_position AS parentPosition, sort_no AS sortNo FROM bi_folder WHERE 1=1 ";
         String append = " AND name like ? ";
         String append1 = " AND parent_position = ?";
         String suffix = " order by sort_no limit ?,?;";
