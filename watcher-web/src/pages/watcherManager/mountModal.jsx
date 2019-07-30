@@ -11,17 +11,18 @@ class MountModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: true,
+      // visible: false,
     };
   }
 
   render() {
+    const { visible, onOk, onCancel } = this.props;
     return (
       <Modal
         title="挂载点"
-        visible={this.state.visible}
-        onOk={this.handleOk}
-        onCancel={this.handleCancel}
+        visible={visible}
+        onOk={onOk}
+        onCancel={onCancel}
         >
         <div>
           <span style={{ display: 'inline-block', width: '100px', textAlign: 'right', marginRight: '12px' }}>挂载点</span>

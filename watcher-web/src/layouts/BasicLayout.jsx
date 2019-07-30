@@ -18,6 +18,7 @@ import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import GlobalFooter from '@/components/GlobalFooter/index';
 import style from './basicLayout.less';
+import logo from '../assets/logo.svg';
 /**
  * use Authorized check all menu item
  */
@@ -190,7 +191,11 @@ const BasicLayout = props => {
   return (
     <ProLayout
       openKeys={['/tradeDailyReport/ALL']}
-      logo={false}
+      logo={() => (
+        <img onClick={() => {
+          router.replace('/');
+        }} src={logo} alt="1" />
+      )}
       menuItemRender = { (menuItemProps, dom) => {
         return <div onClick={e => myclick(e, menuItemProps, dom)}>{dom}</div>;
       }}
