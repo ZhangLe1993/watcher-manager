@@ -1,6 +1,7 @@
 package com.aihuishou.bi;
 
 import com.aihuishou.bi.interceptor.NotFoundInterceptor;
+import com.aihuishou.bi.interceptor.ResourceInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ResourceUtils;
@@ -32,8 +33,15 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         return new NotFoundInterceptor();
     }
 
+
+    @Bean
+    public ResourceInterceptor resourceInterceptor() {
+        return new ResourceInterceptor();
+    }
+
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(notFoundInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(resourceInterceptor()).addPathPatterns("/static/resources/**");
     }
 }
