@@ -105,13 +105,13 @@ class Iframe extends React.Component {
   }
 
   receiveMessage = event => {
-    console.log(event, '子消息回来了');
+    console.log(event.data, 'iframe设置的高度');
     if (event.origin !== 'http://10.25.169.133:8112') {
         return;
     }
     const watcherIframe = document.getElementById('watcherIframe');
     watcherIframe.style.height = `${event.data}px`;
-    window.removeEventListener('message', this.receiveMessage, false);
+    // window.removeEventListener('message', this.receiveMessage, false);
   }
 
   getSunbMenuData = () => {
