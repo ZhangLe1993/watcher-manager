@@ -123,7 +123,7 @@ public class AuthService extends BaseService {
             int a = (pageIndex - 1) * pageSize;
             sql += " ORDER BY name DESC LIMIT " + pageSize + " OFFSET " + a + ";";
         }
-        return new QueryRunner(dataSource).query(sql, new ColumnListHandler<String>("name"));
+        return new QueryRunner(greenPlum).query(sql, new ColumnListHandler<String>("name"));
     }
 
 
