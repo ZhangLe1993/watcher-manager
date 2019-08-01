@@ -47,5 +47,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/fonts");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/vendors.*.css");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/vendors.*.js");
+        registry.addInterceptor(resourceInterceptor()).addPathPatterns("/umi.js");
     }
 }
