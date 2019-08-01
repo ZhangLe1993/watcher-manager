@@ -156,7 +156,7 @@ const BasicLayout = props => {
     menuData.forEach(it => {
       titleArr.push(findMenuItem(pathName, it, ''));
     });
-    const title = getCleanArr(titleArr)[0];
+    const title = getCleanArr(titleArr)[0] || '首页';
     return (
       <div className={style.header}>
         <div className={style.headerLeft}>
@@ -164,7 +164,8 @@ const BasicLayout = props => {
             <Icon type={props.collapsed ? 'menu-unfold' : 'menu-fold'} />
           </Button>
           <div className={style.title}>{title}</div>
-          <Input placeholder="请输入搜索关键字" className={style.searchInput} onChange={handleMenuKey} />
+          {/* <Input placeholder="请输入搜索关键字"
+        className={style.searchInput} onChange={handleMenuKey} /> */}
         </div>
         <div className={style.headerRight}>
           <div className={style.user}>{userName}</div>
@@ -184,7 +185,9 @@ const BasicLayout = props => {
       window.sessionStorage.setItem('full_name', fullName);
       window.sessionStorage.setItem('pathName', it.component);
     } else {
-      router.push('/no_authority');
+      if (!it.is_mount) {
+        router.push('/no_authority');
+      }
     }
   };
 
@@ -192,12 +195,13 @@ const BasicLayout = props => {
     <ProLayout
       openKeys={['/tradeDailyReport/ALL']}
       logo={() => (
-        <img onClick={() => {
+        <div onClick={() => {
           router.replace('/');
-        }} src={logo} alt="1" />
+          window.sessionStorage.setItem('pathName', '');
+        }} className={style.logoTitle}>爱回收信息管理平台</div>
       )}
       menuItemRender = { (menuItemProps, dom) => {
-        return <div onClick={e => myclick(e, menuItemProps, dom)}>{dom}</div>;
+        return <div onClick={e => myclick(e, menuItemProps, dom)} className={menuItemProps.is_mount ? style.mount : ''}>{dom}</div>;
       }}
       // menuItemRender = { (menuItemProps, dom) => {
       //   return <Link to={menuItemProps.path}>{dom}</Link>;
