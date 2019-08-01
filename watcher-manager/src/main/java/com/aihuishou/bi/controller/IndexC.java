@@ -41,7 +41,7 @@ public class IndexC {
     @Value("${proxy.watcher.target_url}")
     private String targetUrl;
 
-    @RequestMapping(value = {"/back/**", "/", "/page/**"})
+    @RequestMapping(value = {"/back/**", "/", "/page/**","/pages/**"})
     public String index() {
         //TODO 权限校验
         return "dist/index";
