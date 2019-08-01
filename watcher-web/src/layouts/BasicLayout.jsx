@@ -176,6 +176,15 @@ const BasicLayout = props => {
   };
 
   const myclick = (e, it) => {
+    let clickNum = 0;
+    let clickNumMap = {};
+    if (window.localStorage.getItem('clickNumMap')) {
+      clickNumMap = JSON.parse(window.localStorage.getItem('clickNumMap'));
+      clickNum = JSON.parse(window.localStorage.getItem('clickNumMap'))[it.component] ? JSON.parse(window.localStorage.getItem('clickNumMap'))[it.component] + 1 : 1;
+      clickNumMap[it.component] = clickNum;
+    } else {
+      clickNumMap[it.component] = clickNum + 1;
+    }
     if (it.auth) {
       const { nameStrArr } = props;
       const fullName = nameStrArr.filter(item => item.indexOf(it.name) > -1)[0];
@@ -184,6 +193,7 @@ const BasicLayout = props => {
       window.sessionStorage.setItem('currentMenuItem', JSON.stringify(it));
       window.sessionStorage.setItem('full_name', fullName);
       window.sessionStorage.setItem('pathName', it.component);
+      window.localStorage.setItem('clickNumMap', JSON.stringify(clickNumMap));
     } else {
       if (!it.is_mount) {
         router.push('/no_authority');

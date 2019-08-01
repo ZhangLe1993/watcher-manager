@@ -92,9 +92,9 @@ export default {
       routes: [
         {
           path: '/',
-          name: 'welcome',
+          name: 'home',
           icon: 'smile',
-          component: './Welcome',
+          component: './home',
         },
         {
           path: '/page/:id',
@@ -103,7 +103,7 @@ export default {
           component: './Iframe',
         },
         {
-          path: '/watcher_manager',
+          path: 'pages/watcher_manager',
           name: 'manager',
           icon: 'smile',
           component: './watcherManager',
