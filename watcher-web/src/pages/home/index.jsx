@@ -2,8 +2,10 @@
 /* eslint-disable guard-for-in */
 import React from 'react';
 import { connect } from 'dva';
+import router from 'umi/router';
 
 import style from './index.less';
+
 
 class Home extends React.Component {
   constructor(props) {
@@ -83,10 +85,17 @@ class Home extends React.Component {
     return title;
   }
 
+  linkTo = pathName => {
+    window.sessionStorage.setItem('pathName', pathName);
+    router.push(`/page/${pathName}`);
+  }
+
   render() {
     const { clickNumArr } = this.state;
     return (
       <div className={style.container}>
+        {
+          /*
         <ul className={style.rankContainer}>
          <li>
           <span className={style.rankNumTitle}>排名</span>
@@ -94,15 +103,17 @@ class Home extends React.Component {
           <span className={style.clickNum}>访问次数</span>
          </li>
         </ul>
+        */}
+        <div className={style.visitList}>常访问报表</div>
         {
           clickNumArr && clickNumArr.length > 0
           ? <ul className={style.rankContainer}>
               {
                 clickNumArr && clickNumArr.map((it, index) => (
-                  <li key={it.key}>
+                  <li key={it.key} onClick={() => this.linkTo(it.key)}>
                     <span className={`${style.rankNum} ${index === 0 ? style.hot1 : ''} ${index === 1 ? style.hot2 : ''} ${index === 2 ? style.hot3 : ''}`}>{index + 1}</span>
                     <span className={style.name}>{this.getMenuFullName(it.key)}</span>
-                    <span className={style.clickNum}>{it.value}次</span>
+                    {/* <span className={style.clickNum}>{it.value}次</span> */}
                   </li>
                   ))
               }
