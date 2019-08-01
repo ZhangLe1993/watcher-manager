@@ -169,7 +169,7 @@ const BasicLayout = props => {
         </div>
         <div className={style.headerRight}>
           <div className={style.user}>{userName}</div>
-          <div className={style.loginout} onClick={() => handleLogout()}><Icon type="logout" /></div>
+          <div className={style.loginout} onClick={() => handleLogout()}><Icon type="logout" style={{ fontSize: '20px' }} /></div>
         </div>
       </div>
     );

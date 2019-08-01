@@ -32,17 +32,20 @@ class Iframe extends React.Component {
         setTimeout(() => {
           const frame = watcherIframe.contentWindow;
           const message = { parentOrigin: window.origin, msg: '收到请回复' };
-          frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
+          // eslint-disable-next-line no-unused-expressions
+          frame && frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
         }, 100);
         setTimeout(() => {
           const frame = watcherIframe.contentWindow;
           const message = { parentOrigin: window.origin, msg: '收到请回复' };
-          frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
+          // eslint-disable-next-line no-unused-expressions
+          frame && frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
         }, 3000);
         setTimeout(() => {
           const frame = watcherIframe.contentWindow;
           const message = { parentOrigin: window.origin, msg: '收到请回复' };
-          frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
+          // eslint-disable-next-line no-unused-expressions
+          frame && frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
         }, 6000);
         // const frame = watcherIframe.contentWindow;
         // const message = { parentOrigin: window.origin, msg: '收到请回复' };
@@ -70,17 +73,20 @@ class Iframe extends React.Component {
           setTimeout(() => {
             const frame = watcherIframe.contentWindow;
             const message = { parentOrigin: window.origin, msg: '收到请回复' };
-            frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
+            // eslint-disable-next-line no-unused-expressions
+            frame && frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
           }, 100);
           setTimeout(() => {
             const frame = watcherIframe.contentWindow;
             const message = { parentOrigin: window.origin, msg: '收到请回复' };
-            frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
+            // eslint-disable-next-line no-unused-expressions
+            frame && frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
           }, 3000);
           setTimeout(() => {
             const frame = watcherIframe.contentWindow;
             const message = { parentOrigin: window.origin, msg: '收到请回复' };
-            frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
+            // eslint-disable-next-line no-unused-expressions
+            frame && frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
           }, 6000);
           window.addEventListener('message', this.receiveMessage, false);
           watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
