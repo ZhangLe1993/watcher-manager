@@ -20,14 +20,17 @@ public class NotFoundInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        if(response.getStatus() == HttpStatus.NOT_FOUND.value()) {
-            logger.error("404错误，页面自动跳转到首页");
-            response.sendRedirect("/");
-        }
+        super.postHandle(request, response, handler, modelAndView);
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        if(response.getStatus() == HttpStatus.NOT_FOUND.value()) {
+            logger.error("\r\n" + request.getRequestURI() + "\r\n");
+            logger.error("404错误，页面自动跳转到首页");
+            response.sendRedirect("/");
+            return;
+        }
         super.afterCompletion(request, response, handler, ex);
     }
 }
