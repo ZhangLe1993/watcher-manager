@@ -43,5 +43,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(notFoundInterceptor()).addPathPatterns("/**");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/static/resources/**");
+        registry.addInterceptor(resourceInterceptor()).addPathPatterns("/images/loading.gif");
+        registry.addInterceptor(resourceInterceptor()).addPathPatterns("/fonts");
+        registry.addInterceptor(resourceInterceptor()).addPathPatterns("/vendors.*.css");
+        registry.addInterceptor(resourceInterceptor()).addPathPatterns("/vendors.*.js");
     }
 }
