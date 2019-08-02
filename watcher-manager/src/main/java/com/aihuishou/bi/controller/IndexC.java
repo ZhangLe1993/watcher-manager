@@ -136,7 +136,7 @@ public class IndexC {
     }
 
     @SystemLog(description = "爱机汇嵌入页面")
-    @RequestMapping(value = {"/vender/**", "/customer/intelligenceShop/**", "/area/dealSmartShopReport/**", "/area/coupon/**"}, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = {"/vender/**", "/customer/intelligenceShop/**", "/area/dealSmartShopReport/**", "/area/coupon/**", "/datareport/**"}, produces = "application/json;charset=utf-8")
     public String vender(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
         //添加参数
         request.setCharacterEncoding("utf-8");
