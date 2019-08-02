@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -40,6 +42,8 @@ public class IndexC {
 
     private final static Logger logger = LoggerFactory.getLogger(IndexC.class);
 
+    public static boolean health = true;
+
     @Autowired
     private UserService userService;
 
@@ -49,12 +53,17 @@ public class IndexC {
     @Autowired
     private MappingService mappingService;
 
+    @RequestMapping("sleep")
+    public ResponseEntity sleep() throws InterruptedException {
+        Thread.sleep(30000L);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
 
     @Value("${proxy.watcher.target_url}")
     private String targetUrl;
 
-    @RequestMapping(value = {"/back/**", "/", "/page/**","/pages/**"})
+    @RequestMapping(value = {"/back/**", "/", "/page/**", "/pages/**"})
     public String index() {
         //TODO 权限校验
         return "dist/index";
@@ -67,8 +76,12 @@ public class IndexC {
     }
 
     @RequestMapping("_health_check")
-    public void healthCheck(HttpServletRequest request) throws IOException {
-
+    public ResponseEntity healthCheck() throws IOException {
+        if (health) {
+            return new ResponseEntity(HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }
     }
 
     @SystemLog(description = "获取当前用户")
@@ -114,7 +127,7 @@ public class IndexC {
         response.setStatus(clientHttpResponse.getStatusCode().value());
         clientHttpResponse.getHeaders().entrySet().forEach((kv) -> {
             kv.getValue().stream().forEach(it -> {
-                if(kv.getKey().startsWith("Content-")){
+                if (kv.getKey().startsWith("Content-")) {
                     response.setHeader(kv.getKey(), it);
                 }
             });
@@ -123,7 +136,7 @@ public class IndexC {
     }
 
     @SystemLog(description = "爱机汇嵌入页面")
-    @RequestMapping(value = {"/vender/**", "/customer/intelligenceShop/**", "/area/dealSmartShopReport/**", "/area/coupon/**", "/datareport/**"}, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = {"/vender/**", "/customer/intelligenceShop/**", "/area/dealSmartShopReport/**", "/area/coupon/**"}, produces = "application/json;charset=utf-8")
     public String vender(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
         //添加参数
         request.setCharacterEncoding("utf-8");

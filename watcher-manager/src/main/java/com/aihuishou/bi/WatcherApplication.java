@@ -8,9 +8,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.core.env.Environment;
@@ -67,6 +70,13 @@ public class WatcherApplication extends SpringBootServletInitializer {
 		} else {
 			this.logger.debug("No ContextLoaderListener registered, as createRootApplicationContext() did not return an application context");
 		}
+	}
+
+	@Bean
+	public ConfigurableServletWebServerFactory webServerFactory(final GracefulShutdown gracefulShutdown) {
+		TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory();
+		factory.addConnectorCustomizers(gracefulShutdown);
+		return factory;
 	}
 
 }
