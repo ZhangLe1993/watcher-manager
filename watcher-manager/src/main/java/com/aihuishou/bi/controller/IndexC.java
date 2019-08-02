@@ -135,8 +135,8 @@ public class IndexC {
         StreamUtils.copy(clientHttpResponse.getBody(), response.getOutputStream());
     }
 
-    @SystemLog(description = "爱机汇嵌入页面")
-    @RequestMapping(value = {"/vender/**", "/customer/intelligenceShop/**", "/area/dealSmartShopReport/**", "/area/coupon/**", "/datareport/**"}, produces = "application/json;charset=utf-8")
+    @SystemLog(description = "爱机汇嵌入页面 & fancyBox 弹出层页面")
+    @RequestMapping(value = {"/vender/**", "/customer/intelligenceShop/**", "/area/dealSmartShopReport/**", "/area/coupon/**", "/datareport/**", "/operation/**"}, produces = "application/json;charset=utf-8")
     public String vender(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
         //添加参数
         request.setCharacterEncoding("utf-8");
@@ -151,7 +151,7 @@ public class IndexC {
                 baseFun(model, target);
                 model.addAttribute("is_mapping", false);
             }
-            if("datareport".equals(root) || targets.contains(target)) {
+            if("datareport".equals(root) || "operation".equals(root) || targets.contains(target)) {
                 List<String> temp = new ArrayList<>(Arrays.asList(args));
                 List<String> params = temp.subList(2, args.length);
                 baseFun(model, target);

@@ -1,7 +1,8 @@
 Template.OperationFrame.rendered = function () {
 
-    var type = this.data.type;
-    var operationCenter = this.data.operationCenter;
+    var listJ = Template.list;
+    var type = listJ[0];
+    var operationCenter = listJ[1];
     if(isMobile()){
         $('.sidebar-toggle').click();
     }
