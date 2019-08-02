@@ -1,5 +1,5 @@
 Template.ondoorMoneyReport.rendered = function () {
-    var flag = Template.currentData().flag;
+    var flag = Template.list[0];
     $('#reportrange').daterangepicker({
         "showDropdowns": true,
         "alwaysShowCalendars": true,
@@ -49,7 +49,8 @@ Template.ondoorMoneyReport.rendered = function () {
             '去年': [moment().subtract(1, 'year').startOf('year').toDate(), moment().subtract(1, 'year').endOf('year').toDate()]
         }
     }, pickDateRangeCallback);
-
+    var startDate = new Date(new Date().getTime() - 31 * 24 * 3600 * 1000).format("yyyy-MM-dd");
+    var endDate = new Date().format("yyyy-MM-dd");
     var query = {
         "startDate": startDate,
         "endDate": endDate,

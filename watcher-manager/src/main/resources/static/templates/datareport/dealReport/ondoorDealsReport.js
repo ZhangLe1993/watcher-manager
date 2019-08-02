@@ -1,5 +1,5 @@
 Template.ondoorDealsReport.rendered = function () {
-    var flag = Template.currentData().flag;
+    var flag = Template.list[0];
     $('#reportrange').daterangepicker({
         "showDropdowns": true,
         "alwaysShowCalendars": true,
@@ -50,6 +50,8 @@ Template.ondoorDealsReport.rendered = function () {
         }
     }, pickDateRangeCallback);
 
+    var startDate = new Date(new Date().getTime() - 31 * 24 * 3600 * 1000).format("yyyy-MM-dd");
+    var endDate = new Date().format("yyyy-MM-dd");
     var query = {
         "startDate": startDate,
         "endDate": endDate,

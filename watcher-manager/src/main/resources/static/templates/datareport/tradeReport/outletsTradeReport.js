@@ -1,6 +1,6 @@
 Template.outletsTradeReport.rendered = function () {
 
-    var flag = Template.currentData().flag;
+    var flag = Template.list[0];
     console.log(flag);
 
     $('#reportrange').daterangepicker({

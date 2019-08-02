@@ -247,24 +247,23 @@ Template.tradeDailyReport.rendered = function () {
          })*/
 
 
-        //嵌入页面-----提交订单相关详细数据页面/static/templates/datareport/ondoorDealsReport/
-        $("#sourceTypeTradeID").attr("href","/static/templates/datareport/sourceTypeTradeReport/"+flag);
-        $("#tradeMethodID").attr("href","/static/templates/datareport/tradeMethodReport/"+flag);
-        $("#outletsTradeID").attr("href","/static/templates/datareport/outletsTradeReport/"+flag);
-        $("#ondoorTradeID").attr("href","/static/templates/datareport/ondoorTradeReport/"+flag);
+        //嵌入页面-----提交订单相关详细数据页面
+        $("#sourceTypeTradeID").attr("href","/datareport/sourceTypeTradeReport/"+flag);
+        $("#tradeMethodID").attr("href","/datareport/tradeMethodReport/"+flag);
+        $("#outletsTradeID").attr("href","/datareport/outletsTradeReport/"+flag);
+        $("#ondoorTradeID").attr("href","/datareport/ondoorTradeReport/"+flag);
 
         //嵌入页面-----成交订单相关详细数据页面
-        $("#sourceTypeDealID").attr("href","/static/templates/datareport/sourceTypeDealReport/"+flag);
-        $("#dealMethodID").attr("href","/static/templates/datareport/tradeMethodDealReport/"+flag);
-        $("#outletsDealID").attr("href","/static/templates/datareport/outletsDealReport/"+flag);
-        $("#ondoorDealID").attr("href","/static/templates/datareport/ondoorDealsReport/"+flag);
-
+        $("#sourceTypeDealID").attr("href","/datareport/sourceTypeDealReport/"+flag);
+        $("#dealMethodID").attr("href","/datareport/tradeMethodDealReport/"+flag);
+        $("#outletsDealID").attr("href","/datareport/outletsDealReport/"+flag);
+        $("#ondoorDealID").attr("href","/datareport/ondoorDealsReport/"+flag);
 
         //嵌入页面-----成交金额相关详细数据页面
-        $("#sourceTypeDealAmountID").attr("href","/static/templates/datareport/sourceTypeMoneyReport/"+flag);
-        $("#tradeMethodDealAmountID").attr("href","/static/templates/datareport/tradeMethodMoneyReport/"+flag);
-        $("#outletsDealAmountID").attr("href","/static/templates/datareport/outletsMoneyReport/"+flag);
-        $("#ondoorDealAmountID").attr("href","/static/templates/datareport/ondoorMoneyReport/"+flag);
+        $("#sourceTypeDealAmountID").attr("href","/datareport/sourceTypeMoneyReport/"+flag);
+        $("#tradeMethodDealAmountID").attr("href","/datareport/tradeMethodMoneyReport/"+flag);
+        $("#outletsDealAmountID").attr("href","/datareport/outletsMoneyReport/"+flag);
+        $("#ondoorDealAmountID").attr("href","/datareport/ondoorMoneyReport/"+flag);
 
 
 

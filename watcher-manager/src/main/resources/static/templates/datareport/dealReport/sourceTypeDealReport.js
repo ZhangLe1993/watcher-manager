@@ -1,5 +1,5 @@
 Template.sourceTypeDealReport.rendered = function () {
-    var flag = Template.currentData().flag;
+    var flag = Template.list[0];
     $('#reportrange').daterangepicker({
         "showDropdowns": true,
         "alwaysShowCalendars": true,

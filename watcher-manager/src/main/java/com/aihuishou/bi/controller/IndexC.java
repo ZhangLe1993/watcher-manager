@@ -25,6 +25,7 @@ import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -59,7 +60,12 @@ public class IndexC {
         return "dist/index";
     }
 
-    @SystemLog(description = "健康检查")
+    @RequestMapping("/favicon.png")
+    public void icon(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        request.getRequestDispatcher("/static/resources/images/favicon.ico").forward(request, response);
+        return;
+    }
+
     @RequestMapping("_health_check")
     public void healthCheck(HttpServletRequest request) throws IOException {
 
@@ -117,7 +123,7 @@ public class IndexC {
     }
 
     @SystemLog(description = "爱机汇嵌入页面")
-    @RequestMapping(value = {"/vender/**", "/customer/intelligenceShop/**", "/area/dealSmartShopReport/**", "/area/coupon/**"}, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = {"/vender/**", "/customer/intelligenceShop/**", "/area/dealSmartShopReport/**", "/area/coupon/**", "/datareport/**"}, produces = "application/json;charset=utf-8")
     public String vender(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
         //添加参数
         request.setCharacterEncoding("utf-8");
@@ -125,26 +131,17 @@ public class IndexC {
         url = URLDecoder.decode(url, "UTF-8");
         String [] args = StringUtils.split(url, "/");
         if(args != null && args.length > 2) {
+            String root = args[0];
             String target = args[1];
             if(otherTarget.containsKey(target)) {
                 target = otherTarget.get(target);
-                Map<String, String> positionMap = sysService.getPositionMap();
-                String loadName = positionMap.get(target) + SysConf.REST_JS_SUFFIX;
-                String staticName = positionMap.get(target) + SysConf.REST_HTML_SUFFIX;
-                logger.info(loadName);
-                logger.info(staticName);
-                model.addAttribute("model" , ImmutableMap.of("position", target, "loadName", loadName, "staticName", staticName));
+                baseFun(model, target);
                 model.addAttribute("is_mapping", false);
             }
-            List<String> temp = new ArrayList<>(Arrays.asList(args));
-            List<String> params = temp.subList(2, args.length);
-            if(targets.contains(target)) {
-                Map<String, String> positionMap = sysService.getPositionMap();
-                String loadName = positionMap.get(target) + SysConf.REST_JS_SUFFIX;
-                String staticName = positionMap.get(target) + SysConf.REST_HTML_SUFFIX;
-                logger.info(loadName);
-                logger.info(staticName);
-                model.addAttribute("model" , ImmutableMap.of("position", target, "loadName", loadName, "staticName", staticName));
+            if("datareport".equals(root) || targets.contains(target)) {
+                List<String> temp = new ArrayList<>(Arrays.asList(args));
+                List<String> params = temp.subList(2, args.length);
+                baseFun(model, target);
                 model.addAttribute("is_mapping", true);
                 model.addAttribute("param_key", "list");
                 model.addAttribute("param_value", JSONArray.toJSON(params));
@@ -156,6 +153,15 @@ public class IndexC {
         return "base";
     }
 
+    private void baseFun(ModelMap model, String target) {
+        Map<String, String> positionMap = sysService.getPositionMap();
+        String loadName = positionMap.get(target) + SysConf.REST_JS_SUFFIX;
+        String staticName = positionMap.get(target) + SysConf.REST_HTML_SUFFIX;
+        logger.info(loadName);
+        logger.info(staticName);
+        model.addAttribute("model" , ImmutableMap.of("position", target, "loadName", loadName, "staticName", staticName));
+    }
+
     private final static List<String> targets = new ArrayList<>(Arrays.asList(
             "venderFinance", "VenderBussinessAnalysis", "VenderIncomeAnalysis",
             "VenderErrorRateAnalysis", "VenderOrderLostAnalysis", "VenderQualityErrorAnalysis",
@@ -165,4 +171,6 @@ public class IndexC {
 
     private final static Map<String,String> otherTarget =
             ImmutableMap.of("intelligenceShop", "DoorOfBrainpower", "dealSmartShopReport","smartShopDealIFrame", "coupon", "couponIframe");
+
+
 }
