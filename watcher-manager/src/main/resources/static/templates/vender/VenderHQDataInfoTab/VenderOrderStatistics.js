@@ -7,12 +7,21 @@ Template.VenderOrderStatistics.rendered = function () {
     $('#HQDataInfoTab').addClass('active');
     $('#VenderOrderStatistics').addClass('active');
 
-    var source = Template.source;
-    var obj = JSON.parse(source);
-    var companyName = obj.companyName;
-    var companyKey = obj.companyKey;
-    vender_company_name.push(companyName);
-    vender_company_key=companyKey;
+    try{
+        var source = Template.source;
+        var obj = JSON.parse(source);
+        var companyName = obj.companyName;
+        var companyKey = obj.companyKey;
+        vender_company_name.push(companyName);
+        vender_company_key=companyKey;
+    }catch(e) {
+        var listJ = Template.list;
+        console.log(listJ);
+        vender_company_name.push(listJ[1]);
+        vender_company_key=listJ[0];
+    }
+
+
 
     var ua = navigator.userAgent.toLowerCase();
     var isAndroid = ua.indexOf("android") >-1;

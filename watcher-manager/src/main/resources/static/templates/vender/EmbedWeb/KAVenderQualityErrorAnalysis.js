@@ -2,12 +2,14 @@
  * Created by hsh on 2016/5/13.
  */
 Template.KAVenderQualityErrorAnalysis.rendered = function () {
-    $('.navi-tab').removeClass('active');
+    /*$('.navi-tab').removeClass('active');
     $('#VenderTab').addClass('active');
-    $('#KAVenderQualityErrorAnalysis').addClass('active');
+    $('#KAVenderQualityErrorAnalysis').addClass('active');*/
 
-    vender_company_name.push(Template.currentData().vender_company_name);
-    vender_company_key.push(Template.currentData().vender_company_key);
+    var listJ = Template.list;
+    console.log(listJ);
+    vender_company_name.push(listJ[1]);
+    vender_company_key.push(listJ[0]);
 
     var ua = navigator.userAgent.toLowerCase();
     var isAndroid = ua.indexOf("android") >-1;

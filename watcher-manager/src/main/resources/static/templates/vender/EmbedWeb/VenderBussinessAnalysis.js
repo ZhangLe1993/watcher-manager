@@ -2,12 +2,14 @@
  * Created by hsh on 2016/5/13.
  */
 Template.VenderBussinessAnalysis.rendered = function () {
-    $('.navi-tab').removeClass('active');
+    /*$('.navi-tab').removeClass('active');
     $('#VenderTab').addClass('active');
-    $('#VenderBussinessAnalysis').addClass('active');
+    $('#VenderBussinessAnalysis').addClass('active');*/
 
-    area_agent_name=Template.currentData().area_agent_name;
-    area_agent_key=Template.currentData().area_agent_key;
+    var listJ = Template.list;
+    console.log(listJ);
+    area_agent_key = listJ[0];
+    area_agent_name=listJ[1];
 
     var ua = navigator.userAgent.toLowerCase();
     var isAndroid = ua.indexOf("android") >-1;

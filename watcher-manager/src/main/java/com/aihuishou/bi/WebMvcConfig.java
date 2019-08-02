@@ -42,7 +42,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(notFoundInterceptor()).addPathPatterns("/**")
-                .excludePathPatterns("/static/**", "/templates/dist/**", "/images/**", "/fonts", "/assets", "/images", "/error", "/watcher/**");
+                .excludePathPatterns("/static/**", "/templates/dist/**", "/images/**", "/fonts", "/assets", "/images", "/error", "/watcher/**", "/vender/**");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/static/resources/**");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/images/loading.gif");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/fonts");

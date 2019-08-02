@@ -6,8 +6,10 @@ Template.KAVenderOrderLostAnalysis.rendered = function () {
     $('#VenderTab').addClass('active');
     $('#KAVenderOrderLostAnalysis').addClass('active');
 
-    vender_company_name.push(Template.currentData().vender_company_name);
-    vender_company_key.push(Template.currentData().vender_company_key);
+    var listJ = Template.list;
+    console.log(listJ);
+    vender_company_name.push(listJ[1]);
+    vender_company_key.push(listJ[0]);
 
     var ua = navigator.userAgent.toLowerCase();
     var isAndroid = ua.indexOf("android") >-1;
