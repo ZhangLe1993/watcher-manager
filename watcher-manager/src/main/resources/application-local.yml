@@ -4,9 +4,9 @@ spring:
     username: root
     password: root
   redis:
-    host: 10.81.44.187
-    password: 123456
-    database: 14
+    host: 127.0.0.1
+    password:
+    database: 0
   thymeleaf:
     servlet:
       content-type: text/html
@@ -30,3 +30,8 @@ cas:
 
 watcher:
   templates: /project/watcher-manager/watcher-manager/target/classes/
+
+basic.mongodb.host: 10.168.187.122
+basic.mongodb.port: 27017
+basic.mongodb.database: Watcher
+

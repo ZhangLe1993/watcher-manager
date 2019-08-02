@@ -1,5 +1,6 @@
 package com.aihuishou.bi;
 
+import com.aihuishou.bi.controller.IndexC;
 import org.apache.catalina.connector.Connector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,9 +29,9 @@ public class GracefulShutdown implements TomcatConnectorCustomizer, ApplicationL
     @Override
     public void onApplicationEvent(ContextClosedEvent event) {
         log.info("begin shutdown ===============>");
-        this.connector.pause();
+        IndexC.health = false;
         try {
-            Thread.sleep(10000L);//等待SLB摘流量
+            Thread.sleep(9000L);//等待SLB摘流量
         } catch (InterruptedException e) {
             log.warn("", e);
         }
