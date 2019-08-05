@@ -103,13 +103,13 @@ public class MenuService {
 
     private void mergeNode(List<Map<String, Object>> merge, Node n, Map<String, List<String>> menuAuthMap, List<String> userAuthList, Map<String, String> mapping) {
         Map<String, Object> node = new HashMap<>();
-        node.put("genre", n.getGenre());
         node.put("is_mount", false);
         node.put("icon", "monitor");
         node.put("name", n.getName());
         node.put("component", n.getPosition());
         node.put("auth", (Boolean) authService.auth(n.getPosition(), menuAuthMap, userAuthList, mapping));
         String genre = n.getGenre();
+        node.put("genre", genre);
         if("1".equals(genre)) {
             node.put("url", n.getUrl());
         }
