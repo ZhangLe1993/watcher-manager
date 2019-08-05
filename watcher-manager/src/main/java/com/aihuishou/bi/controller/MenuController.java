@@ -214,8 +214,8 @@ public class MenuController {
     @SystemLog(description = "查询所有权限")
     @GetMapping("/auth/all")
     public ResponseEntity<?> allAuth(@RequestParam(value = "key", required = false) String key,
-                                     @RequestParam(value = "page_index", required = false) Integer pageIndex,
-                                     @RequestParam(value = "page_size", required = false) Integer pageSize) {
+                                     @RequestParam(value = "page_index", required = false, defaultValue = "1") Integer pageIndex,
+                                     @RequestParam(value = "page_size", required = false, defaultValue = "5000") Integer pageSize) {
         try{
             List<String> auth = authService.getAllAuth(key, pageIndex, pageSize);
             if(pageIndex == null || pageSize == null) {
