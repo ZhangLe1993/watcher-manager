@@ -7,7 +7,6 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ColumnListHandler;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,10 +50,19 @@ public class MountService extends BaseService {
         //级联删除Folder，以mount作为参数可以全局删除，不需要递归
         sql = "DELETE FROM bi_folder WHERE mount = ?;";
         new QueryRunner(dataSource).update(sql, id);
+
+        //级联删除根报表,因为挂载在根目录时，没有父亲文件夹，只有挂载点。并且如果有父亲文件夹的报表的挂载点都是0，不可能会被删除
+        sql = "DELETE FROM bi_nodes WHERE mount = ?;";
+        new QueryRunner(dataSource).update(sql, id);
         //级联删除Node
-        sql = "DELETE FROM bi_nodes WHERE parent_position in (?);";
-        String where = StringUtils.join(positions,",");
-        new QueryRunner(dataSource).update(sql, where);
+        if(positions != null && positions.size() != 0) {
+            sql = "DELETE FROM bi_nodes WHERE parent_position = ?;";
+            Object[][] params = new Object[positions.size()][1];
+            for(int i = 0; i< positions.size(); i++) {
+                params[i] = new Object[]{positions.get(i)};
+            }
+            new QueryRunner(dataSource).batch(sql, params);
+        }
     }
 
 

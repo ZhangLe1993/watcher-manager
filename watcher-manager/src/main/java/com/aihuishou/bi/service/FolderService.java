@@ -15,7 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class FolderService extends BaseService {
@@ -31,10 +35,10 @@ public class FolderService extends BaseService {
 
     public List<Folder> folders(Integer mount) throws SQLException {
         if(mount == null) {
-            String sql = "select id, mount, name, position, parent_position AS parentPosition from bi_folder where state='1';";
+            String sql = "select id, mount, name, position, parent_position AS parentPosition from bi_folder where 1=1 ;";
             return new QueryRunner(dataSource).query(sql, new BeanListHandler<Folder>(Folder.class));
         } else {
-            String sql = "select id, mount, name, position, parent_position AS parentPosition from bi_folder where state='1' and mount = ?;";
+            String sql = "select id, mount, name, position, parent_position AS parentPosition from bi_folder where 1=1 and mount = ?;";
             return new QueryRunner(dataSource).query(sql, new BeanListHandler<Folder>(Folder.class), mount);
         }
     }
@@ -67,12 +71,20 @@ public class FolderService extends BaseService {
         sql = "DELETE FROM bi_folder WHERE id = ?;";
         new QueryRunner(dataSource).update(sql, id);
         //级联递归删除子folder
-        sql = "DELETE FROM bi_folder WHERE parent_position in (?);";
         String[] in = StringUtils.split(positions, ",");
-        new QueryRunner(dataSource).update(sql, StringUtils.join(in, ","));
-        //级联删除node
-        sql = "DELETE FROM bi_nodes WHERE parent_position in (?);";
-        new QueryRunner(dataSource).update(sql, StringUtils.join(in, ","));
+
+        if(in != null && in.length != 0) {
+            Object[][] params = new Object[in.length][1];
+            for(int i = 0; i < in.length; i++) {
+                params[i] = new Object[]{in[i]};
+            }
+            sql = "DELETE FROM bi_folder WHERE parent_position = ?;";
+            new QueryRunner(dataSource).batch(sql, params);
+            //级联删除node
+            sql = "DELETE FROM bi_nodes WHERE parent_position = ?;";
+            new QueryRunner(dataSource).batch(sql, params);
+        }
+
 
     }
 
