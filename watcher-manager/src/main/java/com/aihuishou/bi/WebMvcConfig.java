@@ -47,5 +47,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/vendors.*.js");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/favicon.png");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/umi.js");
+        registry.addInterceptor(resourceInterceptor()).addPathPatterns("/umi.*.js");
+        registry.addInterceptor(resourceInterceptor()).addPathPatterns("/umi.*.css");
+        registry.addInterceptor(resourceInterceptor()).addPathPatterns("/*.chunk.css");
+        registry.addInterceptor(resourceInterceptor()).addPathPatterns("/*.async.js");
     }
 }
