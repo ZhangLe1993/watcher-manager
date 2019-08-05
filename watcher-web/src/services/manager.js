@@ -91,3 +91,27 @@ export async function deleteNode(params) {
 export async function queryParentNode(params) {
   return request(`/menu/folder/tree?mount=${params}`);
 }
+
+// 所有节点树
+export async function queryAllParentNode() {
+  return request('/menu/folder/tree');
+}
+
+// 查已有的权限
+export async function queryUserAuth(params) {
+  return request(`/menu/auth/?position=${params}`);
+}
+
+// 查询所有的权限
+export async function queryAllAuth(params) {
+  const { pageIndex, pageSize } = params;
+  return request(`/menu/auth/all?page_index=${pageIndex}&page_size=${pageSize}`);
+}
+
+// 菜单授权
+export async function doMenuAuth(params) {
+  return request('/menu/auth', {
+    method: 'POST',
+    data: params,
+  });
+}
