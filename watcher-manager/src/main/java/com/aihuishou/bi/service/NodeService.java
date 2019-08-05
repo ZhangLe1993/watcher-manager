@@ -32,14 +32,17 @@ public class NodeService extends BaseService {
     public void createNode(NodeVO nodeVO) throws SQLException {
         String position = StringEx.newUUID();
         String parent = nodeVO.getParentPosition();
+        String mount = nodeVO.getMount();
+        if(StringUtils.isBlank(parent) && StringUtils.isBlank(mount)) {
+            throw new RuntimeException("父节点和挂载点必选其中之一");
+        }
         if(StringUtils.isBlank(parent)) {
             parent = "-1";
         }
-        String mount = nodeVO.getMount();
-        if(StringUtils.isBlank(parent)) {
+        if(StringUtils.isNotBlank(parent)) {
             mount = "0";
         }
-        String sql = "INSERT INTO bi_nodes(position, url, name, mount, parent_position, state, empno, empname, create_time, update_time, genre) VALUES (?,?,?,?,?,?,?,now(),now(),'1');";
+        String sql = "INSERT INTO bi_nodes(position, url, name, mount, parent_position, state, empno, empname, create_time, update_time, genre) VALUES (?,?,?,?,?,?,?,?,now(),now(),'1');";
         QueryRunner dbUtils = new QueryRunner(dataSource);
         dbUtils.update(sql, position, nodeVO.getUrl(), nodeVO.getName(), mount,
                 parent, nodeVO.getState(), nodeVO.getEmpno(), nodeVO.getEmpname());
