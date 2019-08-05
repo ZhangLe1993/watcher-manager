@@ -1,4 +1,4 @@
-Template.OPTTransDepartMSTR.rendered = function () {
+Template.optTransDepartMSTR.rendered = function () {
     $('.navi-tab').removeClass('active');
     $('#CompetitonPriceTab').addClass('active');            //tab 高亮效果
     $('#optTransDepartMSTRTab').addClass('active');
