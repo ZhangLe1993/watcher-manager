@@ -194,11 +194,12 @@ const BasicLayout = props => {
       window.sessionStorage.setItem('full_name', fullName);
       window.sessionStorage.setItem('pathName', it.component);
       window.localStorage.setItem('clickNumMap', JSON.stringify(clickNumMap));
-    } else {
-      if (!it.is_mount) {
-        router.push('/no_authority');
-      }
     }
+    // else {
+    //   if (!it.is_mount) {
+    //     router.push('/no_authority');
+    //   }
+    // }
   };
 
   return (

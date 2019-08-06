@@ -658,6 +658,38 @@ class WatcherManager extends React.Component {
     });
   }
 
+  handleFolderSearch = () => {
+    const that = this;
+    this.setState({ folder: {
+      ...that.state.folder,
+      pageIndex: 1,
+      pageSize: 10,
+    } }, () => {
+      this.fetchFolderList();
+    });
+  }
+
+  handleNodeSearch = () => {
+    const that = this;
+    this.setState({ node: {
+      ...that.state.node,
+      pageIndex: 1,
+      pageSize: 10,
+    } }, () => {
+      this.fetchNodeList();
+    });
+  }
+
+  handleChange = (e, type) => {
+    const that = this;
+    this.setState({
+     [type]: {
+      ...that.state[type],
+      // eslint-disable-next-line react/no-unused-state
+      key: e.target.value,
+     } });
+  }
+
   render() {
     const {
       mount,
@@ -778,6 +810,10 @@ class WatcherManager extends React.Component {
           pagination={mountPagination}
         />
         <Button type="primary" onClick={() => this.add('folder')} className={style.btn}>新增文件夹</Button>
+        <div className={style.searchWrapper}>
+          <Input placeholder="请输入关键字" className={style.search} onChange={e => this.handleChange(e, 'folder')} />
+          <Button type="primary" onClick={this.handleFolderSearch}>搜索文件夹</Button>
+        </div>
         <Table
           columns={this.folderColumns}
           dataSource={folder.data}
@@ -785,6 +821,10 @@ class WatcherManager extends React.Component {
           pagination={folderPagination}
         />
         <Button type="primary" onClick={() => this.add('node')} className={style.btn}>新增报表节点</Button>
+        <div className={style.searchWrapper}>
+          <Input placeholder="请输入关键字" className={style.search} onChange={e => this.handleChange(e, 'node')} />
+          <Button type="primary" onClick={this.handleNodeSearch}>搜索文报表节点</Button>
+        </div>
         <Table
           columns={this.nodeColumns}
           dataSource={node.data}
