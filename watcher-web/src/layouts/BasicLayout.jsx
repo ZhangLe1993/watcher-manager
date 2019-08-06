@@ -18,7 +18,7 @@ import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import GlobalFooter from '@/components/GlobalFooter/index';
 import style from './basicLayout.less';
-import logo from '../assets/logo.svg';
+// import logo from '../assets/logo.svg';
 /**
  * use Authorized check all menu item
  */
@@ -150,8 +150,10 @@ const BasicLayout = props => {
   };
 
   const headerRender = () => {
+    // console.log(document.location.href, 'href');
     const { userName } = props;
     const pathName = window.sessionStorage.getItem('pathName');
+    // console.log(pathName, 'headerRender');
     const titleArr = [];
     menuData.forEach(it => {
       titleArr.push(findMenuItem(pathName, it, ''));
@@ -212,10 +214,11 @@ const BasicLayout = props => {
         }} className={style.logoTitle}>爱回收信息管理平台</div>
       )}
       menuItemRender = { (menuItemProps, dom) => {
-        return <div onClick={e => myclick(e, menuItemProps, dom)} className={menuItemProps.is_mount ? style.mount : ''}>{dom}</div>;
+        return <div onClick={e => myclick(e, menuItemProps, dom)}
+      className={menuItemProps.is_mount ? style.mount : ''}>{dom}</div>;
       }}
       // menuItemRender = { (menuItemProps, dom) => {
-      //   return <Link to={menuItemProps.path}>{dom}</Link>;
+      //   return <Link to={`/page/${menuItemProps.component}`}>{dom}</Link>;
       // }}
       breadcrumbRender={(routers = []) => [
         {
