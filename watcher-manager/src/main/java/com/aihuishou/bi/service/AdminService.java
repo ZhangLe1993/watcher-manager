@@ -36,7 +36,7 @@ public class AdminService {
             case -1 :
                 return Admin.GUEST;
             case 0:
-                return Admin.GUEST;
+                return Admin.ADMIN;
             case 1:
                 return Admin.MAINTAINER;
             case 2:
