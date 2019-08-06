@@ -65,4 +65,31 @@ const addKey = data => {
   });
 };
 
-export { isAntDesignProOrDev, isAntDesignPro, isUrl, handleMenuData, handleMenuData2, addKey };
+const getMenuItemByPath = (key, data) => {
+  let selectedMenuItem;
+  for (let i = 0, len = data.length; i < len; i += 1) {
+    const { children, component } = data[i];
+    if (children) {
+      selectedMenuItem = getMenuItemByPath(key, children);
+      if (selectedMenuItem) {
+        break;
+      }
+    } else {
+      // eslint-disable-next-line no-lonely-if
+      if (key === component) {
+        selectedMenuItem = data[i];
+        break;
+      }
+    }
+  }
+  return selectedMenuItem;
+};
+
+export {
+ isAntDesignProOrDev,
+ isAntDesignPro, isUrl,
+ handleMenuData,
+ handleMenuData2,
+ addKey,
+ getMenuItemByPath,
+ };

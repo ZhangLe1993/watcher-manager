@@ -150,9 +150,9 @@ const BasicLayout = props => {
   };
 
   const headerRender = () => {
-    // console.log(document.location.href, 'href');
     const { userName } = props;
-    const pathName = window.sessionStorage.getItem('pathName');
+    // const pathName = window.sessionStorage.getItem('pathName');
+    const pathName = document.location.href.split('/page/')[1] || 'home';
     // console.log(pathName, 'headerRender');
     const titleArr = [];
     menuData.forEach(it => {
