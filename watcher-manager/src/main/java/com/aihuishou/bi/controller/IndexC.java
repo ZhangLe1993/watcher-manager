@@ -86,7 +86,7 @@ public class IndexC {
                 return "base";
             }
             Admin admin = adminService.inBoss(user.getEmployeeNo());
-            if(admin.getCode() == -1) {
+            if(admin.getCode() == Admin.GUEST.getCode()) {
                 baseFun(model, "home");
                 model.addAttribute("is_mapping", false);
                 return "base";

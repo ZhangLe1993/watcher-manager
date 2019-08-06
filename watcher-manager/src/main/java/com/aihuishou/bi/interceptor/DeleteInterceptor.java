@@ -53,7 +53,7 @@ public class DeleteInterceptor extends HandlerInterceptorAdapter {
                 return false;
             }
             Admin admin = adminService.inBoss(user.getEmployeeNo());
-            if(admin.getCode() == -1 || admin.getCode() == 2) {
+            if(admin.getCode() == Admin.GUEST.getCode() || admin.getCode() == Admin.DEVELOPER.getCode()) {
                 response.setStatus(HttpStatus.FORBIDDEN.value());
                 response.getWriter().print("您没有权限进行此项操作，请联系管理员 yule.zhang@aihuishou.com ");
                 return false;

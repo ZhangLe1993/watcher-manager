@@ -55,7 +55,7 @@ public class UpdateInterceptor extends HandlerInterceptorAdapter {
                 return false;
             }
             Admin admin = adminService.inBoss(user.getEmployeeNo());
-            if(admin.getCode() == -1) {
+            if(admin.getCode() == Admin.GUEST.getCode()) {
                 response.setStatus(HttpStatus.FORBIDDEN.value());
                 response.getWriter().print("您没有权限进行此项操作，请联系管理员 yule.zhang@aihuishou.com ");
                 return false;

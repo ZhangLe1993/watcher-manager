@@ -58,6 +58,18 @@ public class CacheController {
         }
     }
 
+
+    @RequestMapping("/menu")
+    public ResponseEntity cleanMenu() {
+        try {
+            //精致菜单清除
+            cacheService.removeRM();
+            return new ResponseEntity<>("菜单缓存 -- 成功", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("菜单缓存 -- 失败", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     /**
      * 清除某一用户的权限缓存
      * @param obId
