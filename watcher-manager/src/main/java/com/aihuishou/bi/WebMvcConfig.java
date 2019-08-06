@@ -1,7 +1,9 @@
 package com.aihuishou.bi;
 
+import com.aihuishou.bi.interceptor.DeleteInterceptor;
 import com.aihuishou.bi.interceptor.NotFoundInterceptor;
 import com.aihuishou.bi.interceptor.ResourceInterceptor;
+import com.aihuishou.bi.interceptor.UpdateInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ResourceUtils;
@@ -24,6 +26,15 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         super.addResourceHandlers(registry);
     }
 
+    @Bean
+    public UpdateInterceptor updateInterceptor() {
+        return new UpdateInterceptor();
+    }
+
+    @Bean
+    public DeleteInterceptor deleteInterceptor() {
+        return new DeleteInterceptor();
+    }
 
     @Bean
     public NotFoundInterceptor notFoundInterceptor() {
@@ -38,6 +49,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(updateInterceptor()).addPathPatterns("/menu/**");
+        registry.addInterceptor(deleteInterceptor()).addPathPatterns("/menu/**");
         registry.addInterceptor(notFoundInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns("/static/**", "/templates/dist/**", "/images/**", "/fonts", "/assets", "/images", "/error", "/watcher/**", "/vender/**");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/static/resources/**");

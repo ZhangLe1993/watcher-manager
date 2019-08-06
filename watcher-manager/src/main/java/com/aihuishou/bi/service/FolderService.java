@@ -45,7 +45,7 @@ public class FolderService extends BaseService {
 
     @AutoFill
     @Transactional
-    public void createFolder(FolderVO folderVO) throws SQLException {
+    public int createFolder(FolderVO folderVO) throws SQLException {
         String position = StringEx.newUUID();
         String parent = folderVO.getParentPosition();
         if(StringUtils.isBlank(parent)) {
@@ -53,23 +53,23 @@ public class FolderService extends BaseService {
         }
         //select max(sort_no) + 1 from bi_folder where parent_position = ?
         String sql = "INSERT INTO bi_folder(position, name, state, parent_position, mount, empno, empname, create_time, update_time) VALUES (?,?,?,?,?,?,?,NOW(),NOW());";
-        new QueryRunner(dataSource).update(sql, position, folderVO.getName(), folderVO.getState(), parent, folderVO.getMount(), folderVO.getEmpno(), folderVO.getEmpname());
+        return new QueryRunner(dataSource).update(sql, position, folderVO.getName(), folderVO.getState(), parent, folderVO.getMount(), folderVO.getEmpno(), folderVO.getEmpname());
     }
 
     @AutoFill
-    public void updateFolder(FolderVO folderVO) throws SQLException {
+    public int updateFolder(FolderVO folderVO) throws SQLException {
         //暂时只提供修改名称，修改路径，修改是否上线, 修改挂载点
         String sql = "UPDATE bi_folder SET name = ?, parent_position = ?, state = ?,mount = ? WHERE id = ?;";
-        new QueryRunner(dataSource).update(sql, folderVO.getName(), folderVO.getParentPosition(), folderVO.getState(), folderVO.getMount(), folderVO.getId());
+        return new QueryRunner(dataSource).update(sql, folderVO.getName(), folderVO.getParentPosition(), folderVO.getState(), folderVO.getMount(), folderVO.getId());
     }
 
     @Transactional
-    public void deleteFolder(Long id) throws SQLException {
+    public int deleteFolder(Long id) throws SQLException {
         //func_get_folder_tree 是一个递归函数
         String sql = "SELECT func_get_folder_tree(?) AS positions;";
         String positions = new QueryRunner(dataSource).query(sql, new ScalarHandler<>(), id);
         sql = "DELETE FROM bi_folder WHERE id = ?;";
-        new QueryRunner(dataSource).update(sql, id);
+        int count = new QueryRunner(dataSource).update(sql, id);
         //级联递归删除子folder
         String[] in = StringUtils.split(positions, ",");
 
@@ -84,8 +84,7 @@ public class FolderService extends BaseService {
             sql = "DELETE FROM bi_nodes WHERE parent_position = ?;";
             new QueryRunner(dataSource).batch(sql, params);
         }
-
-
+        return count;
     }
 
     public Folder getFolderById(Long id) throws SQLException {

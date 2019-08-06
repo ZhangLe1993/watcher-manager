@@ -98,20 +98,21 @@ public class AuthService extends BaseService {
 
 
     @Transactional
-    public void grantAuth(GrantVO grantVO) throws SQLException {
+    public int grantAuth(GrantVO grantVO) throws SQLException {
         String sql = "DELETE FROM node_auth WHERE node_position = ?;";
         QueryRunner dbUtils = new QueryRunner(dataSource);
         dbUtils.update(sql, grantVO.getPosition());
         List<String> authList = grantVO.getAuth();
         if(authList == null || authList.size() == 0) {
-            return;
+            return 0;
         }
         sql = "INSERT INTO node_auth(node_position, auth_name) VALUES (?, ?);";
         Object[][] params = new Object[authList.size()][2];
         for(int i = 0; i < authList.size(); i++) {
             params[i] = new Object[]{grantVO.getPosition(), authList.get(i)};
         }
-        dbUtils.batch(sql, params);
+        int rows[] = dbUtils.batch(sql, params);
+        return rows == null ? 0 : rows.length;
     }
 
     public List<String> getAllAuth(String key, Integer pageIndex, Integer pageSize) throws SQLException {

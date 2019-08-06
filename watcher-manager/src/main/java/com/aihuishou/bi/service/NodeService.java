@@ -29,7 +29,7 @@ public class NodeService extends BaseService {
 
     @AutoFill
     @Transactional
-    public void createNode(NodeVO nodeVO) throws SQLException {
+    public int createNode(NodeVO nodeVO) throws SQLException {
         String position = StringEx.newUUID();
         String parent = nodeVO.getParentPosition();
         String mount = nodeVO.getMount();
@@ -44,7 +44,7 @@ public class NodeService extends BaseService {
         }
         String sql = "INSERT INTO bi_nodes(position, url, name, mount, parent_position, state, empno, empname, create_time, update_time, genre) VALUES (?,?,?,?,?,?,?,?,now(),now(),'1');";
         QueryRunner dbUtils = new QueryRunner(dataSource);
-        dbUtils.update(sql, position, nodeVO.getUrl(), nodeVO.getName(), mount,
+        return dbUtils.update(sql, position, nodeVO.getUrl(), nodeVO.getName(), mount,
                 parent, nodeVO.getState(), nodeVO.getEmpno(), nodeVO.getEmpname());
         //sql = "INSERT INTO node_auth(node_position, auth_name) VALUES (?, ?);";
         //List<String> auth = nodeVO.getAuth();
@@ -53,19 +53,19 @@ public class NodeService extends BaseService {
     }
 
     @AutoFill
-    public void updateNode(NodeVO nodeVO) throws SQLException {
+    public int updateNode(NodeVO nodeVO) throws SQLException {
         String sql = "UPDATE bi_nodes SET url = ?, name = ?, mount = ?, parent_position = ?, state = ?, update_time = now() WHERE id = ?;";
         QueryRunner dbUtils = new QueryRunner(dataSource);
-        dbUtils.update(sql, nodeVO.getUrl(), nodeVO.getName(), nodeVO.getMount(),
+        return dbUtils.update(sql, nodeVO.getUrl(), nodeVO.getName(), nodeVO.getMount(),
                 nodeVO.getParentPosition(), nodeVO.getState(), nodeVO.getId());
         //sql = "DELETE FROM node_auth WHERE node_position = ? AND auth_name = ?;";
         //待实现
         //sql = "INSERT INTO node_auth(node_position, auth_name) VALUES (?, ?);";
     }
 
-    public void deleteNode(Long id) throws SQLException {
+    public int deleteNode(Long id) throws SQLException {
         String sql = "DELETE FROM bi_nodes WHERE id=?;";
-        new QueryRunner(dataSource).update(sql, id);
+        return new QueryRunner(dataSource).update(sql, id);
     }
 
     public Node getNodeById(Long id) throws SQLException {

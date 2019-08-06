@@ -2,11 +2,14 @@ package com.aihuishou.bi.controller;
 
 import com.aihuishou.bi.annotation.SystemLog;
 import com.aihuishou.bi.cas.CasUtil;
+import com.aihuishou.bi.core.Admin;
 import com.aihuishou.bi.core.SysConf;
 import com.aihuishou.bi.entity.User;
+import com.aihuishou.bi.service.AdminService;
 import com.aihuishou.bi.service.MappingService;
 import com.aihuishou.bi.service.SysService;
 import com.aihuishou.bi.service.UserService;
+import com.aihuishou.bi.utils.ExceptionInfo;
 import com.aihuishou.bi.utils.LoggerTemplate;
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.ImmutableMap;
@@ -53,6 +56,9 @@ public class IndexC {
     @Autowired
     private MappingService mappingService;
 
+    @Autowired
+    private AdminService adminService;
+
     @RequestMapping("sleep")
     public ResponseEntity sleep() throws InterruptedException {
         Thread.sleep(30000L);
@@ -63,10 +69,36 @@ public class IndexC {
     @Value("${proxy.watcher.target_url}")
     private String targetUrl;
 
-    @RequestMapping(value = {"/back/**", "/", "/page/**", "/pages/**"})
+    @RequestMapping(value = {"/back/**", "/", "/page/**"})
     public String index() {
         //TODO 权限校验
         return "dist/index";
+    }
+
+    @RequestMapping(value = {"/pages/**"})
+    public String manager(ModelMap model) {
+        try {
+            String obId = CasUtil.getId();
+            User user = userService.getUserByObId(obId);
+            if(user == null || StringUtils.isBlank(user.getEmployeeNo())) {
+                baseFun(model, "home");
+                model.addAttribute("is_mapping", false);
+                return "base";
+            }
+            Admin admin = adminService.inBoss(user.getEmployeeNo());
+            if(admin.getCode() == -1) {
+                baseFun(model, "home");
+                model.addAttribute("is_mapping", false);
+                return "base";
+            }
+            //TODO 权限校验
+            return "dist/index";
+        } catch(Exception e) {
+            logger.error("鉴权过程发生异常", ExceptionInfo.toString(e));
+            baseFun(model, "home");
+            model.addAttribute("is_mapping", false);
+            return "base";
+        }
     }
 
     @RequestMapping("/favicon.png")

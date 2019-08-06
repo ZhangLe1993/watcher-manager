@@ -1,6 +1,8 @@
 package com.aihuishou.bi.controller;
 
+import com.aihuishou.bi.annotation.Delete;
 import com.aihuishou.bi.annotation.SystemLog;
+import com.aihuishou.bi.annotation.Update;
 import com.aihuishou.bi.entity.Folder;
 import com.aihuishou.bi.entity.Mount;
 import com.aihuishou.bi.entity.Node;
@@ -74,34 +76,45 @@ public class MenuController {
 
 
     @SystemLog(description = "新增挂载点")
+    @Update
     @PostMapping("/mount")
-    public void createMount(@RequestBody MountVO mountVO) {
+    public ResponseEntity createMount(@RequestBody MountVO mountVO) {
         try {
-            mountService.createMount(mountVO);
+            int count = mountService.createMount(mountVO);
+            if(count > 0) return new ResponseEntity<>("新增挂载点成功", HttpStatus.OK);
+            return new ResponseEntity<>("新增挂载点失败", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
             logger.error("新增挂载点异常，异常信息: {}", ExceptionInfo.toString(e));
         }
-
+        return new ResponseEntity<>("新增挂载点失败", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @SystemLog(description = "修改挂载点")
+    @Update
     @PutMapping("/mount")
-    public void updateMount(@RequestBody MountVO mountVO) {
+    public ResponseEntity updateMount(@RequestBody MountVO mountVO) {
         try{
-            mountService.updateMount(mountVO);
+            int count = mountService.updateMount(mountVO);
+            if(count > 0) return new ResponseEntity<>("修改挂载点成功", HttpStatus.OK);
+            return new ResponseEntity<>("修改挂载点失败", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
             logger.error("修改挂载点异常，异常信息: {}", ExceptionInfo.toString(e));
         }
+        return new ResponseEntity<>("修改挂载点失败", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @SystemLog(description = "删除挂载点")
+    @Delete
     @DeleteMapping("/mount")
-    public void deleteMount(Long id) {
+    public ResponseEntity deleteMount(Long id) {
         try{
-            mountService.deleteMount(id);
+            int count = mountService.deleteMount(id);
+            if(count > 0) return new ResponseEntity<>("删除挂载点成功", HttpStatus.OK);
+            return new ResponseEntity<>("删除挂载点失败", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
             logger.error("删除挂载点异常，异常信息: {}", ExceptionInfo.toString(e));
         }
+        return new ResponseEntity<>("删除挂载点失败", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
@@ -124,33 +137,45 @@ public class MenuController {
     }
 
     @SystemLog(description = "新增文件夹")
+    @Update
     @PostMapping("/folder")
-    public void createFolder(@RequestBody FolderVO folderVO) {
+    public ResponseEntity createFolder(@RequestBody FolderVO folderVO) {
         try{
-            folderService.createFolder(folderVO);
+            int count = folderService.createFolder(folderVO);
+            if(count > 0) return new ResponseEntity<>("新增文件夹成功", HttpStatus.OK);
+            return new ResponseEntity<>("新增文件夹失败", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
             logger.error("新增文件夹异常，异常信息: {}", ExceptionInfo.toString(e));
         }
+        return new ResponseEntity<>("新增文件夹失败", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @SystemLog(description = "修改文件夹")
+    @Update
     @PutMapping("/folder")
-    public void updateFolder(@RequestBody FolderVO folderVO) {
+    public ResponseEntity updateFolder(@RequestBody FolderVO folderVO) {
         try{
-            folderService.updateFolder(folderVO);
+            int count = folderService.updateFolder(folderVO);
+            if(count > 0) return new ResponseEntity<>("修改文件夹成功", HttpStatus.OK);
+            return new ResponseEntity<>("修改文件夹失败", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
             logger.error("编辑文件夹异常，异常信息: {}", ExceptionInfo.toString(e));
         }
+        return new ResponseEntity<>("修改文件夹失败", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @SystemLog(description = "删除文件夹")
+    @Delete
     @DeleteMapping("/folder")
-    public void deleteFolder(Long id) {
+    public ResponseEntity deleteFolder(Long id) {
         try{
-            folderService.deleteFolder(id);
+            int count = folderService.deleteFolder(id);
+            if(count > 0) return new ResponseEntity<>("删除文件夹成功", HttpStatus.OK);
+            return new ResponseEntity<>("删除文件夹失败", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
             logger.error("删除文件夹异常，异常信息: {}", ExceptionInfo.toString(e));
         }
+        return new ResponseEntity<>("删除文件夹失败", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @SystemLog(description = "查询报表")
@@ -172,43 +197,59 @@ public class MenuController {
     }
 
     @SystemLog(description = "新增报表")
+    @Update
     @PostMapping("/node")
-    public void createNode(@RequestBody NodeVO nodeVO) {
+    public ResponseEntity createNode(@RequestBody NodeVO nodeVO) {
         try{
-            nodeService.createNode(nodeVO);
+            int count = nodeService.createNode(nodeVO);
+            if(count > 0) return new ResponseEntity<>("新增报表成功", HttpStatus.OK);
+            return new ResponseEntity<>("新增报表失败", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
             logger.error("新增报表菜单异常，异常信息: {}", ExceptionInfo.toString(e));
         }
+        return new ResponseEntity<>("新增报表失败", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @SystemLog(description = "修改报表")
+    @Update
     @PutMapping("/node")
-    public void updateNode(@RequestBody NodeVO nodeVO) {
+    public ResponseEntity updateNode(@RequestBody NodeVO nodeVO) {
         try{
-            nodeService.updateNode(nodeVO);
+            int count = nodeService.updateNode(nodeVO);
+            if(count > 0) return new ResponseEntity<>("修改报表成功", HttpStatus.OK);
+            return new ResponseEntity<>("修改报表失败", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
             logger.error("编辑报表菜单异常，异常信息: {}", ExceptionInfo.toString(e));
         }
+        return new ResponseEntity<>("修改报表失败", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @SystemLog(description = "删除报表")
+    @Delete
     @DeleteMapping("/node")
-    public void deleteNode(Long id) {
+    public ResponseEntity deleteNode(Long id) {
         try{
-            nodeService.deleteNode(id);
+            int count = nodeService.deleteNode(id);
+            if(count > 0) return new ResponseEntity<>("删除报表成功", HttpStatus.OK);
+            return new ResponseEntity<>("删除报表失败", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
             logger.error("删除报表菜单异常，异常信息: {}", ExceptionInfo.toString(e));
         }
+        return new ResponseEntity<>("删除报表失败", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @SystemLog(description = "报表菜单授权")
+    @Update
     @PostMapping("/auth")
-    public void grantAuth(@RequestBody GrantVO grantVO) {
+    public ResponseEntity grantAuth(@RequestBody GrantVO grantVO) {
         try {
-            authService.grantAuth(grantVO);
+            int count = authService.grantAuth(grantVO);
+            if(count > 0) return new ResponseEntity<>("授权成功", HttpStatus.OK);
+            return new ResponseEntity<>("授权失败", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
             logger.error("报表菜单授权异常，异常信息: {}", ExceptionInfo.toString(e));
         }
+        return new ResponseEntity<>("授权失败", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @SystemLog(description = "查询所有权限")

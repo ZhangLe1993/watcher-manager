@@ -27,23 +27,23 @@ public class MountService extends BaseService {
     }
 
     @AutoFill
-    public void createMount(MountVO mountVO) throws SQLException {
+    public int createMount(MountVO mountVO) throws SQLException {
         String sql = "INSERT INTO bi_childless(name, state, empno, empname, create_time, update_time) VALUES (?, ?, ?, ?, NOW(), NOW());";
-        new QueryRunner(dataSource).update(sql, mountVO.getName(), mountVO.getState(), mountVO.getEmpno(), mountVO.getEmpname());
+        return new QueryRunner(dataSource).update(sql, mountVO.getName(), mountVO.getState(), mountVO.getEmpno(), mountVO.getEmpname());
     }
 
     @AutoFill
-    public void updateMount(MountVO mountVO) throws SQLException {
+    public int updateMount(MountVO mountVO) throws SQLException {
         String sql = "UPDATE bi_childless SET name = ?, state = ?, update_time = now() where id = ?;";
-        new QueryRunner(dataSource).update(sql, mountVO.getName(), mountVO.getState(), mountVO.getId());
+        return new QueryRunner(dataSource).update(sql, mountVO.getName(), mountVO.getState(), mountVO.getId());
     }
 
 
     @Transactional
-    public void deleteMount(Long id) throws SQLException {
+    public int deleteMount(Long id) throws SQLException {
         //删除挂载点，基本不会有这个操作
         String sql = "DELETE FROM bi_childless WHERE id = ?;";
-        new QueryRunner(dataSource).update(sql, id);
+        int count = new QueryRunner(dataSource).update(sql, id);
 
         sql = "select position from bi_folder where mount = ?;";
         List<String> positions = new QueryRunner(dataSource).query(sql, new ColumnListHandler<>(), id);
@@ -63,6 +63,7 @@ public class MountService extends BaseService {
             }
             new QueryRunner(dataSource).batch(sql, params);
         }
+        return count;
     }
 
 
