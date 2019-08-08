@@ -7,6 +7,7 @@ import com.aihuishou.bi.vo.NodeVO;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ColumnListHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,10 +55,21 @@ public class NodeService extends BaseService {
 
     @AutoFill
     public int updateNode(NodeVO nodeVO) throws SQLException {
+        String parent = nodeVO.getParentPosition();
+        String mount = nodeVO.getMount();
+        if(StringUtils.isBlank(parent) && StringUtils.isBlank(mount)) {
+            throw new RuntimeException("父节点和挂载点必选其中之一");
+        }
+        if(StringUtils.isBlank(parent)) {
+            parent = "-1";
+        }
+        if(StringUtils.isNotBlank(parent)) {
+            mount = "0";
+        }
         String sql = "UPDATE bi_nodes SET url = ?, name = ?, mount = ?, parent_position = ?, state = ?, update_time = now() WHERE id = ?;";
         QueryRunner dbUtils = new QueryRunner(dataSource);
-        return dbUtils.update(sql, nodeVO.getUrl(), nodeVO.getName(), nodeVO.getMount(),
-                nodeVO.getParentPosition(), nodeVO.getState(), nodeVO.getId());
+        return dbUtils.update(sql, nodeVO.getUrl(), nodeVO.getName(), mount,
+                parent, nodeVO.getState(), nodeVO.getId());
         //sql = "DELETE FROM node_auth WHERE node_position = ? AND auth_name = ?;";
         //待实现
         //sql = "INSERT INTO node_auth(node_position, auth_name) VALUES (?, ?);";
@@ -75,11 +87,17 @@ public class NodeService extends BaseService {
 
 
     public List<Node> getNodes(String key, String parent, Integer pageIndex, Integer pageSize) {
-        String sql = "SELECT id, position, url, auth, path, name, mount, parent_position AS parentPosition, state, sort_no AS sortNo, genre FROM bi_nodes WHERE 1=1 ";
+        String sql = "SELECT id, position, url, name, mount, parent_position AS parentPosition, state, sort_no AS sortNo, genre FROM bi_nodes WHERE 1=1 ";
         String append = " AND name like ? ";
         String append1 = " AND parent_position = ?";
         String suffix = " order by sort_no limit ?,?;";
         return this.getAbstractPageList(Node.class, sql, suffix, key, parent, pageIndex, pageSize, append, append1);
+        //List<Node> nodes = this.getAbstractPageList(Node.class, sql, suffix, key, parent, pageIndex, pageSize, append, append1);
+
+        //Object[][] params = new Object[nodes.size()][];
+        //sql = "SELECT auth_name AS auth FROM node_auth WHERE node_position = ?;";
+
+        //return new QueryRunner(dataSource).query(sql, new ColumnListHandler<>("auth"), position);
     }
 
 
