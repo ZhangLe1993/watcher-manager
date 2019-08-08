@@ -5,6 +5,7 @@ import { connect } from 'dva';
 import router from 'umi/router';
 
 import style from './index.less';
+import { getMenuItemByPath } from '../../utils/utils';
 
 
 class Home extends React.Component {
@@ -86,7 +87,10 @@ class Home extends React.Component {
   }
 
   linkTo = pathName => {
+    const { menuData } = this.props;
+    const checkedMenuItem = getMenuItemByPath(pathName, menuData);
     window.sessionStorage.setItem('pathName', pathName);
+    window.sessionStorage.setItem('currentMenuItem', JSON.stringify(checkedMenuItem));
     router.push(`/page/${pathName}`);
   }
 
