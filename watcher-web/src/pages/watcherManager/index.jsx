@@ -1036,7 +1036,7 @@ class WatcherManager extends React.Component {
         targetKeys={authority.userAuth}
         showSearch
         onChange={this.handleSelectedAuth}
-        filterOption={(inputValue, item) => item.value.indexOf(inputValue) !== -1}
+        filterOption={(inputValue, item) => item.auth.indexOf(inputValue) !== -1}
         leftColumns={leftTableColumns}
         rightColumns={rightTableColumns}
       />
