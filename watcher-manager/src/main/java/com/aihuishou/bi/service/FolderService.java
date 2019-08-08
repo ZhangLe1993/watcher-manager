@@ -58,9 +58,13 @@ public class FolderService extends BaseService {
 
     @AutoFill
     public int updateFolder(FolderVO folderVO) throws SQLException {
+        String parent = folderVO.getParentPosition();
+        if(StringUtils.isBlank(parent)) {
+            parent = "-1";
+        }
         //暂时只提供修改名称，修改路径，修改是否上线, 修改挂载点
         String sql = "UPDATE bi_folder SET name = ?, parent_position = ?, state = ?,mount = ? WHERE id = ?;";
-        return new QueryRunner(dataSource).update(sql, folderVO.getName(), folderVO.getParentPosition(), folderVO.getState(), folderVO.getMount(), folderVO.getId());
+        return new QueryRunner(dataSource).update(sql, folderVO.getName(), parent, folderVO.getState(), folderVO.getMount(), folderVO.getId());
     }
 
     @Transactional
