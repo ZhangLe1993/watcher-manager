@@ -94,7 +94,7 @@ public class IndexC {
             //TODO 权限校验
             return "dist/index";
         } catch(Exception e) {
-            logger.error("鉴权过程发生异常", ExceptionInfo.toString(e));
+            logger.error("鉴权过程发生异常,异常信息：{}", ExceptionInfo.toString(e));
             baseFun(model, "home");
             model.addAttribute("is_mapping", false);
             return "base";
