@@ -564,12 +564,12 @@ class WatcherManager extends React.Component {
 
   getAllAuth = () => {
     const that = this;
-    const { pageIndex, pageSize } = this.state.authority;
-    const parameters = {
-      pageIndex,
-      pageSize,
-    };
-    queryAllAuth(parameters).then(res => {
+    // const { pageIndex, pageSize } = this.state.authority;
+    // const parameters = {
+    //   pageIndex,
+    //   pageSize,
+    // };
+    queryAllAuth().then(res => {
       const temp = [];
       res.data.forEach(it => {
         temp.push({
@@ -746,7 +746,7 @@ class WatcherManager extends React.Component {
                   onItemSelect(key, !listSelectedKeys.includes(key));
                 },
               })}
-              pagination={ direction === 'left' ? pagination : false}
+              // pagination={ direction === 'left' ? pagination : false}
             />
           );
         }}
