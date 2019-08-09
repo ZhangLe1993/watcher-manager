@@ -27,6 +27,22 @@ public class MappingService {
         return new QueryRunner(dataSource).query(sql, new BeanHandler<>(Mapping.class), source);
     }
 
+    public Map<String, String> getModelMap(List<String> positions) throws SQLException {
+        if(positions != null && positions.size() != 0) {
+            StringBuilder sql = new StringBuilder().append("select source_position AS source, target_position AS target from replace_mapping  where source_position in (");
+            for(int i = 0; i < positions.size(); i++) {
+                sql.append("'").append(positions.get(i)).append("'");
+                if(i != positions.size() - 1) {
+                    sql.append(",");
+                }
+            }
+            sql.append(");");
+            List<Mapping> maps = new QueryRunner(dataSource).query(sql.toString(), new BeanListHandler<>(Mapping.class));
+            return maps.stream().collect(Collectors.toMap(Mapping:: getSource, Mapping :: getTarget, (oldVal, currVal) -> currVal));
+        }
+        return null;
+    }
+
     @Cacheable(value = CacheConf.POSITION_MAPPING_MAP)
     public Map<String, String> getMapping() throws SQLException {
         String sql = "select source_position AS source, target_position AS target from replace_mapping;";

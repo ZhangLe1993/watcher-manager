@@ -2,13 +2,14 @@ package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.annotation.AutoFill;
 import com.aihuishou.bi.entity.Node;
+import com.aihuishou.bi.entity.NodeAuth;
 import com.aihuishou.bi.utils.StringEx;
 import com.aihuishou.bi.vo.NodeVO;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
-import org.apache.commons.dbutils.handlers.ColumnListHandler;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,12 +17,17 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class NodeService extends BaseService {
 
     @Resource
     private DataSource dataSource;
+
+    @Autowired
+    private MappingService mappingService;
 
     public List<Node> nodes() throws SQLException {
         String sql = "select id, position, url, auth, path, name, parent_position AS parentPosition,mount,genre from bi_nodes where state='1' order by sort_no;";
@@ -86,18 +92,52 @@ public class NodeService extends BaseService {
     }
 
 
-    public List<Node> getNodes(String key, String parent, Integer pageIndex, Integer pageSize) {
+    public List<Node> getNodes(String key, String parent, Integer pageIndex, Integer pageSize) throws SQLException {
         String sql = "SELECT id, position, url, name, mount, parent_position AS parentPosition, state, sort_no AS sortNo, genre FROM bi_nodes WHERE 1=1 ";
         String append = " AND name like ? ";
         String append1 = " AND parent_position = ?";
         String suffix = " order by sort_no limit ?,?;";
-        return this.getAbstractPageList(Node.class, sql, suffix, key, parent, pageIndex, pageSize, append, append1);
-        //List<Node> nodes = this.getAbstractPageList(Node.class, sql, suffix, key, parent, pageIndex, pageSize, append, append1);
+        //return this.getAbstractPageList(Node.class, sql, suffix, key, parent, pageIndex, pageSize, append, append1);
+        List<Node> nodes = this.getAbstractPageList(Node.class, sql, suffix, key, parent, pageIndex, pageSize, append, append1);
+        //List<Node> res = new ArrayList<>();
+        if(nodes != null && nodes.size() != 0) {
+            StringBuilder sb = new StringBuilder();
+            List<String> positions = nodes.stream().map(Node::getPosition).collect(Collectors.toList());
+            Map<String, String> maps = mappingService.getModelMap(positions);
 
-        //Object[][] params = new Object[nodes.size()][];
-        //sql = "SELECT auth_name AS auth FROM node_auth WHERE node_position = ?;";
+            sb.append("SELECT node_position as position, group_concat(auth_name SEPARATOR ',') AS authName FROM node_auth WHERE node_position in (");
+            for(int i = 0; i < nodes.size(); i++) {
+                String sourcePosition = nodes.get(i).getPosition();
+                if(maps != null && maps.containsKey(sourcePosition)) {
+                    sb.append("'").append(maps.get(sourcePosition)).append("'");
+                } else {
+                    sb.append("'").append(sourcePosition).append("'");
+                }
+                if(i != nodes.size() - 1) {
+                    sb.append(",");
+                }
+            }
+            sb.append(") group by node_position;");
 
-        //return new QueryRunner(dataSource).query(sql, new ColumnListHandler<>("auth"), position);
+            List<NodeAuth> authList = new QueryRunner(dataSource).query(sb.toString(), new BeanListHandler<>(NodeAuth.class));
+            if(authList != null && authList.size() != 0) {
+                Map<String, String> authMap = authList.stream().collect(Collectors.toMap(NodeAuth:: getPosition, NodeAuth :: getAuthName, (oldVal, currVal) -> currVal));
+                nodes.stream().peek(p -> {
+                    String po = p.getPosition();
+                    String auth = "";
+                    if(maps != null && maps.containsKey(po)) {
+                        auth = authMap.get(maps.get(po));
+                    } else {
+                        auth = authMap.get(po);
+                    }
+                    if(StringUtils.isNotBlank(auth)) {
+                        String tar = StringUtils.substringBeforeLast(auth, ",");
+                        p.setAuth(tar);
+                    }
+                }).collect(Collectors.toList());
+            }
+        }
+        return nodes;
     }
 
 

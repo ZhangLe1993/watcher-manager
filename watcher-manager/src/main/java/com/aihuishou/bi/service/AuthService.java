@@ -1,6 +1,7 @@
 package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.core.CacheConf;
+import com.aihuishou.bi.entity.Mapping;
 import com.aihuishou.bi.entity.NodeAuth;
 import com.aihuishou.bi.utils.ExceptionInfo;
 import com.aihuishou.bi.vo.GrantVO;
@@ -99,9 +100,17 @@ public class AuthService extends BaseService {
 
     @Transactional
     public int grantAuth(GrantVO grantVO) throws SQLException {
+        Mapping mapping = mappingService.getModel(grantVO.getPosition());
+        String target = grantVO.getPosition();
+        if(mapping != null) {
+            target = mapping.getTarget();
+        }
         String sql = "DELETE FROM node_auth WHERE node_position = ?;";
         QueryRunner dbUtils = new QueryRunner(dataSource);
-        dbUtils.update(sql, grantVO.getPosition());
+        if(mapping != null) {
+            dbUtils.update(sql, grantVO.getPosition());
+        }
+        dbUtils.update(sql, target);
         List<String> authList = grantVO.getAuth();
         if(authList == null || authList.size() == 0) {
             return 0;
@@ -109,7 +118,7 @@ public class AuthService extends BaseService {
         sql = "INSERT INTO node_auth(node_position, auth_name) VALUES (?, ?);";
         Object[][] params = new Object[authList.size()][2];
         for(int i = 0; i < authList.size(); i++) {
-            params[i] = new Object[]{grantVO.getPosition(), authList.get(i)};
+            params[i] = new Object[]{target, authList.get(i)};
         }
         int rows[] = dbUtils.batch(sql, params);
         return rows == null ? 0 : rows.length;
@@ -138,8 +147,13 @@ public class AuthService extends BaseService {
 
 
     public List<String> getMenuAuth(String position) throws SQLException {
+        Mapping mapping = mappingService.getModel(position);
+        String target = position;
+        if(mapping != null) {
+            target = mapping.getTarget();
+        }
         String sql = "SELECT auth_name AS auth FROM node_auth WHERE node_position = ?;";
-        return new QueryRunner(dataSource).query(sql, new ColumnListHandler<>("auth"), position);
+        return new QueryRunner(dataSource).query(sql, new ColumnListHandler<>("auth"), target);
     }
 
 
