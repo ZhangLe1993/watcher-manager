@@ -103,9 +103,14 @@ export async function queryUserAuth(params) {
 }
 
 // 查询所有的权限
-export async function queryAllAuth(params) {
-  const { pageIndex, pageSize } = params;
-  return request(`/menu/auth/all?page_index=${pageIndex}&page_size=${pageSize}`);
+// export async function queryAllAuth(params) {
+//   const { pageIndex, pageSize } = params;
+//   return request(`/menu/auth/all?page_index=${pageIndex}&page_size=${pageSize}`);
+// }
+
+// 查询所有的权限
+export async function queryAllAuth() {
+  return request('/menu/auth/all');
 }
 
 // 菜单授权
