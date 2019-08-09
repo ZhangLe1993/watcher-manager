@@ -67,6 +67,19 @@
         <property name="service" value="${cas.client.host}/j_spring_cas_security_check"/>
         <property name="sendRenew" value="false"/>
     </bean>
+
+
+    <!-- 单点登出 开始 -->
+    <bean id="singleLogoutFilter" class="org.jasig.cas.client.session.SingleSignOutFilter"/>
+    <bean id="requestSingleLogoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <!-- 退出登录后跳转的路径 -->
+        <constructor-arg value="${cas.server.logout}"/>
+        <constructor-arg>
+            <bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+        </constructor-arg>
+        <property name="filterProcessesUrl" value="/logout"/>
+    </bean>
+    <!-- 单点登出 结束 -->
     <!-- spring CAS end-->
 
 </beans>
