@@ -21,7 +21,7 @@ public class CacheController {
      * 一把梭哈
      * @return
      */
-    @RequestMapping("/suoha")
+    @RequestMapping(value = "/suoha", produces = "application/json")
     public ResponseEntity cleanAll() {
         try {
             cacheService.removeLNA();
@@ -41,7 +41,7 @@ public class CacheController {
      * 配置完菜单之后的肯德基标配套餐
      * @return
      */
-    @RequestMapping("/package")
+    @RequestMapping(value = "/package", produces = "application/json")
     public ResponseEntity cleanStandard() {
         try {
             //精致菜单清除
@@ -59,7 +59,7 @@ public class CacheController {
     }
 
 
-    @RequestMapping("/menu")
+    @RequestMapping(value = "/menu", produces = "application/json")
     public ResponseEntity cleanMenu() {
         try {
             //精致菜单清除
@@ -75,7 +75,7 @@ public class CacheController {
      * @param obId
      * @return
      */
-    @RequestMapping("/lua")
+    @RequestMapping(value = "/lua", produces = "application/json")
     public ResponseEntity cleanLNA(@RequestParam(value = "obId", required = false) String obId) {
         try {
             if(StringUtils.isBlank(obId)) {
