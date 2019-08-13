@@ -181,6 +181,7 @@ class WatcherManager extends React.Component {
         data: [],
         total: 0,
         parentTree: [],
+        parentPosition: '',
       },
       authority: {
         visible: false,
@@ -276,6 +277,8 @@ class WatcherManager extends React.Component {
          visible: true,
          isAdd: true,
          id: '',
+         mount: '',
+         parentPosition: '',
        } });
     switch (category) {
       case 'mount':
@@ -285,7 +288,18 @@ class WatcherManager extends React.Component {
         setFieldsValue({ mount: '', parentPosition: '', folderName: '', folderState: '' });
         break;
       default:
-        setFieldsValue({ url: '', nodeMount: '', nodeParentPosition: '', nodename: '', nodeState: '' });
+        queryAllParentNode().then(res => {
+          that.setState({ node: {
+            ...that.state.node,
+            parentTree: res,
+          } });
+        });
+        setFieldsValue({
+          url: '',
+          nodename: '',
+          nodeState: '',
+          isRootNode: '0',
+        });
         break;
     }
   }
@@ -303,6 +317,10 @@ class WatcherManager extends React.Component {
       url,
     } = data;
     const that = this;
+    let newParentPosition = parentPosition;
+    if (parentPosition === '-1') {
+      newParentPosition = '无';
+    }
     if (action === 'delete') {
       this[`delete${newCategory}Func`](id);
     } else if (action === 'modify') {
@@ -312,6 +330,8 @@ class WatcherManager extends React.Component {
           visible: true,
           isAdd: false,
           id,
+          parentPosition: newParentPosition,
+          mount,
         } });
       switch (category) {
         case 'mount':
@@ -325,7 +345,12 @@ class WatcherManager extends React.Component {
               parentTree: temp,
             } });
           });
-          setFieldsValue({ mount, parentPosition, folderName: name, folderState: state });
+          setFieldsValue({
+            mount,
+            parentPosition: newParentPosition,
+            folderName: name,
+            folderState: state,
+          });
           break;
         default:
             queryAllParentNode().then(res => {
@@ -334,10 +359,14 @@ class WatcherManager extends React.Component {
               parentTree: res,
             } });
           });
+          // eslint-disable-next-line no-case-declarations
+          let isRootNode = '0';
+          if (mount !== 0) {
+            isRootNode = '1';
+          }
           setFieldsValue({
             url,
-            nodeMount: mount,
-            nodeParentPosition: parentPosition,
+            isRootNode,
             nodename: name,
             nodeState: state,
           });
@@ -371,7 +400,6 @@ class WatcherManager extends React.Component {
     } });
     const newCategory = category.substring(0, 1).toUpperCase() + category.substring(1);
     this.props.form.validateFields((err, values) => {
-      // if (!err) {
         const {
           name,
           mount,
@@ -392,7 +420,7 @@ class WatcherManager extends React.Component {
             state: mountState,
           };
         } else if (category === 'folder') {
-          if (Array.isArray(parentTree) && parentTree.length === 0) {
+          if ((Array.isArray(parentTree) && parentTree.length === 0) || (parentPosition === '无')) {
             parentPosition = -1;
           }
           parameters = {
@@ -402,11 +430,15 @@ class WatcherManager extends React.Component {
             name: folderName,
           };
         } else if (category === 'node') {
+          let newNodeParentPosition = nodeParentPosition;
+          if (nodeParentPosition === '无') {
+            newNodeParentPosition = -1;
+          }
           parameters = {
             url,
             name: nodename,
             mount: nodeMount,
-            parentPosition: nodeParentPosition,
+            parentPosition: newNodeParentPosition,
             state: nodeState,
           };
         }
@@ -566,11 +598,6 @@ class WatcherManager extends React.Component {
 
   getAllAuth = () => {
     const that = this;
-    // const { pageIndex, pageSize } = this.state.authority;
-    // const parameters = {
-    //   pageIndex,
-    //   pageSize,
-    // };
     queryAllAuth().then(res => {
       const temp = [];
       res.data.forEach(it => {
@@ -723,14 +750,14 @@ class WatcherManager extends React.Component {
       node,
       authority,
      } = this.state;
-     const pagination = {
-        current: authority.pageIndex,
-        pageSize: authority.pageSize,
-        total: authority.total,
-        hideOnSinglePage: true,
-        showQuickJumper: true,
-        onChange: this.handleAuthPageChange,
-     };
+    //  const pagination = {
+    //     current: authority.pageIndex,
+    //     pageSize: authority.pageSize,
+    //     total: authority.total,
+    //     hideOnSinglePage: true,
+    //     showQuickJumper: true,
+    //     onChange: this.handleAuthPageChange,
+    //  };
      const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
       <Transfer {...restProps} showSelectAll={false}>
         {({
@@ -976,7 +1003,6 @@ class WatcherManager extends React.Component {
       <FormItem label="是否根节点">
         {getFieldDecorator('isRootNode', {
           rules: [{ required: true, message: '请输入' }],
-          initialValue: '0',
         })(
           <Group>
            <Radio value="1">是</Radio>
@@ -991,6 +1017,7 @@ class WatcherManager extends React.Component {
               rules: [{
                 required: true, message: '请选择挂载点',
               }],
+              initialValue: node.mount,
             })(
               <Select
                   placeholder="请选择挂载点"
@@ -1010,6 +1037,7 @@ class WatcherManager extends React.Component {
             rules: [{
               required: true, message: '请选择父节点',
             }],
+            initialValue: node.parentPosition,
           })(
             <TreeSelect
               showSearch
