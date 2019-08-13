@@ -40,8 +40,8 @@ public class MenuService {
      * @throws SQLException
      */
 
-    @Cacheable(value = CacheConf.REFINED_MENU)
-    public List<Map<String,Object>> merge() throws SQLException {
+    @Cacheable(value = CacheConf.REFINED_MENU, key = "#obId")
+    public List<Map<String,Object>> merge(String obId) throws SQLException {
         List<Map<String,Object>> merge = new ArrayList<>();
         List<Mount> mounts = mountService.mounts();
         List<Folder> folders = folderService.folders();
@@ -57,7 +57,7 @@ public class MenuService {
 
         //获取菜单和权限映射关系，规定哪些报表只有那些人拥有哪些权限才能看
         Map<String, List<String>> menuAuthMap = authService.menuAuth();
-        String obId = CasUtil.getId();
+
         List<String> userAuthList = authService.userAuth(obId);
         Map<String, String> mapping = mappingService.getMapping();
 

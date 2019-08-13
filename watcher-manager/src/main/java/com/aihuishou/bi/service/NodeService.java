@@ -46,7 +46,7 @@ public class NodeService extends BaseService {
         if(StringUtils.isBlank(parent)) {
             parent = "-1";
         }
-        if(StringUtils.isNotBlank(parent)) {
+        if(StringUtils.isNotBlank(nodeVO.getParentPosition())) {
             mount = "0";
         }
         String sql = "INSERT INTO bi_nodes(position, url, name, mount, parent_position, state, empno, empname, create_time, update_time, genre) VALUES (?,?,?,?,?,?,?,?,now(),now(),'1');";

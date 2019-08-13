@@ -3,6 +3,7 @@ package com.aihuishou.bi.controller;
 import com.aihuishou.bi.annotation.Delete;
 import com.aihuishou.bi.annotation.SystemLog;
 import com.aihuishou.bi.annotation.Update;
+import com.aihuishou.bi.cas.CasUtil;
 import com.aihuishou.bi.entity.Folder;
 import com.aihuishou.bi.entity.Mount;
 import com.aihuishou.bi.entity.Node;
@@ -50,7 +51,8 @@ public class MenuController {
     @GetMapping("")
     public List<Map<String, Object>> menu() {
         try{
-            return menuService.merge();
+            String obId = CasUtil.getId();
+            return menuService.merge(obId);
         }catch(SQLException e) {
             e.printStackTrace();
         }
