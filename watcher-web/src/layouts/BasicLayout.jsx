@@ -9,7 +9,7 @@ import React,
   useEffect,
   Fragment,
 } from 'react';
-import { Icon, Layout, Button, Input } from 'antd';
+import { Icon, Layout, Button, Input, Popconfirm } from 'antd';
 // import Link from 'umi/link';
 import router from 'umi/router';
 import { connect } from 'dva';
@@ -18,6 +18,7 @@ import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import GlobalFooter from '@/components/GlobalFooter/index';
 import style from './basicLayout.less';
+import { loginOut } from '../services/manager';
 // import logo from '../assets/logo.svg';
 /**
  * use Authorized check all menu item
@@ -112,7 +113,9 @@ const BasicLayout = props => {
   const handleLogout = () => {
     window.sessionStorage.removeItem('currentUser');
     setCookie('JSESSIONID', 1, -1);
-    window.location.reload();
+    // window.location.reload();
+    window.location.href = '/logout';
+    // loginOut();
   };
 
   const findMenuItem = (pathName, node, prefix) => {
@@ -171,7 +174,7 @@ const BasicLayout = props => {
         </div>
         <div className={style.headerRight}>
           <div className={style.user}>{userName}</div>
-          <div className={style.loginout} onClick={() => handleLogout()}><Icon type="logout" style={{ fontSize: '20px' }} /></div>
+          <div className={style.loginout}><Popconfirm onConfirm={() => handleLogout()} title="是否退出登录?" okText="退出" cancelText="取消"><Icon type="logout" style={{ fontSize: '20px' }} /></Popconfirm></div>
         </div>
       </div>
     );
@@ -187,7 +190,7 @@ const BasicLayout = props => {
     } else {
       clickNumMap[it.component] = clickNum + 1;
     }
-    if (it.auth) {
+    // if (it.auth) {
       const { nameStrArr } = props;
       const fullName = nameStrArr.filter(item => item.indexOf(it.name) > -1)[0];
       saveMenuName(it.name);
@@ -196,7 +199,7 @@ const BasicLayout = props => {
       window.sessionStorage.setItem('full_name', fullName);
       window.sessionStorage.setItem('pathName', it.component);
       window.localStorage.setItem('clickNumMap', JSON.stringify(clickNumMap));
-    }
+    // }
     // else {
     //   if (!it.is_mount) {
     //     router.push('/no_authority');

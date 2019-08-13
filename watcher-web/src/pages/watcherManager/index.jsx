@@ -35,6 +35,8 @@ import {
   queryAllAuth,
   doMenuAuth,
   queryAllParentNode,
+  clearAll,
+  clear,
 } from '../../services/manager';
 
  /* eslint-disable no-script-url */
@@ -690,6 +692,30 @@ class WatcherManager extends React.Component {
      } });
   }
 
+  handleClear = type => {
+    if (type === 'all') {
+      this.clearAllFunc();
+    } else if (type === 'standard') {
+      this.clearFunc();
+    }
+  }
+
+  clearAllFunc = () => {
+    clearAll().then(() => {
+      message.success('全部清除成功!');
+    }).catch(e => {
+      message.error(e);
+    });
+  }
+
+  clearFunc = () => {
+    clear().then(() => {
+      message.success('标准清除成功!');
+    }).catch(e => {
+      message.error(e);
+    });
+  }
+
   render() {
     const {
       mount,
@@ -802,6 +828,7 @@ class WatcherManager extends React.Component {
     const isRootNode = getFieldValue('isRootNode');
     return (
       <div className={style.container}>
+        <div className={style.clearBtns}><Button type="primary" onClick={() => this.handleClear('all')} style={{ marginRight: '20px' }}>全部清除</Button><Button type="primary" onClick={() => this.handleClear('standard')}>标准清除</Button></div>
         <Button type="primary" onClick={() => this.add('mount')} className={style.btn}>新增挂载点</Button>
         <Table
           columns={this.mountColumns}

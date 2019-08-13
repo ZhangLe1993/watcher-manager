@@ -120,3 +120,18 @@ export async function doMenuAuth(params) {
     data: params,
   });
 }
+
+// 退出
+export async function loginOut() {
+  return request('/logout');
+}
+
+// 全部清除
+export async function clearAll() {
+  return request('/cache/suoha');
+}
+
+// 标准清除
+export async function clear() {
+  return request('/cache/package');
+}
