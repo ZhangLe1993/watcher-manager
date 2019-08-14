@@ -19,11 +19,6 @@ class Iframe extends React.Component {
   }
 
   componentDidMount() {
-    // 监听浏览器回退和前进
-    // console.log('componentDidMount');
-    // window.addEventListener('popstate', () => {
-    //   console.log('popstate');
-    // });
     const that = this;
     const watcherIframe = document.getElementById('watcherIframe');
     const position = this.props.location.pathname.split('/page/')[1];
@@ -97,7 +92,6 @@ class Iframe extends React.Component {
     const nextPosition = nextProps.location.pathname.split('/page/')[1];
     const height = document.body.scrollHeight || document.documentElement.scrollHeight;
     const watcherIframe = document.getElementById('watcherIframe');
-    console.log(prePosition, nextPosition, 'componentWillReceiveProps');
     if (window.sessionStorage.getItem('currentMenuItem')) {
       const checkedMenuItem = JSON.parse(window.sessionStorage.getItem('currentMenuItem'));
       const { genre, url } = checkedMenuItem;
@@ -172,7 +166,6 @@ class Iframe extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('componentDidUpdate');
     const { menuData } = this.props;
     const position = this.props.location.pathname.split('/page/')[1];
     if (menuData) {
@@ -271,8 +264,6 @@ class Iframe extends React.Component {
   }
 
   render() {
-    // const { menuData } = this.props;
-    // console.log(menuData, '-menuData-');
     return (
       <div style={{ height: '100%' }} id="iframeWrapper">
         <Spin delay={200} spinning={this.state.loading} id="spin">
@@ -287,5 +278,3 @@ export default connect(({ menu }) => ({
   menuData: menu.menuData,
   nameStrArr: menu.nameStrArr,
 }))(Iframe);
-
-// export default Iframe;
