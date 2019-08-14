@@ -194,7 +194,7 @@ class Iframe extends React.Component {
 
   receiveMessage = event => {
     console.log(event.data, 'iframe设置的高度');
-    if (event.origin !== 'http://10.25.169.133:8112') {
+    if (event.origin !== 'http://10.25.169.133:8112' && event.origin !== 'http://47.97.240.5:8092') {
         return;
     }
     const watcherIframe = document.getElementById('watcherIframe');
