@@ -131,8 +131,8 @@ public class NodeService extends BaseService {
                         auth = authMap.get(po);
                     }
                     if(StringUtils.isNotBlank(auth)) {
-                        String tar = StringUtils.substringBeforeLast(auth, ",");
-                        p.setAuth(tar);
+                        //String tar = StringUtils.substringBeforeLast(auth, ",");
+                        p.setAuth(auth);
                     }
                 }).collect(Collectors.toList());
             }
