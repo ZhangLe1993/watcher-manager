@@ -1,5 +1,6 @@
 package com.aihuishou.bi.interceptor;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class NotFoundInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        if(response.getStatus() == HttpStatus.NOT_FOUND.value()) {
+        if(response.getStatus() == HttpStatus.NOT_FOUND.value() || (StringUtils.isNotBlank(request.getRequestURI()) && "/error".equalsIgnoreCase(request.getRequestURI()))) {
             /*logger.error("\r\n" + request.getRequestURI() + "\r\n");*/
             logger.error("404错误，页面自动跳转到首页");
             response.sendRedirect("/");

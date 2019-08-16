@@ -52,7 +52,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(updateInterceptor()).addPathPatterns("/menu/**");
         registry.addInterceptor(deleteInterceptor()).addPathPatterns("/menu/**");
         registry.addInterceptor(notFoundInterceptor()).addPathPatterns("/**")
-                .excludePathPatterns("/static/**", "/templates/dist/**", "/images/**", "/fonts", "/assets", "/images", "/error", "/watcher/**", "/vender/**");
+                .excludePathPatterns("/static/**", "/templates/dist/**", "/images/**", "/fonts", "/assets", "/images", "/watcher/**", "/vender/**");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/static/resources/**");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/images/loading.gif");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/fonts");
