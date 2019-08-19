@@ -87,14 +87,14 @@ public class AuthService extends BaseService {
         String sql = new SQL() {
             {
                 SELECT("distinct d.name");
-                FROM("ods_ob_foundation_observerrole a");
-                JOIN("ods_ob_foundation_role b ON a.roleid = b.id");
-                JOIN("ods_ob_foundation_roleoperation c ON b.id = c.roleid");
-                JOIN("ods_ob_foundation_operation d ON c.operationid=d.id");
+                FROM("ods.ods_ob_foundation_observerrole a");
+                JOIN("ods.ods_ob_foundation_role b ON a.roleid = b.id");
+                JOIN("ods.ods_ob_foundation_roleoperation c ON b.id = c.roleid");
+                JOIN("ods.ods_ob_foundation_operation d ON c.operationid=d.id");
                 WHERE("a.observerid = " + obId);
             }
         }.toString();
-        return new QueryRunner(dataSource).query(sql, new ColumnListHandler<String>("name"));
+        return new QueryRunner(greenPlum).query(sql, new ColumnListHandler<String>("name"));
     }
 
 
