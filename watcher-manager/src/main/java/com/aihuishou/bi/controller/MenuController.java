@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/menu")
+@RequestMapping(value = "/menu", produces = "application/json")
 public class MenuController {
 
     private static final Logger logger = LoggerFactory.getLogger(MenuController.class);
@@ -340,5 +340,19 @@ public class MenuController {
             logger.error("文件夹顺序调整异常，异常信息: {}", ExceptionInfo.toString(e));
         }
         return new ResponseEntity<>("文件夹顺序调整失败", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @SystemLog(description = "报表顺序调整")
+    @Update
+    @PutMapping("/node/sort")
+    public ResponseEntity nodeSort(@RequestBody List<Node> nodes) {
+        try {
+            int[] count = nodeService.updateSort(nodes);
+            if(count.length > 0) return new ResponseEntity<>("报表顺序调整成功", HttpStatus.OK);
+            return new ResponseEntity<>("报表顺序调整失败", HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch(Exception e) {
+            logger.error("报表顺序调整异常，异常信息: {}", ExceptionInfo.toString(e));
+        }
+        return new ResponseEntity<>("报表顺序调整失败", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
