@@ -31,6 +31,7 @@
         <security:intercept-url pattern="/route/**" access="hasRole('ROLE_BACK')"/>
         <security:intercept-url pattern="/watcher/**" access="hasRole('ROLE_BACK')"/>
         <security:intercept-url pattern="/vender/**" access="hasRole('ROLE_BACK')"/>
+        <security:intercept-url pattern="/permission/**" access="hasRole('ROLE_BACK')"/>
         <security:custom-filter position="CAS_FILTER" ref="casFilter"/>
     </security:http>
 
