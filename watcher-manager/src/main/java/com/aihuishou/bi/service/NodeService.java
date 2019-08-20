@@ -98,7 +98,7 @@ public class NodeService extends BaseService {
         String append1 = " AND parent_position = ?";
         String suffix = " order by sort_no limit ?,?;";
         //return this.getAbstractPageList(Node.class, sql, suffix, key, parent, pageIndex, pageSize, append, append1);
-        List<Node> nodes = this.getAbstractPageList(Node.class, sql, suffix, key, parent, pageIndex, pageSize, append, append1);
+        List<Node> nodes = super.getAbstractPageList(Node.class, sql, suffix, key, parent, pageIndex, pageSize, append, append1);
         //List<Node> res = new ArrayList<>();
         if(nodes != null && nodes.size() != 0) {
             StringBuilder sb = new StringBuilder();
@@ -145,9 +145,19 @@ public class NodeService extends BaseService {
         String sql = "SELECT count(*) AS num FROM bi_nodes WHERE 1=1 ";
         String append = " AND name like ? ";
         String append1 = " AND parent_position = ?";
-        return this.count(sql, key, parent, append, append1);
+        return super.count(sql, key, parent, append, append1);
     }
 
 
+    public int[] updateSort(List<Node> nodes) throws SQLException {
+        String sql = "update bi_nodes set sort_no = ? where id = ?;";
+        int size = nodes.size();
+        Object[][] params = new Object[size][2];
+        for(int i = 0; i < size; i++) {
+            Node node = nodes.get(i);
+            params[i] = new Object[]{node.getSortNo(), node.getId()};
+        }
+        return new QueryRunner(dataSource).batch(sql, params);
+    }
 
 }

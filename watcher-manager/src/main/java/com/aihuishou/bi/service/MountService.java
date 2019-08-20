@@ -22,7 +22,7 @@ public class MountService extends BaseService {
     private DataSource dataSource;
 
     public List<Mount> mounts() throws SQLException {
-        String sql = "select id, name from bi_childless where state = '1';";
+        String sql = "select id, name from bi_childless order by sort_no asc where state = '1';";
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<Mount>(Mount.class));
     }
 
@@ -76,15 +76,25 @@ public class MountService extends BaseService {
         String sql = "SELECT id, name, state, sort_no AS sortNo FROM bi_childless WHERE 1=1 ";
         String append = "AND name like ? ";
         String suffix = " order by sort_no limit ?,?;";
-        return this.getAbstractPageList(Mount.class, sql, suffix, key,null, pageIndex, pageSize, append, "");
+        return super.getAbstractPageList(Mount.class, sql, suffix, key,null, pageIndex, pageSize, append, "");
     }
 
 
     public Long count(String key) {
         String sql = "SELECT count(*) AS num FROM bi_childless WHERE 1=1 ";
         String append = "AND name like ? ";
-        return this.count(sql, key, null, append);
+        return super.count(sql, key, null, append);
     }
 
+    public int[] updateSort(List<Mount> mounts) throws SQLException {
+        String sql = "update bi_childless set sort_no = ? where id = ?;";
+        int size = mounts.size();
+        Object[][] params = new Object[size][2];
+        for(int i = 0; i < size; i++) {
+            Mount mount = mounts.get(i);
+            params[i] = new Object[]{mount.getSortNo(), mount.getId()};
+        }
+        return new QueryRunner(dataSource).batch(sql, params);
+    }
 
 }

@@ -14,6 +14,7 @@ import com.aihuishou.bi.vo.GrantVO;
 import com.aihuishou.bi.vo.MountVO;
 import com.aihuishou.bi.vo.NodeVO;
 import com.google.common.collect.ImmutableMap;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -297,5 +298,47 @@ public class MenuController {
     }
 
 
+    @SystemLog(description = "获取直接子文件夹")
+    @GetMapping("/folder/zero")
+    public ResponseEntity folderTree(@RequestParam(value = "mount",required = false) Integer mount,
+                                     @RequestParam(value = "parent",required = false) String parent) {
+        if(mount == null && StringUtils.isBlank(parent)) {
+            return new ResponseEntity<>("mount 和 parent 参数必有其一", HttpStatus.BAD_REQUEST);
+        }
+        try {
+            List<Folder> list = folderService.folders(mount, parent);
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch(SQLException e) {
+            logger.error("获取文件夹树异常，异常信息: {}", ExceptionInfo.toString(e));
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
+    @SystemLog(description = "挂载点顺序调整")
+    @Update
+    @PutMapping("/mount/sort")
+    public ResponseEntity mountSort(@RequestBody List<Mount> mounts) {
+        try {
+            int[] count = mountService.updateSort(mounts);
+            if(count.length > 0) return new ResponseEntity<>("挂载点顺序调整成功", HttpStatus.OK);
+            return new ResponseEntity<>("挂载点顺序调整失败", HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch(Exception e) {
+            logger.error("挂载点顺序调整异常，异常信息: {}", ExceptionInfo.toString(e));
+        }
+        return new ResponseEntity<>("挂载点顺序调整失败", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @SystemLog(description = "文件夹顺序调整")
+    @Update
+    @PutMapping("/folder/sort")
+    public ResponseEntity folderSort(@RequestBody List<Folder> folders) {
+        try {
+            int[] count = folderService.updateSort(folders);
+            if(count.length > 0) return new ResponseEntity<>("文件夹顺序调整成功", HttpStatus.OK);
+            return new ResponseEntity<>("文件夹顺序调整失败", HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch(Exception e) {
+            logger.error("文件夹顺序调整异常，异常信息: {}", ExceptionInfo.toString(e));
+        }
+        return new ResponseEntity<>("文件夹顺序调整失败", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

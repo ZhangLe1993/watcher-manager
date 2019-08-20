@@ -10,7 +10,7 @@ Template.ChannelTransDepartMSTR.rendered = function () {
     }
 
     // var flag = this.data.flag;
-    var flag = window.sessionStorage.getItem('flag');
+    var flag = "bigOperation";
     var accountType=0;
     $("#ChannelTransDepart"+flag+"Tab").addClass('active');
     var folderId = ""

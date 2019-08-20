@@ -15,11 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class FolderService extends BaseService {
@@ -28,7 +25,7 @@ public class FolderService extends BaseService {
     private DataSource dataSource;
 
     public List<Folder> folders() throws SQLException {
-        String sql = "select id, mount, name, position, parent_position AS parentPosition from bi_folder where state='1';";
+        String sql = "select id, mount, name, position, parent_position AS parentPosition from bi_folder where state='1' order by sort_no asc;";
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<Folder>(Folder.class));
     }
 
@@ -41,6 +38,25 @@ public class FolderService extends BaseService {
             String sql = "select id, mount, name, position, parent_position AS parentPosition from bi_folder where 1=1 and mount = ?;";
             return new QueryRunner(dataSource).query(sql, new BeanListHandler<Folder>(Folder.class), mount);
         }
+    }
+
+
+    /**
+     * 获取直接子集目录
+     * @param mount
+     * @param parentPosition
+     * @return
+     * @throws SQLException
+     */
+    public List<Folder> folders(Integer mount, String parentPosition) throws SQLException {
+        if(StringUtils.isNotBlank(parentPosition)) {
+            String sql = "select id, mount, name, position, parent_position AS parentPosition, sort_no AS sortNo from bi_folder where 1=1 and parent_position = ?;";
+            return new QueryRunner(dataSource).query(sql, new BeanListHandler<Folder>(Folder.class), parentPosition);
+        } else if(mount != null) {
+            String sql = "select id, mount, name, position, parent_position AS parentPosition from bi_folder where 1=1 and mount = ? and parent_position = '-1';";
+            return new QueryRunner(dataSource).query(sql, new BeanListHandler<Folder>(Folder.class), mount);
+        }
+        return new ArrayList<>();
     }
 
     @AutoFill
@@ -101,7 +117,7 @@ public class FolderService extends BaseService {
         String append = " AND name like ? ";
         String append1 = " AND parent_position = ?";
         String suffix = " order by sort_no limit ?,?;";
-        return this.getAbstractPageList(Folder.class, sql, suffix, key, parent, pageIndex, pageSize, append, append1);
+        return super.getAbstractPageList(Folder.class, sql, suffix, key, parent, pageIndex, pageSize, append, append1);
     }
 
 
@@ -109,7 +125,19 @@ public class FolderService extends BaseService {
         String sql = "SELECT count(*) AS num FROM bi_folder WHERE 1=1 ";
         String append = " AND name like ? ";
         String append1 = " AND parent_position = ?";
-        return this.count(sql, key, parent, append, append1);
+        return super.count(sql, key, parent, append, append1);
+    }
+
+
+    public int[] updateSort(List<Folder> folders) throws SQLException {
+        String sql = "update bi_folder set sort_no = ? where id = ?;";
+        int size = folders.size();
+        Object[][] params = new Object[size][2];
+        for(int i = 0; i < size; i++) {
+            Folder folder = folders.get(i);
+            params[i] = new Object[]{folder.getSortNo(), folder.getId()};
+        }
+        return new QueryRunner(dataSource).batch(sql, params);
     }
 
 
