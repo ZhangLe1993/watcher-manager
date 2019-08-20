@@ -22,7 +22,7 @@ public class MountService extends BaseService {
     private DataSource dataSource;
 
     public List<Mount> mounts() throws SQLException {
-        String sql = "select id, name from bi_childless order by sort_no asc where state = '1';";
+        String sql = "select id, name from bi_childless where state = '1' order by sort_no asc ;";
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<Mount>(Mount.class));
     }
 
