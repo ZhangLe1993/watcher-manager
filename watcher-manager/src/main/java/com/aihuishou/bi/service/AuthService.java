@@ -87,14 +87,14 @@ public class AuthService extends BaseService {
         String sql = new SQL() {
             {
                 SELECT("distinct d.name");
-                FROM("ods.ods_ob_foundation_observerrole a");
-                JOIN("ods.ods_ob_foundation_role b ON a.roleid = b.id");
-                JOIN("ods.ods_ob_foundation_roleoperation c ON b.id = c.roleid");
-                JOIN("ods.ods_ob_foundation_operation d ON c.operationid=d.id");
+                FROM("ods_ob_foundation_observerrole a");
+                JOIN("ods_ob_foundation_role b ON a.roleid = b.id");
+                JOIN("ods_ob_foundation_roleoperation c ON b.id = c.roleid");
+                JOIN("ods_ob_foundation_operation d ON c.operationid=d.id");
                 WHERE("a.observerid = " + obId);
             }
         }.toString();
-        return new QueryRunner(greenPlum).query(sql, new ColumnListHandler<String>("name"));
+        return new QueryRunner(dataSource).query(sql, new ColumnListHandler<String>("name"));
     }
 
 
@@ -125,7 +125,7 @@ public class AuthService extends BaseService {
     }
 
     public List<String> getAllAuth(String key, Integer pageIndex, Integer pageSize) throws SQLException {
-        String sql = "select distinct name from ods.ods_ob_foundation_operation WHERE 1=1 ";
+        String sql = "select distinct name from ods_ob_foundation_operation WHERE 1=1 ";
         if(StringUtils.isNotBlank(key)) {
             sql += " AND name like '%" + key + "%'";
         }
@@ -133,16 +133,16 @@ public class AuthService extends BaseService {
             int a = (pageIndex - 1) * pageSize;
             sql += " ORDER BY name DESC LIMIT " + pageSize + " OFFSET " + a + ";";
         }
-        return new QueryRunner(greenPlum).query(sql, new ColumnListHandler<String>("name"));
+        return new QueryRunner(dataSource).query(sql, new ColumnListHandler<String>("name"));
     }
 
 
     public Long countAllAuth(String key) throws SQLException {
-        String sql = "select count(*) AS num from ods.ods_ob_foundation_operation WHERE 1=1 ";
+        String sql = "select count(*) AS num from ods_ob_foundation_operation WHERE 1=1 ";
         if(StringUtils.isNotBlank(key)) {
             sql += " AND name like '%" + key + "%'";
         }
-        return new QueryRunner(greenPlum).query(sql, new ScalarHandler<>("num"));
+        return new QueryRunner(dataSource).query(sql, new ScalarHandler<>("num"));
     }
 
 
