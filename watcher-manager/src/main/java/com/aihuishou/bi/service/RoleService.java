@@ -36,4 +36,8 @@ public class RoleService {
     public int update(Role role) throws SQLException {
         return roleDao.update(role);
     }
+
+    public List<Permission> hasOwner(Integer roleId) throws SQLException {
+        return roleDao.hasOwner(roleId);
+    }
 }

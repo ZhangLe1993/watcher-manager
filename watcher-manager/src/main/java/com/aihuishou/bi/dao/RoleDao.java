@@ -1,5 +1,6 @@
 package com.aihuishou.bi.dao;
 
+import com.aihuishou.bi.entity.Permission;
 import com.aihuishou.bi.entity.Role;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -37,7 +38,7 @@ public class RoleDao {
 
 
     public List<Role> getList(String key, int offset, int limit) throws SQLException {
-        String sql = "select name,alias,description,active from ods_ob_foundation_role where active = 1 ";
+        String sql = "select id,name,alias,description,active from ods_ob_foundation_role where active = 1 ";
         String where = " and name like or and alias like ? or description like ? ";
         String page = " limit ?,?;";
         if(StringUtils.isNotBlank(key)) {
@@ -58,4 +59,8 @@ public class RoleDao {
         return new QueryRunner(dataSource).query(sql, new ScalarHandler<>("num"));
     }
 
+    public List<Permission> hasOwner(Integer roleId) throws SQLException {
+        String sql = "select id,name,alias,description,active from ods_ob_foundation_operation where active = 1 and id in (select distinct operationid from ods_ob_foundation_roleoperation where active = 1 and roleid = ?);";
+        return new QueryRunner(dataSource).query(sql, new BeanListHandler<>(Permission.class), roleId);
+    }
 }

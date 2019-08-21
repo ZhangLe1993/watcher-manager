@@ -38,7 +38,7 @@ public class PermissionDao {
 
 
     public List<Permission> getList(String key, int offset, int limit) throws SQLException {
-        String sql = "select name,alias,description,active from ods_ob_foundation_operation where active = 1 ";
+        String sql = "select id,name,alias,description,active from ods_ob_foundation_operation where active = 1 ";
         String where = " and name like or and alias like ? or description like ? ";
         String page = " limit ?,?;";
         if(StringUtils.isNotBlank(key)) {

@@ -1,9 +1,11 @@
 package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.dao.JoinDao;
+import com.aihuishou.bi.entity.Role;
 import com.aihuishou.bi.utils.StringEx;
 import com.aihuishou.bi.vo.RoleOperationVO;
 import com.aihuishou.bi.vo.UserRoleVO;
+import org.apache.commons.dbutils.QueryRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -82,4 +84,5 @@ public class JoinService {
         joinDao.update2(roleId, join, 0, 1);
         return 1;
     }
+
 }

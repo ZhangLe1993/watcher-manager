@@ -2,6 +2,7 @@ package com.aihuishou.bi.controller;
 
 import com.aihuishou.bi.annotation.SystemLog;
 import com.aihuishou.bi.cas.CasUtil;
+import com.aihuishou.bi.entity.Role;
 import com.aihuishou.bi.entity.User;
 import com.aihuishou.bi.service.UserService;
 import com.aihuishou.bi.utils.ExceptionInfo;
@@ -52,6 +53,22 @@ public class UserController {
             logger.error("修改操作权限异常，异常信息: {}", ExceptionInfo.toString(e));
         }
         return new ResponseEntity<>(ImmutableMap.of("data", new ArrayList<>(), "total", 0), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * 用户已经绑定了的角色
+     * @param obId
+     * @return
+     */
+    @GetMapping("/role")
+    public ResponseEntity userRole(@RequestParam(value = "ob_id") Long obId) {
+        try {
+            List<Role> roles = userService.hasOwner(obId);
+            return new ResponseEntity<>(roles, HttpStatus.OK);
+        } catch(Exception e) {
+            logger.error("查询用户已绑定角色异常，异常信息: {}", ExceptionInfo.toString(e));
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

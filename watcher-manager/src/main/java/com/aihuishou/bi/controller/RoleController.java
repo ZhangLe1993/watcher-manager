@@ -1,6 +1,7 @@
 package com.aihuishou.bi.controller;
 
 import com.aihuishou.bi.annotation.SystemLog;
+import com.aihuishou.bi.entity.Permission;
 import com.aihuishou.bi.entity.Role;
 import com.aihuishou.bi.service.RoleService;
 import com.aihuishou.bi.utils.ExceptionInfo;
@@ -80,5 +81,21 @@ public class RoleController {
         return new ResponseEntity<>("删除角色失败", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+
+    /**
+     * 角色已经绑定了的权限
+     * @param roleId
+     * @return
+     */
+    @GetMapping("/operation")
+    public ResponseEntity userRole(@RequestParam(value = "role_id") Integer roleId) {
+        try {
+            List<Permission> roles = roleService.hasOwner(roleId);
+            return new ResponseEntity<>(roles, HttpStatus.OK);
+        } catch(Exception e) {
+            logger.error("查询角色已经绑定了的权限异常，异常信息: {}", ExceptionInfo.toString(e));
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 }
