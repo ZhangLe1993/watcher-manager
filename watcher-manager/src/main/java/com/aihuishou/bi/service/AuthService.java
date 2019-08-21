@@ -77,7 +77,7 @@ public class AuthService extends BaseService {
 
 
     @Cacheable(value = CacheConf.LIST_NODE_AUTH)
-    private List<NodeAuth> cachePull() throws SQLException {
+    public List<NodeAuth> cachePull() throws SQLException {
         String sql = "select node_position AS position,auth_name AS authName from node_auth;";
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<>(NodeAuth.class));
     }

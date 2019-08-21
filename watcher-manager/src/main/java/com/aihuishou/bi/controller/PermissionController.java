@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/permission")
 public class PermissionController {
 
-    private static final Logger logger = LoggerFactory.getLogger(MenuController.class);
+    private static final Logger logger = LoggerFactory.getLogger(PermissionController.class);
 
     @Autowired
     private PermissionService permissionService;

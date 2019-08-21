@@ -1,13 +1,11 @@
 package com.aihuishou.bi.utils;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @Author:yule.zhang
@@ -123,5 +121,18 @@ public class StringEx {
         str = str.replaceAll("/", "");
         str = str.replaceAll("%", "");
         return str;
+    }
+
+    /**
+     *
+     * @param source
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> copyUtil(List<T> source) {
+        List<T> target = new ArrayList<>(source.size());
+        CollectionUtils.addAll(target, new Object[source.size()]);
+        Collections.copy(target, source);
+        return target;
     }
 }
