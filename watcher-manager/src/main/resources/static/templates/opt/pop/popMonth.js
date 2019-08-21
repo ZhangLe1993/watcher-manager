@@ -103,9 +103,11 @@ function getLineChartData(data, left, right, chartId) {
         var seller = _.filter(value, function (ele) {
             return ele['genre'] == left
         })[0];
-        label.push(key + " (" + seller['current'] + "," + seller['last'] + ") ");
-        res.current.push(goods['current']);
-        res.last.push(goods['last']);
+        if(seller != undefined && goods != undefined) {
+            label.push(key + " (" + seller['current'] + "," + seller['last'] + ") ");
+            res.current.push(goods['current']);
+            res.last.push(goods['last']);
+        }
     });
 
     drawProvinceChart(label, res, right, chartId);

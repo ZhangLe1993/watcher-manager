@@ -144,10 +144,12 @@ function getLineChartData(data, left, right, chartId) {
         var seller = _.filter(value, function (ele) {
             return ele['genre'] == left
         })[0];
-        label.push(key + " (" + seller['today'] + "," + seller['weekly'] + "," + seller['monthly'] + ") ");
-        res.today.push(goods['today']);
-        res.weekly.push(goods['weekly']);
-        res.monthly.push(goods['monthly']);
+        if(seller != undefined && goods != undefined) {
+            label.push(key + " (" + seller['today'] + "," + seller['weekly'] + "," + seller['monthly'] + ") ");
+            res.today.push(goods['today']);
+            res.weekly.push(goods['weekly']);
+            res.monthly.push(goods['monthly']);
+        }
     });
 
     drawProvinceChart(label, res, right, chartId);
