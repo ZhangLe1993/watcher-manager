@@ -109,6 +109,12 @@ export default {
           component: './watcherManager',
         },
         {
+          path: 'pages/permission_manager',
+          name: 'manager',
+          icon: 'smile',
+          component: './permissionManager',
+        },
+        {
           path: '/folder_manager',
           name: 'manager',
           icon: 'smile',
@@ -185,6 +191,14 @@ export default {
       changeOrigin: true,
     },
     '/cache': {
+      target: 'http://10.25.169.133:8112',
+      changeOrigin: true,
+    },
+    '/mount': {
+      target: 'http://10.25.169.133:8112',
+      changeOrigin: true,
+    },
+    '/permission': {
       target: 'http://10.25.169.133:8112',
       changeOrigin: true,
     },
