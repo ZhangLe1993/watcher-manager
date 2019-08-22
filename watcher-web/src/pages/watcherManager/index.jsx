@@ -968,10 +968,12 @@ class WatcherManager extends React.Component {
           bordered
           pagination={mountPagination}
         />
-        <Button type="primary" onClick={() => this.add('folder')} className={style.btn}>新增文件夹</Button>
-        <div className={style.searchWrapper}>
-          <Input placeholder="请输入关键字" className={style.search} onChange={e => this.handleChange(e, 'folder')} />
-          <Button type="primary" onClick={this.handleFolderSearch}>搜索文件夹</Button>
+        <div className={`${style.btnSearch} ${style.clearfix}`}>
+          <div className={style.btnContainer}> <Button type="primary" onClick={() => this.add('folder')} className={style.btn}>新增文件夹</Button></div>
+          <div className={style.searchWrapper}>
+            <Input placeholder="请输入关键字" className={style.search} onChange={e => this.handleChange(e, 'folder')} />
+            <Button type="primary" onClick={this.handleFolderSearch}>搜索文件夹</Button>
+          </div>
         </div>
         <Table
           columns={this.folderColumns}
@@ -979,10 +981,12 @@ class WatcherManager extends React.Component {
           bordered
           pagination={folderPagination}
         />
-        <Button type="primary" onClick={() => this.add('node')} className={style.btn}>新增报表节点</Button>
-        <div className={style.searchWrapper}>
-          <Input placeholder="请输入关键字" className={style.search} onChange={e => this.handleChange(e, 'node')} />
-          <Button type="primary" onClick={this.handleNodeSearch}>搜索文报表节点</Button>
+        <div className={`${style.btnSearch} ${style.clearfix}`}>
+          <div className={style.btnContainer}><Button type="primary" onClick={() => this.add('node')} className={style.btn}>新增报表节点</Button></div>
+          <div className={style.searchWrapper}>
+            <Input placeholder="请输入关键字" className={style.search} onChange={e => this.handleChange(e, 'node')} />
+            <Button type="primary" onClick={this.handleNodeSearch}>搜索文报表节点</Button>
+          </div>
         </div>
         <Table
           columns={this.nodeColumns}
