@@ -39,7 +39,7 @@ public class UserService {
 
     public List<User> all(String key, int pageIndex, int pageSize) throws SQLException {
         String sql = "SELECT observer_account_id as obId, observer_account_user_name AS name, observer_account_mobile_txt AS mobile,observer_account_email_txt AS email,observer_account_employee_no AS employeeNo from dim_observer_account where observer_account_id <> -1";
-        String where = " and observer_account_id like ? or observer_account_user_name ? or observer_account_employee_no like ? ";
+        String where = " and observer_account_id like ? or observer_account_user_name like ? or observer_account_employee_no like ? ";
         String page = " order by observer_account_id limit ?,?";
         int offset = (pageIndex - 1) * pageSize;
         if(StringUtils.isNotBlank(key)) {
@@ -52,7 +52,7 @@ public class UserService {
 
     public Long count(String key) throws SQLException {
         String sql = "SELECT count(distinct observer_account_id) as num from dim_observer_account where observer_account_id <> -1";
-        String where = " and observer_account_id like ? or observer_account_user_name ? or observer_account_employee_no like ? ";
+        String where = " and observer_account_id like ? or observer_account_user_name like ? or observer_account_employee_no like ? ";
         if(StringUtils.isNotBlank(key)) {
             sql = sql + where;
             return new QueryRunner(dataSource).query(sql, new ScalarHandler<>("num"), "%" + key + "%", "%" + key + "%", "%" + key + "%");
