@@ -135,3 +135,27 @@ export async function clearAll() {
 export async function clear() {
   return request('/cache/package');
 }
+
+// node排序
+export async function nodeSort(params) {
+  return request('/menu/node/sort', {
+    method: 'PUT',
+    data: params,
+  });
+}
+
+// folder排序
+export async function folderSort(params) {
+  return request('/menu/folder/sort', {
+    method: 'PUT',
+    data: params,
+  });
+}
+
+// mount排序
+export async function mountSort(params) {
+  return request('/menu/mount/sort', {
+    method: 'PUT',
+    data: params,
+  });
+}

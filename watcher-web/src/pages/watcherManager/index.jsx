@@ -1,3 +1,5 @@
+/* eslint-disable eslint-comments/no-duplicate-disable */
+/* eslint-disable no-param-reassign */
 /* eslint-disable eslint-comments/disable-enable-pair */
 import React from 'react';
 import {
@@ -13,6 +15,7 @@ import {
   TreeSelect,
   Transfer,
   Radio,
+  InputNumber,
 } from 'antd';
 import difference from 'lodash/difference';
 
@@ -37,6 +40,9 @@ import {
   queryAllParentNode,
   clearAll,
   clear,
+  mountSort,
+  folderSort,
+  nodeSort,
 } from '../../services/manager';
 
  /* eslint-disable no-script-url */
@@ -66,7 +72,22 @@ class WatcherManager extends React.Component {
       title: '挂载点',
       dataIndex: 'name',
       key: 'name',
-      width: '60%',
+      width: '30%',
+    },
+    {
+      title: '排序',
+      dataIndex: 'sortNo',
+      key: 'sortNo',
+      width: '30%',
+      render: (text, record) => (
+        <div>
+          {
+            record.isEdit
+            ? <InputNumber min={0} defaultValue={record.sortNo} onBlur={e => this.handleSortNo('mount', record, e)} style={{ width: '100%' }} />
+            : <span className={style.sortNo} onClick={() => this.handleInputEdit('mount', record)}>{record.sortNo}</span>
+          }
+        </div>
+      ),
     },
     {
       title: '操作',
@@ -89,14 +110,29 @@ class WatcherManager extends React.Component {
       title: '文件夹',
       dataIndex: 'name',
       key: 'name',
-      width: '30%',
+      width: '20%',
     },
     {
       title: '环境',
       dataIndex: 'state',
       key: 'state',
-      width: '30%',
+      width: '20%',
       render: text => <span>{envMap[text]}</span>,
+    },
+    {
+      title: '排序',
+      dataIndex: 'sortNo',
+      key: 'sortNo',
+      width: '20%',
+      render: (text, record) => (
+        <div>
+          {
+            record.isEdit
+            ? <InputNumber min={0} defaultValue={record.sortNo} onBlur={e => this.handleSortNo('folder', record, e)} style={{ width: '100%' }} />
+            : <span className={style.sortNo} onClick={() => this.handleInputEdit('folder', record)}>{record.sortNo}</span>
+          }
+        </div>
+      ),
     },
     {
       title: '操作',
@@ -119,13 +155,28 @@ class WatcherManager extends React.Component {
       title: '报表节点',
       dataIndex: 'name',
       key: 'name',
-      width: '30%',
+      width: '20%',
     },
     {
       title: '权限',
       dataIndex: 'auth',
       key: 'auth',
-      width: '30%',
+      width: '20%',
+    },
+    {
+      title: '排序',
+      dataIndex: 'sortNo',
+      key: 'sortNo',
+      width: '20%',
+      render: (text, record) => (
+        <div>
+          {
+            record.isEdit
+            ? <InputNumber min={0} defaultValue={record.sortNo} onBlur={e => this.handleSortNo('node', record, e)} style={{ width: '100%' }} />
+            : <span className={style.sortNo} onClick={() => this.handleInputEdit('node', record)}>{record.sortNo}</span>
+          }
+        </div>
+      ),
     },
     {
       title: '操作',
@@ -215,6 +266,7 @@ class WatcherManager extends React.Component {
       res.data.forEach(it => {
         // eslint-disable-next-line no-param-reassign
         it.key = it.id;
+        it.isEdit = false;
       });
       this.setState({ mount: {
         ...that.state.mount,
@@ -237,6 +289,7 @@ class WatcherManager extends React.Component {
       res.data.forEach(it => {
         // eslint-disable-next-line no-param-reassign
         it.key = it.id;
+        it.isEdit = false;
       });
       this.setState({ folder: {
         ...that.state.folder,
@@ -259,6 +312,7 @@ class WatcherManager extends React.Component {
       res.data.forEach(it => {
         // eslint-disable-next-line no-param-reassign
         it.key = it.id;
+        it.isEdit = false;
       });
       this.setState({ node: {
         ...that.state.node,
@@ -740,6 +794,57 @@ class WatcherManager extends React.Component {
       message.success('标准清除成功!');
     }).catch(e => {
       message.error(e);
+    });
+  }
+
+  handleInputEdit = (type, data) => {
+    const temp = [].concat(this.state[type].data);
+    this.setInputStatus(type, temp, data.id);
+  }
+
+  // 设置input框状态
+  setInputStatus = (type, data, id) => {
+    const that = this;
+    data.forEach(it => {
+      if (it.id === id) {
+        it.isEdit = !it.isEdit;
+      }
+    });
+    this.setState({ [type]: {
+      ...that.state[type],
+      data,
+    } });
+  }
+
+  handleSortNo = (type, data, e) => {
+    const parameters = [{
+      id: data.id,
+      sortNo: Number(e.target.value),
+    }];
+    this[`${type}SortFunc`](parameters);
+  }
+
+  // mount排序
+  mountSortFunc = params => {
+    mountSort(params).then(() => {
+      message.success('修改挂载点顺序成功!');
+      this.fetchMountList();
+    });
+  }
+
+  // folder排序
+  folderSortFunc = params => {
+    folderSort(params).then(() => {
+      message.success('修改文件夹顺序成功!');
+      this.fetchFolderList();
+    });
+  }
+
+  // node排序
+  nodeSortFunc = params => {
+    nodeSort(params).then(() => {
+      message.success('修改文件夹顺序成功!');
+      this.fetchNodeList();
     });
   }
 
