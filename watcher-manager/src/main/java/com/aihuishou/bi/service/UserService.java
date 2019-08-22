@@ -46,6 +46,7 @@ public class UserService {
             sql = sql + where + page;
             return new QueryRunner(dataSource).query(sql, new BeanListHandler<>(User.class), "%" + key + "%", "%" + key + "%", "%" + key + "%", offset, pageSize);
         }
+        sql = sql + page;
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<>(User.class), offset, pageSize);
     }
 

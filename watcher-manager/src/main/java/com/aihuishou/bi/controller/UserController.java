@@ -50,7 +50,7 @@ public class UserController {
             List<User> users = userService.all(key, pageIndex, pageSize);
             return new ResponseEntity<>(ImmutableMap.of("data", users, "total", userService.count(key)), HttpStatus.OK);
         } catch(Exception e) {
-            logger.error("修改操作权限异常，异常信息: {}", ExceptionInfo.toString(e));
+            logger.error("查询用户异常，异常信息: {}", ExceptionInfo.toString(e));
         }
         return new ResponseEntity<>(ImmutableMap.of("data", new ArrayList<>(), "total", 0), HttpStatus.INTERNAL_SERVER_ERROR);
     }
