@@ -26,7 +26,7 @@ public class RoleController {
     private RoleService roleService;
 
     @SystemLog(description = "查询角色")
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity allMount(@RequestParam(value = "key", required = false) String key,
                                    @RequestParam(value = "page_index", required = false, defaultValue = "1") int pageIndex,
                                    @RequestParam(value = "page_size", required = false, defaultValue = "10000") int pageSize) {
