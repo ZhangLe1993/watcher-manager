@@ -96,7 +96,7 @@ public class NodeService extends BaseService {
         String sql = "SELECT id, position, url, name, mount, parent_position AS parentPosition, state, sort_no AS sortNo, genre FROM bi_nodes WHERE 1=1 ";
         String append = " AND name like ? ";
         String append1 = " AND parent_position = ?";
-        String suffix = " order by sort_no limit ?,?;";
+        String suffix = " order by id asc limit ?,?;";
         //return this.getAbstractPageList(Node.class, sql, suffix, key, parent, pageIndex, pageSize, append, append1);
         List<Node> nodes = super.getAbstractPageList(Node.class, sql, suffix, key, parent, pageIndex, pageSize, append, append1);
         //List<Node> res = new ArrayList<>();
