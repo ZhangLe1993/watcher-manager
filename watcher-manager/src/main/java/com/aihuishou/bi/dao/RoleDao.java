@@ -39,7 +39,7 @@ public class RoleDao {
 
     public List<Role> getList(String key, int offset, int limit) throws SQLException {
         String sql = "select id,name,alias,description,active from ods_ob_foundation_role where active = 1 ";
-        String where = " and name like or and alias like ? or description like ? ";
+        String where = " and name like ? or alias like ? or description like ? ";
         String page = " limit ?,?;";
         if(StringUtils.isNotBlank(key)) {
             sql  = sql + where + page;
@@ -51,7 +51,7 @@ public class RoleDao {
 
     public Long count(String key) throws SQLException {
         String sql = "select count(distinct id) as num from ods_ob_foundation_role where active = 1 ";
-        String where = " and name like or and alias like ? or description like ? ";
+        String where = " and name like ? or alias like ? or description like ? ";
         if(StringUtils.isNotBlank(key)) {
             sql  = sql + where;
             return new QueryRunner(dataSource).query(sql, new ScalarHandler<>("num"), "%" + key + "%", "%" + key + "%", "%" + key + "%");
