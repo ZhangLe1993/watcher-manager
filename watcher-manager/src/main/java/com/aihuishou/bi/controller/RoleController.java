@@ -1,6 +1,7 @@
 package com.aihuishou.bi.controller;
 
 import com.aihuishou.bi.annotation.SystemLog;
+import com.aihuishou.bi.annotation.Update;
 import com.aihuishou.bi.entity.Permission;
 import com.aihuishou.bi.entity.Role;
 import com.aihuishou.bi.service.RoleService;
@@ -40,7 +41,7 @@ public class RoleController {
     }
 
     @SystemLog(description = "新增角色")
-    /*@Update*/
+    @Update
     @PostMapping("")
     public ResponseEntity createPermission(@RequestBody Role role) {
         try{
@@ -54,7 +55,7 @@ public class RoleController {
     }
 
     @SystemLog(description = "修改角色")
-    /*@Update*/
+    @Update
     @PutMapping("")
     public ResponseEntity updateMount(@RequestBody Role role) {
         try{
@@ -68,7 +69,7 @@ public class RoleController {
     }
 
     @SystemLog(description = "删除角色")
-    /*@Delete*/
+    @Update
     @DeleteMapping("")
     public ResponseEntity deleteMount(Integer id) {
         try{

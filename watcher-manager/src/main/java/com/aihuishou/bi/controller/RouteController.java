@@ -1,5 +1,6 @@
 package com.aihuishou.bi.controller;
 
+import com.aihuishou.bi.annotation.Mark;
 import com.aihuishou.bi.annotation.SystemLog;
 import com.aihuishou.bi.cas.CasUtil;
 import com.aihuishou.bi.core.SysConf;
@@ -17,6 +18,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.List;
@@ -39,9 +41,13 @@ public class RouteController {
     private AuthService authService;
 
 
-    @SystemLog(description = "定位报表")
+    @Mark(name = SysConf.POINT_TYPE_START)
+    @SystemLog(point = true, description = "定位报表")
     @RequestMapping("/base")
-    public String loadHtml(@RequestParam(value = "position") String position, ModelMap model) throws FileNotFoundException, SQLException {
+    public String loadHtml(@RequestParam(value = "position") String position,
+                           @RequestParam(value = "name") String name,
+                           @RequestParam(value = "url") String url,
+                           ModelMap model, HttpServletResponse response) throws FileNotFoundException, SQLException {
         String target = position;
         boolean auth = auth(position);
         boolean map = false;

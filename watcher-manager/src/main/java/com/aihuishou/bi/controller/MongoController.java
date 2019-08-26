@@ -1,9 +1,9 @@
 package com.aihuishou.bi.controller;
 
 import com.aihuishou.bi.live.model.AiJiHuiTradeStats;
+import com.aihuishou.bi.live.model.EtlJob;
 import com.aihuishou.bi.service.MongoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,5 +21,10 @@ public class MongoController {
     @GetMapping("/aijihuiTradeStats")
     public List<AiJiHuiTradeStats> aiJiHuiTradeStats(String sourceTypeName, @RequestParam(required = false) String orderType) {
         return mongoService.aiJiHuiTradeStats(sourceTypeName, orderType);
+    }
+
+    @GetMapping("/etljoblist")
+    public List<EtlJob> etljoblist() {
+        return mongoService.etlJobList();
     }
 }

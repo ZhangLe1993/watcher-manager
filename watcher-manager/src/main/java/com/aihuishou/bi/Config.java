@@ -4,6 +4,8 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sensorsdata.analytics.javasdk.SensorsAnalytics;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
@@ -20,9 +22,20 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 public class Config {
+
+    @Value("${bury.host}")
+    private String sensorsUrl;
+
+    @Value("${bury.platform}")
+    private String platform;
+
+    @Value("${bury.appName}")
+    private String appName;
 
     @Bean
     @Primary
@@ -62,6 +75,17 @@ public class Config {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(redisTemplate.getValueSerializer()));
         return new RedisCacheManager(redisCacheWriter, redisCacheConfiguration);
+    }
+
+    @Bean
+    public SensorsAnalytics sensorsAnalytics() {
+        SensorsAnalytics sensorsAnalytics = new SensorsAnalytics(new SensorsAnalytics.DebugConsumer(sensorsUrl, true));
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("platform", platform);
+        properties.put("app_name", appName);
+        properties.put("app_channel", "");
+        sensorsAnalytics.registerSuperProperties(properties);
+        return sensorsAnalytics;
     }
 
 }

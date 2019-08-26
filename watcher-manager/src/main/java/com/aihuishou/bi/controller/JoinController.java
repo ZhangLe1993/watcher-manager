@@ -1,5 +1,6 @@
 package com.aihuishou.bi.controller;
 
+import com.aihuishou.bi.annotation.Update;
 import com.aihuishou.bi.service.JoinService;
 import com.aihuishou.bi.utils.ExceptionInfo;
 import com.aihuishou.bi.vo.RoleOperationVO;
@@ -25,6 +26,7 @@ public class JoinController {
     private JoinService joinService;
 
     @PostMapping("/user/role")
+    @Update
     public ResponseEntity userJoinRole(@RequestBody UserRoleVO userRoleVO) {
         try {
             int count = joinService.userJoinRole(userRoleVO);
@@ -36,6 +38,7 @@ public class JoinController {
         return new ResponseEntity<>("用户绑定角色失败", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @Update
     @PostMapping("/role/operation")
     public ResponseEntity roleJoinOperation(@RequestBody RoleOperationVO roleOperationVO) {
         try {

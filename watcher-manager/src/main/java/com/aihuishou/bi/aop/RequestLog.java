@@ -1,23 +1,35 @@
 package com.aihuishou.bi.aop;
 
+import com.aihuishou.bi.annotation.Mark;
 import com.aihuishou.bi.annotation.SystemLog;
+import com.aihuishou.bi.handler.BuryPoint;
+import com.aihuishou.bi.utils.StringEx;
 import com.alibaba.fastjson.JSONObject;
+import com.sensorsdata.analytics.javasdk.exceptions.InvalidArgumentException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
 
 @Component
 @Aspect
 public class RequestLog {
+
+    @Autowired
+    private BuryPoint buryPoint;
 
     public static final Logger logger = LoggerFactory.getLogger(RequestLog.class);
 
@@ -51,12 +63,72 @@ public class RequestLog {
     @Around("controllerLog()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
+        //获取方法上的注解
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        Method method = joinPoint.getTarget().getClass().getMethod(signature.getName(), signature.getMethod().getParameterTypes());
+        SystemLog systemLog = method.getAnnotation(SystemLog.class);
         Object[] args = joinPoint.getArgs();
-        Object retVal = joinPoint.proceed(args);
-        long endTime = System.currentTimeMillis();
-        logger.info("执行时间：{} ms\n\t", endTime - startTime);
-        //LOG.info("返回值：{}\n\t", JsonUtils.obj2Json(retVal));
+        Object retVal;
+        try {
+            retVal = joinPoint.proceed(args);
+            long endTime = System.currentTimeMillis();
+            cookieAndPoint(systemLog, method, args, startTime, endTime, endTime - startTime, true);
+            logger.info("执行时间：{} ms\n\t", endTime - startTime);
+        } catch(Throwable e) {
+            cookieAndPoint(systemLog, method, args, startTime, 0L, 0L, false);
+            throw e;
+        }
         return retVal;
+    }
+
+    private void cookieAndPoint(SystemLog systemLog, Method method, Object[] args, long startTime, long endTime, long takeTime, boolean status) throws InvalidArgumentException, UnsupportedEncodingException {
+        //是否需要埋点
+        boolean needPoint = systemLog.point();
+        if(needPoint) {
+            Mark mark = method.getAnnotation(Mark.class);
+            String type = mark.name();
+            switch(type) {
+                case "start": {
+                    String sessionId = StringEx.newUUID();
+                    String position = args[0].toString();
+                    String name = args[1].toString();
+                    String url = args[2].toString();
+                    HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+                    kindCookie(sessionId, response);
+                    buryPoint.point(sessionId, startTime, endTime, takeTime, position, name, url, status);
+                    break;
+                }
+                case "end": {
+                    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+                    String name = URLDecoder.decode(request.getRequestURL().toString(), "UTF-8");
+                    String sid  = getCookie(request);
+                    buryPoint.point(sid, startTime, endTime, takeTime, "", name, name, status);
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * 种Cookie
+     * @param response
+     */
+    private void kindCookie(String sessionId, HttpServletResponse response) {
+        Cookie cookie = new Cookie("sid", sessionId);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+    }
+
+    public String getCookie(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null && cookies.length != 0) {
+            for(Cookie cookie : cookies) {
+                if("sid".equalsIgnoreCase(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
     }
 
     /**

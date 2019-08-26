@@ -1,9 +1,11 @@
 package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.live.model.AiJiHuiTradeStats;
+import com.aihuishou.bi.live.model.EtlJob;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -29,5 +31,10 @@ public class MongoService {
         }
         Query query = new Query(criteria);
         return mongoTemplate.find(query, AiJiHuiTradeStats.class, "aijihuiTradeStats");
+    }
+
+    public List<EtlJob> etlJobList() {
+        Query query = new Query().with(new Sort(Sort.Direction.ASC, "id")).with(new Sort(Sort.Direction.ASC, "sid")).with(new Sort(Sort.Direction.ASC, "order"));
+        return mongoTemplate.find(query, EtlJob.class, "etljoblist");
     }
 }

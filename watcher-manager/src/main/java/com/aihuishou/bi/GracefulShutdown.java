@@ -1,14 +1,17 @@
 package com.aihuishou.bi;
 
 import com.aihuishou.bi.controller.IndexC;
+import com.sensorsdata.analytics.javasdk.SensorsAnalytics;
 import org.apache.catalina.connector.Connector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -20,6 +23,8 @@ public class GracefulShutdown implements TomcatConnectorCustomizer, ApplicationL
 
     private volatile Connector connector;
 
+    @Resource
+    private SensorsAnalytics sensorsAnalytics;
 
     @Override
     public void customize(Connector connector) {
@@ -30,6 +35,7 @@ public class GracefulShutdown implements TomcatConnectorCustomizer, ApplicationL
     public void onApplicationEvent(ContextClosedEvent event) {
         log.info("begin shutdown ===============>");
         IndexC.health = false;
+        sensorsAnalytics.shutdown();
         try {
             Thread.sleep(9000L);//等待SLB摘流量
         } catch (InterruptedException e) {

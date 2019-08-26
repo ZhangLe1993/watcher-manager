@@ -1,5 +1,6 @@
 package com.aihuishou.bi.controller;
 
+import com.aihuishou.bi.annotation.Mark;
 import com.aihuishou.bi.annotation.SystemLog;
 import com.aihuishou.bi.cas.CasUtil;
 import com.aihuishou.bi.core.Admin;
@@ -129,7 +130,8 @@ public class IndexC {
         return null;
     }
 
-    @SystemLog(description = "代理转发")
+    @Mark(name = SysConf.POINT_TYPE_END)
+    @SystemLog(point = true, description = "代理转发")
     @RequestMapping("/watcher/**")
     public void proxy(HttpServletRequest request, HttpServletResponse response) throws IOException, URISyntaxException {
         //添加参数

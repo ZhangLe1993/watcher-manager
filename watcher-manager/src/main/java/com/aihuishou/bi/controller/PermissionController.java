@@ -1,6 +1,7 @@
 package com.aihuishou.bi.controller;
 
 import com.aihuishou.bi.annotation.SystemLog;
+import com.aihuishou.bi.annotation.Update;
 import com.aihuishou.bi.entity.Permission;
 import com.aihuishou.bi.service.PermissionService;
 import com.aihuishou.bi.utils.ExceptionInfo;
@@ -39,7 +40,7 @@ public class PermissionController {
     }
 
     @SystemLog(description = "新增操作权限")
-    /*@Update*/
+    @Update
     @PostMapping("")
     public ResponseEntity createPermission(@RequestBody Permission permission) {
         try{
@@ -53,7 +54,7 @@ public class PermissionController {
     }
 
     @SystemLog(description = "修改操作权限")
-    /*@Update*/
+    @Update
     @PutMapping("")
     public ResponseEntity updateMount(@RequestBody Permission permission) {
         try{
@@ -67,7 +68,7 @@ public class PermissionController {
     }
 
     @SystemLog(description = "删除操作权限")
-    /*@Delete*/
+    @Update
     @DeleteMapping("")
     public ResponseEntity deleteMount(Integer id) {
         try{
