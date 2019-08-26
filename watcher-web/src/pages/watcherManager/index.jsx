@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable eslint-comments/no-duplicate-disable */
 /* eslint-disable no-param-reassign */
 /* eslint-disable eslint-comments/disable-enable-pair */
@@ -15,7 +16,7 @@ import {
   TreeSelect,
   Transfer,
   Radio,
-  InputNumber,
+  // InputNumber,
 } from 'antd';
 import difference from 'lodash/difference';
 
@@ -83,8 +84,8 @@ class WatcherManager extends React.Component {
         <div>
           {
             record.isEdit
-            ? <InputNumber min={0} defaultValue={record.sortNo} onBlur={e => this.handleSortNo('mount', record, e)} style={{ width: '100%' }} />
-            : <span className={style.sortNo} onClick={() => this.handleInputEdit('mount', record)}>{record.sortNo}</span>
+            ? <Input min={0} defaultValue={record.sortNo} onBlur={e => this.handleSortNo('mount', record, e)} onPressEnter={e => this.handleSortNo('mount', record, e)} style={{ width: '100%' }} />
+            : <span className={style.sortNo} onDoubleClick={() => this.handleInputEdit('mount', record)}>{record.sortNo}</span>
           }
         </div>
       ),
@@ -128,8 +129,8 @@ class WatcherManager extends React.Component {
         <div>
           {
             record.isEdit
-            ? <InputNumber min={0} defaultValue={record.sortNo} onBlur={e => this.handleSortNo('folder', record, e)} style={{ width: '100%' }} />
-            : <span className={style.sortNo} onClick={() => this.handleInputEdit('folder', record)}>{record.sortNo}</span>
+            ? <Input min={0} defaultValue={record.sortNo} onBlur={e => this.handleSortNo('folder', record, e)} onPressEnter={e => this.handleSortNo('folder', record, e)} style={{ width: '100%' }} />
+            : <span className={style.sortNo} onDoubleClick={() => this.handleInputEdit('folder', record)}>{record.sortNo}</span>
           }
         </div>
       ),
@@ -172,8 +173,8 @@ class WatcherManager extends React.Component {
         <div>
           {
             record.isEdit
-            ? <InputNumber min={0} defaultValue={record.sortNo} onBlur={e => this.handleSortNo('node', record, e)} style={{ width: '100%' }} />
-            : <span className={style.sortNo} onClick={() => this.handleInputEdit('node', record)}>{record.sortNo}</span>
+            ? <Input min={0} defaultValue={record.sortNo} onBlur={e => this.handleSortNo('node', record, e)} onPressEnter={e => this.handleSortNo('node', record, e)} style={{ width: '100%' }} />
+            : <span className={style.sortNo} onDoubleClick={() => this.handleInputEdit('node', record)}>{record.sortNo}</span>
           }
         </div>
       ),
@@ -821,6 +822,9 @@ class WatcherManager extends React.Component {
       id: data.id,
       sortNo: Number(e.target.value),
     }];
+    if (typeof Number(e.target.value) !== 'number') {
+      return message.error('排序值必须为数字!');
+    }
     this[`${type}SortFunc`](parameters);
   }
 

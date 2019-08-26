@@ -765,7 +765,7 @@ class PermissionManager extends React.Component {
     };
     return (
       <div className={style.container}>
-         <div className={style.searchWrapper}>
+         <div style={{ marginBottom: '16px' }}>
           <Input placeholder="请输入关键字" className={style.search} onChange={e => this.handleSearchInputChange(e, 'user')} />
           <Button type="primary" onClick={() => this.handleSearch('user')}>搜索用户</Button>
          </div>
