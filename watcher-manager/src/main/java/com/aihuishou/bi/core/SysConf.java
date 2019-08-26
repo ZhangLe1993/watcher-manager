@@ -8,5 +8,5 @@ public class SysConf {
     public final static String REST_JS_SUFFIX = ".js";
 
     public final static String POINT_TYPE_START = "start";
-    public final static String POINT_TYPE_END = "start";
+    public final static String POINT_TYPE_END = "end";
 }
