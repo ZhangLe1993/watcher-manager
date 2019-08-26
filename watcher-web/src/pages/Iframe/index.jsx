@@ -23,6 +23,7 @@ class Iframe extends React.Component {
     const watcherIframe = document.getElementById('watcherIframe');
     const position = this.props.location.pathname.split('/page/')[1];
     const height = document.body.scrollHeight || document.documentElement.scrollHeight;
+    const fullName = window.sessionStorage.getItem('full_name');
     let checkedMenuItem;
     // window.sessionStorage.setItem('pathName', position);
     if (window.sessionStorage.getItem('currentMenuItem')) {
@@ -30,7 +31,7 @@ class Iframe extends React.Component {
       const { genre, url } = checkedMenuItem;
       // 老版本
       if (genre === '0') {
-        watcherIframe.src = `/route/base?position=${position}`;
+        watcherIframe.src = `/route/base?position=${position}&name=${fullName}`;
         // loading状态控制
         // 设置iframe高度
         this.setState({ loading: true }, () => {
@@ -94,13 +95,14 @@ class Iframe extends React.Component {
     const nextPosition = nextProps.location.pathname.split('/page/')[1];
     const height = document.body.scrollHeight || document.documentElement.scrollHeight;
     const watcherIframe = document.getElementById('watcherIframe');
+    const fullName = window.sessionStorage.getItem('full_name');
     if (window.sessionStorage.getItem('currentMenuItem')) {
       const checkedMenuItem = JSON.parse(window.sessionStorage.getItem('currentMenuItem'));
       const { genre, url } = checkedMenuItem;
       // if (prePosition !== nextPosition) {
         // 老版本
         if (genre === '0') {
-          watcherIframe.src = `/route/base?position=${nextPosition}`;
+          watcherIframe.src = `/route/base?position=${nextPosition}&name=${fullName}`;
           // loading和iframe高度
           this.setState({ loading: true }, () => {
             watcherIframe.onload = () => {

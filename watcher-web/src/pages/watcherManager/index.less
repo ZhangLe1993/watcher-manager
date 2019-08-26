@@ -6,9 +6,30 @@
   margin-bottom: 10px;
 }
 
+.clearfix:before,
+.clearfix:after {
+  content: '';
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+}
+
+.btnSearch {
+  margin: 16px 0;
+}
+
 .searchWrapper {
   display: flex;
   margin-bottom: 16px;
+  float: left;
+  padding-left: 16px;
+}
+
+.btnContainer {
+  margin-bottom: 16px;
+  float: right;
+  padding-right: 16px;
 }
 
 .search {

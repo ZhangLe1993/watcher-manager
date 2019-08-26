@@ -3,16 +3,31 @@
 }
 
 .btnContainer {
-  // padding-top: 16px;
   margin-bottom: 16px;
+  float: right;
+  padding-right: 16px;
 }
 
 .searchWrapper {
   display: flex;
   margin-bottom: 16px;
+  float: left;
+  padding-left: 16px;
 }
 
 .search {
   width: 400px;
   margin-right: 16px;
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: '';
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+}
+.btnSearch {
+
 }

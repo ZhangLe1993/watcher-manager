@@ -202,5 +202,13 @@ export default {
       target: 'http://10.25.169.133:8112',
       changeOrigin: true,
     },
+    '/role': {
+      target: 'http://10.25.169.133:8112',
+      changeOrigin: true,
+    },
+    '/user': {
+      target: 'http://10.25.169.133:8112',
+      changeOrigin: true,
+    },
   },
 };
