@@ -34,8 +34,8 @@ public class BuryPoint {
         properties.put("user_key", obId);
         Map<String, Object> data = new HashMap<>();
         data.put("sid", sessionId);
-        data.put("start_time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(startTime)));
-        data.put("end_time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(endTime)));
+        data.put("start_time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date(startTime)));
+        data.put("end_time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date(endTime)));
         data.put("take_time", takeTime);
         data.put("time_unit", "ms");
         data.put("sensors_event_name", position);
