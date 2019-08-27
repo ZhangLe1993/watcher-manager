@@ -687,7 +687,14 @@ class PermissionManager extends React.Component {
 
   handleSearch = type => {
     const category = type.substring(0, 1).toUpperCase() + type.substring(1);
-    this[`fetch${category}List`]();
+    const that = this;
+    this.setState({ [type]: {
+      ...that.state[type],
+      pageIndex: 1,
+      loading: true,
+    } }, () => {
+      this[`fetch${category}List`]();
+    });
   }
 
   handleUserOk = () => {
