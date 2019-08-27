@@ -15,4 +15,6 @@ public class Role {
     private String description;
 
     private Integer active;
+
+    private String groupSQL;
 }

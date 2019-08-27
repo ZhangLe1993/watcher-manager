@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
+import java.sql.SQLException;
 
 @Component
 @Aspect
@@ -81,7 +82,7 @@ public class RequestLog {
         return retVal;
     }
 
-    private void cookieAndPoint(SystemLog systemLog, Method method, Object[] args, long startTime, long endTime, long takeTime, boolean status) throws InvalidArgumentException, UnsupportedEncodingException {
+    private void cookieAndPoint(SystemLog systemLog, Method method, Object[] args, long startTime, long endTime, long takeTime, boolean status) throws InvalidArgumentException, UnsupportedEncodingException, SQLException {
         //是否需要埋点
         boolean needPoint = systemLog.point();
         if(needPoint) {

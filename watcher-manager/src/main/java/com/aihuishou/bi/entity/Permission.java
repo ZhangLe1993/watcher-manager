@@ -17,4 +17,6 @@ public class Permission {
     private String description;
 
     private Integer active;
+
+    private String groupSQL;
 }

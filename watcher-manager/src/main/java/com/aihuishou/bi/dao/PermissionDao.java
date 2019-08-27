@@ -11,9 +11,13 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 @Repository
 public class PermissionDao {
+
+    @Resource(name="watcherThreadPool")
+    private ExecutorService service;
 
     @Resource
     private DataSource dataSource;
@@ -35,11 +39,21 @@ public class PermissionDao {
         return new QueryRunner(dataSource).update(sql, permission.getName(), permission.getAlias(), permission.getDescription(), permission.getId());
     }
 
+    public int updateSQL(Permission permission) throws SQLException {
+        String sql = "update ods_ob_foundation_operation set group_sql = ?, lastmoddt = now() where active = 1 and id = ?";
+        int count = new QueryRunner(dataSource).update(sql, permission.getGroupSQL(), permission.getId());
+        //清除人的权限缓存
+        service.execute(() -> {
+
+        });
+        return count;
+    }
+
 
 
     public List<Permission> getList(String key, int offset, int limit) throws SQLException {
         String sql = "select id,name,alias,description,active from ods_ob_foundation_operation where active = 1 ";
-        String where = " and name like ? or alias like ? or description like ? ";
+        String where = " and (name like ? or alias like ? or description like ?) ";
         String page = " limit ?,?;";
         if(StringUtils.isNotBlank(key)) {
             sql  = sql + where + page;
@@ -51,12 +65,17 @@ public class PermissionDao {
 
     public Long count(String key) throws SQLException {
         String sql = "select count(distinct id) as num from ods_ob_foundation_operation where active = 1 ";
-        String where = " and name like ? or alias like ? or description like ? ";
+        String where = " and (name like ? or alias like ? or description like ?) ";
         if(StringUtils.isNotBlank(key)) {
             sql  = sql + where;
             return new QueryRunner(dataSource).query(sql, new ScalarHandler<>("num"), "%" + key + "%", "%" + key + "%", "%" + key + "%");
         }
         return new QueryRunner(dataSource).query(sql, new ScalarHandler<>("num"));
+    }
+
+    public List<Permission> scanWhenNotNullGroupSQL() throws SQLException {
+        String sql = "select id, group_sql AS groupSQL, from ods_ob_foundation_operation where active = 1;";
+        return new QueryRunner(dataSource).query(sql, new BeanListHandler<>(Permission.class));
     }
 
 }

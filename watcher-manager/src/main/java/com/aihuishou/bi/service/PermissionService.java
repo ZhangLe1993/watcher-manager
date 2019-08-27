@@ -2,7 +2,6 @@ package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.dao.PermissionDao;
 import com.aihuishou.bi.entity.Permission;
-import org.apache.commons.dbutils.QueryRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +34,14 @@ public class PermissionService {
 
     public int update(Permission permission) throws SQLException {
         return permissionDao.update(permission);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public List<String> buildRoleBindOperationByGroupSQL() throws SQLException {
+        List<Permission> list = permissionDao.scanWhenNotNullGroupSQL();
+        return null;
     }
 }

@@ -1,12 +1,16 @@
 package com.aihuishou.bi.handler;
 
 import com.aihuishou.bi.cas.CasUtil;
+import com.aihuishou.bi.entity.User;
+import com.aihuishou.bi.service.UserService;
 import com.alibaba.fastjson.JSONObject;
 import com.sensorsdata.analytics.javasdk.SensorsAnalytics;
 import com.sensorsdata.analytics.javasdk.exceptions.InvalidArgumentException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,6 +22,9 @@ public class BuryPoint {
     @Resource
     private SensorsAnalytics sensorsAnalytics;
 
+    @Autowired
+    private UserService userService;
+
     /**
      * 埋点
      * @param startTime
@@ -27,9 +34,12 @@ public class BuryPoint {
      * @param url
      * @throws InvalidArgumentException
      */
-    public void point(String sessionId, long startTime, long endTime, long takeTime, String position, String name, String url, boolean status) throws InvalidArgumentException {
+    public void point(String sessionId, long startTime, long endTime, long takeTime, String position, String name, String url, boolean status) throws InvalidArgumentException, SQLException {
         //埋点
         String obId = CasUtil.getId();
+        User user = userService.getUserByObId(obId);
+        String userName = CasUtil.getUserName();
+        String employeeNo = user.getEmployeeNo();
         Map<String, Object> properties = new HashMap<>();
         properties.put("user_key", obId);
         Map<String, Object> data = new HashMap<>();
@@ -42,6 +52,8 @@ public class BuryPoint {
         data.put("sensors_title", name);
         data.put("sensors_screen_name", url);
         data.put("status", status);
+        data.put("user_name", userName);
+        data.put("employee_no", employeeNo);
         properties.put("properties_ext", JSONObject.toJSONString(data));
         //System.out.println(JSONObject.toJSONString(properties));
         sensorsAnalytics.track(obId, true, "CustomDefined", properties);
