@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -26,5 +27,10 @@ public class MongoController {
     @GetMapping("/etljoblist")
     public List<EtlJob> etljoblist() {
         return mongoService.etlJobList();
+    }
+
+    @GetMapping("/sysn")
+    public void operationMappings() throws SQLException {
+        mongoService.operationMappings();
     }
 }

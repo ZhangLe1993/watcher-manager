@@ -71,7 +71,7 @@ public class JoinController {
 
 
     @Update
-    @PostMapping("/operation/role")
+    @PostMapping("/permission/role")
     public ResponseEntity OperationJoinRole(@RequestBody OperationRoleVo operationRoleVo) {
         try {
             int count = joinService.operationJoinRole(operationRoleVo);

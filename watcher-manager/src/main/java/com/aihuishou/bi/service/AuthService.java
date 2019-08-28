@@ -84,7 +84,7 @@ public class AuthService extends BaseService {
 
     @Cacheable(value = CacheConf.LIST_USER_AUTH, key = "#obId")
     public List<String> userAuth(String obId) throws SQLException {
-        String sql = new SQL() {
+        String in = new SQL() {
             {
                 SELECT("distinct d.name");
                 FROM("ods_ob_foundation_observerrole a");
@@ -94,9 +94,21 @@ public class AuthService extends BaseService {
                 WHERE("a.observerid = " + obId);
             }
         }.toString();
-        return new QueryRunner(dataSource).query(sql, new ColumnListHandler<String>("name"));
+        List<String> list = new QueryRunner(dataSource).query(in, new ColumnListHandler<String>("name"));
+        String sql = new SQL() {
+            {
+                SELECT("distinct source_operation as name");
+                FROM("operation_mapping");
+                WHERE("target_operation in (" + in + ")");
+            }
+        }.toString();
+        List<String> other = new QueryRunner(dataSource).query(sql, new ColumnListHandler<String>("name"));
+        //other相对于list的茶集
+        other.removeAll(list);
+        //合并
+        list.addAll(other);
+        return list;
     }
-
 
     @Transactional
     public int grantAuth(GrantVO grantVO) throws SQLException {
