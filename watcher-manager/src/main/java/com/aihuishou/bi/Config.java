@@ -79,7 +79,7 @@ public class Config {
 
     @Bean
     public SensorsAnalytics sensorsAnalytics() {
-        SensorsAnalytics sensorsAnalytics = new SensorsAnalytics(new SensorsAnalytics.DebugConsumer(sensorsUrl, true));
+        SensorsAnalytics sensorsAnalytics = new SensorsAnalytics(new SensorsAnalytics.BatchConsumer(sensorsUrl, 1));
         Map<String, Object> properties = new HashMap<>();
         properties.put("platform", platform);
         properties.put("app_name", appName);
