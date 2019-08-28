@@ -19,4 +19,6 @@ public class User implements Serializable {
 
     private String employeeNo;
 
+    private Boolean admin = false;
+
 }
