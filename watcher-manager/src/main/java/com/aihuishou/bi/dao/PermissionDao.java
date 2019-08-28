@@ -17,9 +17,6 @@ import java.util.concurrent.ExecutorService;
 @Repository
 public class PermissionDao {
 
-    @Resource(name="watcherThreadPool")
-    private ExecutorService service;
-
     @Resource
     private DataSource dataSource;
 
@@ -42,12 +39,7 @@ public class PermissionDao {
 
     public int updateSQL(Permission permission) throws SQLException {
         String sql = "update ods_ob_foundation_operation set group_sql = ?, lastmoddt = now() where active = 1 and id = ?";
-        int count = new QueryRunner(dataSource).update(sql, permission.getGroupSQL(), permission.getId());
-        //清除人的权限缓存
-        service.execute(() -> {
-
-        });
-        return count;
+        return new QueryRunner(dataSource).update(sql, permission.getGroupSQL(), permission.getId());
     }
 
 

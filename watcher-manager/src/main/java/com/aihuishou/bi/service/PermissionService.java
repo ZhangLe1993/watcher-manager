@@ -6,11 +6,17 @@ import com.aihuishou.bi.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 @Service
 public class PermissionService {
+
+
+    @Resource(name="watcherThreadPool")
+    private ExecutorService service;
 
     @Autowired
     private PermissionDao permissionDao;
@@ -39,6 +45,17 @@ public class PermissionService {
 
     public List<Role> hasOwner(Integer operationId) throws SQLException {
         return permissionDao.hasOwner(operationId);
+    }
+
+    public void updateSQL(Permission permission) throws SQLException {
+        int count = permissionDao.updateSQL(permission);
+        if(count > 0) {
+            //清除人的权限缓存
+            service.execute(() -> {
+
+                //
+            });
+        }
     }
 
     /**
