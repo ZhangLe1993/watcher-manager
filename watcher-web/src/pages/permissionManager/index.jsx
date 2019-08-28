@@ -32,6 +32,11 @@ import {
   bindRole,
   roleBindOperation,
   queryRoleBindOperation,
+  getAuthBindRole,
+  authBindRole,
+  getRoleBindUser,
+  queryAllUser,
+  roleBindUser,
 } from '../../services/permission';
 
 const FormItem = Form.Item;
@@ -109,6 +114,19 @@ const roleRightTableColumns = [
   },
 ];
 
+const userLeftTableColumns = [
+  {
+    dataIndex: 'name',
+    title: '用户',
+  },
+];
+const userRightTableColumns = [
+  {
+    dataIndex: 'name',
+    title: '用户',
+  },
+];
+
 @Form.create()
 class PermissionManager extends React.Component {
   permissionColumns = [
@@ -116,19 +134,19 @@ class PermissionManager extends React.Component {
       title: '名称',
       dataIndex: 'name',
       key: 'name',
-      width: '30%',
+      width: '20%',
     },
     {
       title: '别名',
       dataIndex: 'alias',
       key: 'alias',
-      width: '30%',
+      width: '20%',
     },
     {
       title: '描述',
       dataIndex: 'description',
       key: 'description',
-      width: '30%',
+      width: '20%',
     },
     {
       title: '操作',
@@ -136,6 +154,8 @@ class PermissionManager extends React.Component {
       render: (text, record) => (
         <span>
           <a href="javascript:;" onClick={() => this.handleActions('permission', 'modify', record)}>修改</a>
+          <Divider type="vertical" />
+          <a href="javascript:;" onClick={() => this.handleActions('permission', 'bind', record)}>绑定角色</a>
           <Divider type="vertical" />
           <Popconfirm title={`是否删除${record.name}?`} onConfirm={() => this.handleActions('permission', 'delete', record)}
           okText="确定" cancelText="取消">
@@ -176,6 +196,8 @@ class PermissionManager extends React.Component {
           okText="确定" cancelText="取消">
               <a href="javascript:;">删除</a>
           </Popconfirm>
+          <Divider type="vertical" />
+          <a href="javascript:;" onClick={() => this.handleActions('role', 'bindUser', record)}>角色绑定用户</a>
           <Divider type="vertical" />
           <a href="javascript:;" onClick={() => this.handleActions('role', 'bind', record)}>绑定权限</a>
           <Divider type="vertical" />
@@ -245,6 +267,9 @@ class PermissionManager extends React.Component {
         loading: false,
         visible: false,
         id: null,
+        bindVisible: false,
+        allRole: [],
+        myRole: [],
       },
       role: {
         pageIndex: 1,
@@ -257,10 +282,13 @@ class PermissionManager extends React.Component {
         id: null,
         queryVisible: false,
         bindVisible: false,
+        roleBindVisible: false,
         roleBindOperationData: [],
         allOperation: [],
         myOperation: [],
         roleId: null,
+        allUser: [],
+        myUser: [],
       },
       user: {
         pageIndex: 1,
@@ -310,6 +338,15 @@ class PermissionManager extends React.Component {
             permissionDescription: data.description,
            });
           break;
+      case 'permission-bind':
+            this.setState({ permission: {
+              ...that.state.permission,
+              bindVisible: true,
+              id: data.id,
+            } });
+            this.getAuthBindRoleFunc(data.id);
+            this.authQueryAllRoleFunc();
+            break;
       case 'role-delete':
           this.deleteRoleFunc(data.id);
           break;
@@ -364,6 +401,16 @@ class PermissionManager extends React.Component {
             this.queryRoleBindOperationFunc(data.id);
           });
           break;
+      case 'role-bindUser':
+          this.setState({ role: {
+            ...that.state.role,
+            roleBindVisible: true,
+            roleId: data.id,
+          } }, () => {
+            this.queryAllUserFunc();
+            this.getRoleBindUserFunc(data.id);
+          });
+        break;
       default:
         break;
     }
@@ -653,6 +700,80 @@ class PermissionManager extends React.Component {
     });
   }
 
+  getAuthBindRoleFunc = id => {
+    const that = this;
+    getAuthBindRole(id).then(res => {
+      console.log(res, '--getAuthBindRoleFunc--');
+      const roleIds = res.map(it => it.id);
+      this.setState({ permission: {
+        ...that.state.permission,
+        myRole: roleIds,
+      } });
+    });
+  }
+
+  authQueryAllRoleFunc = () => {
+    const that = this;
+    queryAllRole().then(res => {
+      console.log(res, '--authQueryAllRoleFunc--');
+      res.data.forEach(it => {
+        it.key = it.id;
+      });
+      this.setState({ permission: {
+        ...that.state.permission,
+        allRole: res.data,
+      } });
+    });
+  }
+
+  authBindRoleFunc = parameters => {
+    const that = this;
+    authBindRole(parameters).then(() => {
+      message.success('权限绑定角色成功!');
+      this.setState({ permission: {
+        ...that.state.permission,
+        bindVisible: false,
+      } });
+      this.fetchPermissionList();
+    });
+  }
+
+  queryAllUserFunc = () => {
+    const that = this;
+    queryAllUser().then(res => {
+      res.data.forEach(it => {
+        it.key = it.obId;
+      });
+      this.setState({ role: {
+        ...that.state.role,
+        allUser: res.data,
+      } });
+    });
+  }
+
+  getRoleBindUserFunc = id => {
+    const that = this;
+    getRoleBindUser(id).then(res => {
+      const roleIds = res.map(it => it.obId);
+      this.setState({ role: {
+        ...that.state.role,
+        myUser: roleIds,
+      } });
+    });
+  }
+
+  roleBindUserFunc = parameters => {
+    const that = this;
+    roleBindUser(parameters).then(() => {
+      message.success('角色绑定用户成功!');
+      this.setState({ role: {
+        ...that.state.role,
+        roleBindVisible: false,
+      } });
+      this.fetchRoleList();
+    });
+  }
+
   handleCancel = type => {
     const that = this;
     this.setState({ [type]: {
@@ -721,6 +842,32 @@ class PermissionManager extends React.Component {
       return message.error('请至少选择一个权限!');
     }
     this.bindOperationFunc(parameters);
+  }
+
+  handlePermissionBindRoleOk = () => {
+    const { permission: { myRole, id } } = this.state;
+    const parameters = {
+      operation: id,
+      role: myRole,
+    };
+    if (Array.isArray(myRole) && myRole.length === 0) {
+      return message.error('请至少选择一个角色!');
+    }
+    this.authBindRoleFunc(parameters);
+    console.log(this.state.permission, '--permission-');
+  }
+
+  handleRoleBindUserOk = () => {
+    const { role: { myUser, roleId } } = this.state;
+    const parameters = {
+      role: roleId,
+      ids: myUser,
+    };
+    if (Array.isArray(myUser) && myUser.length === 0) {
+      return message.error('请至少选择一个用户!');
+    }
+    this.roleBindUserFunc(parameters);
+    console.log(this.state.role, '--role-');
   }
 
   render() {
@@ -949,6 +1096,40 @@ class PermissionManager extends React.Component {
           filterOption={(inputValue, item) => item.name.indexOf(inputValue) !== -1}
           leftColumns={roleLeftTableColumns}
           rightColumns={roleRightTableColumns}
+        />
+      </Modal>
+      <Modal
+        title="权限绑定角色"
+        visible={permission.bindVisible}
+        onOk={() => this.handlePermissionBindRoleOk()}
+        onCancel={() => this.handleUserCancel('permission', 'bindVisible')}
+        width={1000}
+        >
+        <TableTransfer
+          dataSource={permission.allRole}
+          targetKeys={permission.myRole}
+          showSearch
+          onChange={nextTargetKeys => this.handleTableTransferChange('permission', 'myRole', nextTargetKeys)}
+          filterOption={(inputValue, item) => item.name.indexOf(inputValue) !== -1}
+          leftColumns={leftTableColumns}
+          rightColumns={rightTableColumns}
+        />
+      </Modal>
+      <Modal
+        title="角色绑定用户"
+        visible={role.roleBindVisible}
+        onOk={() => this.handleRoleBindUserOk()}
+        onCancel={() => this.handleUserCancel('role', 'roleBindVisible')}
+        width={1000}
+        >
+        <TableTransfer
+          dataSource={role.allUser}
+          targetKeys={role.myUser}
+          showSearch
+          onChange={nextTargetKeys => this.handleTableTransferChange('role', 'myUser', nextTargetKeys)}
+          filterOption={(inputValue, item) => item.name.indexOf(inputValue) !== -1}
+          leftColumns={userLeftTableColumns}
+          rightColumns={userRightTableColumns}
         />
       </Modal>
       </div>
