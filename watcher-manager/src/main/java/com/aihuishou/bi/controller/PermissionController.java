@@ -68,19 +68,6 @@ public class PermissionController {
         return new ResponseEntity<>("修改操作权限失败", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @SystemLog(description = "配置角色群SQL")
-    @Update
-    @PutMapping("role")
-    public ResponseEntity updateSQL(@RequestBody Permission permission) {
-        try{
-            permissionService.updateSQL(permission);
-            return new ResponseEntity<>("配置角色群SQL成功", HttpStatus.OK);
-        } catch(Exception e) {
-            logger.error("配置角色群SQL异常，异常信息: {}", ExceptionInfo.toString(e));
-        }
-        return new ResponseEntity<>("配置角色群SQL失败", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
     @SystemLog(description = "删除操作权限")
     @Update
     @DeleteMapping("")

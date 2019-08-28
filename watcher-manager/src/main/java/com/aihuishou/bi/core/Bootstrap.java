@@ -36,10 +36,4 @@ public class Bootstrap implements CommandLineRunner {
 
     }
 
-    public void build() throws SQLException {
-        List<Permission> list = permissionDao.scanWhenNotNullGroupSQL();
-
-
-
-    }
 }

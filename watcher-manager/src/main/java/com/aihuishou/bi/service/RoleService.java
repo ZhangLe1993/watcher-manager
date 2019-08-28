@@ -43,16 +43,6 @@ public class RoleService {
         return roleDao.update(role);
     }
 
-    public void updateSQL(Role role) throws SQLException {
-        int count = roleDao.updateSQL(role);
-        if(count > 0) {
-            //清除人的权限缓存
-            service.execute(() -> {
-
-                //
-            });
-        }
-    }
 
     public List<Permission> hasOwner(Integer roleId) throws SQLException {
         return roleDao.hasOwner(roleId);

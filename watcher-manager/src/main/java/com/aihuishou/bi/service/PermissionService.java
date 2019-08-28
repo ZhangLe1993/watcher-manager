@@ -47,23 +47,4 @@ public class PermissionService {
         return permissionDao.hasOwner(operationId);
     }
 
-    public void updateSQL(Permission permission) throws SQLException {
-        int count = permissionDao.updateSQL(permission);
-        if(count > 0) {
-            //清除人的权限缓存
-            service.execute(() -> {
-
-                //
-            });
-        }
-    }
-
-    /**
-     *
-     * @return
-     */
-    public List<String> buildRoleBindOperationByGroupSQL() throws SQLException {
-        List<Permission> list = permissionDao.scanWhenNotNullGroupSQL();
-        return null;
-    }
 }

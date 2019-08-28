@@ -69,20 +69,6 @@ public class RoleController {
         return new ResponseEntity<>("修改角色失败", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-
-    @SystemLog(description = "修改角色的SQL")
-    @Update
-    @PutMapping("user")
-    public ResponseEntity updateSQL(@RequestBody Role role) {
-        try{
-            roleService.updateSQL(role);
-            return new ResponseEntity<>("修改角色的SQL成功", HttpStatus.OK);
-        } catch(Exception e) {
-            logger.error("修改角色的SQL异常，异常信息: {}", ExceptionInfo.toString(e));
-        }
-        return new ResponseEntity<>("修改角色的SQL失败", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
     @SystemLog(description = "删除角色")
     @Update
     @DeleteMapping("")

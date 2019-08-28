@@ -41,12 +41,6 @@ public class RoleDao {
         return new QueryRunner(dataSource).update(sql, role.getName(), role.getAlias(), role.getDescription(), role.getId());
     }
 
-
-    public int updateSQL(Role role) throws SQLException {
-        String sql = "update ods_ob_foundation_role set group_sql = ?, lastmoddt = now() where active = 1 and id = ?";
-        return new QueryRunner(dataSource).update(sql, role.getGroupSQL(), role.getId());
-    }
-
     public List<Role> getList(String key, int offset, int limit) throws SQLException {
         String sql = "select id,name,alias,description,active from ods_ob_foundation_role where active = 1 ";
         String where = " and (name like ? or alias like ? or description like ?) ";
