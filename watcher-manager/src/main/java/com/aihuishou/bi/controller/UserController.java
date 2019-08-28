@@ -45,7 +45,7 @@ public class UserController {
     @GetMapping("list")
     public ResponseEntity<Map<String,Object>> search(@RequestParam(value = "key", required = false) String key,
                                                      @RequestParam(value = "page_index", defaultValue = "1", required = false) int pageIndex,
-                                                     @RequestParam(value = "page_size", defaultValue = "10", required = false) int pageSize) {
+                                                     @RequestParam(value = "page_size", defaultValue = "100000", required = false) int pageSize) {
         try{
             List<User> users = userService.all(key, pageIndex, pageSize);
             return new ResponseEntity<>(ImmutableMap.of("data", users, "total", userService.count(key)), HttpStatus.OK);
