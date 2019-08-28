@@ -3,6 +3,7 @@ package com.aihuishou.bi.controller;
 import com.aihuishou.bi.annotation.SystemLog;
 import com.aihuishou.bi.annotation.Update;
 import com.aihuishou.bi.entity.Permission;
+import com.aihuishou.bi.entity.Role;
 import com.aihuishou.bi.service.PermissionService;
 import com.aihuishou.bi.utils.ExceptionInfo;
 import com.google.common.collect.ImmutableMap;
@@ -79,6 +80,23 @@ public class PermissionController {
             logger.error("删除操作权限异常，异常信息: {}", ExceptionInfo.toString(e));
         }
         return new ResponseEntity<>("删除操作权限失败", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
+    /**
+     * 权限已经绑定了的角色
+     * @param operationId
+     * @return
+     */
+    @GetMapping("/role")
+    public ResponseEntity operationRole(@RequestParam(value = "operation_id") Integer operationId) {
+        try {
+            List<Role> roles = permissionService.hasOwner(operationId);
+            return new ResponseEntity<>(roles, HttpStatus.OK);
+        } catch(Exception e) {
+            logger.error("查询权限已经绑定了的角色异常，异常信息: {}", ExceptionInfo.toString(e));
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

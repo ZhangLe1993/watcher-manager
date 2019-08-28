@@ -1,6 +1,7 @@
 package com.aihuishou.bi.dao;
 
 import com.aihuishou.bi.entity.Permission;
+import com.aihuishou.bi.entity.Role;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
@@ -76,6 +77,12 @@ public class PermissionDao {
     public List<Permission> scanWhenNotNullGroupSQL() throws SQLException {
         String sql = "select id, group_sql AS groupSQL, from ods_ob_foundation_operation where active = 1;";
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<>(Permission.class));
+    }
+
+
+    public List<Role> hasOwner(Integer roleId) throws SQLException {
+        String sql = "select id,name,alias,description,active from ods_ob_foundation_role where active = 1 and id in (select distinct roleid from ods_ob_foundation_roleoperation where active = 1 and operationid = ?);";
+        return new QueryRunner(dataSource).query(sql, new BeanListHandler<>(Role.class), roleId);
     }
 
 }

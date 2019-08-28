@@ -2,6 +2,7 @@ package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.dao.PermissionDao;
 import com.aihuishou.bi.entity.Permission;
+import com.aihuishou.bi.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,10 @@ public class PermissionService {
 
     public int update(Permission permission) throws SQLException {
         return permissionDao.update(permission);
+    }
+
+    public List<Role> hasOwner(Integer operationId) throws SQLException {
+        return permissionDao.hasOwner(operationId);
     }
 
     /**

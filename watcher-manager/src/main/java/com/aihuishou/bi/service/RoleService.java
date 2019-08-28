@@ -3,6 +3,7 @@ package com.aihuishou.bi.service;
 import com.aihuishou.bi.dao.RoleDao;
 import com.aihuishou.bi.entity.Permission;
 import com.aihuishou.bi.entity.Role;
+import com.aihuishou.bi.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,5 +40,9 @@ public class RoleService {
 
     public List<Permission> hasOwner(Integer roleId) throws SQLException {
         return roleDao.hasOwner(roleId);
+    }
+
+    public List<User> bHasOwner(Integer roleId) throws SQLException {
+        return roleDao.bHasOwner(roleId);
     }
 }

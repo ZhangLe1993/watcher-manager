@@ -4,6 +4,7 @@ import com.aihuishou.bi.annotation.SystemLog;
 import com.aihuishou.bi.annotation.Update;
 import com.aihuishou.bi.entity.Permission;
 import com.aihuishou.bi.entity.Role;
+import com.aihuishou.bi.entity.User;
 import com.aihuishou.bi.service.RoleService;
 import com.aihuishou.bi.utils.ExceptionInfo;
 import com.google.common.collect.ImmutableMap;
@@ -95,6 +96,22 @@ public class RoleController {
             return new ResponseEntity<>(roles, HttpStatus.OK);
         } catch(Exception e) {
             logger.error("查询角色已经绑定了的权限异常，异常信息: {}", ExceptionInfo.toString(e));
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * 角色已经绑定了的用户
+     * @param roleId
+     * @return
+     */
+    @GetMapping("/user")
+    public ResponseEntity roleUser(@RequestParam(value = "role_id") Integer roleId) {
+        try {
+            List<User> roles = roleService.bHasOwner(roleId);
+            return new ResponseEntity<>(roles, HttpStatus.OK);
+        } catch(Exception e) {
+            logger.error("查询角色已经绑定了的用户异常，异常信息: {}", ExceptionInfo.toString(e));
         }
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }

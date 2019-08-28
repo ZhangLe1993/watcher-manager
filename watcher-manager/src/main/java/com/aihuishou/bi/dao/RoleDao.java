@@ -2,6 +2,7 @@ package com.aihuishou.bi.dao;
 
 import com.aihuishou.bi.entity.Permission;
 import com.aihuishou.bi.entity.Role;
+import com.aihuishou.bi.entity.User;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
@@ -76,5 +77,10 @@ public class RoleDao {
     public List<Permission> hasOwner(Integer roleId) throws SQLException {
         String sql = "select id,name,alias,description,active from ods_ob_foundation_operation where active = 1 and id in (select distinct operationid from ods_ob_foundation_roleoperation where active = 1 and roleid = ?);";
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<>(Permission.class), roleId);
+    }
+
+    public List<User> bHasOwner(Integer roleId) throws SQLException {
+        String sql = "SELECT observer_account_id as obId, observer_account_user_name AS name, observer_account_mobile_txt AS mobile,observer_account_email_txt AS email,observer_account_employee_no AS employeeNo from dim_observer_account where observer_account_id <> -1 and observer_account_id in (select distinct observerid from ods_ob_foundation_observerrole where active = 1 and roleid = ?);";
+        return new QueryRunner(dataSource).query(sql, new BeanListHandler<>(User.class), roleId);
     }
 }
