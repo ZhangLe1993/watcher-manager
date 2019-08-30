@@ -1,9 +1,6 @@
 package com.aihuishou.bi.service;
 
-import com.aihuishou.bi.live.model.AiJiHuiTradeStats;
-import com.aihuishou.bi.live.model.EtlJob;
-import com.aihuishou.bi.live.model.ExpressSourceTypeTradeStats;
-import com.aihuishou.bi.live.model.OperationMapping;
+import com.aihuishou.bi.live.model.*;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +58,11 @@ public class MongoService {
 
 
     public List<ExpressSourceTypeTradeStats> expressSourceTypeTradeStats() {
-        Query query = new Query().with(new Sort(Sort.Direction.DESC, "tradeNum"));
+        Query basic = new Query().with(new Sort(Sort.Direction.DESC, "createdDt"));
+        DateTradeStats dateTradeStats = mongoTemplate.findOne(basic, DateTradeStats.class, "dateTradeStats");
+        String date = dateTradeStats.getCreatedDt();
+        Criteria criteria = Criteria.where("createdDt").is(date);
+        Query query = new Query(criteria).with(new Sort(Sort.Direction.DESC, "tradeNum"));
         return mongoTemplate.find(query, ExpressSourceTypeTradeStats.class, "expressSourceTypeTradeStats");
     }
 }
