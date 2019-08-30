@@ -16,7 +16,7 @@ Template.priceComparison.rendered = function () {
 
     }
 
-    if (type == undefined) {
+    if (type == undefined || type == null || type == "") {
         type = "other";
     }
     //BD 保持和利润中心一样
