@@ -72,7 +72,7 @@ export async function queryRole(params) {
 }
 
 
-// 查询操作权限
+// 查询所有角色
 export async function queryAllRole() {
   const url = '/role';
   return request(url, {
@@ -87,6 +87,11 @@ export async function queryUser(params) {
   return request(url, {
     method: 'GET',
   });
+}
+
+// 查询所有用户
+export async function queryAllUser() {
+  return request('/user/list');
 }
 
 // 用户已绑定角色
@@ -115,6 +120,35 @@ export async function roleBindOperation(params) {
 // 查看角色已绑定了的权限
 export async function queryRoleBindOperation(params) {
   return request(`/role/operation?role_id=${params}`, {
+    method: 'GET',
+  });
+}
+
+// 权限已绑定的角色
+export async function getAuthBindRole(params) {
+  return request(`/permission/role?operation_id=${params}`);
+}
+
+// 权限绑定角色
+export async function authBindRole(params) {
+  return request('/permission/role', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+
+// 角色绑定用户
+export async function roleBindUser(params) {
+  return request('/role/user', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+// 查看角色已经绑定的用户
+export async function getRoleBindUser(params) {
+  return request(`/role/user?role_id=${params}`, {
     method: 'GET',
   });
 }
