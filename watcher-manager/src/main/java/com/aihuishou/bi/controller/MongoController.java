@@ -2,6 +2,7 @@ package com.aihuishou.bi.controller;
 
 import com.aihuishou.bi.live.model.AiJiHuiTradeStats;
 import com.aihuishou.bi.live.model.EtlJob;
+import com.aihuishou.bi.live.model.ExpressSourceTypeTradeStats;
 import com.aihuishou.bi.service.MongoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,5 +33,10 @@ public class MongoController {
     @GetMapping("/sysn")
     public void operationMappings() throws SQLException {
         mongoService.operationMappings();
+    }
+
+    @GetMapping("/expressSourceTypeTradeStats")
+    public List<ExpressSourceTypeTradeStats> expressSourceTypeTradeStats() {
+        return mongoService.expressSourceTypeTradeStats();
     }
 }

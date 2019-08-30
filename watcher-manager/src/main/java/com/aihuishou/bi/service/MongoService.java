@@ -2,6 +2,7 @@ package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.live.model.AiJiHuiTradeStats;
 import com.aihuishou.bi.live.model.EtlJob;
+import com.aihuishou.bi.live.model.ExpressSourceTypeTradeStats;
 import com.aihuishou.bi.live.model.OperationMapping;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.lang3.StringUtils;
@@ -56,5 +57,11 @@ public class MongoService {
             params[i] = new Object[]{operation, accessName};
         }
         new QueryRunner(dataSource).batch(sql, params);
+    }
+
+
+    public List<ExpressSourceTypeTradeStats> expressSourceTypeTradeStats() {
+        Query query = new Query().with(new Sort(Sort.Direction.DESC, "tradeNum"));
+        return mongoTemplate.find(query, ExpressSourceTypeTradeStats.class, "expressSourceTypeTradeStats");
     }
 }

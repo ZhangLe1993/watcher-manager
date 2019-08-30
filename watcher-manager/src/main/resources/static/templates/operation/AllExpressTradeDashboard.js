@@ -10,20 +10,20 @@ Template.AllExpressTradeDashboard.rendered = function () {
 
     var realTimeAllExpressSourceTypeMixedChart = echarts.init(document.getElementById('realTimeAllExpressSourceTypeMixedChart'));
 
-    var getSortOrder = function (prop) {
-        return function (a, b) {
-            if (a[prop] > b[prop]) {
-                return -1;
-            } else if (a[prop] < b[prop]) {
-                return 1;
-            }
-            return 0;
-        }
-    };
 
-    var drawRealTimeAllExpressSourceTypeMixedChart = function (ret) {
+    drawRealTimeAllExpressSourceTypeMixedChart(realTimeAllExpressSourceTypeMixedChart);
 
-        var dataSets = expressSourceTypeTradeStats.find({}, {sort: {tradeNum: -1}}).fetch();
+    yesterdayOrderCnt();
+
+    setInterval(function(){yesterdayOrderCnt()},1000*60*5);
+
+};
+
+
+var drawRealTimeAllExpressSourceTypeMixedChart = function (id) {
+
+    requestURL(window.origin + "/mongo/expressSourceTypeTradeStats", {}).done(function (data) {
+        var dataSets = data;
         var labels = [];
         var xLabels = [];
         var barData = [];
@@ -90,37 +90,35 @@ Template.AllExpressTradeDashboard.rendered = function () {
                 }]
         };
 
-        realTimeAllExpressSourceTypeMixedChart.setOption(option);
-
-    };
-
-    // Deps.autorun(function () {
-    //     if (location.pathname.indexOf('AllExpressTradeDashboard') > 0) {
-    //         drawRealTimeAllExpressSourceTypeMixedChart();
-    //         //yesterdayOrderCnt();
-    //     }
-    // });
-
-    yesterdayOrderCnt();
-
-    setInterval(function(){yesterdayOrderCnt()},1000*60*5);
-
-    function yesterdayOrderCnt() {
-        var promise = getYesterdayOrderCntInfo();
-        promise.done(function (ret) {
-            $("#yesterdayTradeReceiptCount").html("昨日同时间提交量:"+ret[0])
-        });
-
-    }
-
-    function getYesterdayOrderCntInfo() {
-        //clean parameters
-        var dfd = $.Deferred();
-        requestURL(dataService + "/operationCenter/getYesterdayExpressOrderCntInfo", {}).done(function (ret) {
-            dfd.resolve(ret)
-        })
-        return dfd.promise()
-    }
-
+        id.setOption(option);
+    });
 };
 
+function yesterdayOrderCnt() {
+    var promise = getYesterdayOrderCntInfo();
+    promise.done(function (ret) {
+        $("#yesterdayTradeReceiptCount").html("昨日同时间提交量:"+ret[0])
+    });
+
+}
+
+function getYesterdayOrderCntInfo() {
+    //clean parameters
+    var dfd = $.Deferred();
+    requestURL(dataService + "/operationCenter/getYesterdayExpressOrderCntInfo", {}).done(function (ret) {
+        dfd.resolve(ret)
+    });
+    return dfd.promise()
+}
+
+
+var getSortOrder = function (prop) {
+    return function (a, b) {
+        if (a[prop] > b[prop]) {
+            return -1;
+        } else if (a[prop] < b[prop]) {
+            return 1;
+        }
+        return 0;
+    }
+};
