@@ -8,7 +8,9 @@ import com.aihuishou.bi.vo.NodeVO;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.jdbc.SQL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -162,7 +164,27 @@ public class NodeService extends BaseService {
 
     public Node nodeGenre(String position) throws SQLException {
         String sql = "select id, position, url, auth, path, name, parent_position AS parentPosition,mount,genre from bi_nodes where position = ? order by update_time desc limit 0,1;";
-        return new QueryRunner(dataSource).query(sql, new BeanHandler<>(Node.class), position);
+        Node node = new QueryRunner(dataSource).query(sql, new BeanHandler<>(Node.class), position);
+        String path = getFinalPath(position);
+        node.setPath(path);
+        return node;
     }
+
+    public String getFinalPath(String position) throws SQLException {
+        String sql = new SQL() {
+            {
+                SELECT("CONCAT_WS('/',e. NAME,d. NAME,c. NAME,b. NAME,a. NAME) AS path");
+                FROM("bi_nodes a");
+                LEFT_OUTER_JOIN("bi_folder b ON a.parent_position = b.position");
+                LEFT_OUTER_JOIN("bi_folder c ON b.parent_position = c.position");
+                LEFT_OUTER_JOIN("bi_folder d ON c.parent_position = d.position");
+                LEFT_OUTER_JOIN("bi_folder e ON d.parent_position = e.position");
+                WHERE("a.position = " + position);
+            }
+        }.toString();
+        return new QueryRunner(dataSource).query(sql, new ScalarHandler<>("path"), position);
+    }
+
+
 
 }
