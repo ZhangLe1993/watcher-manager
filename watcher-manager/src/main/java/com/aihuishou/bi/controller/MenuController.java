@@ -207,7 +207,7 @@ public class MenuController {
         } catch(Exception e) {
             logger.error("查询报表类型异常，异常信息: {}", ExceptionInfo.toString(e));
         }
-        return new ResponseEntity<>("-1", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new Node(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
