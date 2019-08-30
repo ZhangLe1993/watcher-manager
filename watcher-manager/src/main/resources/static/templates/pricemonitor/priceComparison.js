@@ -6,21 +6,22 @@ Template.priceComparison.rendered = function () {
     $("#loading").show()
     $("#error").hide()
 
-    if(isMobile()){
+    if (isMobile()) {
         $('.sidebar-toggle').click();
     }
-    try{
-        var type = Template.type;
-    }catch(e) {
-        var type = "other";
+    var type = "other";
+    try {
+        type = Template.type;
+    } catch (e) {
+
     }
 
-    if(type==undefined){
+    if (type == undefined) {
         type = "other";
     }
     //BD 保持和利润中心一样
-    if(type=="BD"){
-        type="PRICE"
+    if (type == "BD") {
+        type = "PRICE"
     }
 
     getData(type)
@@ -47,62 +48,64 @@ function unique(arr) {
 
 function rendOptions(data) {
     $(".category,.brand,.product,.sku,.level").attr("multiple", "multiple")
-    renderSelectOption(".category", unique(_.map(data,function(obj){return obj.category})))
+    renderSelectOption(".category", unique(_.map(data, function (obj) {
+        return obj.category
+    })))
     renderSelectOption(".brand", [])
     renderSelectOption(".product", [])
     renderSelectOption(".sku", [])
     renderSelectOption(".level", [])
-    $(".category").change(function(){
-        var category= $(this).val()
+    $(".category").change(function () {
+        var category = $(this).val()
         var brand_name = []
-        if(category){
-            brand_name= unique(_.map(_.filter(data,function(obj){
+        if (category) {
+            brand_name = unique(_.map(_.filter(data, function (obj) {
                 return category.contains(obj.category)
-            }),function(obj){
+            }), function (obj) {
                 return obj.product_brand_name
             }))
         }
         renderSelectOption(".brand", brand_name);
         $(".brand").select2({
             placeholder: "全部",
-            selectAllText:"全部",
+            selectAllText: "全部",
             width: 200,
             selectAll: true
         })
         $(".product,.sku,.level").empty()
 
     })
-    $(".brand").change(function(){
-        var category= $(".category").val()
-        var brand= $(this).val()
+    $(".brand").change(function () {
+        var category = $(".category").val()
+        var brand = $(this).val()
         var product_name = []
-        if(brand){
-            product_name= unique(_.map(_.filter(data,function(obj){
-                return brand.contains(obj.product_brand_name)&&category.contains(obj.category)
-            }),function(obj){
+        if (brand) {
+            product_name = unique(_.map(_.filter(data, function (obj) {
+                return brand.contains(obj.product_brand_name) && category.contains(obj.category)
+            }), function (obj) {
                 return obj.product_name
             }))
         }
         renderSelectOption(".product", product_name);
         $(".product").select2({
             placeholder: "全部",
-            selectAllText:"全部",
+            selectAllText: "全部",
             width: 200,
             selectAll: true
         })
         $(".sku,.level").empty()
 
     })
-    $(".product").change(function(){
-        var category= $(".category").val()
-        var brand= $(".brand").val()
-        var product= $(this).val()
+    $(".product").change(function () {
+        var category = $(".category").val()
+        var brand = $(".brand").val()
+        var product = $(this).val()
         var sku_name = []
-        if(product){
+        if (product) {
 
-            sku_name=unique(_.map(_.filter(data,function(obj){
-                return product.contains(obj.product_name)&&brand.contains(obj.product_brand_name)&&category.contains(obj.category)
-            }),function(obj){
+            sku_name = unique(_.map(_.filter(data, function (obj) {
+                return product.contains(obj.product_name) && brand.contains(obj.product_brand_name) && category.contains(obj.category)
+            }), function (obj) {
                 return obj.product_sku_name
             }))
         }
@@ -110,29 +113,29 @@ function rendOptions(data) {
         $(".level").empty()
         $(".sku,.level").select2({
             placeholder: "全部",
-            selectAllText:"全部",
+            selectAllText: "全部",
             width: 200,
             selectAll: true
         })
     })
-    $(".sku").change(function(){
-        var category= $(".category").val()
-        var brand= $(".brand").val()
-        var product= $(".product").val()
-        var sku= $(this).val()
+    $(".sku").change(function () {
+        var category = $(".category").val()
+        var brand = $(".brand").val()
+        var product = $(".product").val()
+        var sku = $(this).val()
         var level_name = []
-        if(sku){
+        if (sku) {
 
-            level_name=unique(_.map(_.filter(data,function(obj){
-                return sku.contains(obj.product_sku_name)&&product.contains(obj.product_name)&&brand.contains(obj.product_brand_name)&&category.contains(obj.category)
-            }),function(obj){
+            level_name = unique(_.map(_.filter(data, function (obj) {
+                return sku.contains(obj.product_sku_name) && product.contains(obj.product_name) && brand.contains(obj.product_brand_name) && category.contains(obj.category)
+            }), function (obj) {
                 return obj.product_level_name
             }))
         }
         renderSelectOption(".level", level_name)
         $(".level").select2({
             placeholder: "全部",
-            selectAllText:"全部",
+            selectAllText: "全部",
             width: 200,
             selectAll: true
         })
@@ -141,7 +144,7 @@ function rendOptions(data) {
 
     $(".category,.brand,.product,.sku,.level").select2({
         placeholder: "全部",
-        selectAllText:"全部",
+        selectAllText: "全部",
         width: 200,
         selectAll: true
     })
@@ -160,10 +163,10 @@ function renderSelectOption(className, obj) {
 function getSelectOptions(type) {
     requestURL(dataService + "/pricemonitor/getPriceComparisonSelectOptions", {}).done(function (data) {
         //
-        if(data=="error"){
+        if (data == "error") {
             $("#loading").hide()
             $("#error").show().text("您导的报表格式不正确，请检查！")
-        }else{
+        } else {
             rendOptions(data)
         }
 
@@ -186,20 +189,20 @@ function getFilterOption() {
 function getData(type) {
 
     var filter = getFilterOption()
-    filter.type=type
-    $(".search").attr("disabled",true)
+    filter.type = type
+    $(".search").attr("disabled", true)
     requestURL(dataService + "/pricemonitor/getPriceCompetitionData", filter).done(function (data) {
-        $(".search").attr("disabled",false)
+        $(".search").attr("disabled", false)
         $("#chartContent").show()
         $("#loading").hide()
         //
-        renderTable(type,data)
+        renderTable(type, data)
     })
 }
 
 
-function renderTable(type,data) {
-    var columns=[
+function renderTable(type, data) {
+    var columns = [
         {
             field: "product_category_name",
             title: "品类",
@@ -237,8 +240,8 @@ function renderTable(type,data) {
             field: "",
             title: "爱回收最高价",
             //editable: true,
-            formatter:function(value,row,index){
-                return parseInt(row.ahs)+parseInt(row.preferential_price)
+            formatter: function (value, row, index) {
+                return parseInt(row.ahs) + parseInt(row.preferential_price)
             }
         }, {
             field: "hsb",
@@ -247,27 +250,27 @@ function renderTable(type,data) {
             sortable: true
         }
     ]
-    if(type=="BD"){
-        columns.push( {
+    if (type == "BD") {
+        columns.push({
             field: "suning",
             title: "苏宁",
             //editable: true,
             sortable: true
         });
-        columns.push( {
+        columns.push({
             field: "ydm",
             title: "有得卖",
             //editable: true,
             sortable: true
         })
-        columns.push( {
+        columns.push({
             field: "igooma",
             title: "估吗",
             //editable: true,
             sortable: true
         })
-    }else if(type=="PRICE"){
-        columns.push( {
+    } else if (type == "PRICE") {
+        columns.push({
             field: "ydm",
             title: "有得卖",
             //editable: true,
@@ -286,7 +289,7 @@ function renderTable(type,data) {
         data: data,
         exportDataType: "all",
         ////cdataExport:"cdataExport",
-        showExport:true,
+        showExport: true,
         search: true,
         //showRefresh: true,
         //align: "center",
