@@ -17,8 +17,13 @@ import { formatMessage } from 'umi-plugin-react/locale';
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import GlobalFooter from '@/components/GlobalFooter/index';
+
 import style from './basicLayout.less';
 import { loginOut } from '../services/manager';
+import {
+  findMenuItem,
+  getCleanArr,
+} from '../utils/utils';
 // import logo from '../assets/logo.svg';
 /**
  * use Authorized check all menu item
@@ -118,39 +123,39 @@ const BasicLayout = props => {
     // loginOut();
   };
 
-  const findMenuItem = (pathName, node, prefix) => {
-    const { component, children: children2 } = node;
-    let nameStr;
-    if (prefix) {
-      nameStr = `${prefix}/${node.name}`;
-    } else {
-      nameStr = node.name;
-    }
-    if (children2) {
-      for (let i = 0, len = children2.length; i < len; i += 1) {
-        const temp = findMenuItem(pathName, children2[i], nameStr);
-        if (temp != null) {
-          return temp;
-        }
-      }
-    } else {
-      if (component === pathName) {
-        return nameStr;
-      } else {
-        return null;
-      }
-    }
-  };
+  // const findMenuItem = (pathName, node, prefix) => {
+  //   const { component, children: children2 } = node;
+  //   let nameStr;
+  //   if (prefix) {
+  //     nameStr = `${prefix}/${node.name}`;
+  //   } else {
+  //     nameStr = node.name;
+  //   }
+  //   if (children2) {
+  //     for (let i = 0, len = children2.length; i < len; i += 1) {
+  //       const temp = findMenuItem(pathName, children2[i], nameStr);
+  //       if (temp != null) {
+  //         return temp;
+  //       }
+  //     }
+  //   } else {
+  //     if (component === pathName) {
+  //       return nameStr;
+  //     } else {
+  //       return null;
+  //     }
+  //   }
+  // };
 
-  const getCleanArr = arr => {
-    const cleanArr = [];
-    for (let i = 0, len = arr.length; i < len; i += 1) {
-      if (arr[i]) {
-        cleanArr.push(arr[i]);
-      }
-    }
-    return cleanArr;
-  };
+  // const getCleanArr = arr => {
+  //   const cleanArr = [];
+  //   for (let i = 0, len = arr.length; i < len; i += 1) {
+  //     if (arr[i]) {
+  //       cleanArr.push(arr[i]);
+  //     }
+  //   }
+  //   return cleanArr;
+  // };
 
   const headerRender = () => {
     const { userName } = props;
