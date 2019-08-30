@@ -199,6 +199,19 @@ public class MenuController {
         return new ResponseEntity<>(ImmutableMap.of("data", new ArrayList<>(),"total", 0), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @SystemLog(description = "查询报表类型")
+    @GetMapping("/node/genre")
+    public ResponseEntity nodeGenre(@RequestParam(value = "position") String position) {
+        try{
+            return new ResponseEntity<>(nodeService.nodeGenre(position), HttpStatus.OK);
+        } catch(Exception e) {
+            logger.error("查询报表类型异常，异常信息: {}", ExceptionInfo.toString(e));
+        }
+        return new ResponseEntity<>("-1", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
+
     @SystemLog(description = "新增报表")
     @Update
     @PostMapping("/node")

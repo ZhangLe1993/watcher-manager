@@ -8,6 +8,7 @@ import com.aihuishou.bi.vo.NodeVO;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -158,6 +159,11 @@ public class NodeService extends BaseService {
             params[i] = new Object[]{node.getSortNo(), node.getId()};
         }
         return new QueryRunner(dataSource).batch(sql, params);
+    }
+
+    public String nodeGenre(String position) throws SQLException {
+        String sql = "select genre from bi_nodes where position = ? order by update_time desc limit 0,1;";
+        return new QueryRunner(dataSource).query(sql, new ScalarHandler<>("genre"), position);
     }
 
 }
