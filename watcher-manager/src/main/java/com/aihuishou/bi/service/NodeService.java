@@ -179,10 +179,10 @@ public class NodeService extends BaseService {
                 LEFT_OUTER_JOIN("bi_folder c ON b.parent_position = c.position");
                 LEFT_OUTER_JOIN("bi_folder d ON c.parent_position = d.position");
                 LEFT_OUTER_JOIN("bi_folder e ON d.parent_position = e.position");
-                WHERE("a.position = " + position);
+                WHERE("a.position = '" + position + "'");
             }
         }.toString();
-        return new QueryRunner(dataSource).query(sql, new ScalarHandler<>("path"), position);
+        return new QueryRunner(dataSource).query(sql, new ScalarHandler<>("path"));
     }
 
 
