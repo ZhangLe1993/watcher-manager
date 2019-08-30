@@ -1,7 +1,15 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Spin } from 'antd';
+
 import style from './index.less';
+import {
+  queryCurrentMenuItem,
+} from '../../services/iframe';
+import {
+  findMenuItem,
+  getCleanArr,
+} from '../../utils/utils';
 
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-plusplus */
@@ -21,73 +29,27 @@ class Iframe extends React.Component {
   componentDidMount() {
     const that = this;
     const watcherIframe = document.getElementById('watcherIframe');
-    const position = this.props.location.pathname.split('/page/')[1];
+    const position = document.location.href.split('/page/')[1];
     const height = document.body.scrollHeight || document.documentElement.scrollHeight;
     const fullName = window.sessionStorage.getItem('full_name');
     const url2 = window.location.href;
-    let checkedMenuItem;
-    // window.sessionStorage.setItem('pathName', position);
-    if (window.sessionStorage.getItem('currentMenuItem')) {
-      checkedMenuItem = JSON.parse(window.sessionStorage.getItem('currentMenuItem'));
-      const { genre, url } = checkedMenuItem;
-      // 老版本
+    queryCurrentMenuItem(position).then(res => {
+      const { genre, url } = res;
       if (genre === '0') {
         watcherIframe.src = `/route/base?position=${position}&name=${fullName}&url=${url2}`;
-        // loading状态控制
-        // 设置iframe高度
         this.setState({ loading: true }, () => {
           watcherIframe.onload = () => {
             that.setState({ loading: false });
-            // setTimeout(() => {
-            //   const frame = watcherIframe.contentWindow;
-            //   // console.log(frame, '-frame-genre=0');
-            //   // console.log(window.origin, '-window.origin-');
-            //   const message = { parentOrigin: window.origin, msg: '收到请回复' };
-            //   // eslint-disable-next-line no-unused-expressions
-            //   frame && frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
-            // }, 100);
-            // setTimeout(() => {
-            //   const frame = watcherIframe.contentWindow;
-            //   const message = { parentOrigin: window.origin, msg: '收到请回复' };
-            //   // eslint-disable-next-line no-unused-expressions
-            //   frame && frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
-            // }, 3000);
-            // setTimeout(() => {
-            //   const frame = watcherIframe.contentWindow;
-            //   const message = { parentOrigin: window.origin, msg: '收到请回复' };
-            //   // eslint-disable-next-line no-unused-expressions
-            //   frame && frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
-            // }, 6000);
             window.addEventListener('message', this.receiveMessage, false);
             watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
           };
         });
-      // 新版本
       } else if (genre === '1') {
         watcherIframe.src = url;
-        // // iframe自适应高度
-        // setTimeout(() => {
-        //   const frame = watcherIframe.contentWindow || watcherIframe.contentDocument;
-        //   const message = { parentOrigin: window.origin, msg: '收到请回复' };
-        //   // eslint-disable-next-line no-unused-expressions
-        //   frame && frame.postMessage(JSON.stringify(message), 'http://47.97.240.5:8092');
-        // }, 100);
-        // setTimeout(() => {
-        //   const frame = watcherIframe.contentWindow;
-        //   const message = { parentOrigin: window.origin, msg: '收到请回复' };
-        //   // eslint-disable-next-line no-unused-expressions
-        //   frame && frame.postMessage(JSON.stringify(message), 'http://47.97.240.5:8092');
-        // }, 3000);
-        // setTimeout(() => {
-        //   const frame = watcherIframe.contentWindow;
-        //   const message = { parentOrigin: window.origin, msg: '收到请回复' };
-        //   // eslint-disable-next-line no-unused-expressions
-        //   frame && frame.postMessage(JSON.stringify(message), 'http://47.97.240.5:8092');
-        // }, 6000);
         window.addEventListener('message', this.receiveMessage, false);
         watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
       }
-    }
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -98,35 +60,14 @@ class Iframe extends React.Component {
     const watcherIframe = document.getElementById('watcherIframe');
     const fullName = window.sessionStorage.getItem('full_name');
     const url2 = window.location.href;
-    if (window.sessionStorage.getItem('currentMenuItem')) {
-      const checkedMenuItem = JSON.parse(window.sessionStorage.getItem('currentMenuItem'));
-      const { genre, url } = checkedMenuItem;
-      // if (prePosition !== nextPosition) {
-        // 老版本
+    if (prePosition !== nextPosition) {
+      queryCurrentMenuItem(nextPosition).then(res => {
+        const { genre, url } = res;
         if (genre === '0') {
           watcherIframe.src = `/route/base?position=${nextPosition}&name=${fullName}&url=${url2}`;
-          // loading和iframe高度
           this.setState({ loading: true }, () => {
             watcherIframe.onload = () => {
               that.setState({ loading: false });
-              // setTimeout(() => {
-              //   const frame = watcherIframe.contentWindow;
-              //   const message = { parentOrigin: window.origin, msg: '收到请回复' };
-              //   // eslint-disable-next-line no-unused-expressions
-              //   frame && frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
-              // }, 100);
-              // setTimeout(() => {
-              //   const frame = watcherIframe.contentWindow;
-              //   const message = { parentOrigin: window.origin, msg: '收到请回复' };
-              //   // eslint-disable-next-line no-unused-expressions
-              //   frame && frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
-              // }, 3000);
-              // setTimeout(() => {
-              //   const frame = watcherIframe.contentWindow;
-              //   const message = { parentOrigin: window.origin, msg: '收到请回复' };
-              //   // eslint-disable-next-line no-unused-expressions
-              //   frame && frame.postMessage(JSON.stringify(message), 'http://10.25.169.133:8112');
-              // }, 6000);
               window.addEventListener('message', this.receiveMessage, false);
               watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
             };
@@ -146,44 +87,10 @@ class Iframe extends React.Component {
           newIframe.style.height = '100%';
           antSpinContainer.appendChild(newIframe);
           const newWatcherIframe = document.getElementById('watcherIframe');
-          // newWatcherIframe.onload = () => {
-          //   console.log(document.documentElement.scrollHeight);
-          // };
-          // iframe自适应高度
-          // setTimeout(() => {
-          //   const frame = watcherIframe.contentWindow;
-          //   const message = { parentOrigin: window.origin, msg: '收到请回复' };
-          //   // eslint-disable-next-line no-unused-expressions
-          //   frame && frame.postMessage(JSON.stringify(message), 'http://47.97.240.5:8092');
-          // }, 100);
-          // setTimeout(() => {
-          //   const frame = watcherIframe.contentWindow;
-          //   const message = { parentOrigin: window.origin, msg: '收到请回复' };
-          //   // eslint-disable-next-line no-unused-expressions
-          //   frame && frame.postMessage(JSON.stringify(message), 'http://47.97.240.5:8092');
-          // }, 3000);
-          // setTimeout(() => {
-          //   const frame = watcherIframe.contentWindow;
-          //   const message = { parentOrigin: window.origin, msg: '收到请回复' };
-          //   // eslint-disable-next-line no-unused-expressions
-          //   frame && frame.postMessage(JSON.stringify(message), 'http://47.97.240.5:8092');
-          // }, 6000);
           window.addEventListener('message', this.receiveMessage, false);
           newWatcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
         }
-      // }
-    }
-  }
-
-  componentDidUpdate() {
-    const { menuData } = this.props;
-    const position = this.props.location.pathname.split('/page/')[1];
-    if (menuData) {
-      const checkedMenuItem = this.getMenuItemByPath(position, menuData);
-      if (checkedMenuItem) {
-        window.sessionStorage.setItem('currentMenuItem', JSON.stringify(checkedMenuItem));
-        window.sessionStorage.setItem('pathName', position);
-      }
+      });
     }
   }
 

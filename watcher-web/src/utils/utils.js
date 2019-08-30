@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint no-useless-escape:0 import/prefer-default-export:0 */
 /* eslint-disable no-param-reassign */
 const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/;
@@ -85,6 +86,42 @@ const getMenuItemByPath = (key, data) => {
   return selectedMenuItem;
 };
 
+const getCleanArr = arr => {
+  const cleanArr = [];
+  for (let i = 0, len = arr.length; i < len; i += 1) {
+    if (arr[i]) {
+      cleanArr.push(arr[i]);
+    }
+  }
+  return cleanArr;
+};
+
+const findMenuItem = (pathName, node, prefix) => {
+  const { component, children: children2 } = node;
+  let nameStr;
+  if (prefix) {
+    nameStr = `${prefix}/${node.name}`;
+  } else {
+    nameStr = node.name;
+  }
+  if (children2) {
+    for (let i = 0, len = children2.length; i < len; i += 1) {
+      const temp = findMenuItem(pathName, children2[i], nameStr);
+      if (temp != null) {
+        return temp;
+      }
+    }
+  } else {
+    // eslint-disable-next-line no-lonely-if
+    if (component === pathName) {
+      return nameStr;
+    // eslint-disable-next-line no-else-return
+    } else {
+      return null;
+    }
+  }
+};
+
 export {
  isAntDesignProOrDev,
  isAntDesignPro, isUrl,
@@ -92,4 +129,6 @@ export {
  handleMenuData2,
  addKey,
  getMenuItemByPath,
+ getCleanArr,
+ findMenuItem,
  };
