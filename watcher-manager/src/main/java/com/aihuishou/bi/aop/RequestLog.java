@@ -3,6 +3,7 @@ package com.aihuishou.bi.aop;
 import com.aihuishou.bi.annotation.Mark;
 import com.aihuishou.bi.annotation.SystemLog;
 import com.aihuishou.bi.handler.BuryPoint;
+import com.aihuishou.bi.service.NodeService;
 import com.aihuishou.bi.utils.StringEx;
 import com.alibaba.fastjson.JSONObject;
 import com.sensorsdata.analytics.javasdk.exceptions.InvalidArgumentException;
@@ -31,6 +32,9 @@ public class RequestLog {
 
     @Autowired
     private BuryPoint buryPoint;
+
+    @Autowired
+    private NodeService nodeService;
 
     public static final Logger logger = LoggerFactory.getLogger(RequestLog.class);
 
@@ -92,11 +96,12 @@ public class RequestLog {
                 case "start": {
                     String sessionId = StringEx.newUUID();
                     String position = args[0].toString();
-                    String name = args[1].toString();
+                    //String name = args[1].toString();
                     String url = args[2].toString();
                     HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
                     kindCookie(sessionId, response);
-                    buryPoint.point(sessionId, startTime, endTime, takeTime, position, name, url, status);
+                    String finalName = nodeService.getFinalPath(position);
+                    buryPoint.point(sessionId, startTime, endTime, takeTime, position, finalName, url, status);
                     break;
                 }
                 case "end": {
