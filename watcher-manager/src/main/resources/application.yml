@@ -24,6 +24,15 @@ spring:
     type: redis
     redis:
       time-to-live: 2h
+  thymeleaf:
+      servlet:
+        content-type: text/html
+      cache: false
+      prefix: classpath:/templates/
+      check-template-location: true
+      suffix: .html
+      encoding: UTF-8
+      mode: HTML
 
 cas:
   server:
@@ -46,6 +55,8 @@ bury:
   platform: server
   appName: watcher
 
-basic.mongodb.host: 10.168.187.122
-basic.mongodb.port: 27017
-basic.mongodb.database: Watcher
+basic:
+  mongodb:
+    host: 10.168.187.122
+    port: 27017
+    database: Watcher
