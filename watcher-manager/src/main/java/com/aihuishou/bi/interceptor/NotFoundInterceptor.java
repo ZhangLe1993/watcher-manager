@@ -9,6 +9,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLDecoder;
 
 public class NotFoundInterceptor extends HandlerInterceptorAdapter {
 
@@ -16,6 +17,12 @@ public class NotFoundInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if(response.getStatus() == HttpStatus.NOT_FOUND.value() || (StringUtils.isNotBlank(request.getRequestURI()) && "/error".equalsIgnoreCase(request.getRequestURI()))) {
+            /*logger.error("\r\n" + request.getRequestURI() + "\r\n");*/
+            logger.error("【" + URLDecoder.decode(request.getRequestURI(), "UTF-8")+ "】" + "404错误，页面自动跳转到首页");
+            response.sendRedirect("/");
+            return false;
+        }
         return super.preHandle(request, response, handler);
     }
 
@@ -26,12 +33,7 @@ public class NotFoundInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        if(response.getStatus() == HttpStatus.NOT_FOUND.value() || (StringUtils.isNotBlank(request.getRequestURI()) && "/error".equalsIgnoreCase(request.getRequestURI()))) {
-            /*logger.error("\r\n" + request.getRequestURI() + "\r\n");*/
-            logger.error("404错误，页面自动跳转到首页");
-            response.sendRedirect("/");
-            return;
-        }
+
         super.afterCompletion(request, response, handler, ex);
     }
 }

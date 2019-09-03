@@ -13,6 +13,8 @@ proxy:
     watcher:
         target_url: http://watcher.intra.aihuishou.com:8809
 
+bury:
+  host: https://bi-log.aihuishou.com/trace/log
 
 cas:
    server:

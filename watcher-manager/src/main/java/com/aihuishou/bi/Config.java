@@ -44,12 +44,6 @@ public class Config {
         return new DruidDataSource();
     }
 
-    @Bean(name = "greenPlum")
-    @ConfigurationProperties(prefix = "spring.gp-datasource")
-    public DataSource secondDataSource() {
-        return new DruidDataSource();
-    }
-
     @Bean(name = "redisTemplate")
     public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, String> template = new RedisTemplate<>();

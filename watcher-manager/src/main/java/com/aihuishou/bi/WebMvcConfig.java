@@ -51,11 +51,11 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(rosterInterceptor()).addPathPatterns("/", "/page/**");
+        registry.addInterceptor(rosterInterceptor()).addPathPatterns("/**").excludePathPatterns("/static/**", "/templates/dist/**", "/images/**", "/fonts/**", "/assets/**", "/images", "/watcher/**", "/vender/**", "*.js", "*.css");
         registry.addInterceptor(updateInterceptor()).addPathPatterns("/menu/**");
         registry.addInterceptor(deleteInterceptor()).addPathPatterns("/menu/**");
         registry.addInterceptor(notFoundInterceptor()).addPathPatterns("/**")
-                .excludePathPatterns("/static/**", "/templates/dist/**", "/images/**", "/fonts", "/assets", "/images", "/watcher/**", "/vender/**");
+                .excludePathPatterns("/static/**", "/templates/dist/**", "/images/**", "/fonts/**", "/assets/**", "/images/**", "/watcher/**", "/vender/**", "*.js", "*.css");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/static/resources/**");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/images/loading.gif");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/fonts");

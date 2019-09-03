@@ -21,10 +21,6 @@ import java.util.List;
 @Service
 public class UserService {
 
-    @Qualifier("greenPlum")
-    @Resource
-    private DataSource greenPlum;
-
     @Resource
     private DataSource dataSource;
 
@@ -33,8 +29,8 @@ public class UserService {
 
     @Cacheable(value = "current-user", key = "#obId")
     public User getUserByObId(String obId) throws SQLException {
-        String sql = "SELECT observer_id as obId, observer_name AS name, observer_mobile AS mobile,observer_account_name AS email,coalesce(employee_no,observer_employee_no) AS employeeNo from dim.dim_observer WHERE observer_id=? order by employee_no desc limit 1;";
-        User user = new QueryRunner(greenPlum).query(sql, new BeanHandler<>(User.class), Long.parseLong(obId));
+        String sql = "SELECT observer_account_id as obId, observer_account_user_name AS name, observer_account_mobile_txt AS mobile,observer_account_email_txt AS email,observer_account_employee_no AS employeeNo from dim_observer_account WHERE observer_account_id=? order by observer_account_id desc limit 0,1;";
+        User user = new QueryRunner(dataSource).query(sql, new BeanHandler<>(User.class), Long.parseLong(obId));
         Admin admin = adminService.inBoss(user.getEmployeeNo());
         if(admin.getCode() != Admin.GUEST.getCode()) {
             user.setAdmin(true);

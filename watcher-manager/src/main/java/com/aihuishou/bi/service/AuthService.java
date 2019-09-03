@@ -15,7 +15,6 @@ import org.apache.ibatis.jdbc.SQL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,11 +37,6 @@ public class AuthService extends BaseService {
 
     @Resource
     private DataSource dataSource;
-
-    @Qualifier("greenPlum")
-    @Resource
-    private DataSource greenPlum;
-
 
     public boolean auth(String position, Map<String, List<String>> menuAuthMap, List<String> userAuthList, Map<String, String> mapping) {
         try {
