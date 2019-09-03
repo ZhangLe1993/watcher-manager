@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.ClientHttpResponse;
@@ -119,7 +120,7 @@ public class IndexC {
 
     @SystemLog(description = "获取当前用户")
     @ResponseBody
-    @RequestMapping("/api/currentUser")
+    @RequestMapping(value = "/api/currentUser", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public User currentUser() throws SQLException {
         try {
             String obId = CasUtil.getId();
@@ -132,7 +133,7 @@ public class IndexC {
 
     @Mark(name = SysConf.POINT_TYPE_END)
     @SystemLog(point = true, description = "代理转发")
-    @RequestMapping("/watcher/**")
+    @RequestMapping(value = "/watcher/**", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void proxy(HttpServletRequest request, HttpServletResponse response) throws IOException, URISyntaxException {
         //添加参数
         String obId = CasUtil.getId();
@@ -170,7 +171,7 @@ public class IndexC {
     }
 
     @SystemLog(description = "爱机汇嵌入页面 & fancyBox 弹出层页面")
-    @RequestMapping(value = {"/vender/**", "/customer/intelligenceShop/**", "/area/dealSmartShopReport/**", "/area/coupon/**", "/datareport/**", "/operation/**"}, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = {"/vender/**", "/customer/intelligenceShop/**", "/area/dealSmartShopReport/**", "/area/coupon/**", "/datareport/**", "/operation/**"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String vender(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
         //添加参数
         request.setCharacterEncoding("utf-8");

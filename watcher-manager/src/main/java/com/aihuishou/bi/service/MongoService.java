@@ -65,4 +65,22 @@ public class MongoService {
         Query query = new Query(criteria).with(new Sort(Sort.Direction.DESC, "tradeNum"));
         return mongoTemplate.find(query, ExpressSourceTypeTradeStats.class, "expressSourceTypeTradeStats");
     }
+
+    public List<RealtimeOrderSummaryStats> realtimeOrderSummaryStats() {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String to = sdf.format(date);
+        Criteria criteria = Criteria.where("status").is("submit").and("date").is(to);
+        Query query = new Query(criteria);
+        return mongoTemplate.find(query, RealtimeOrderSummaryStats.class, "realtimeOrderSummaryStats");
+    }
+
+    public RealtimeOrderSummaryStats realtimeOrderSummaryStats(String id) {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String to = sdf.format(date);
+        Criteria criteria = Criteria.where("status").is("submit").and("date").is(to).and("_id").is(id);
+        Query query = new Query(criteria);
+        return mongoTemplate.findOne(query, RealtimeOrderSummaryStats.class, "realtimeOrderSummaryStats");
+    }
 }

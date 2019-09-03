@@ -3,8 +3,10 @@ package com.aihuishou.bi.controller;
 import com.aihuishou.bi.live.model.AiJiHuiTradeStats;
 import com.aihuishou.bi.live.model.EtlJob;
 import com.aihuishou.bi.live.model.ExpressSourceTypeTradeStats;
+import com.aihuishou.bi.live.model.RealtimeOrderSummaryStats;
 import com.aihuishou.bi.service.MongoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,7 +16,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/mongo")
+@RequestMapping(value = "/mongo", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class MongoController {
 
     @Autowired
@@ -38,5 +40,16 @@ public class MongoController {
     @GetMapping("/expressSourceTypeTradeStats")
     public List<ExpressSourceTypeTradeStats> expressSourceTypeTradeStats() {
         return mongoService.expressSourceTypeTradeStats();
+    }
+
+
+    @GetMapping("/realtimeOrderSummaryStats")
+    public List<RealtimeOrderSummaryStats> realtimeOrderSummaryStats() {
+        return mongoService.realtimeOrderSummaryStats();
+    }
+
+    @GetMapping("/realtimeOrderSummaryStats/one")
+    public RealtimeOrderSummaryStats realtimeOrderSummaryStats(String id) {
+        return mongoService.realtimeOrderSummaryStats(id);
     }
 }

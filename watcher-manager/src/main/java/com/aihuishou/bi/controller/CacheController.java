@@ -3,6 +3,7 @@ package com.aihuishou.bi.controller;
 import com.aihuishou.bi.service.CacheService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping("/cache")
+@RequestMapping(value = "/cache", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class CacheController {
 
     @Resource
@@ -21,7 +22,7 @@ public class CacheController {
      * 一把梭哈
      * @return
      */
-    @RequestMapping(value = "/suoha", produces = "application/json")
+    @RequestMapping(value = "/suoha")
     public ResponseEntity cleanAll() {
         try {
             cacheService.removeLNA();
@@ -41,7 +42,7 @@ public class CacheController {
      * 配置完菜单之后的肯德基标配套餐
      * @return
      */
-    @RequestMapping(value = "/package", produces = "application/json")
+    @RequestMapping(value = "/package")
     public ResponseEntity cleanStandard() {
         try {
             //精致菜单清除
@@ -59,7 +60,7 @@ public class CacheController {
     }
 
 
-    @RequestMapping(value = "/menu", produces = "application/json")
+    @RequestMapping(value = "/menu")
     public ResponseEntity cleanMenu() {
         try {
             //精致菜单清除
@@ -75,7 +76,7 @@ public class CacheController {
      * @param obId
      * @return
      */
-    @RequestMapping(value = "/lua", produces = "application/json")
+    @RequestMapping(value = "/lua")
     public ResponseEntity cleanLNA(@RequestParam(value = "obId", required = false) String obId) {
         try {
             if(StringUtils.isBlank(obId)) {

@@ -1,9 +1,6 @@
 package com.aihuishou.bi;
 
-import com.aihuishou.bi.interceptor.DeleteInterceptor;
-import com.aihuishou.bi.interceptor.NotFoundInterceptor;
-import com.aihuishou.bi.interceptor.ResourceInterceptor;
-import com.aihuishou.bi.interceptor.UpdateInterceptor;
+import com.aihuishou.bi.interceptor.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ResourceUtils;
@@ -47,8 +44,14 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         return new ResourceInterceptor();
     }
 
+    @Bean
+    public RosterInterceptor rosterInterceptor() {
+        return new RosterInterceptor();
+    }
+
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(rosterInterceptor()).addPathPatterns("/", "/page/**");
         registry.addInterceptor(updateInterceptor()).addPathPatterns("/menu/**");
         registry.addInterceptor(deleteInterceptor()).addPathPatterns("/menu/**");
         registry.addInterceptor(notFoundInterceptor()).addPathPatterns("/**")
