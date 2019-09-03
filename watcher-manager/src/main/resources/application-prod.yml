@@ -13,6 +13,9 @@ proxy:
     watcher:
         target_url: http://watcher.intra.aihuishou.com:8809
 
+
 cas:
+   server:
+    logout: http://sso.ob.aihuishou.com:8080/casservice/logout?service=http://watcher.intra.aihuishou.com
    client:
-     host: http://abdashboard.aihuishou.com
+     host: http://watcher.intra.aihuishou.com
