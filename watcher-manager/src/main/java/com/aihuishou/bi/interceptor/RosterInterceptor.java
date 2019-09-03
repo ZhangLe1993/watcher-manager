@@ -56,6 +56,7 @@ public class RosterInterceptor extends HandlerInterceptorAdapter {
             cookie.setPath("/");
             response.addCookie(cookie);
             //cookie.setMaxAge(session.getMaxInactiveInterval());
+            response.sendRedirect("/dashboard");
             return false;
         }
         return true;
