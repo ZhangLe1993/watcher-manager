@@ -42,3 +42,7 @@ bury:
   host: https://bi-log.aihuishou.com/trace/log/debug
   platform: server
   appName: watcher
+
+basic.mongodb.host: 10.168.187.122
+basic.mongodb.port: 27017
+basic.mongodb.database: Watcher
