@@ -55,7 +55,7 @@ public class RosterInterceptor extends HandlerInterceptorAdapter {
             Cookie cookie = new Cookie("watchernew", "0");
             cookie.setPath("/");
             response.addCookie(cookie);
-            //cookie.setMaxAge(session.getMaxInactiveInterval());
+            cookie.setMaxAge(3 * 60 * 60);//设置为3个小时
             response.sendRedirect("/dashboard");
             return false;
         }
