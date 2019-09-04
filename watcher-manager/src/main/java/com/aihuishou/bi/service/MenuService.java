@@ -110,7 +110,7 @@ public class MenuService {
         node.put("is_mount", false);
         node.put("icon", "monitor");
         node.put("name", n.getName());
-//        node.put("component", n.getPosition());
+        node.put("component", n.getPosition());
         node.put("exact", true);
         node.put("path", "/page/" + n.getPosition());
         node.put("auth", (Boolean) authService.auth(n.getPosition(), menuAuthMap, userAuthList, mapping));
