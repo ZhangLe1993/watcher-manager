@@ -1,5 +1,7 @@
 package com.aihuishou.bi.cas;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
@@ -11,14 +13,26 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 public class CasUtil {
 
+    private final static Logger logger = LoggerFactory.getLogger(CasUtil.class);
+
     public static String getId() {
-        UserDetailsObj user = (UserDetailsObj) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return user.getId();
+        UserDetailsObj user = null;
+        try {
+            user = (UserDetailsObj) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        } catch(Exception e) {
+            logger.error("用户不存在或登录信息失效");
+        }
+        return user == null ? "-2" : user.getId();
     }
 
     public static String getUserName() {
-        UserDetailsObj user = (UserDetailsObj) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return user.getUsername();
+        UserDetailsObj user = null;
+        try {
+            user = (UserDetailsObj) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        } catch(Exception e) {
+            logger.error("用户不存在或登录信息失效");
+        }
+        return user == null ? "" : user.getUsername();
     }
 
 }
