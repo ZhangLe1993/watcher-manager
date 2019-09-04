@@ -54,6 +54,9 @@ public class MenuController {
     public List<Map<String, Object>> menu() {
         try{
             String obId = CasUtil.getId();
+            if(StringUtils.isBlank(obId) || "-2".equalsIgnoreCase(obId)) {
+                return new ArrayList<>();
+            }
             return menuService.merge(obId);
         }catch(SQLException e) {
             e.printStackTrace();

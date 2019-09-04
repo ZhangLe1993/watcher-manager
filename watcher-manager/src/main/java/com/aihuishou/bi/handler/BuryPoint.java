@@ -6,6 +6,7 @@ import com.aihuishou.bi.service.UserService;
 import com.alibaba.fastjson.JSONObject;
 import com.sensorsdata.analytics.javasdk.SensorsAnalytics;
 import com.sensorsdata.analytics.javasdk.exceptions.InvalidArgumentException;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,10 @@ public class BuryPoint {
     public void point(String sessionId, long startTime, long endTime, long takeTime, String position, String name, String url, boolean status) throws InvalidArgumentException, SQLException {
         //埋点
         String obId = CasUtil.getId();
+        if(StringUtils.isBlank(obId) || "-2".equalsIgnoreCase(obId)) {
+            logger.error("用户不存在或登录信息失效");
+            return;
+        }
         User user = userService.getUserByObId(obId);
         if(user == null) {
             logger.error("用户不存在或登录信息失效");

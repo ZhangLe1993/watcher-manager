@@ -13,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -85,6 +84,9 @@ public class RouteController {
     private boolean auth(String position) throws SQLException {
         Map<String, List<String>> menuAuthMap = authService.menuAuth();
         String obId = CasUtil.getId();
+        if(StringUtils.isBlank(obId) || "-2".equalsIgnoreCase(obId)) {
+            return false;
+        }
         List<String> userAuthList = authService.userAuth(obId);
         Map<String, String> mapping = mappingService.getMapping();
         return authService.auth(position, menuAuthMap, userAuthList, mapping);

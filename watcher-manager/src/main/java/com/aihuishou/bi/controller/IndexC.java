@@ -81,6 +81,11 @@ public class IndexC {
     public String manager(ModelMap model) {
         try {
             String obId = CasUtil.getId();
+            if(StringUtils.isBlank(obId) || "-2".equalsIgnoreCase(obId)) {
+                baseFun(model, "home");
+                model.addAttribute("is_mapping", false);
+                return "base";
+            }
             User user = userService.getUserByObId(obId);
             if(user == null || StringUtils.isBlank(user.getEmployeeNo())) {
                 baseFun(model, "home");
@@ -124,6 +129,9 @@ public class IndexC {
     public User currentUser() throws SQLException {
         try {
             String obId = CasUtil.getId();
+            if(StringUtils.isBlank(obId) || "-2".equalsIgnoreCase(obId)) {
+                return null;
+            }
             return userService.getUserByObId(obId);
         } catch (Exception e) {
             LoggerTemplate.error(logger, "获取当前登录用户", e);

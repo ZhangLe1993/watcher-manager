@@ -35,6 +35,11 @@ public class DeleteInterceptor extends HandlerInterceptorAdapter {
         Delete operate = ((HandlerMethod) handler).getMethodAnnotation(Delete.class);
         if (operate != null) {
             String obId = CasUtil.getId();
+            if(StringUtils.isBlank(obId) || "-2".equalsIgnoreCase(obId)) {
+                response.setStatus(HttpStatus.FORBIDDEN.value());
+                response.getWriter().print("登录信息失效，请重新登录");
+                return false;
+            }
             if (Strings.isBlank(obId)) {
                 response.setStatus(HttpStatus.FORBIDDEN.value());
                 response.getWriter().print("登录信息失效，请重新登录");

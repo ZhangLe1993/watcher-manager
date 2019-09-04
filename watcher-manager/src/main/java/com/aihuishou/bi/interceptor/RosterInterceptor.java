@@ -33,10 +33,8 @@ public class RosterInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         String obId = CasUtil.getId();
-        if (Strings.isBlank(obId)) {
-            response.setStatus(HttpStatus.FORBIDDEN.value());
-            response.getWriter().print("登录信息失效，请重新登录");
-            return false;
+        if (Strings.isBlank(obId) || "-2".equalsIgnoreCase(obId)) {
+            return redirectAndCookie(response);
         }
         if (rosterService == null) {
             rosterService = WatcherApplication.ctx.getBean(RosterService.class);

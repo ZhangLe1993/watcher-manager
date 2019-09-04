@@ -37,7 +37,7 @@ public class UpdateInterceptor extends HandlerInterceptorAdapter {
         Update operate = ((HandlerMethod) handler).getMethodAnnotation(Update.class);
         if (operate != null) {
             String obId = CasUtil.getId();
-            if (Strings.isBlank(obId)) {
+            if (Strings.isBlank(obId) || "-2".equalsIgnoreCase(obId)) {
                 response.setStatus(HttpStatus.FORBIDDEN.value());
                 response.getWriter().print("登录信息失效，请重新登录");
                 return false;

@@ -5,6 +5,7 @@ import com.aihuishou.bi.entity.User;
 import com.aihuishou.bi.service.UserService;
 import com.aihuishou.bi.utils.ExceptionInfo;
 import com.google.common.collect.ImmutableMap;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
@@ -69,6 +70,10 @@ public class AutoFillAspect {
         try{
             Class<?> clazz = obj.getClass();
             String obId = CasUtil.getId();
+            if(StringUtils.isBlank(obId) || "-2".equalsIgnoreCase(obId)) {
+                logger.error("用户不存在或登录信息失效");
+                return;
+            }
             User user = userService.getUserByObId(obId);
             if(user == null) {
                 logger.error("用户不存在或登录信息失效");
