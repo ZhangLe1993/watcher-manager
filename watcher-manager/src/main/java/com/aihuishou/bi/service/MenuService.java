@@ -90,14 +90,12 @@ public class MenuService {
         mount.put("is_mount", true);
         mount.put("icon", "tag");
         mount.put("name", m.getName());
-        mount.put("key", m.getName());
         merge.add(mount);
     }
 
     private void mergeList(List<Map<String, Object>> merge, List<Folder> folders, List<Node> nodes, Folder f, Map<String, List<String>> menuAuthMap, List<String> userAuthList, Map<String, String> mapping) {
         Map<String, Object> folder = new HashMap<>();
         /*folder.put("path", "");*/
-        folder.put("key", f.getName());
         folder.put("is_mount", false);
         folder.put("icon", "folder");
         folder.put("name", f.getName());
@@ -110,7 +108,6 @@ public class MenuService {
 
     private void mergeNode(List<Map<String, Object>> merge, Node n, Map<String, List<String>> menuAuthMap, List<String> userAuthList, Map<String, String> mapping) {
         Map<String, Object> node = new HashMap<>();
-        node.put("key", n.getName());
         node.put("is_mount", false);
         node.put("icon", "monitor");
         node.put("name", n.getName());
