@@ -10,7 +10,7 @@ export default {
   menu: {
     locale: true,
   },
-  title: '',
+  title: '爱回收信息管理平台',
   pwa: false,
   iconfontUrl: '',
 };
