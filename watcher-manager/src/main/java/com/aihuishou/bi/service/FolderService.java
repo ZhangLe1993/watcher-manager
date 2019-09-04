@@ -9,6 +9,7 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +26,20 @@ public class FolderService extends BaseService {
     private DataSource dataSource;
 
     public List<Folder> folders() throws SQLException {
-        String sql = "select id, mount, name, position, parent_position AS parentPosition from bi_folder where state='1' order by sort_no asc;";
-        return new QueryRunner(dataSource).query(sql, new BeanListHandler<Folder>(Folder.class));
+        String sql = new SQL() {
+            {
+                SELECT("a.id, a.mount, a.name, a.position, a.parent_position AS parentPosition, CONCAT_WS('/', e.position, d.position,c.position,b.position,a.position) as path");
+                FROM("bi_folder a");
+                LEFT_OUTER_JOIN("bi_folder b on a.parent_position = b.position");
+                LEFT_OUTER_JOIN("bi_folder c on b.parent_position = c.position");
+                LEFT_OUTER_JOIN("bi_folder d ON c.parent_position = d.position");
+                LEFT_OUTER_JOIN("bi_folder e ON d.parent_position = e.position");
+                WHERE("a.state='1'");
+                ORDER_BY("a.sort_no asc");
+            }
+        }.toString();
+        //String sql = "select id, mount, name, position, parent_position AS parentPosition from bi_folder where state='1' order by sort_no asc;";
+        return new QueryRunner(dataSource).query(sql, new BeanListHandler<>(Folder.class));
     }
 
 

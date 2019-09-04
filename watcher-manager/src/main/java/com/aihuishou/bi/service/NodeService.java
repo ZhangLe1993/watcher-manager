@@ -32,7 +32,19 @@ public class NodeService extends BaseService {
     private MappingService mappingService;
 
     public List<Node> nodes() throws SQLException {
-        String sql = "select id, position, url, auth, path, name, parent_position AS parentPosition,mount,genre from bi_nodes where state='1' order by sort_no;";
+        String sql = new SQL() {
+            {
+                SELECT("a.id, a.position, a.url, a.auth, a.name, a.parent_position AS parentPosition,a.mount,a.genre , CONCAT_WS('/', e.position, d.position,c.position,b.position,a.position) as path");
+                FROM("bi_nodes a");
+                LEFT_OUTER_JOIN("bi_folder b on a.parent_position = b.position");
+                LEFT_OUTER_JOIN("bi_folder c on b.parent_position = c.position");
+                LEFT_OUTER_JOIN("bi_folder d ON c.parent_position = d.position");
+                LEFT_OUTER_JOIN("bi_folder e ON d.parent_position = e.position");
+                WHERE("a.state='1'");
+                ORDER_BY("a.sort_no asc");
+            }
+        }.toString();
+        //String sql = "select id, position, url, auth, path, name, parent_position AS parentPosition,mount,genre from bi_nodes where state='1' order by sort_no;";
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<Node>(Node.class));
     }
 

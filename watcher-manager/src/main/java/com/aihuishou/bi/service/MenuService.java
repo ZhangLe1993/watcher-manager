@@ -104,6 +104,7 @@ public class MenuService {
         List<Map<String, Object>> children = getMaps(folders, nodes, f, menuAuthMap, userAuthList, mapping);
         folder.put("position", f.getPosition());
         folder.put("children", children);
+        folder.put("path", "/page/" + f.getPath());
         merge.add(folder);
     }
 
@@ -115,7 +116,7 @@ public class MenuService {
         node.put("name", n.getName());
         node.put("component", n.getPosition());
         node.put("exact", true);
-        node.put("path", "/page/" + n.getPosition());
+        node.put("path", "/page/" + n.getPath());
         node.put("auth", (Boolean) authService.auth(n.getPosition(), menuAuthMap, userAuthList, mapping));
         String genre = n.getGenre();
         node.put("genre", genre);

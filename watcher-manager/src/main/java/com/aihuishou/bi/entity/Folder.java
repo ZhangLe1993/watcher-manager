@@ -23,4 +23,6 @@ public class Folder {
 
     private Long sortNo;
 
+    private String path;
+
 }
