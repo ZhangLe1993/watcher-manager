@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class RosterInterceptor extends HandlerInterceptorAdapter {
 
@@ -45,21 +46,25 @@ public class RosterInterceptor extends HandlerInterceptorAdapter {
         }
         User user = userService.getUserByObId(obId);
         if(user == null || StringUtils.isBlank(user.getEmployeeNo())) {
-            response.setStatus(HttpStatus.FORBIDDEN.value());
-            response.getWriter().print("用户不存在或登录信息失效");
-            return false;
+            //response.setStatus(HttpStatus.FORBIDDEN.value());
+            //response.getWriter().print("用户不存在或登录信息失效");
+            return redirectAndCookie(response);
         }
         boolean exists = rosterService.exist(user.getEmployeeNo());
         if(!exists) {
             //HttpSession session = request.getSession();
-            Cookie cookie = new Cookie("watchernew", "0");
-            cookie.setPath("/");
-            response.addCookie(cookie);
-            cookie.setMaxAge(3 * 60 * 60);//设置为3个小时
-            response.sendRedirect("/dashboard");
-            return false;
+            return redirectAndCookie(response);
         }
         return true;
+    }
+
+    private boolean redirectAndCookie(HttpServletResponse response) throws IOException {
+        Cookie cookie = new Cookie("watchernew", "0");
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        cookie.setMaxAge(3 * 60 * 60);//设置为3个小时
+        response.sendRedirect("/dashboard");
+        return false;
     }
 
     @Override
