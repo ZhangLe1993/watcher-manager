@@ -10,7 +10,7 @@ import React,
   Fragment,
 } from 'react';
 import { Icon, Layout, Button, Input, Popconfirm } from 'antd';
-// import Link from 'umi/link';
+import Link from 'umi/link';
 import router from 'umi/router';
 import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
@@ -195,21 +195,14 @@ const BasicLayout = props => {
     } else {
       clickNumMap[it.component] = clickNum + 1;
     }
-    // if (it.auth) {
     const { nameStrArr } = props;
     const fullName = nameStrArr.filter(item => item.indexOf(it.name) > -1)[0];
     saveMenuName(it.name);
-    router.push(`/page/${it.component}`);
     window.sessionStorage.setItem('currentMenuItem', JSON.stringify(it));
     window.sessionStorage.setItem('full_name', fullName);
     window.sessionStorage.setItem('pathName', it.component);
     window.localStorage.setItem('clickNumMap', JSON.stringify(clickNumMap));
-    // }
-    // else {
-    //   if (!it.is_mount) {
-    //     router.push('/no_authority');
-    //   }
-    // }
+    router.push(it.path);
   };
 
   return (
@@ -220,13 +213,22 @@ const BasicLayout = props => {
           window.sessionStorage.setItem('pathName', '');
         }} className={style.logoTitle}>爱回收信息管理平台</div>
       )}
+
       menuItemRender={(menuItemProps, dom) => {
-        return <div onClick={e => myclick(e, menuItemProps, dom)}
-          className={menuItemProps.is_mount ? style.mount : ''}>{dom}</div>;
+        let classNames = []
+        if (window.location.pathname == menuItemProps.path) {
+          classNames.push(style.sunjian)
+        }
+        if (menuItemProps.is_mount) {
+          classNames.push(style.mount);
+        }
+        return <div onClick={e => myclick(e, menuItemProps, dom)} className={classNames}>{dom}</div>;
       }}
+
       // menuItemRender = { (menuItemProps, dom) => {
-      //   return <Link to={`/page/${menuItemProps.component}`}>{dom}</Link>;
+      //   return <Link to={menuItemProps.path}>{dom}</Link>;
       // }}
+
       breadcrumbRender={(routers = []) => [
         {
           path: '/',
