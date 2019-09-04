@@ -20,8 +20,9 @@ class Home extends React.Component {
     const that = this;
     let clickNumMap = {};
     const clickNumArr = [];
-    if (window.localStorage.getItem('clickNumMap')) {
-      clickNumMap = JSON.parse(window.localStorage.getItem('clickNumMap'));
+    const storeKey='click-num-map';
+    if (window.localStorage.getItem(storeKey)) {
+      clickNumMap = JSON.parse(window.localStorage.getItem(storeKey));
       // 对象转数组
       // eslint-disable-next-line no-restricted-syntax
       for (const k in clickNumMap) {

@@ -137,6 +137,7 @@ const BasicLayout = props => {
             break;
           }
       }
+      searchArr=null;
     }
     const title = titleArr.join('/') || '首页';
     return (
@@ -160,8 +161,9 @@ const BasicLayout = props => {
   const myclick = (e, it) => {
     let clickNum = 0;
     let clickNumMap = {};
-    if (window.localStorage.getItem('clickNumMap')) {
-      clickNumMap = JSON.parse(window.localStorage.getItem('clickNumMap'));
+    let storeKey='click-num-map';
+    if (window.localStorage.getItem(storeKey)) {
+      clickNumMap = JSON.parse(window.localStorage.getItem(storeKey));
       clickNum = clickNumMap[it.component] ? clickNumMap[it.component][0] + 1 : 1;
     } else {
       clickNum++;
@@ -173,7 +175,7 @@ const BasicLayout = props => {
     window.sessionStorage.setItem('currentMenuItem', JSON.stringify(it));
     window.sessionStorage.setItem('full_name', fullName);
     window.sessionStorage.setItem('pathName', it.component);
-    window.localStorage.setItem('clickNumMap', JSON.stringify(clickNumMap));
+    window.localStorage.setItem(storeKey, JSON.stringify(clickNumMap));
     router.push(it.path);
   };
 
