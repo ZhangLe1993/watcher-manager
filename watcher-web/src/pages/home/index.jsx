@@ -84,7 +84,7 @@ class Home extends React.Component {
     menuData.forEach(it => {
       titleArr.push(this.findMenuItem(key, it, ''));
     });
-    const title = this.getCleanArr(titleArr)[0] || '首页';
+    const title = this.getCleanArr(titleArr)[0] || '';
     return title;
   }
 
