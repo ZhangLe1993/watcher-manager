@@ -127,17 +127,21 @@ const BasicLayout = props => {
     const { userName } = props;
     const pathName = window.location.pathname;
     const titleArr = [];
-    let searchArr=menuData;
-    while(searchArr&&searchArr.length>0){
-      for(let i=0;i<searchArr.length;i++){
-          let node=searchArr[i];
-          if(pathName.startsWith(node.path)){
-            titleArr.push(node.name);
-            searchArr=node.children;
-            break;
-          }
+    let searchArr = menuData;
+    while (searchArr && searchArr.length > 0) {
+      let goIn = false;//进入下一层搜索
+      for (let i = 0; i < searchArr.length; i++) {
+        let node = searchArr[i];
+        if (pathName.startsWith(node.path)) {
+          titleArr.push(node.name);
+          searchArr = node.children;
+          goIn = true;
+          break;
+        }
       }
-      searchArr=null;
+      if (!goIn) {
+        searchArr = null;
+      }
     }
     const title = titleArr.join('/') || '首页';
     return (
@@ -161,14 +165,14 @@ const BasicLayout = props => {
   const myclick = (e, it) => {
     let clickNum = 0;
     let clickNumMap = {};
-    let storeKey='click-num-map';
+    let storeKey = 'click-num-map';
     if (window.localStorage.getItem(storeKey)) {
       clickNumMap = JSON.parse(window.localStorage.getItem(storeKey));
       clickNum = clickNumMap[it.component] ? clickNumMap[it.component][0] + 1 : 1;
     } else {
       clickNum++;
     }
-    clickNumMap[it.component] = [clickNum,it.path];
+    clickNumMap[it.component] = [clickNum, it.path];
     const { nameStrArr } = props;
     const fullName = nameStrArr.filter(item => item.indexOf(it.name) > -1)[0];
     saveMenuName(it.name);
