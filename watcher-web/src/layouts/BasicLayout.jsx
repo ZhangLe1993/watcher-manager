@@ -123,50 +123,22 @@ const BasicLayout = props => {
     // loginOut();
   };
 
-  // const findMenuItem = (pathName, node, prefix) => {
-  //   const { component, children: children2 } = node;
-  //   let nameStr;
-  //   if (prefix) {
-  //     nameStr = `${prefix}/${node.name}`;
-  //   } else {
-  //     nameStr = node.name;
-  //   }
-  //   if (children2) {
-  //     for (let i = 0, len = children2.length; i < len; i += 1) {
-  //       const temp = findMenuItem(pathName, children2[i], nameStr);
-  //       if (temp != null) {
-  //         return temp;
-  //       }
-  //     }
-  //   } else {
-  //     if (component === pathName) {
-  //       return nameStr;
-  //     } else {
-  //       return null;
-  //     }
-  //   }
-  // };
-
-  // const getCleanArr = arr => {
-  //   const cleanArr = [];
-  //   for (let i = 0, len = arr.length; i < len; i += 1) {
-  //     if (arr[i]) {
-  //       cleanArr.push(arr[i]);
-  //     }
-  //   }
-  //   return cleanArr;
-  // };
-
   const headerRender = () => {
     const { userName } = props;
-    // const pathName = window.sessionStorage.getItem('pathName');
-    const pathName = document.location.href.split('/page/')[1] || 'home';
-    // console.log(pathName, 'headerRender');
+    const pathName = window.location.pathname;
     const titleArr = [];
-    menuData.forEach(it => {
-      titleArr.push(findMenuItem(pathName, it, ''));
-    });
-    const title = getCleanArr(titleArr)[0] || '首页';
+    let searchArr=menuData;
+    while(searchArr&&searchArr.length>0){
+      for(let i=0;i<searchArr.length;i++){
+          let node=searchArr[i];
+          if(pathName.startsWith(node.path)){
+            titleArr.push(node.name);
+            searchArr=node.children;
+            break;
+          }
+      }
+    }
+    const title = titleArr.join('/') || '首页';
     return (
       <div className={style.header}>
         <div className={style.headerLeft}>
