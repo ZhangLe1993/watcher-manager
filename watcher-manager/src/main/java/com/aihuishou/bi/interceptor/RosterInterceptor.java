@@ -7,7 +7,6 @@ import com.aihuishou.bi.service.RosterService;
 import com.aihuishou.bi.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -34,7 +33,7 @@ public class RosterInterceptor extends HandlerInterceptorAdapter {
         }
         String obId = CasUtil.getId();
         if (Strings.isBlank(obId) || "-2".equalsIgnoreCase(obId)) {
-            return redirectAndCookie(response);
+            return true;
         }
         if (rosterService == null) {
             rosterService = WatcherApplication.ctx.getBean(RosterService.class);
@@ -46,7 +45,7 @@ public class RosterInterceptor extends HandlerInterceptorAdapter {
         if(user == null || StringUtils.isBlank(user.getEmployeeNo())) {
             //response.setStatus(HttpStatus.FORBIDDEN.value());
             //response.getWriter().print("用户不存在或登录信息失效");
-            return redirectAndCookie(response);
+            return true;
         }
         boolean exists = rosterService.exist(user.getEmployeeNo());
         if(!exists) {
