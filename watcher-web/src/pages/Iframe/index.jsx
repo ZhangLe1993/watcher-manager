@@ -39,8 +39,7 @@ class Iframe extends React.Component {
     const fullName = window.sessionStorage.getItem('full_name');
     const url2 = window.location.href;
     queryCurrentMenuItem(position).then(res => {
-      if(res){
-        const { genre, url } = res;
+      const { genre, url } = res;
         if (genre === '0') {
           watcherIframe.src = `/route/base?position=${position}&name=${fullName}&url=${url2}`;
           this.setState({ loading: true }, () => {
@@ -55,7 +54,6 @@ class Iframe extends React.Component {
           window.addEventListener('message', this.receiveMessage, false);
           watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
         }
-      } 
     });
   }
 
