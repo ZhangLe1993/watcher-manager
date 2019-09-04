@@ -27,7 +27,8 @@ class Home extends React.Component {
       for (const k in clickNumMap) {
         clickNumArr.push({
           key: k,
-          value: clickNumMap[k],
+          value: clickNumMap[k][0],//点击数
+          path: clickNumMap[k][1],//路径
         });
       }
       // 降序
@@ -91,7 +92,7 @@ class Home extends React.Component {
     const checkedMenuItem = getMenuItemByPath(pathName, menuData);
     window.sessionStorage.setItem('pathName', pathName);
     window.sessionStorage.setItem('currentMenuItem', JSON.stringify(checkedMenuItem));
-    router.push(`/page/${pathName}`);
+    router.push(`${pathName}`);
   }
 
   render() {
@@ -114,7 +115,7 @@ class Home extends React.Component {
           ? <ul className={style.rankContainer}>
               {
                 clickNumArr && clickNumArr.map((it, index) => (
-                  <li key={it.key} onClick={() => this.linkTo(it.key)}>
+                  <li key={it.key} onClick={() => this.linkTo(it.path)}>
                     <span className={`${style.rankNum} ${index === 0 ? style.hot1 : ''} ${index === 1 ? style.hot2 : ''} ${index === 2 ? style.hot3 : ''}`}>{index + 1}</span>
                     <span className={style.name}>{this.getMenuFullName(it.key)}</span>
                     {/* <span className={style.clickNum}>{it.value}次</span> */}

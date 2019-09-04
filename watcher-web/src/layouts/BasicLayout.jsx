@@ -190,11 +190,11 @@ const BasicLayout = props => {
     let clickNumMap = {};
     if (window.localStorage.getItem('clickNumMap')) {
       clickNumMap = JSON.parse(window.localStorage.getItem('clickNumMap'));
-      clickNum = JSON.parse(window.localStorage.getItem('clickNumMap'))[it.component] ? JSON.parse(window.localStorage.getItem('clickNumMap'))[it.component] + 1 : 1;
-      clickNumMap[it.component] = clickNum;
+      clickNum = clickNumMap[it.component] ? clickNumMap[it.component][0] + 1 : 1;
     } else {
-      clickNumMap[it.component] = clickNum + 1;
+      clickNum++;
     }
+    clickNumMap[it.component] = [clickNum,it.path];
     const { nameStrArr } = props;
     const fullName = nameStrArr.filter(item => item.indexOf(it.name) > -1)[0];
     saveMenuName(it.name);

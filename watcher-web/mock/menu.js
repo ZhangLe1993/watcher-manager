@@ -1,5 +1,5 @@
 export default {
-    'GET /menu':[{
+    'POST /menu':[{
         "children": [{
           "path": "/page/aa/profitAnalyseInfo",
           "auth": true,
