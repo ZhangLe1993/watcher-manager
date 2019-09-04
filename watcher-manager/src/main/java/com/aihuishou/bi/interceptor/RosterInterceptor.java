@@ -46,7 +46,7 @@ public class RosterInterceptor extends HandlerInterceptorAdapter {
         User user = userService.getUserByObId(obId);
         if(user == null || StringUtils.isBlank(user.getEmployeeNo())) {
             response.setStatus(HttpStatus.FORBIDDEN.value());
-            response.getWriter().print("【dim_observer_account】 中查无此人");
+            response.getWriter().print("用户不存在或登录信息失效");
             return false;
         }
         boolean exists = rosterService.exist(user.getEmployeeNo());

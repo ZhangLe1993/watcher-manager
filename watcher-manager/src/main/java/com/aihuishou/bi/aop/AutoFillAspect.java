@@ -70,6 +70,10 @@ public class AutoFillAspect {
             Class<?> clazz = obj.getClass();
             String obId = CasUtil.getId();
             User user = userService.getUserByObId(obId);
+            if(user == null) {
+                logger.error("用户不存在或登录信息失效");
+                return;
+            }
             for(String fieldName : fields) {
                 String methodName = "set" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
                 Method method = clazz.getDeclaredMethod(methodName, String.class);

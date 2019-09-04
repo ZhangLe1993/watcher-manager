@@ -9,7 +9,6 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +30,11 @@ public class UserService {
     public User getUserByObId(String obId) throws SQLException {
         String sql = "SELECT observer_account_id as obId, observer_account_user_name AS name, observer_account_mobile_txt AS mobile,observer_account_email_txt AS email,observer_account_employee_no AS employeeNo from dim_observer_account WHERE observer_account_id=? order by observer_account_id desc limit 0,1;";
         User user = new QueryRunner(dataSource).query(sql, new BeanHandler<>(User.class), Long.parseLong(obId));
-        Admin admin = adminService.inBoss(user.getEmployeeNo());
-        if(admin.getCode() != Admin.GUEST.getCode()) {
-            user.setAdmin(true);
+        if(user != null) {
+            Admin admin = adminService.inBoss(user.getEmployeeNo());
+            if(admin.getCode() != Admin.GUEST.getCode()) {
+                user.setAdmin(true);
+            }
         }
         return user;
     }

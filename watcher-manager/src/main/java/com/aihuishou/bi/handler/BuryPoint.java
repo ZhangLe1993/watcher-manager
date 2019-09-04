@@ -6,6 +6,8 @@ import com.aihuishou.bi.service.UserService;
 import com.alibaba.fastjson.JSONObject;
 import com.sensorsdata.analytics.javasdk.SensorsAnalytics;
 import com.sensorsdata.analytics.javasdk.exceptions.InvalidArgumentException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,7 @@ import java.util.Map;
 
 @Component
 public class BuryPoint {
+    private static final Logger logger = LoggerFactory.getLogger(BuryPoint.class);
 
     @Resource
     private SensorsAnalytics sensorsAnalytics;
@@ -38,6 +41,10 @@ public class BuryPoint {
         //埋点
         String obId = CasUtil.getId();
         User user = userService.getUserByObId(obId);
+        if(user == null) {
+            logger.error("用户不存在或登录信息失效");
+            return;
+        }
         String userName = CasUtil.getUserName();
         String employeeNo = user.getEmployeeNo();
         Map<String, Object> properties = new HashMap<>();

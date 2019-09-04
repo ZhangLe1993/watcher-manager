@@ -51,7 +51,7 @@ public class UpdateInterceptor extends HandlerInterceptorAdapter {
             User user = userService.getUserByObId(obId);
             if(user == null || StringUtils.isBlank(user.getEmployeeNo())) {
                 response.setStatus(HttpStatus.FORBIDDEN.value());
-                response.getWriter().print("gp 数仓表 【dim.dim_observer】 中查无此人");
+                response.getWriter().print("用户不存在或登录信息失效");
                 return false;
             }
             Admin admin = adminService.inBoss(user.getEmployeeNo());
