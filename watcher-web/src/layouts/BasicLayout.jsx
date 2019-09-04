@@ -10,7 +10,7 @@ import React,
   Fragment,
 } from 'react';
 import { Icon, Layout, Button, Input, Popconfirm } from 'antd';
-// import Link from 'umi/link';
+import Link from 'umi/link';
 import router from 'umi/router';
 import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
@@ -123,50 +123,27 @@ const BasicLayout = props => {
     // loginOut();
   };
 
-  // const findMenuItem = (pathName, node, prefix) => {
-  //   const { component, children: children2 } = node;
-  //   let nameStr;
-  //   if (prefix) {
-  //     nameStr = `${prefix}/${node.name}`;
-  //   } else {
-  //     nameStr = node.name;
-  //   }
-  //   if (children2) {
-  //     for (let i = 0, len = children2.length; i < len; i += 1) {
-  //       const temp = findMenuItem(pathName, children2[i], nameStr);
-  //       if (temp != null) {
-  //         return temp;
-  //       }
-  //     }
-  //   } else {
-  //     if (component === pathName) {
-  //       return nameStr;
-  //     } else {
-  //       return null;
-  //     }
-  //   }
-  // };
-
-  // const getCleanArr = arr => {
-  //   const cleanArr = [];
-  //   for (let i = 0, len = arr.length; i < len; i += 1) {
-  //     if (arr[i]) {
-  //       cleanArr.push(arr[i]);
-  //     }
-  //   }
-  //   return cleanArr;
-  // };
-
   const headerRender = () => {
     const { userName } = props;
-    // const pathName = window.sessionStorage.getItem('pathName');
-    const pathName = document.location.href.split('/page/')[1] || 'home';
-    // console.log(pathName, 'headerRender');
+    const pathName = window.location.pathname;
     const titleArr = [];
-    menuData.forEach(it => {
-      titleArr.push(findMenuItem(pathName, it, ''));
-    });
-    const title = getCleanArr(titleArr)[0] || '首页';
+    let searchArr = menuData;
+    while (searchArr && searchArr.length > 0) {
+      let goIn = false;//进入下一层搜索
+      for (let i = 0; i < searchArr.length; i++) {
+        let node = searchArr[i];
+        if (pathName.startsWith(node.path)) {
+          titleArr.push(node.name);
+          searchArr = node.children;
+          goIn = true;
+          break;
+        }
+      }
+      if (!goIn) {
+        searchArr = null;
+      }
+    }
+    const title = titleArr.join('/') || '首页';
     return (
       <div className={style.header}>
         <div className={style.headerLeft}>
@@ -188,28 +165,22 @@ const BasicLayout = props => {
   const myclick = (e, it) => {
     let clickNum = 0;
     let clickNumMap = {};
-    if (window.localStorage.getItem('clickNumMap')) {
-      clickNumMap = JSON.parse(window.localStorage.getItem('clickNumMap'));
-      clickNum = JSON.parse(window.localStorage.getItem('clickNumMap'))[it.component] ? JSON.parse(window.localStorage.getItem('clickNumMap'))[it.component] + 1 : 1;
-      clickNumMap[it.component] = clickNum;
+    let storeKey = 'click-num-map';
+    if (window.localStorage.getItem(storeKey)) {
+      clickNumMap = JSON.parse(window.localStorage.getItem(storeKey));
+      clickNum = clickNumMap[it.component] ? clickNumMap[it.component][0] + 1 : 1;
     } else {
-      clickNumMap[it.component] = clickNum + 1;
+      clickNum++;
     }
-    // if (it.auth) {
+    clickNumMap[it.component] = [clickNum, it.path];
     const { nameStrArr } = props;
     const fullName = nameStrArr.filter(item => item.indexOf(it.name) > -1)[0];
     saveMenuName(it.name);
-    router.push(`/page/${it.component}`);
     window.sessionStorage.setItem('currentMenuItem', JSON.stringify(it));
     window.sessionStorage.setItem('full_name', fullName);
     window.sessionStorage.setItem('pathName', it.component);
-    window.localStorage.setItem('clickNumMap', JSON.stringify(clickNumMap));
-    // }
-    // else {
-    //   if (!it.is_mount) {
-    //     router.push('/no_authority');
-    //   }
-    // }
+    window.localStorage.setItem(storeKey, JSON.stringify(clickNumMap));
+    router.push(it.path);
   };
 
   return (
@@ -220,13 +191,22 @@ const BasicLayout = props => {
           window.sessionStorage.setItem('pathName', '');
         }} className={style.logoTitle}>爱回收信息管理平台</div>
       )}
+
       menuItemRender={(menuItemProps, dom) => {
-        return <div onClick={e => myclick(e, menuItemProps, dom)}
-          className={menuItemProps.is_mount ? style.mount : ''}>{dom}</div>;
+        let classNames = []
+        if (window.location.pathname == menuItemProps.path) {
+          classNames.push(style.sunjian)
+        }
+        if (menuItemProps.is_mount) {
+          classNames.push(style.mount);
+        }
+        return <div onClick={e => myclick(e, menuItemProps, dom)} className={classNames}>{dom}</div>;
       }}
+
       // menuItemRender = { (menuItemProps, dom) => {
-      //   return <Link to={`/page/${menuItemProps.component}`}>{dom}</Link>;
+      //   return <Link to={menuItemProps.path}>{dom}</Link>;
       // }}
+
       breadcrumbRender={(routers = []) => [
         {
           path: '/',

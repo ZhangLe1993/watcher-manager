@@ -26,36 +26,41 @@ class Iframe extends React.Component {
     };
   }
 
+  getPosition(path){
+    let arr=path.split('/')
+    return arr[arr.length-1]
+  }
+
   componentDidMount() {
     const that = this;
     const watcherIframe = document.getElementById('watcherIframe');
-    const position = document.location.href.split('/page/')[1];
+    const position = this.getPosition(document.location.href);
     const height = document.body.scrollHeight || document.documentElement.scrollHeight;
     const fullName = window.sessionStorage.getItem('full_name');
     const url2 = window.location.href;
     queryCurrentMenuItem(position).then(res => {
       const { genre, url } = res;
-      if (genre === '0') {
-        watcherIframe.src = `/route/base?position=${position}&name=${fullName}&url=${url2}`;
-        this.setState({ loading: true }, () => {
-          watcherIframe.onload = () => {
-            that.setState({ loading: false });
-            window.addEventListener('message', this.receiveMessage, false);
-            watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
-          };
-        });
-      } else if (genre === '1') {
-        watcherIframe.src = url;
-        window.addEventListener('message', this.receiveMessage, false);
-        watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
-      }
+        if (genre === '0') {
+          watcherIframe.src = `/route/base?position=${position}&name=${fullName}&url=${url2}`;
+          this.setState({ loading: true }, () => {
+            watcherIframe.onload = () => {
+              that.setState({ loading: false });
+              window.addEventListener('message', this.receiveMessage, false);
+              watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
+            };
+          });
+        } else if (genre === '1') {
+          watcherIframe.src = url;
+          window.addEventListener('message', this.receiveMessage, false);
+          watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
+        }
     });
   }
 
   componentWillReceiveProps(nextProps) {
     const that = this;
-    const prePosition = this.props.location.pathname.split('/page/')[1];
-    const nextPosition = nextProps.location.pathname.split('/page/')[1];
+    const prePosition = this.getPosition(this.props.location.pathname);
+    const nextPosition = this.getPosition(nextProps.location.pathname);
     const height = document.body.scrollHeight || document.documentElement.scrollHeight;
     const watcherIframe = document.getElementById('watcherIframe');
     const fullName = window.sessionStorage.getItem('full_name');

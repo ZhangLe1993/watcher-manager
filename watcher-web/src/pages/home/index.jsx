@@ -20,14 +20,16 @@ class Home extends React.Component {
     const that = this;
     let clickNumMap = {};
     const clickNumArr = [];
-    if (window.localStorage.getItem('clickNumMap')) {
-      clickNumMap = JSON.parse(window.localStorage.getItem('clickNumMap'));
+    const storeKey='click-num-map';
+    if (window.localStorage.getItem(storeKey)) {
+      clickNumMap = JSON.parse(window.localStorage.getItem(storeKey));
       // 对象转数组
       // eslint-disable-next-line no-restricted-syntax
       for (const k in clickNumMap) {
         clickNumArr.push({
           key: k,
-          value: clickNumMap[k],
+          value: clickNumMap[k][0],//点击数
+          path: clickNumMap[k][1],//路径
         });
       }
       // 降序
@@ -82,7 +84,7 @@ class Home extends React.Component {
     menuData.forEach(it => {
       titleArr.push(this.findMenuItem(key, it, ''));
     });
-    const title = this.getCleanArr(titleArr)[0] || '首页';
+    const title = this.getCleanArr(titleArr)[0] || '';
     return title;
   }
 
@@ -91,7 +93,7 @@ class Home extends React.Component {
     const checkedMenuItem = getMenuItemByPath(pathName, menuData);
     window.sessionStorage.setItem('pathName', pathName);
     window.sessionStorage.setItem('currentMenuItem', JSON.stringify(checkedMenuItem));
-    router.push(`/page/${pathName}`);
+    router.push(`${pathName}`);
   }
 
   render() {
@@ -114,7 +116,7 @@ class Home extends React.Component {
           ? <ul className={style.rankContainer}>
               {
                 clickNumArr && clickNumArr.map((it, index) => (
-                  <li key={it.key} onClick={() => this.linkTo(it.key)}>
+                  <li key={it.key} onClick={() => this.linkTo(it.path)}>
                     <span className={`${style.rankNum} ${index === 0 ? style.hot1 : ''} ${index === 1 ? style.hot2 : ''} ${index === 2 ? style.hot3 : ''}`}>{index + 1}</span>
                     <span className={style.name}>{this.getMenuFullName(it.key)}</span>
                     {/* <span className={style.clickNum}>{it.value}次</span> */}

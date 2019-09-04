@@ -97,7 +97,7 @@ export default {
           component: './home',
         },
         {
-          path: '/page/:id',
+          path: '/page/**',
           name: 'iframe',
           icon: 'smile',
           component: './Iframe',
@@ -211,6 +211,10 @@ export default {
       changeOrigin: true,
     },
     '/operation': {
+      target: 'http://10.25.169.133:8112',
+      changeOrigin: true,
+    },
+    '/static': {
       target: 'http://10.25.169.133:8112',
       changeOrigin: true,
     },
