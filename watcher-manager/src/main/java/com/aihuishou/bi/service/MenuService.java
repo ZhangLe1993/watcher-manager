@@ -1,6 +1,5 @@
 package com.aihuishou.bi.service;
 
-import com.aihuishou.bi.cas.CasUtil;
 import com.aihuishou.bi.core.CacheConf;
 import com.aihuishou.bi.entity.Folder;
 import com.aihuishou.bi.entity.Mount;
@@ -36,13 +35,14 @@ public class MenuService {
 
     /**
      * 获取菜单全部的树
+     *
      * @return
      * @throws SQLException
      */
 
     @Cacheable(value = CacheConf.REFINED_MENU, key = "#obId")
-    public List<Map<String,Object>> merge(String obId) throws SQLException {
-        List<Map<String,Object>> merge = new ArrayList<>();
+    public List<Map<String, Object>> merge(String obId) throws SQLException {
+        List<Map<String, Object>> merge = new ArrayList<>();
         List<Mount> mounts = mountService.mounts();
         List<Folder> folders = folderService.folders();
         List<Node> nodes = nodeService.nodes();
@@ -69,19 +69,23 @@ public class MenuService {
                 return m.getId().equals(mr.getMount());
             }).collect(Collectors.toList());
             //构造文件夹
-            mRoots.stream().forEach(f -> { mergeList(merge, folders, nodes, f, menuAuthMap, userAuthList, mapping); });
+            mRoots.stream().forEach(f -> {
+                mergeList(merge, folders, nodes, f, menuAuthMap, userAuthList, mapping);
+            });
 
             List<Node> mNodes = leaf.stream().filter(mn -> {
                 return m.getId().equals(mn.getMount());
             }).collect(Collectors.toList());
             //构造菜单
-            mNodes.stream().forEach(n -> { mergeNode(merge, n, menuAuthMap, userAuthList, mapping); });
+            mNodes.stream().forEach(n -> {
+                mergeNode(merge, n, menuAuthMap, userAuthList, mapping);
+            });
         });
         return merge;
     }
 
     private void mergeMount(List<Map<String, Object>> merge, Mount m) {
-        Map<String,Object> mount = new HashMap<>();
+        Map<String, Object> mount = new HashMap<>();
         /*mount.put("path", "");*/
         mount.put("is_mount", true);
         mount.put("icon", "tag");
@@ -90,7 +94,7 @@ public class MenuService {
     }
 
     private void mergeList(List<Map<String, Object>> merge, List<Folder> folders, List<Node> nodes, Folder f, Map<String, List<String>> menuAuthMap, List<String> userAuthList, Map<String, String> mapping) {
-        Map<String,Object> folder = new HashMap<>();
+        Map<String, Object> folder = new HashMap<>();
         /*folder.put("path", "");*/
         folder.put("is_mount", false);
         folder.put("icon", "folder");
@@ -106,18 +110,20 @@ public class MenuService {
         node.put("is_mount", false);
         node.put("icon", "monitor");
         node.put("name", n.getName());
-        node.put("component", n.getPosition());
+//        node.put("component", n.getPosition());
+        node.put("exact", true);
+        node.put("path", "/page/" + n.getPosition());
         node.put("auth", (Boolean) authService.auth(n.getPosition(), menuAuthMap, userAuthList, mapping));
         String genre = n.getGenre();
         node.put("genre", genre);
-        if("1".equals(genre)) {
+        if ("1".equals(genre)) {
             node.put("url", n.getUrl());
         }
         merge.add(node);
     }
 
     private List<Map<String, Object>> getMaps(List<Folder> folders, List<Node> nodes, Folder f, Map<String, List<String>> menuAuthMap, List<String> userAuthList, Map<String, String> mapping) {
-        List<Map<String,Object>> children = new ArrayList<>();
+        List<Map<String, Object>> children = new ArrayList<>();
         List<Folder> tempF = folders.stream().filter(filter -> {
             return filter.getParentPosition().equalsIgnoreCase(f.getPosition());
         }).collect(Collectors.toList());
@@ -139,11 +145,12 @@ public class MenuService {
 
     /**
      * 获取文件夹树
+     *
      * @return
      * @throws SQLException
      */
-    public List<Map<String,Object>> folderTree(Integer mount) throws SQLException {
-        List<Map<String,Object>> merge = new ArrayList<>();
+    public List<Map<String, Object>> folderTree(Integer mount) throws SQLException {
+        List<Map<String, Object>> merge = new ArrayList<>();
         List<Folder> folders = folderService.folders(mount);
         List<Folder> root = folders.stream().filter(f -> {
             return "-1".equalsIgnoreCase(f.getParentPosition());
@@ -156,7 +163,7 @@ public class MenuService {
     }
 
     private void treeList(List<Map<String, Object>> merge, List<Folder> folders, Folder f) {
-        Map<String,Object> folder = new HashMap<>();
+        Map<String, Object> folder = new HashMap<>();
         folder.put("title", f.getName());
         folder.put("value", f.getPosition());
         List<Map<String, Object>> children = treeMaps(folders, f);
@@ -166,7 +173,7 @@ public class MenuService {
     }
 
     private List<Map<String, Object>> treeMaps(List<Folder> folders, Folder f) {
-        List<Map<String,Object>> children = new ArrayList<>();
+        List<Map<String, Object>> children = new ArrayList<>();
         List<Folder> tempF = folders.stream().filter(filter -> {
             return filter.getParentPosition().equalsIgnoreCase(f.getPosition());
         }).collect(Collectors.toList());
