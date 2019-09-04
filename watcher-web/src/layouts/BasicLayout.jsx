@@ -53,7 +53,7 @@ const footerRender = () => {
           </Fragment>
         }
       />
-  </Footer>
+    </Footer>
   );
 };
 
@@ -64,7 +64,7 @@ const BasicLayout = props => {
     settings,
     menuData,
     searchKeys,
-   } = props;
+  } = props;
   /**
    * constructor
    */
@@ -91,22 +91,22 @@ const BasicLayout = props => {
     dispatch({
       type: 'global/changeLayoutCollapsed',
       payload,
-  });
+    });
 
   const saveMenuName = payload =>
     dispatch &&
     dispatch({
       type: 'menu/saveMenuName',
       payload,
-  });
+    });
 
   const handleMenuKey = e => {
     const newMenuData = [];
     searchKeys.filter(it => it.indexOf(e.target.value) > -1)
-    .map(it => window.parseInt(it))
-    .forEach(it => {
-      newMenuData.push(menuData[it]);
-    });
+      .map(it => window.parseInt(it))
+      .forEach(it => {
+        newMenuData.push(menuData[it]);
+      });
   };
 
   const setCookie = (name, value, n) => {
@@ -196,14 +196,14 @@ const BasicLayout = props => {
       clickNumMap[it.component] = clickNum + 1;
     }
     // if (it.auth) {
-      const { nameStrArr } = props;
-      const fullName = nameStrArr.filter(item => item.indexOf(it.name) > -1)[0];
-      saveMenuName(it.name);
-      router.push(`/page/${it.component}`);
-      window.sessionStorage.setItem('currentMenuItem', JSON.stringify(it));
-      window.sessionStorage.setItem('full_name', fullName);
-      window.sessionStorage.setItem('pathName', it.component);
-      window.localStorage.setItem('clickNumMap', JSON.stringify(clickNumMap));
+    const { nameStrArr } = props;
+    const fullName = nameStrArr.filter(item => item.indexOf(it.name) > -1)[0];
+    saveMenuName(it.name);
+    router.push(`/page/${it.component}`);
+    window.sessionStorage.setItem('currentMenuItem', JSON.stringify(it));
+    window.sessionStorage.setItem('full_name', fullName);
+    window.sessionStorage.setItem('pathName', it.component);
+    window.localStorage.setItem('clickNumMap', JSON.stringify(clickNumMap));
     // }
     // else {
     //   if (!it.is_mount) {
@@ -214,16 +214,15 @@ const BasicLayout = props => {
 
   return (
     <ProLayout
-      openKeys={['/tradeDailyReport/ALL']}
       logo={() => (
         <div onClick={() => {
           router.replace('/');
           window.sessionStorage.setItem('pathName', '');
         }} className={style.logoTitle}>爱回收信息管理平台</div>
       )}
-      menuItemRender = { (menuItemProps, dom) => {
+      menuItemRender={(menuItemProps, dom) => {
         return <div onClick={e => myclick(e, menuItemProps, dom)}
-      className={menuItemProps.is_mount ? style.mount : ''}>{dom}</div>;
+          className={menuItemProps.is_mount ? style.mount : ''}>{dom}</div>;
       }}
       // menuItemRender = { (menuItemProps, dom) => {
       //   return <Link to={`/page/${menuItemProps.component}`}>{dom}</Link>;
@@ -252,7 +251,7 @@ const BasicLayout = props => {
 };
 
 export default connect(({ global, settings, menu, user }) => ({
-  collapsed: global.collapsed,
+  // collapsed: global.collapsed,
   settings,
   menuData: menu.menuData,
   nameStrArr: menu.nameStrArr,
