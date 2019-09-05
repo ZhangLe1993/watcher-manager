@@ -114,6 +114,12 @@ public class IndexC {
         return;
     }
 
+    @RequestMapping("/favicon.ico")
+    public void ico(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        request.getRequestDispatcher("/static/resources/images/favicon.ico").forward(request, response);
+        return;
+    }
+
     @RequestMapping("_health_check")
     public ResponseEntity healthCheck() throws IOException {
         if (health) {
