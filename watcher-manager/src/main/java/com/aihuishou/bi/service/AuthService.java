@@ -85,7 +85,7 @@ public class AuthService extends BaseService {
                 JOIN("ods_ob_foundation_role b ON a.roleid = b.id");
                 JOIN("ods_ob_foundation_roleoperation c ON b.id = c.roleid");
                 JOIN("ods_ob_foundation_operation d ON c.operationid=d.id");
-                WHERE("a.observerid = " + obId);
+                WHERE("a.active = 1 and b.active = 1 and c.active = 1 and d.active = 1 and a.observerid = " + obId);
             }
         }.toString();
         List<String> list = new QueryRunner(dataSource).query(in, new ColumnListHandler<String>("name"));
