@@ -33,12 +33,12 @@ public class BuryPoint {
      * 埋点
      * @param startTime
      * @param endTime
-     * @param position
+     * @param event
      * @param name
      * @param url
      * @throws InvalidArgumentException
      */
-    public void point(String sessionId, long startTime, long endTime, long takeTime, String position, String name, String url, boolean status) throws InvalidArgumentException, SQLException {
+    public void point(String sessionId, long startTime, long endTime, long takeTime, String event, String name, String url, boolean status) throws InvalidArgumentException, SQLException {
         //埋点
         String obId = CasUtil.getId();
         if(StringUtils.isBlank(obId) || "-2".equalsIgnoreCase(obId)) {
@@ -60,7 +60,7 @@ public class BuryPoint {
         data.put("end_time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date(endTime)));
         data.put("take_time", takeTime);
         data.put("time_unit", "ms");
-        data.put("sensors_event_name", position);
+        data.put("sensors_event_name", event);
         data.put("sensors_title", name);
         data.put("sensors_screen_name", url);
         data.put("status", status);

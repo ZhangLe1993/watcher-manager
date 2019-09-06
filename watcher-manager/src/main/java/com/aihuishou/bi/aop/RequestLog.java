@@ -5,7 +5,9 @@ import com.aihuishou.bi.annotation.SystemLog;
 import com.aihuishou.bi.handler.BuryPoint;
 import com.aihuishou.bi.service.NodeService;
 import com.aihuishou.bi.utils.StringEx;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.ImmutableMap;
 import com.sensorsdata.analytics.javasdk.exceptions.InvalidArgumentException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -99,16 +101,19 @@ public class RequestLog {
                     //String name = args[1].toString();
                     String url = args[2].toString();
                     HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-                    kindCookie(sessionId, response);
                     String finalName = nodeService.getFinalPath(position);
-                    buryPoint.point(sessionId, startTime, endTime, takeTime, position, finalName, url, status);
+                    kindCookie(sessionId, finalName, response);
+                    buryPoint.point(sessionId, startTime, endTime, takeTime, "denominator", finalName, url, status);
                     break;
                 }
                 case "end": {
                     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-                    String name = URLDecoder.decode(request.getRequestURL().toString(), "UTF-8");
-                    String sid  = getCookie(request);
-                    buryPoint.point(sid, startTime, endTime, takeTime, "", name, name, status);
+                    String url = URLDecoder.decode(request.getRequestURL().toString(), "UTF-8");
+                    String json  = getCookie(request);
+                    JSONObject jsonObject = JSONObject.parseObject(json);
+                    String sid = jsonObject.getString("sid");
+                    String finalName = jsonObject.getString("name");
+                    buryPoint.point(sid, startTime, endTime, takeTime, "elememt", finalName, url, status);
                     break;
                 }
             }
@@ -119,8 +124,8 @@ public class RequestLog {
      * 种Cookie
      * @param response
      */
-    private void kindCookie(String sessionId, HttpServletResponse response) {
-        Cookie cookie = new Cookie("sid", sessionId);
+    private void kindCookie(String sessionId, String name, HttpServletResponse response) {
+        Cookie cookie = new Cookie("WSESSION", JSON.toJSONString(ImmutableMap.of("sid", sessionId, "name", name)));
         cookie.setPath("/");
         response.addCookie(cookie);
     }
@@ -129,7 +134,7 @@ public class RequestLog {
         Cookie[] cookies = request.getCookies();
         if(cookies != null && cookies.length != 0) {
             for(Cookie cookie : cookies) {
-                if("sid".equalsIgnoreCase(cookie.getName())) {
+                if("WSESSION".equalsIgnoreCase(cookie.getName())) {
                     return cookie.getValue();
                 }
             }
