@@ -5,9 +5,7 @@ import com.aihuishou.bi.annotation.SystemLog;
 import com.aihuishou.bi.handler.BuryPoint;
 import com.aihuishou.bi.service.NodeService;
 import com.aihuishou.bi.utils.StringEx;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.ImmutableMap;
 import com.sensorsdata.analytics.javasdk.exceptions.InvalidArgumentException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -27,6 +25,8 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 @Aspect
@@ -109,10 +109,9 @@ public class RequestLog {
                 case "end": {
                     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
                     String url = URLDecoder.decode(request.getRequestURL().toString(), "UTF-8");
-                    String json  = getCookie(request);
-                    JSONObject jsonObject = JSONObject.parseObject(json);
-                    String sid = jsonObject.getString("sid");
-                    String finalName = jsonObject.getString("name");
+                    Map<String, String> cookieMap  = getCookie(request);
+                    String sid = cookieMap.get("sid");
+                    String finalName = cookieMap.get("sc");
                     buryPoint.point(sid, startTime, endTime, takeTime, "elememt", finalName, url, status);
                     break;
                 }
@@ -125,21 +124,28 @@ public class RequestLog {
      * @param response
      */
     private void kindCookie(String sessionId, String name, HttpServletResponse response) {
-        Cookie cookie = new Cookie("WSESSION", JSON.toJSONString(ImmutableMap.of("sid", sessionId, "name", name)));
-        cookie.setPath("/");
-        response.addCookie(cookie);
+        Cookie sid = new Cookie("sid", sessionId);
+        Cookie sName = new Cookie("sc", name);
+        sid.setPath("/");
+        sName.setPath("/");
+        response.addCookie(sid);
+        response.addCookie(sName);
     }
 
-    public String getCookie(HttpServletRequest request) {
+    public Map<String, String> getCookie(HttpServletRequest request) {
+        Map<String, String> collect = new HashMap<>();
         Cookie[] cookies = request.getCookies();
         if(cookies != null && cookies.length != 0) {
             for(Cookie cookie : cookies) {
-                if("WSESSION".equalsIgnoreCase(cookie.getName())) {
-                    return cookie.getValue();
+                if("sid".equalsIgnoreCase(cookie.getName())) {
+                    collect.put("sid", cookie.getValue());
+                }
+                if("sc".equalsIgnoreCase(cookie.getName())) {
+                    collect.put("sc", cookie.getValue());
                 }
             }
         }
-        return null;
+        return collect;
     }
 
     /**
