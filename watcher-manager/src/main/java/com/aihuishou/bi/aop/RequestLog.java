@@ -103,7 +103,7 @@ public class RequestLog {
                     HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
                     String finalName = nodeService.getFinalPath(position);
                     kindCookie(sessionId, finalName, response);
-                    buryPoint.point(sessionId, startTime, endTime, takeTime, "denominator", finalName, url, status);
+                    buryPoint.point(sessionId, startTime, endTime, takeTime, "watcher_denominator", finalName, url, status);
                     break;
                 }
                 case "end": {
@@ -112,7 +112,7 @@ public class RequestLog {
                     Map<String, String> cookieMap  = getCookie(request);
                     String sid = cookieMap.get("sid");
                     String finalName = cookieMap.get("sc");
-                    buryPoint.point(sid, startTime, endTime, takeTime, "elememt", finalName, url, status);
+                    buryPoint.point(sid, startTime, endTime, takeTime, "watcher_elememt", finalName, url, status);
                     break;
                 }
             }
