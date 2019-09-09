@@ -32,6 +32,17 @@ public class RosterInterceptor extends HandlerInterceptorAdapter {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
+        Loop operate = ((HandlerMethod) handler).getMethodAnnotation(Loop.class);
+        //如果是第三方的都不走单点登录，直接跳转到老watcher
+        if(operate != null) {
+            String url = request.getRequestURI();
+            Cookie cookie = new Cookie("watchernew", "0");
+            cookie.setPath("/");
+            cookie.setMaxAge(20 * 60 * 60);//设置为20个小时
+            response.addCookie(cookie);
+            response.sendRedirect(url);
+            return false;
+        }
         String obId = CasUtil.getId();
         if (Strings.isBlank(obId) || "-2".equalsIgnoreCase(obId)) {
             return true;
@@ -59,14 +70,8 @@ public class RosterInterceptor extends HandlerInterceptorAdapter {
     private boolean redirectAndCookie(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         Cookie cookie = new Cookie("watchernew", "0");
         cookie.setPath("/");
-        response.addCookie(cookie);
         cookie.setMaxAge(20 * 60 * 60);//设置为20个小时
-        Loop operate = ((HandlerMethod) handler).getMethodAnnotation(Loop.class);
-        if(operate != null) {
-            String url = request.getRequestURI();
-            response.sendRedirect(url);
-            return false;
-        }
+        response.addCookie(cookie);
         response.sendRedirect("/dashboard");
         return false;
     }
