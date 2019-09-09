@@ -32,6 +32,7 @@ public class CacheController {
             cacheService.removePMM();
             cacheService.removePMMS();
             cacheService.removeRM();
+            cacheService.removeCU();
             return new ResponseEntity<>("梭哈方案--清除成功", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("梭哈方案--清除失败", HttpStatus.INTERNAL_SERVER_ERROR);

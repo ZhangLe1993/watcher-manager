@@ -34,4 +34,11 @@ public class CacheConf {
      * 精致提炼菜单
      */
     public final static String REFINED_MENU = "refined-menu";
+
+    /**
+     * 当前登录用户
+     */
+    public final static String CURRENT_USER = "current-user";
+
+
 }

@@ -88,4 +88,12 @@ public class CacheService {
         logger.info("精致提炼菜单缓存：【{}】清除成功", CacheConf.REFINED_MENU);
     }
 
+    /**
+     *  清除 精致提炼菜单
+     */
+    @CacheEvict(value = CacheConf.CURRENT_USER, allEntries = true)
+    public void removeCU() {
+        logger.info("当前登录用户缓存：【{}】清除成功", CacheConf.CURRENT_USER);
+    }
+
 }

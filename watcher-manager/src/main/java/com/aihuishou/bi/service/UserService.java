@@ -1,6 +1,7 @@
 package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.core.Admin;
+import com.aihuishou.bi.core.CacheConf;
 import com.aihuishou.bi.entity.Role;
 import com.aihuishou.bi.entity.User;
 import org.apache.commons.dbutils.QueryRunner;
@@ -26,7 +27,7 @@ public class UserService {
     @Autowired
     private AdminService adminService;
 
-    @Cacheable(value = "current-user", key = "#obId")
+    @Cacheable(value = CacheConf.CURRENT_USER, key = "#obId")
     public User getUserByObId(String obId) throws SQLException {
         String sql = "SELECT observer_account_id as obId, observer_account_user_name AS name, observer_account_mobile_txt AS mobile,observer_account_email_txt AS email,observer_account_employee_no AS employeeNo from dim_observer_account WHERE observer_account_id=? order by observer_account_id desc limit 0,1;";
         User user = new QueryRunner(dataSource).query(sql, new BeanHandler<>(User.class), Long.parseLong(obId));
