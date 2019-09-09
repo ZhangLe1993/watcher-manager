@@ -1,6 +1,7 @@
 package com.aihuishou.bi.interceptor;
 
 import com.aihuishou.bi.WatcherApplication;
+import com.aihuishou.bi.annotation.Loop;
 import com.aihuishou.bi.cas.CasUtil;
 import com.aihuishou.bi.entity.User;
 import com.aihuishou.bi.service.RosterService;
@@ -50,16 +51,22 @@ public class RosterInterceptor extends HandlerInterceptorAdapter {
         boolean exists = rosterService.exist(user.getEmployeeNo());
         if(!exists) {
             //HttpSession session = request.getSession();
-            return redirectAndCookie(response);
+            return redirectAndCookie(request, response, handler);
         }
         return true;
     }
 
-    private boolean redirectAndCookie(HttpServletResponse response) throws IOException {
+    private boolean redirectAndCookie(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         Cookie cookie = new Cookie("watchernew", "0");
         cookie.setPath("/");
         response.addCookie(cookie);
         cookie.setMaxAge(20 * 60 * 60);//设置为20个小时
+        Loop operate = ((HandlerMethod) handler).getMethodAnnotation(Loop.class);
+        if(operate != null) {
+            String url = request.getRequestURI();
+            response.sendRedirect(url);
+            return false;
+        }
         response.sendRedirect("/dashboard");
         return false;
     }

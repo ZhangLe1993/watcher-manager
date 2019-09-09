@@ -1,5 +1,6 @@
 package com.aihuishou.bi.controller;
 
+import com.aihuishou.bi.annotation.Loop;
 import com.aihuishou.bi.annotation.Mark;
 import com.aihuishou.bi.annotation.SystemLog;
 import com.aihuishou.bi.cas.CasUtil;
@@ -184,6 +185,7 @@ public class IndexC {
         StreamUtils.copy(clientHttpResponse.getBody(), response.getOutputStream());
     }
 
+    @Loop
     @SystemLog(description = "爱机汇嵌入页面 & fancyBox 弹出层页面")
     @RequestMapping(value = {"/vender/**", "/customer/intelligenceShop/**", "/area/dealSmartShopReport/**", "/area/coupon/**", "/datareport/**", "/operation/**"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String vender(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
