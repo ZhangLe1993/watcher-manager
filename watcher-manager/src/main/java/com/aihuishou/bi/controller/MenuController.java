@@ -51,17 +51,17 @@ public class MenuController {
 
     @SystemLog(description = "获取菜单")
     @GetMapping("")
-    public List<Map<String, Object>> menu() {
+    public List<Map<String, Object>> menu(@RequestParam(value = "key_word", required = false) String keyWord) {
         try{
             String obId = CasUtil.getId();
             if(StringUtils.isBlank(obId) || "-2".equalsIgnoreCase(obId)) {
                 return new ArrayList<>();
             }
-            return menuService.merge(obId);
+            return menuService.merge(obId, keyWord);
         }catch(SQLException e) {
-            e.printStackTrace();
+            logger.error("获取菜单异常，异常信息: {}", ExceptionInfo.toString(e));
         }
-        return null;
+        return new ArrayList<>();
     }
 
     @SystemLog(description = "查询挂载点")
