@@ -86,8 +86,9 @@ public class MenuService {
         Map<String, String> mapping = mappingService.getMapping();
 
         mounts.stream().forEach(m -> {
+            List<Map<String, Object>> part = new ArrayList<>();
             //构造挂载点
-            mergeMount(merge, m);
+            mergeMount(part, m);
             //构造文件夹
             //获取
             List<Folder> mRoots = root.stream().filter(mr -> {
@@ -96,7 +97,7 @@ public class MenuService {
 
             //构造
             mRoots.stream().forEach(f -> {
-                mergeList(merge, folders, nodes, f, menuAuthMap, userAuthList, mapping, keyWord);
+                mergeList(part, folders, nodes, f, menuAuthMap, userAuthList, mapping, keyWord);
             });
 
             //构造菜单
@@ -106,9 +107,12 @@ public class MenuService {
             }).collect(Collectors.toList());
             //构造
             mNodes.stream().forEach(n -> {
-                mergeNode(merge, n, menuAuthMap, userAuthList, mapping, keyWord);
+                mergeNode(part, n, menuAuthMap, userAuthList, mapping, keyWord);
             });
 
+            if(part.size() > 1) {
+                merge.addAll(part);
+            }
         });
         return merge;
     }
