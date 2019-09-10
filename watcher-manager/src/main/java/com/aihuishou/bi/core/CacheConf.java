@@ -18,6 +18,11 @@ public class CacheConf {
     public final static String LIST_USER_AUTH = "list-user-auth";
 
     /**
+     * 某一用户所拥有的所有权限集合["xxx","yyyy"]
+     */
+    public final static String LIST_USER_AUTH_MONGO = "list-user-auth-mongo";
+
+    /**
      * 菜单映射，比如传入的是shanghaiOperationXXX  指向的是  OperationXXX，结果为 {id:"", source : "", target : "", key : "", value : ""}
      */
     public final static String POSITION_MAPPING_MODEL = "position-mapping-model";

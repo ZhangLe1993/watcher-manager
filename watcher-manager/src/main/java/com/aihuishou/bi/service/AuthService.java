@@ -3,6 +3,7 @@ package com.aihuishou.bi.service;
 import com.aihuishou.bi.core.CacheConf;
 import com.aihuishou.bi.entity.Mapping;
 import com.aihuishou.bi.entity.NodeAuth;
+import com.aihuishou.bi.live.model.UserPermissionStats;
 import com.aihuishou.bi.utils.ExceptionInfo;
 import com.aihuishou.bi.vo.GrantVO;
 import org.apache.commons.collections.CollectionUtils;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +39,9 @@ public class AuthService extends BaseService {
 
     @Resource
     private DataSource dataSource;
+
+    @Resource
+    private MongoService mongoService;
 
     public boolean auth(String position, Map<String, List<String>> menuAuthMap, List<String> userAuthList, Map<String, String> mapping) {
         try {
@@ -60,6 +65,20 @@ public class AuthService extends BaseService {
         } catch (Exception e) {
             logger.error("获取权限发生异常，异常信息: {}", ExceptionInfo.toString(e));
             return false;
+        }
+    }
+
+    public List<String> auth(String position, Map<String, List<String>> menuAuthMap, Map<String, String> mapping) {
+        try {
+            String target = position;
+            if(mapping != null && StringUtils.isNotBlank(mapping.get(position))) {
+                target = mapping.get(target);
+            }
+            //菜单权限
+            return  menuAuthMap.get(target);
+        } catch (Exception e) {
+            logger.error("获取权限发生异常，异常信息: {}", ExceptionInfo.toString(e));
+            return new ArrayList<>();
         }
     }
 
@@ -104,6 +123,12 @@ public class AuthService extends BaseService {
         return list;
     }
 
+    @Cacheable(value = CacheConf.LIST_USER_AUTH_MONGO, key = "#obId")
+    public List<String> userAuthFromMongo(String obId) {
+        List<UserPermissionStats> list = mongoService.userPermissionStats(obId);
+        return list.stream().map(UserPermissionStats :: getAccessName).collect(Collectors.toList());
+    }
+
     @Transactional
     public int grantAuth(GrantVO grantVO) throws SQLException {
         Mapping mapping = mappingService.getModel(grantVO.getPosition());
@@ -142,7 +167,6 @@ public class AuthService extends BaseService {
         return new QueryRunner(dataSource).query(sql, new ColumnListHandler<String>("name"));
     }
 
-
     public Long countAllAuth(String key) throws SQLException {
         String sql = "select count(*) AS num from ods_ob_foundation_operation WHERE 1=1 ";
         if(StringUtils.isNotBlank(key)) {
@@ -150,7 +174,6 @@ public class AuthService extends BaseService {
         }
         return new QueryRunner(dataSource).query(sql, new ScalarHandler<>("num"));
     }
-
 
     public List<String> getMenuAuth(String position) throws SQLException {
         Mapping mapping = mappingService.getModel(position);

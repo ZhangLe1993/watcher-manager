@@ -82,7 +82,7 @@ public class MenuService {
         //获取菜单和权限映射关系，规定哪些报表只有那些人拥有哪些权限才能看
         Map<String, List<String>> menuAuthMap = authService.menuAuth();
 
-        List<String> userAuthList = authService.userAuth(obId);
+        List<String> userAuthList = authService.userAuthFromMongo(obId);
         Map<String, String> mapping = mappingService.getMapping();
 
         mounts.stream().forEach(m -> {
@@ -144,15 +144,18 @@ public class MenuService {
 
     private void mergeNode(List<Map<String, Object>> merge, Node n, Map<String, List<String>> menuAuthMap, List<String> userAuthList, Map<String, String> mapping, String keyWord) {
         String name = n.getName();
+        String position = n.getPosition();
         if(StringUtils.isNotBlank(keyWord) && !name.contains(keyWord)) {
             return;
         }
         Map<String, Object> node = new ConcurrentHashMap<>();
+        List<String> menuAuth = authService.auth(n.getPosition(), menuAuthMap, mapping);
         node.put("is_mount", false);
         node.put("icon", "monitor");
         node.put("name", name);
-        node.put("component", n.getPosition());
+        node.put("component", position);
         node.put("exact", true);
+        node.put("auths", menuAuth == null ? new ArrayList<>() : menuAuth);
         node.put("path", "/page/" + n.getPath());
         node.put("auth", (Boolean) authService.auth(n.getPosition(), menuAuthMap, userAuthList, mapping));
         String genre = n.getGenre();

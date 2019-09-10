@@ -43,7 +43,13 @@ public class CacheService {
         logger.info("所有用户的权限缓存：【{}】清除成功", CacheConf.LIST_USER_AUTH);
     }
 
-
+    /**
+     *  清除 所有用户的 LIST_USER_AUTH 缓存
+     */
+    @CacheEvict(value = CacheConf.LIST_USER_AUTH_MONGO, allEntries = true)
+    public void removeLUAM() {
+        logger.info("所有用户的权限缓存：【{}】清除成功", CacheConf.LIST_USER_AUTH_MONGO);
+    }
 
     /**
      *  根据 position 清除 POSITION_MAPPING_MODEL 缓存

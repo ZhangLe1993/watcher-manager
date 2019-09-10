@@ -125,7 +125,7 @@ public class RequestLog {
      */
     private void kindCookie(String sessionId, String name, HttpServletResponse response) {
         Cookie sid = new Cookie("sid", sessionId);
-        Cookie sName = new Cookie("sc", name);
+        Cookie sName = new Cookie("sc", name.replaceAll(" ",""));
         sid.setPath("/");
         sName.setPath("/");
         response.addCookie(sid);

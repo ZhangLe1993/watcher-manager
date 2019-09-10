@@ -1,22 +1,16 @@
 Template.profitExceptionMonitor.rendered = function () {
-    /*$('.navi-tab').removeClass('active');*/
-    var flag = Template.flag;
-    /*$(".notAijihuiTab").addClass("active");
-    $(".ctab").removeClass("active")*/
-    /*if(flag=='aijihui'){
+    $('.navi-tab').removeClass('active');
+    var flag = Template.channel;
+    $(".notAijihuiTab").addClass("active");
+    $(".ctab").removeClass("active");
+    if(flag=='aijihui'){
         $(".notAijihuiTab").hide()
         $(".notAijihuiTab").removeClass("active");
         $(".ctab").addClass("active")
-    }else if(flag=='ALL'){
-        $('#managereport').addClass('active');
-        $('#profitExceptionMonitor').addClass('active');
-    }else if(flag=='profit'){
-        $('#pricemonitor').addClass('active');
-        $('#PriceMSTRTab').addClass('active');
-    }*/
-    /*if (isMobile()) {
+    }
+    if (isMobile()) {
         $('.sidebar-toggle').click();
-    }*/
+    }
     var dateGap = 0;
     var endDate = new Date().getNewDate(-1);
     var startDate = new Date(endDate).getNewDate(dateGap);

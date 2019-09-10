@@ -1,14 +1,18 @@
 package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.live.model.*;
+import com.aihuishou.bi.utils.RestTemplateUtils;
+import com.google.common.collect.ImmutableMap;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
@@ -16,6 +20,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MongoService {
@@ -23,6 +28,9 @@ public class MongoService {
     @Autowired
     @Qualifier(value = "basicMongoTemplate")
     private MongoTemplate mongoTemplate;
+
+/*    @Value("${meteor.permission.url}")
+    private String meteorPermissionUrl;*/
 
     @Autowired
     private DataSource dataSource;
@@ -56,6 +64,14 @@ public class MongoService {
         new QueryRunner(dataSource).batch(sql, params);
     }
 
+    public List<OperationMapping> operationMapping() {
+        return mongoTemplate.find(new Query(), OperationMapping.class, "userPermissionOperationMapping");
+    }
+
+    public List<UserPermissionStats> userPermissionStats(String obId) {
+        return mongoTemplate.find(new Query(Criteria.where("obId").is(obId)), UserPermissionStats.class, "userPermissionStats");
+    }
+
 
     public List<ExpressSourceTypeTradeStats> expressSourceTypeTradeStats() {
         Query basic = new Query().with(new Sort(Sort.Direction.DESC, "createdDt"));
@@ -82,5 +98,12 @@ public class MongoService {
         Criteria criteria = Criteria.where("status").is("submit").and("date").is(to).and("_id").is(id);
         Query query = new Query(criteria);
         return mongoTemplate.findOne(query, RealtimeOrderSummaryStats.class, "realtimeOrderSummaryStats");
+    }
+
+
+    public void syncUserPermission(String obId) {
+        //Map<String, Object> params = ImmutableMap.of("data", ImmutableMap.of("observerId", obId));
+        //ResponseEntity<String> content = RestTemplateUtils.post(meteorPermissionUrl, params, String.class);
+        //System.out.println(content);
     }
 }

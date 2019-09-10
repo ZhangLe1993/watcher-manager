@@ -87,7 +87,7 @@ public class RouteController {
         if(StringUtils.isBlank(obId) || "-2".equalsIgnoreCase(obId)) {
             return false;
         }
-        List<String> userAuthList = authService.userAuth(obId);
+        List<String> userAuthList = authService.userAuthFromMongo(obId);
         Map<String, String> mapping = mappingService.getMapping();
         return authService.auth(position, menuAuthMap, userAuthList, mapping);
     }

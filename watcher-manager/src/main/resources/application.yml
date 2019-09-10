@@ -60,3 +60,7 @@ basic:
     host: 10.168.187.122
     port: 27017
     database: Watcher
+
+#meteor:
+#  permission:
+#    url: http://100.98.112.42:8080/foundationservice/auth/operation/getbyparams

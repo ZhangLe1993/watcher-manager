@@ -33,6 +33,7 @@ public class CacheController {
             cacheService.removePMMS();
             cacheService.removeRM();
             cacheService.removeCU();
+            cacheService.removeLUAM();
             return new ResponseEntity<>("梭哈方案--清除成功", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("梭哈方案--清除失败", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -52,6 +53,7 @@ public class CacheController {
             cacheService.removeMMA();
             //用户权限
             cacheService.removeLUA();
+            cacheService.removeLUAM();
             //菜单权限
             cacheService.removeLNA();
             return new ResponseEntity<>("套餐 -- 成功", HttpStatus.OK);

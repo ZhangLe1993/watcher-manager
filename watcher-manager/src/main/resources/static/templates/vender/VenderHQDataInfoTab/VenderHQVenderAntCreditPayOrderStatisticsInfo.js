@@ -1,6 +1,6 @@
 Template.VenderHQVenderAntCreditPayOrderStatisticsInfo.rendered = function () {
-    $('.navi-tab').removeClass('active');
-    $('#VenderTab').addClass('active');
+    /*$('.navi-tab').removeClass('active');
+    $('#VenderTab').addClass('active');*/
 
     var ua = navigator.userAgent.toLowerCase();
     var isAndroid = ua.indexOf("android") >-1;
@@ -10,15 +10,15 @@ Template.VenderHQVenderAntCreditPayOrderStatisticsInfo.rendered = function () {
     }
 
     //自动刷新函数
-    var autoRun=function() {
+    var autoRun = function() {
         var flag = "ALL";
-        /*var flag = Template.currentData().flag;
-        if (flag == "ALL") {
-            $('#VenderHQDataInfoTab').addClass('active');
-            $('#VenderHQVenderAntCreditPayOrderStatisticsTab').addClass('active');
+        var flag = Template.flag;
+        /*if (flag == "ALL") {
+            //$('#VenderHQDataInfoTab').addClass('active');
+            //$('#VenderHQVenderAntCreditPayOrderStatisticsTab').addClass('active');
         } else if (flag == "Province") {
-            $('#VenderPermissionControl').addClass('active');
-            $('#VenderHQVenderAntCreditPayOrderStatisticsProvinceTab').addClass('active');
+            //$('#VenderPermissionControl').addClass('active');
+            //$('#VenderHQVenderAntCreditPayOrderStatisticsProvinceTab').addClass('active');
         }*/
 
         var dateGap = -9;
