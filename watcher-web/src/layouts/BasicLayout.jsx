@@ -86,13 +86,13 @@ const BasicLayout = props => {
    * init variables
    */
 
-  const handleMenuCollapse = payload =>
+  const handleMenuCollapse = payload =>{
     dispatch &&
     dispatch({
       type: 'global/changeLayoutCollapsed',
       payload,
     });
-
+  }
   const saveMenuName = payload =>
     dispatch &&
     dispatch({
@@ -123,7 +123,7 @@ const BasicLayout = props => {
     // loginOut();
   };
 
-  const headerRender = () => {
+  const headerRender = (props) => {
     const { userName } = props;
     const pathName = window.location.pathname;
     const titleArr = [];
@@ -147,9 +147,7 @@ const BasicLayout = props => {
     return (
       <div className={style.header}>
         <div className={style.headerLeft}>
-          <Button type="primary" onClick={() => handleMenuCollapse(props.collapsed)}>
-            <Icon type={props.collapsed ? 'menu-unfold' : 'menu-fold'} />
-          </Button>
+            <Icon type={props.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={() => handleMenuCollapse(props.collapsed)}/>
           <div className={style.title}>{title}</div>
           {/* <Input placeholder="请输入搜索关键字"
         className={style.searchInput} onChange={handleMenuKey} /> */}
@@ -231,7 +229,7 @@ const BasicLayout = props => {
 };
 
 export default connect(({ global, settings, menu, user }) => ({
-  // collapsed: global.collapsed,
+  collapsed: global.collapsed,
   settings,
   menuData: menu.menuData,
   nameStrArr: menu.nameStrArr,
