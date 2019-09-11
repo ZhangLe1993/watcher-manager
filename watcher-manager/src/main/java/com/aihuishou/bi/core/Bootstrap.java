@@ -1,6 +1,5 @@
 package com.aihuishou.bi.core;
 
-import com.aihuishou.bi.entity.User;
 import com.aihuishou.bi.service.MongoService;
 import com.aihuishou.bi.service.SyncService;
 import com.aihuishou.bi.service.SysService;
@@ -12,7 +11,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 @Component
@@ -37,8 +35,8 @@ public class Bootstrap implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        sysService.getPositionMap();
-        syncService.sync();
+//        sysService.getPositionMap();
+//        syncService.sync();
         //mongoService.syncUserPermission("7205");
     }
 
