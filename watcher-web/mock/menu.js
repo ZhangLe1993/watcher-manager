@@ -1,5 +1,5 @@
 export default {
-    'GET /menu':[
+    'POST /menu':[
       {
         "path": "/page/MarketingTab",
         "children": [{
