@@ -124,9 +124,9 @@ public class IndexC {
     @RequestMapping("_health_check")
     public ResponseEntity healthCheck() throws IOException {
         if (health) {
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity<>("OK", HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("FORBIDDEN", HttpStatus.FORBIDDEN);
         }
     }
 

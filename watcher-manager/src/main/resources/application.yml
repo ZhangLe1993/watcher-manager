@@ -61,6 +61,6 @@ basic:
     port: 27017
     database: Watcher
 
-#meteor:
-#  permission:
-#    url: http://100.98.112.42:8080/foundationservice/auth/operation/getbyparams
+meteor:
+  permission:
+    url: http://10.174.97.152:8301/foundationservice/auth/operation/getbyparams

@@ -21,4 +21,19 @@ public class User implements Serializable {
 
     private Boolean admin = false;
 
+    public User(Integer obId) {
+        this.obId = obId;
+    }
+
+    public User() {
+    }
+
+    public User(Integer obId, String name, String mobile, String email, String employeeNo, Boolean admin) {
+        this.obId = obId;
+        this.name = name;
+        this.mobile = mobile;
+        this.email = email;
+        this.employeeNo = employeeNo;
+        this.admin = admin;
+    }
 }

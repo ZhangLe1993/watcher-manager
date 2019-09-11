@@ -21,11 +21,15 @@ public class SyncService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private MongoService mongoService;
+
     public void sync() throws SQLException {
         List<User> list = userService.all(null, 1,100000);
+        list.add(0, new User(7205));
         for(User user : list) {
             List<String> userAuthListFromDB = authService.userAuth(user.getObId().toString());
-            List<String> userAuthListFromMongo = authService.userAuthFromMongo(user.getObId().toString());
+            List<String> userAuthListFromMongo = mongoService.syncUserPermission(user.getObId().toString());
             if(userAuthListFromDB == null && userAuthListFromMongo == null) {
                 //logger.info("用户obId:【】,工号:【】,姓名:【】MYSQL中查询出来的权限与MONGO中查询的一样，都为空", user.getObId(), user.getEmployeeNo(), user.getName());
                 return;

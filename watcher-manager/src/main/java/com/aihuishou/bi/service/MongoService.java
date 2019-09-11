@@ -2,6 +2,8 @@ package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.live.model.*;
 import com.aihuishou.bi.utils.RestTemplateUtils;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class MongoService {
@@ -29,8 +32,8 @@ public class MongoService {
     @Qualifier(value = "basicMongoTemplate")
     private MongoTemplate mongoTemplate;
 
-/*    @Value("${meteor.permission.url}")
-    private String meteorPermissionUrl;*/
+    @Value("${meteor.permission.url}")
+    private String meteorPermissionUrl;
 
     @Autowired
     private DataSource dataSource;
@@ -101,9 +104,19 @@ public class MongoService {
     }
 
 
-    public void syncUserPermission(String obId) {
-        //Map<String, Object> params = ImmutableMap.of("data", ImmutableMap.of("observerId", obId));
-        //ResponseEntity<String> content = RestTemplateUtils.post(meteorPermissionUrl, params, String.class);
+    public List<String> syncUserPermission(String obId) {
+        Map<String, Object> params = ImmutableMap.of("data", ImmutableMap.of("observerId", obId));
+        ResponseEntity<String> content = RestTemplateUtils.post(meteorPermissionUrl, params, String.class);
         //System.out.println(content);
+        String body = content.getBody();
+        JSONArray jsonArray = JSONArray.parseArray(body);
+        assert jsonArray != null;
+        List<String> operations = jsonArray.stream().map(p -> {
+            JSONObject json = (JSONObject) p;
+            return json.getString("name");
+        }).collect(Collectors.toList());
+        //System.out.println(jsonArray);
+
+        return operations;
     }
 }
