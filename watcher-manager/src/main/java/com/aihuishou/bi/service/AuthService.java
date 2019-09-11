@@ -114,7 +114,18 @@ public class AuthService extends BaseService {
             }
         }.toString();
         List<String> list = new QueryRunner(dataSource).query(in, new ColumnListHandler<String>("name"));
-        other(in, list);
+        String sql = new SQL() {
+            {
+                SELECT("distinct source_operation as name");
+                FROM("operation_mapping");
+                WHERE("target_operation in (" + in + ")");
+            }
+        }.toString();
+        List<String> other = new QueryRunner(dataSource).query(sql, new ColumnListHandler<String>("name"));
+        //other相对于list的茶集
+        other.removeAll(list);
+        //合并
+        list.addAll(other);
         return list;
     }
 
@@ -131,24 +142,23 @@ public class AuthService extends BaseService {
      */
     @Cacheable(value = CacheConf.LIST_USER_AUTH, key = "#obId")
     public List<String> userAuth(String obId)  throws SQLException {
-        String in = "select access_name as name from user_operation where observer_id = ?;";
+        String in = "select access_name as name from user_operation where observer_id = " + Long.parseLong(obId);
         List<String> list = new QueryRunner(dataSource).query(in, new ColumnListHandler<String>("name"));
-        other(in, list);
+        other(list);
         return list;
     }
 
     /**
      * 取出Watcher中关联在Mongo中的数据
-     * @param in
      * @param list
      * @throws SQLException
      */
-    private void other(String in, List<String> list) throws SQLException {
+    private void other(List<String> list) throws SQLException {
         String sql = new SQL() {
             {
                 SELECT("distinct source_operation as name");
                 FROM("operation_mapping");
-                WHERE("target_operation in (" + in + ")");
+                WHERE("target_operation in (" + StringUtils.join(list.stream().map(p -> "'" + p + "'").collect(Collectors.toList()), ",") + ")");
             }
         }.toString();
         List<String> other = new QueryRunner(dataSource).query(sql, new ColumnListHandler<String>("name"));

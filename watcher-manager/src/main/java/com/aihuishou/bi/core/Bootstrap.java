@@ -1,7 +1,6 @@
 package com.aihuishou.bi.core;
 
 import com.aihuishou.bi.service.MongoService;
-import com.aihuishou.bi.service.SyncService;
 import com.aihuishou.bi.service.SysService;
 import com.aihuishou.bi.service.UserService;
 import org.slf4j.Logger;
@@ -18,9 +17,6 @@ public class Bootstrap implements CommandLineRunner {
 
     @Autowired
     private SysService sysService;
-
-    @Autowired
-    private SyncService syncService;
 
     @Autowired
     private UserService userService;
