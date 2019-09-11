@@ -95,6 +95,20 @@ public class AuthService extends BaseService {
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<>(NodeAuth.class));
     }
 
+    public List<String> userAuthTest(String obId) throws SQLException {
+        String in = new SQL() {
+            {
+                SELECT("distinct d.name");
+                FROM("ods_ob_foundation_observerrole a");
+                JOIN("ods_ob_foundation_role b ON a.roleid = b.id");
+                JOIN("ods_ob_foundation_roleoperation c ON b.id = c.roleid");
+                JOIN("ods_ob_foundation_operation d ON c.operationid=d.id");
+                WHERE("a.active = 1 and b.active = 1 and c.active = 1 and d.active = 1 and a.observerid = " + obId);
+            }
+        }.toString();
+        return new QueryRunner(dataSource).query(in, new ColumnListHandler<String>("name"));
+    }
+
     @Cacheable(value = CacheConf.LIST_USER_AUTH, key = "#obId")
     public List<String> userAuth(String obId) throws SQLException {
         String in = new SQL() {
