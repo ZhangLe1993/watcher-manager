@@ -125,17 +125,19 @@ const BasicLayout = props => {
 
   const headerRender = (props) => {
     const { userName } = props;
-    const pathName = window.location.pathname;
+    const currPathArr = window.location.pathname.split("/").filter(v=>v);
+    let searchDeep=0;
     const titleArr = [];
     let searchArr = menuData;
     while (searchArr && searchArr.length > 0) {
       let goIn = false;//进入下一层搜索
       for (let i = 0; i < searchArr.length; i++) {
         let node = searchArr[i];
-        if (pathName.startsWith(node.path)) {
+        if ('/'+currPathArr.slice(0,searchDeep+2).join("/")===node.path) {
           titleArr.push(node.name);
           searchArr = node.children;
           goIn = true;
+          searchDeep++;
           break;
         }
       }
