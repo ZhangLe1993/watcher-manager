@@ -95,22 +95,14 @@ public class AuthService extends BaseService {
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<>(NodeAuth.class));
     }
 
-    public List<String> userAuthTest(String obId) throws SQLException {
-        String in = new SQL() {
-            {
-                SELECT("distinct d.name");
-                FROM("ods_ob_foundation_observerrole a");
-                JOIN("ods_ob_foundation_role b ON a.roleid = b.id");
-                JOIN("ods_ob_foundation_roleoperation c ON b.id = c.roleid");
-                JOIN("ods_ob_foundation_operation d ON c.operationid=d.id");
-                WHERE("a.active = 1 and b.active = 1 and c.active = 1 and d.active = 1 and a.observerid = " + obId);
-            }
-        }.toString();
-        return new QueryRunner(dataSource).query(in, new ColumnListHandler<String>("name"));
-    }
-
-    @Cacheable(value = CacheConf.LIST_USER_AUTH, key = "#obId")
-    public List<String> userAuth(String obId) throws SQLException {
+    /**
+     * 暂时废弃
+     * @param obId
+     * @return
+     * @throws SQLException
+     */
+    /*@Cacheable(value = CacheConf.LIST_USER_AUTH, key = "#obId")*/
+    public List<String> userAuth0(String obId) throws SQLException {
         String in = new SQL() {
             {
                 SELECT("distinct d.name");
@@ -122,6 +114,36 @@ public class AuthService extends BaseService {
             }
         }.toString();
         List<String> list = new QueryRunner(dataSource).query(in, new ColumnListHandler<String>("name"));
+        other(in, list);
+        return list;
+    }
+
+    @Cacheable(value = CacheConf.LIST_USER_AUTH_MONGO, key = "#obId")
+    public List<String> userAuthFromMongo(String obId) {
+        List<UserPermissionStats> list = mongoService.userPermissionStats(obId);
+        return list.stream().map(UserPermissionStats :: getAccessName).collect(Collectors.toList());
+    }
+
+    /**
+     * 直接获取接口落地的数据
+     * @param obId
+     * @return
+     */
+    @Cacheable(value = CacheConf.LIST_USER_AUTH, key = "#obId")
+    public List<String> userAuth(String obId)  throws SQLException {
+        String in = "select access_name as name from user_operation where observer_id = ?;";
+        List<String> list = new QueryRunner(dataSource).query(in, new ColumnListHandler<String>("name"));
+        other(in, list);
+        return list;
+    }
+
+    /**
+     * 取出Watcher中关联在Mongo中的数据
+     * @param in
+     * @param list
+     * @throws SQLException
+     */
+    private void other(String in, List<String> list) throws SQLException {
         String sql = new SQL() {
             {
                 SELECT("distinct source_operation as name");
@@ -134,13 +156,6 @@ public class AuthService extends BaseService {
         other.removeAll(list);
         //合并
         list.addAll(other);
-        return list;
-    }
-
-    @Cacheable(value = CacheConf.LIST_USER_AUTH_MONGO, key = "#obId")
-    public List<String> userAuthFromMongo(String obId) {
-        List<UserPermissionStats> list = mongoService.userPermissionStats(obId);
-        return list.stream().map(UserPermissionStats :: getAccessName).collect(Collectors.toList());
     }
 
     @Transactional

@@ -35,8 +35,8 @@ public class Bootstrap implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        sysService.getPositionMap();
-//        syncService.sync();
+        sysService.getPositionMap();
+        //syncService.sync();
         //mongoService.syncUserPermission("7205");
     }
 
