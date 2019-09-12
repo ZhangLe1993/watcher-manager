@@ -97,7 +97,8 @@ class Home extends React.Component {
   }
 
   render() {
-    const { clickNumArr } = this.state;
+    let { clickNumArr } = this.state;
+    clickNumArr = clickNumArr.filter(it=>it.key).slice(0,12)
     return (
       <div className={style.container}>
         {
