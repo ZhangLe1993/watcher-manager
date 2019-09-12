@@ -37,6 +37,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
@@ -73,7 +74,7 @@ public class IndexC {
     private String targetUrl;
 
     @RequestMapping(value = {"/back/**", "/", "/page/**"})
-    public String index() {
+    public String index(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //TODO 权限校验
         return "dist/index";
     }

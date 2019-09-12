@@ -207,7 +207,11 @@ public class MenuController {
     @GetMapping("/node/genre")
     public ResponseEntity nodeGenre(@RequestParam(value = "position") String position) {
         try{
-            return new ResponseEntity<>(nodeService.nodeGenre(position), HttpStatus.OK);
+            Node node = nodeService.nodeGenre(position);
+            if(node == null) {
+                return new ResponseEntity<>("请对该资源进行重定向", HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(node, HttpStatus.OK);
         } catch(Exception e) {
             logger.error("查询报表类型异常，异常信息: {}", ExceptionInfo.toString(e));
         }
@@ -235,6 +239,7 @@ public class MenuController {
     @PutMapping("/node")
     public ResponseEntity updateNode(@RequestBody NodeVO nodeVO) {
         try{
+            int i = 1/0;
             int count = nodeService.updateNode(nodeVO);
             if(count > 0) return new ResponseEntity<>("修改报表成功", HttpStatus.OK);
             return new ResponseEntity<>("修改报表失败", HttpStatus.INTERNAL_SERVER_ERROR);

@@ -1,6 +1,7 @@
 package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.annotation.AutoFill;
+import com.aihuishou.bi.core.SysConf;
 import com.aihuishou.bi.entity.Node;
 import com.aihuishou.bi.entity.NodeAuth;
 import com.aihuishou.bi.utils.StringEx;
@@ -65,12 +66,7 @@ public class NodeService extends BaseService {
         }
         String sql = "INSERT INTO bi_nodes(position, url, name, mount, parent_position, state, empno, empname, create_time, update_time, genre) VALUES (?,?,?,?,?,?,?,?,now(),now(),'1');";
         QueryRunner dbUtils = new QueryRunner(dataSource);
-        return dbUtils.update(sql, position, nodeVO.getUrl(), nodeVO.getName(), mount,
-                parent, nodeVO.getState(), nodeVO.getEmpno(), nodeVO.getEmpname());
-        //sql = "INSERT INTO node_auth(node_position, auth_name) VALUES (?, ?);";
-        //List<String> auth = nodeVO.getAuth();
-        //待实现
-        //dbUtils.update(sql, position, nodeVO.getAuth());
+        return dbUtils.update(sql, position, nodeVO.getUrl(), nodeVO.getName(), mount, parent, nodeVO.getState(), nodeVO.getEmpno(), nodeVO.getEmpname());
     }
 
     @AutoFill
@@ -86,13 +82,13 @@ public class NodeService extends BaseService {
         if(StringUtils.isNotBlank(parent)) {
             mount = "0";
         }
-        String sql = "UPDATE bi_nodes SET url = ?, name = ?, mount = ?, parent_position = ?, state = ?, update_time = now() WHERE id = ?;";
-        QueryRunner dbUtils = new QueryRunner(dataSource);
-        return dbUtils.update(sql, nodeVO.getUrl(), nodeVO.getName(), mount,
-                parent, nodeVO.getState(), nodeVO.getId());
-        //sql = "DELETE FROM node_auth WHERE node_position = ? AND auth_name = ?;";
-        //待实现
-        //sql = "INSERT INTO node_auth(node_position, auth_name) VALUES (?, ?);";
+        String sql = "UPDATE bi_nodes SET url = ?, name = ?, mount = ?, parent_position = ?, state = ? update_time = now() WHERE id = ?;";
+        String url = nodeVO.getUrl();
+        if(StringUtils.isNotBlank(url) && url.contains(SysConf.DAVINCI_SHARE_LINK_PREFIX)) {
+            sql = "UPDATE bi_nodes SET url = ?, name = ?, mount = ?, parent_position = ?, state = ?, genre = '1' update_time = now() WHERE id = ?;";
+            return new QueryRunner(dataSource).update(sql, nodeVO.getUrl(), nodeVO.getName(), mount, parent, nodeVO.getState(), nodeVO.getId());
+        }
+        return new QueryRunner(dataSource).update(sql, url, nodeVO.getName(), mount, parent, nodeVO.getState(), nodeVO.getId());
     }
 
     public int deleteNode(Long id) throws SQLException {
@@ -180,6 +176,9 @@ public class NodeService extends BaseService {
         String sql = "select id, position, url, auth, path, name, parent_position AS parentPosition,mount,genre from bi_nodes where position = ? order by update_time desc limit 0,1;";
         Node node = new QueryRunner(dataSource).query(sql, new BeanHandler<>(Node.class), position);
         String path = getFinalPath(position);
+        if(path == null) {
+            return null;
+        }
         node.setPath(path);
         return node;
     }
