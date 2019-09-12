@@ -50,9 +50,9 @@ public class AuthService extends BaseService {
                 return false;
             }
             String target = position;
-            if(mapping != null && StringUtils.isNotBlank(mapping.get(position))) {
+            /*if(mapping != null && StringUtils.isNotBlank(mapping.get(position))) {
                 target = mapping.get(target);
-            }
+            }*/
             //菜单权限
             List<String> menuAuthList = menuAuthMap.get(target);
             //如果菜单没有配置权限，意味所有人都能看
@@ -71,9 +71,9 @@ public class AuthService extends BaseService {
     public List<String> auth(String position, Map<String, List<String>> menuAuthMap, Map<String, String> mapping) {
         try {
             String target = position;
-            if(mapping != null && StringUtils.isNotBlank(mapping.get(position))) {
+            /*if(mapping != null && StringUtils.isNotBlank(mapping.get(position))) {
                 target = mapping.get(target);
-            }
+            }*/
             //菜单权限
             return  menuAuthMap.get(target);
         } catch (Exception e) {
@@ -170,16 +170,16 @@ public class AuthService extends BaseService {
 
     @Transactional
     public int grantAuth(GrantVO grantVO) throws SQLException {
-        Mapping mapping = mappingService.getModel(grantVO.getPosition());
+        //Mapping mapping = mappingService.getModel(grantVO.getPosition());
         String target = grantVO.getPosition();
-        if(mapping != null) {
+        /*if(mapping != null) {
             target = mapping.getTarget();
-        }
+        }*/
         String sql = "DELETE FROM node_auth WHERE node_position = ?;";
         QueryRunner dbUtils = new QueryRunner(dataSource);
-        if(mapping != null) {
+        /*if(mapping != null) {
             dbUtils.update(sql, grantVO.getPosition());
-        }
+        }*/
         dbUtils.update(sql, target);
         List<String> authList = grantVO.getAuth();
         if(authList == null || authList.size() == 0) {
@@ -215,11 +215,11 @@ public class AuthService extends BaseService {
     }
 
     public List<String> getMenuAuth(String position) throws SQLException {
-        Mapping mapping = mappingService.getModel(position);
+        //Mapping mapping = mappingService.getModel(position);
         String target = position;
-        if(mapping != null) {
+        /*if(mapping != null) {
             target = mapping.getTarget();
-        }
+        }*/
         String sql = "SELECT auth_name AS auth FROM node_auth WHERE node_position = ?;";
         return new QueryRunner(dataSource).query(sql, new ColumnListHandler<>("auth"), target);
     }

@@ -117,16 +117,17 @@ public class NodeService extends BaseService {
         if(nodes != null && nodes.size() != 0) {
             StringBuilder sb = new StringBuilder();
             List<String> positions = nodes.stream().map(Node::getPosition).collect(Collectors.toList());
-            Map<String, String> maps = mappingService.getModelMap(positions);
+            //Map<String, String> maps = mappingService.getModelMap(positions);
 
             sb.append("SELECT node_position as position, group_concat(auth_name SEPARATOR ',') AS authName FROM node_auth WHERE node_position in (");
             for(int i = 0; i < nodes.size(); i++) {
                 String sourcePosition = nodes.get(i).getPosition();
-                if(maps != null && maps.containsKey(sourcePosition)) {
+                /*if(maps != null && maps.containsKey(sourcePosition)) {
                     sb.append("'").append(maps.get(sourcePosition)).append("'");
                 } else {
                     sb.append("'").append(sourcePosition).append("'");
-                }
+                }*/
+                sb.append("'").append(sourcePosition).append("'");
                 if(i != nodes.size() - 1) {
                     sb.append(",");
                 }
@@ -139,11 +140,12 @@ public class NodeService extends BaseService {
                 nodes.stream().peek(p -> {
                     String po = p.getPosition();
                     String auth = "";
-                    if(maps != null && maps.containsKey(po)) {
+                    /*if(maps != null && maps.containsKey(po)) {
                         auth = authMap.get(maps.get(po));
                     } else {
                         auth = authMap.get(po);
-                    }
+                    }*/
+                    auth = authMap.get(po);
                     if(StringUtils.isNotBlank(auth)) {
                         //String tar = StringUtils.substringBeforeLast(auth, ",");
                         p.setAuth(auth);
