@@ -109,8 +109,11 @@ public class MenuService {
             mNodes.stream().forEach(n -> {
                 mergeNode(part, n, menuAuthMap, userAuthList, mapping, keyWord);
             });
-
-            if(part.size() > 1) {
+            if(StringUtils.isNotBlank(keyWord)) {
+                if(part.size() > 1) {
+                    merge.addAll(part);
+                }
+            } else {
                 merge.addAll(part);
             }
         });
