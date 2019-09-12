@@ -82,7 +82,7 @@ public class MenuService {
         //获取菜单和权限映射关系，规定哪些报表只有那些人拥有哪些权限才能看
         Map<String, List<String>> menuAuthMap = authService.menuAuth();
 
-        List<String> userAuthList = authService.userAuthFromMongo(obId);
+        List<String> userAuthList = authService.userAuth(obId);
         Map<String, String> mapping = mappingService.getMapping();
 
         mounts.stream().forEach(m -> {
@@ -109,8 +109,11 @@ public class MenuService {
             mNodes.stream().forEach(n -> {
                 mergeNode(part, n, menuAuthMap, userAuthList, mapping, keyWord);
             });
-
-            if(part.size() > 1) {
+            if(StringUtils.isNotBlank(keyWord)) {
+                if(part.size() > 1) {
+                    merge.addAll(part);
+                }
+            } else {
                 merge.addAll(part);
             }
         });

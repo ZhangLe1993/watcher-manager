@@ -50,9 +50,9 @@ public class AuthService extends BaseService {
                 return false;
             }
             String target = position;
-            if(mapping != null && StringUtils.isNotBlank(mapping.get(position))) {
+            /*if(mapping != null && StringUtils.isNotBlank(mapping.get(position))) {
                 target = mapping.get(target);
-            }
+            }*/
             //菜单权限
             List<String> menuAuthList = menuAuthMap.get(target);
             //如果菜单没有配置权限，意味所有人都能看
@@ -71,9 +71,9 @@ public class AuthService extends BaseService {
     public List<String> auth(String position, Map<String, List<String>> menuAuthMap, Map<String, String> mapping) {
         try {
             String target = position;
-            if(mapping != null && StringUtils.isNotBlank(mapping.get(position))) {
+            /*if(mapping != null && StringUtils.isNotBlank(mapping.get(position))) {
                 target = mapping.get(target);
-            }
+            }*/
             //菜单权限
             return  menuAuthMap.get(target);
         } catch (Exception e) {
@@ -95,22 +95,14 @@ public class AuthService extends BaseService {
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<>(NodeAuth.class));
     }
 
-    public List<String> userAuthTest(String obId) throws SQLException {
-        String in = new SQL() {
-            {
-                SELECT("distinct d.name");
-                FROM("ods_ob_foundation_observerrole a");
-                JOIN("ods_ob_foundation_role b ON a.roleid = b.id");
-                JOIN("ods_ob_foundation_roleoperation c ON b.id = c.roleid");
-                JOIN("ods_ob_foundation_operation d ON c.operationid=d.id");
-                WHERE("a.active = 1 and b.active = 1 and c.active = 1 and d.active = 1 and a.observerid = " + obId);
-            }
-        }.toString();
-        return new QueryRunner(dataSource).query(in, new ColumnListHandler<String>("name"));
-    }
-
-    @Cacheable(value = CacheConf.LIST_USER_AUTH, key = "#obId")
-    public List<String> userAuth(String obId) throws SQLException {
+    /**
+     * 暂时废弃
+     * @param obId
+     * @return
+     * @throws SQLException
+     */
+    /*@Cacheable(value = CacheConf.LIST_USER_AUTH, key = "#obId")*/
+    public List<String> userAuth0(String obId) throws SQLException {
         String in = new SQL() {
             {
                 SELECT("distinct d.name");
@@ -143,18 +135,51 @@ public class AuthService extends BaseService {
         return list.stream().map(UserPermissionStats :: getAccessName).collect(Collectors.toList());
     }
 
+    /**
+     * 直接获取接口落地的数据
+     * @param obId
+     * @return
+     */
+    @Cacheable(value = CacheConf.LIST_USER_AUTH, key = "#obId")
+    public List<String> userAuth(String obId)  throws SQLException {
+        String in = "select access_name as name from user_operation where observer_id = " + Long.parseLong(obId);
+        List<String> list = new QueryRunner(dataSource).query(in, new ColumnListHandler<String>("name"));
+        other(list);
+        return list;
+    }
+
+    /**
+     * 取出Watcher中关联在Mongo中的数据
+     * @param list
+     * @throws SQLException
+     */
+    private void other(List<String> list) throws SQLException {
+        String sql = new SQL() {
+            {
+                SELECT("distinct source_operation as name");
+                FROM("operation_mapping");
+                WHERE("target_operation in (" + StringUtils.join(list.stream().map(p -> "'" + p + "'").collect(Collectors.toList()), ",") + ")");
+            }
+        }.toString();
+        List<String> other = new QueryRunner(dataSource).query(sql, new ColumnListHandler<String>("name"));
+        //other相对于list的茶集
+        other.removeAll(list);
+        //合并
+        list.addAll(other);
+    }
+
     @Transactional
     public int grantAuth(GrantVO grantVO) throws SQLException {
-        Mapping mapping = mappingService.getModel(grantVO.getPosition());
+        //Mapping mapping = mappingService.getModel(grantVO.getPosition());
         String target = grantVO.getPosition();
-        if(mapping != null) {
+        /*if(mapping != null) {
             target = mapping.getTarget();
-        }
+        }*/
         String sql = "DELETE FROM node_auth WHERE node_position = ?;";
         QueryRunner dbUtils = new QueryRunner(dataSource);
-        if(mapping != null) {
+        /*if(mapping != null) {
             dbUtils.update(sql, grantVO.getPosition());
-        }
+        }*/
         dbUtils.update(sql, target);
         List<String> authList = grantVO.getAuth();
         if(authList == null || authList.size() == 0) {
@@ -190,11 +215,11 @@ public class AuthService extends BaseService {
     }
 
     public List<String> getMenuAuth(String position) throws SQLException {
-        Mapping mapping = mappingService.getModel(position);
+        //Mapping mapping = mappingService.getModel(position);
         String target = position;
-        if(mapping != null) {
+        /*if(mapping != null) {
             target = mapping.getTarget();
-        }
+        }*/
         String sql = "SELECT auth_name AS auth FROM node_auth WHERE node_position = ?;";
         return new QueryRunner(dataSource).query(sql, new ColumnListHandler<>("auth"), target);
     }

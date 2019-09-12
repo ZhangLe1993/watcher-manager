@@ -1,4 +1,4 @@
-Template.financeMSTR.rendered = function () {
+Template.overseaFinanceMSTR.rendered = function () {
     $('.navi-tab').removeClass('active');
     $('#OverseasBusinessUnitTab').addClass('active');
     $('#financeMSTR').addClass('active');
