@@ -142,7 +142,7 @@ public class AuthService extends BaseService {
      */
     @Cacheable(value = CacheConf.LIST_USER_AUTH, key = "#obId")
     public List<String> userAuth(String obId)  throws SQLException {
-        String in = "select access_name as name from user_operation where observer_id = " + Long.parseLong(obId);
+        String in = "select access_name as name from user_operation_min where observer_id = " + Long.parseLong(obId);
         List<String> list = new QueryRunner(dataSource).query(in, new ColumnListHandler<String>("name"));
         other(list);
         return list;
