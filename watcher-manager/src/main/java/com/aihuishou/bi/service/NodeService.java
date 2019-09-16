@@ -103,7 +103,7 @@ public class NodeService extends BaseService {
 
 
     public List<Node> getNodes(String key, String parent, Integer pageIndex, Integer pageSize) throws SQLException {
-        String sql = "SELECT a.id, a.position, a.url, CONCAT_WS('/',e. NAME,d. NAME,c. NAME,b. NAME,a. NAME) AS name, a.mount, a.parent_position AS parentPosition, a.state, a.sort_no AS sortNo, a.genre FROM bi_nodes a"
+        String sql = "SELECT a.id, a.position, a.url, a.name, a.mount, a.parent_position AS parentPosition, a.state, a.sort_no AS sortNo, a.genre FROM bi_nodes a"
                 + " left join bi_folder b ON a.parent_position = b.position"
                 + " left join bi_folder c ON b.parent_position = c.position"
                 + " left join bi_folder d ON c.parent_position = d.position"
