@@ -1,6 +1,7 @@
 package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.core.CacheConf;
+import com.aihuishou.bi.core.Sort;
 import com.aihuishou.bi.entity.Folder;
 import com.aihuishou.bi.entity.Mount;
 import com.aihuishou.bi.entity.Node;
@@ -142,6 +143,7 @@ public class MenuService {
         folder.put("position", f.getPosition());
         folder.put("children", children);
         folder.put("path", "/page/" + f.getPath());
+        folder.put("sort", f.getSortNo());
         merge.add(folder);
     }
 
@@ -152,20 +154,21 @@ public class MenuService {
             return;
         }
         Map<String, Object> node = new ConcurrentHashMap<>();
-        List<String> menuAuth = authService.auth(n.getPosition(), menuAuthMap, mapping);
+        //List<String> menuAuth = authService.auth(n.getPosition(), menuAuthMap, mapping);
         node.put("is_mount", false);
         node.put("icon", "monitor");
         node.put("name", name);
         node.put("component", position);
         node.put("exact", true);
-        node.put("auths", menuAuth == null ? new ArrayList<>() : menuAuth);
+        //node.put("auths", menuAuth == null ? new ArrayList<>() : menuAuth);
         node.put("path", "/page/" + n.getPath());
-        node.put("auth", (Boolean) authService.auth(n.getPosition(), menuAuthMap, userAuthList, mapping));
+        //node.put("auth", (Boolean) authService.auth(n.getPosition(), menuAuthMap, userAuthList, mapping));
         String genre = n.getGenre();
         node.put("genre", genre);
         if ("1".equals(genre)) {
             node.put("url", n.getUrl());
         }
+        node.put("sort", n.getSortNo());
         merge.add(node);
     }
 
@@ -186,7 +189,7 @@ public class MenuService {
         tempN.stream().forEach(ele -> {
             mergeNode(children, ele, menuAuthMap, userAuthList, mapping, keyWord);
         });
-        return children;
+        return children.stream().sorted(Comparator.comparing(Sort :: comparingBySortNo)).collect(Collectors.toList());
     }
 
 

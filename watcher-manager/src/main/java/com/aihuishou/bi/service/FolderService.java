@@ -28,7 +28,7 @@ public class FolderService extends BaseService {
     public List<Folder> folders() throws SQLException {
         String sql = new SQL() {
             {
-                SELECT("a.id, a.mount, a.name, a.position, a.parent_position AS parentPosition, CONCAT_WS('/', e.position, d.position,c.position,b.position,a.position) as path");
+                SELECT("a.id, a.mount, a.name, a.position, a.parent_position AS parentPosition, CONCAT_WS('/', e.position, d.position,c.position,b.position,a.position) as path, a.sort_no AS sortNo");
                 FROM("bi_folder a");
                 LEFT_OUTER_JOIN("bi_folder b on a.parent_position = b.position");
                 LEFT_OUTER_JOIN("bi_folder c on b.parent_position = c.position");
