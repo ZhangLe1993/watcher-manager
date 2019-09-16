@@ -195,7 +195,7 @@ public class AuthService extends BaseService {
     }
 
     public List<String> getAllAuth(String key, Integer pageIndex, Integer pageSize) throws SQLException {
-        String sql = "select distinct name from ods_ob_foundation_operation WHERE 1=1 ";
+        /*String sql = "select distinct name from ods_ob_foundation_operation WHERE 1=1 ";
         if(StringUtils.isNotBlank(key)) {
             sql += " AND name like '%" + key + "%'";
         }
@@ -203,13 +203,23 @@ public class AuthService extends BaseService {
             int a = (pageIndex - 1) * pageSize;
             sql += " ORDER BY name DESC LIMIT " + pageSize + " OFFSET " + a + ";";
         }
+
+        return new QueryRunner(dataSource).query(sql, new ColumnListHandler<String>("name"));*/
+        String sql = "select distinct source_operation as name from operation_mapping where 1=1 ";
+        if(StringUtils.isNotBlank(key)) {
+            sql += " AND source_operation like '%" + key + "%'";
+        }
+        if(pageIndex != null && pageSize != null) {
+            int a = (pageIndex - 1) * pageSize;
+            sql += " ORDER BY source_operation DESC LIMIT " + pageSize + " OFFSET " + a + ";";
+        }
         return new QueryRunner(dataSource).query(sql, new ColumnListHandler<String>("name"));
     }
 
     public Long countAllAuth(String key) throws SQLException {
-        String sql = "select count(*) AS num from ods_ob_foundation_operation WHERE 1=1 ";
+        String sql = "select count(distinct source_operation) AS num from operation_mapping WHERE 1=1 ";
         if(StringUtils.isNotBlank(key)) {
-            sql += " AND name like '%" + key + "%'";
+            sql += " AND source_operation like '%" + key + "%'";
         }
         return new QueryRunner(dataSource).query(sql, new ScalarHandler<>("num"));
     }
