@@ -2,10 +2,7 @@ package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.dao.JoinDao;
 import com.aihuishou.bi.utils.StringEx;
-import com.aihuishou.bi.vo.OperationRoleVo;
-import com.aihuishou.bi.vo.RoleOperationVO;
-import com.aihuishou.bi.vo.RoleUserVo;
-import com.aihuishou.bi.vo.UserRoleVO;
+import com.aihuishou.bi.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -157,4 +154,75 @@ public class JoinService {
         return 1;
     }
 
+
+    /**
+     * 用户绑定权限
+     * @param uo
+     * @return
+     * @throws SQLException
+     */
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public int userJoinOperation(UserOperationVO uo) throws SQLException {
+        Long obId = uo.getOb();
+        List<String> operations = uo.getOperations();
+        if(operations == null || operations.size() == 0) {
+            //1、查询已经存在的
+            List<String> exists = joinDao.getExistsOperation(obId);
+            //直接删除并返回
+            return joinDao.updateUO(obId, exists);
+        }
+        //1、查询已经存在的
+        List<String> exists = joinDao.getExistsOperation(obId);
+        if(exists == null || exists.size() == 0) {
+            //如果不存在，那么全部新增之后返回
+            return joinDao.createUO(obId, operations);
+        }
+        //2、差集 求出需要新增的   新增设置为  1
+        List<String> add = StringEx.copyUtil(operations);
+        add.removeAll(exists);
+        joinDao.createUO(obId, add);
+
+        //3、差集  求出需要剔除的  设置为 0
+        List<String> del = StringEx.copyUtil(exists);
+        del.removeAll(operations);
+        joinDao.updateUO(obId, del);
+
+        //4、求出交集，并全部设置为active为 1，交集是不用新增的
+        //List<String> join = roleIds.stream().filter(exists::contains).collect(Collectors.toList());
+        //joinDao.update(obId, join, 0, 1);
+        return 1;
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public int operationJoinUser(OperationUserVO ou) throws SQLException {
+        String operation = ou.getOperation();
+        List<Long> obIds = ou.getIds();
+        if(obIds == null || obIds.size() == 0) {
+            //1、查询已经存在的
+            List<Long> exists = joinDao.getExistsUser(operation);
+            //取钱不删除并返回
+            return joinDao.update4(operation, exists);
+        }
+        //1、查询已经存在的
+        List<Long> exists = joinDao.getExistsUser(operation);
+        if(exists == null || exists.size() == 0) {
+            //如果不存在，那么全部新增之后返回
+            return joinDao.create4(operation, obIds);
+        }
+        //2、差集 求出需要新增的   新增设置为  1
+        List<Long> add = StringEx.copyUtil(obIds);
+        add.removeAll(exists);
+        joinDao.create4(operation, add);
+
+        //3、差集  求出需要剔除的  设置为 0
+        List<Long> del = StringEx.copyUtil(exists);
+        del.removeAll(obIds);
+        joinDao.update4(operation, del);
+
+        //4、求出交集，并全部设置为active为 1
+        /*List<Long> join = obIds.stream().filter(exists::contains).collect(Collectors.toList());
+        joinDao.update4(roleId, join, 0, 1);*/
+        return 1;
+    }
 }

@@ -25,7 +25,6 @@ public class PermissionDao {
         return new QueryRunner(dataSource).update(sql, permission.getName(), permission.getAlias(), permission.getDescription());
     }
 
-
     //删除
     public int delete(Integer id) throws SQLException {
         String sql = "update ods_ob_foundation_operation set active = 0 , lastmoddt = now() where active = 1 and id = ?;";
@@ -41,8 +40,6 @@ public class PermissionDao {
         String sql = "update ods_ob_foundation_operation set group_sql = ?, lastmoddt = now() where active = 1 and id = ?";
         return new QueryRunner(dataSource).update(sql, permission.getGroupSQL(), permission.getId());
     }
-
-
 
     public List<Permission> getList(String key, int offset, int limit) throws SQLException {
         String sql = "select id,name,alias,description,active from ods_ob_foundation_operation where active = 1 ";

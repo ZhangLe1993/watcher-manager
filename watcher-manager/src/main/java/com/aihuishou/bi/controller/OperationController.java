@@ -2,9 +2,9 @@ package com.aihuishou.bi.controller;
 
 import com.aihuishou.bi.annotation.Delete;
 import com.aihuishou.bi.annotation.SystemLog;
-import com.aihuishou.bi.entity.Permission;
-import com.aihuishou.bi.entity.Role;
-import com.aihuishou.bi.service.PermissionService;
+import com.aihuishou.bi.entity.Operation;
+import com.aihuishou.bi.entity.User;
+import com.aihuishou.bi.service.OperationService;
 import com.aihuishou.bi.utils.ExceptionInfo;
 import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
@@ -18,23 +18,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 新的权限接口
+ */
 @RestController
-@RequestMapping(value = "/permission", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class PermissionController {
+@RequestMapping(value = "/privileges", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public class OperationController {
 
-    private static final Logger logger = LoggerFactory.getLogger(PermissionController.class);
+    private static final Logger logger = LoggerFactory.getLogger(OperationController.class);
 
     @Autowired
-    private PermissionService permissionService;
+    private OperationService operationService;
+
 
     @SystemLog(description = "查询权限")
     @GetMapping("")
-    public ResponseEntity allPermission(@RequestParam(value = "key", required = false) String key,
-                                   @RequestParam(value = "page_index", required = false, defaultValue = "1") int pageIndex,
-                                   @RequestParam(value = "page_size", required = false, defaultValue = "10000") int pageSize) {
+    public ResponseEntity allOperation(@RequestParam(value = "key", required = false) String key,
+                                        @RequestParam(value = "page_index", required = false, defaultValue = "1") int pageIndex,
+                                        @RequestParam(value = "page_size", required = false, defaultValue = "10000") int pageSize) {
         try{
-            List<Permission> mounts = permissionService.getList(key, pageIndex, pageSize);
-            return new ResponseEntity<>(ImmutableMap.of("data", mounts,"total", permissionService.count(key)), HttpStatus.OK);
+            List<Operation> mounts = operationService.getList(key, pageIndex, pageSize);
+            return new ResponseEntity<>(ImmutableMap.of("data", mounts,"total", operationService.count(key)), HttpStatus.OK);
         } catch(Exception e) {
             logger.error("匹配异常，异常信息: {}", ExceptionInfo.toString(e));
         }
@@ -44,9 +48,9 @@ public class PermissionController {
     @SystemLog(description = "新增操作权限")
     @Delete
     @PostMapping("")
-    public ResponseEntity createPermission(@RequestBody Permission permission) {
+    public ResponseEntity createPermission(@RequestBody Operation operation) {
         try{
-            int count = permissionService.create(permission);
+            int count = operationService.insert(operation);
             if(count > 0) return new ResponseEntity<>("新增操作权限成功", HttpStatus.OK);
             return new ResponseEntity<>("新增操作权限失败", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
@@ -58,9 +62,9 @@ public class PermissionController {
     @SystemLog(description = "修改操作权限")
     @Delete
     @PutMapping("")
-    public ResponseEntity updateOperation(@RequestBody Permission permission) {
+    public ResponseEntity updateOperation(@RequestBody Operation operation) {
         try{
-            int count = permissionService.update(permission);
+            int count = operationService.update(operation);
             if(count > 0) return new ResponseEntity<>("修改操作权限成功", HttpStatus.OK);
             return new ResponseEntity<>("修改操作权限失败", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
@@ -72,9 +76,9 @@ public class PermissionController {
     @SystemLog(description = "删除操作权限")
     @Delete
     @DeleteMapping("")
-    public ResponseEntity deleteMount(Integer id) {
+    public ResponseEntity deleteOperation(Integer id) {
         try{
-            int count = permissionService.delete(id);
+            int count = operationService.delete(id);
             if(count > 0) return new ResponseEntity<>("删除操作权限成功", HttpStatus.OK);
             return new ResponseEntity<>("删除操作权限失败", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
@@ -84,20 +88,19 @@ public class PermissionController {
     }
 
     /**
-     * 权限已经绑定了的角色
-     * @param operationId
+     * 权限已经绑定了的用户
+     * @param operation
      * @return
      */
-    @GetMapping("/role")
-    public ResponseEntity operationRole(@RequestParam(value = "operation_id") Integer operationId) {
+    @GetMapping("/user")
+    public ResponseEntity operationRole(@RequestParam(value = "operation") String operation) {
         try {
-            List<Role> roles = permissionService.hasOwner(operationId);
+            List<User> roles = operationService.hasOwner(operation);
             return new ResponseEntity<>(roles, HttpStatus.OK);
         } catch(Exception e) {
             logger.error("查询权限已经绑定了的角色异常，异常信息: {}", ExceptionInfo.toString(e));
         }
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 
 }
