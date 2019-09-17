@@ -73,6 +73,20 @@ public class UserController {
     }
 
 
-
+    /**
+     * 用户已经绑定了的角色
+     * @param obId
+     * @return
+     */
+    @GetMapping("/privileges")
+    public ResponseEntity userOperation(@RequestParam(value = "ob_id") Long obId) {
+        try {
+            List<String> operations = userService.hasOperation(obId);
+            return new ResponseEntity<>(operations, HttpStatus.OK);
+        } catch(Exception e) {
+            logger.error("查询用户已绑定权限异常，异常信息: {}", ExceptionInfo.toString(e));
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 }

@@ -1,13 +1,9 @@
 package com.aihuishou.bi.controller;
 
 import com.aihuishou.bi.annotation.Delete;
-import com.aihuishou.bi.annotation.Update;
 import com.aihuishou.bi.service.JoinService;
 import com.aihuishou.bi.utils.ExceptionInfo;
-import com.aihuishou.bi.vo.OperationRoleVo;
-import com.aihuishou.bi.vo.RoleOperationVO;
-import com.aihuishou.bi.vo.RoleUserVo;
-import com.aihuishou.bi.vo.UserRoleVO;
+import com.aihuishou.bi.vo.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,5 +81,41 @@ public class JoinController {
         return new ResponseEntity<>("权限绑定角色失败", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+
+    /**
+     * 权限绑定用户
+     * @param ou
+     * @return
+     */
+    @PostMapping("/privileges/user")
+    @Delete
+    public ResponseEntity operationJoinUser(@RequestBody OperationUserVO ou) {
+        try {
+            int count = joinService.operationJoinUser(ou);
+            if(count > 0) return new ResponseEntity<>("权限绑定用户成功", HttpStatus.OK);
+            return new ResponseEntity<>("权限绑定用户失败", HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch(Exception e) {
+            logger.error("权限绑定用户异常，异常信息: {}", ExceptionInfo.toString(e));
+        }
+        return new ResponseEntity<>("权限绑定用户失败", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * 用户绑定权限
+     * @param uo
+     * @return
+     */
+    @PostMapping("/user/privileges")
+    @Delete
+    public ResponseEntity userJoinOperation(@RequestBody UserOperationVO uo) {
+        try {
+            int count = joinService.userJoinOperation(uo);
+            if(count > 0) return new ResponseEntity<>("用户绑定权限成功", HttpStatus.OK);
+            return new ResponseEntity<>("用户绑定权限失败", HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch(Exception e) {
+            logger.error("用户绑定权限异常，异常信息: {}", ExceptionInfo.toString(e));
+        }
+        return new ResponseEntity<>("用户绑定权限失败", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 }
