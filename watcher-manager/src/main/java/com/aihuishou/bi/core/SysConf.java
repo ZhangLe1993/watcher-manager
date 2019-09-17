@@ -10,5 +10,5 @@ public class SysConf {
     public final static String POINT_TYPE_START = "start";
     public final static String POINT_TYPE_END = "end";
 
-    public final static String DAVINCI_SHARE_LINK_PREFIX = "http://47.97.240.5:8092/share.html#share/dashboard?shareInfo=";
+    public final static String DAVINCI_SHARE_LINK_PREFIX = "http://47.97.240.5:8092/share.html";
 }
