@@ -24,6 +24,8 @@ import {
   findMenuItem,
   getCleanArr,
 } from '../utils/utils';
+
+import MenuSearch from './MenuSearch'
 // import logo from '../assets/logo.svg';
 /**
  * use Authorized check all menu item
@@ -86,12 +88,12 @@ const BasicLayout = props => {
    * init variables
    */
 
-  const handleMenuCollapse = payload =>{
+  const handleMenuCollapse = payload => {
     dispatch &&
-    dispatch({
-      type: 'global/changeLayoutCollapsed',
-      payload,
-    });
+      dispatch({
+        type: 'global/changeLayoutCollapsed',
+        payload,
+      });
   }
   const saveMenuName = payload =>
     dispatch &&
@@ -125,15 +127,15 @@ const BasicLayout = props => {
 
   const headerRender = (props) => {
     const { userName } = props;
-    const currPathArr = window.location.pathname.split("/").filter(v=>v);
-    let searchDeep=0;
+    const currPathArr = window.location.pathname.split("/").filter(v => v);
+    let searchDeep = 0;
     const titleArr = [];
     let searchArr = menuData;
     while (searchArr && searchArr.length > 0) {
       let goIn = false;//进入下一层搜索
       for (let i = 0; i < searchArr.length; i++) {
         let node = searchArr[i];
-        if ('/'+currPathArr.slice(0,searchDeep+2).join("/")===node.path) {
+        if ('/' + currPathArr.slice(0, searchDeep + 2).join("/") === node.path) {
           titleArr.push(node.name);
           searchArr = node.children;
           goIn = true;
@@ -149,10 +151,9 @@ const BasicLayout = props => {
     return (
       <div className={style.header}>
         <div className={style.headerLeft}>
-            <Icon type={props.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={() => handleMenuCollapse(props.collapsed)}/>
-          <div className={style.title}>{title}</div>
-          {/* <Input placeholder="请输入搜索关键字"
-        className={style.searchInput} onChange={handleMenuKey} /> */}
+          <Icon type={props.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={() => handleMenuCollapse(props.collapsed)} />
+          <div className={style.title} style={{marginRight:30}}>{title}</div>
+          <MenuSearch />
         </div>
         <div className={style.headerRight}>
           <div className={style.user}>{userName}</div>
@@ -202,10 +203,6 @@ const BasicLayout = props => {
         }
         return <div onClick={e => myclick(e, menuItemProps, dom)} className={classNames}>{dom}</div>;
       }}
-
-      // menuItemRender = { (menuItemProps, dom) => {
-      //   return <Link to={menuItemProps.path}>{dom}</Link>;
-      // }}
 
       breadcrumbRender={(routers = []) => [
         {
