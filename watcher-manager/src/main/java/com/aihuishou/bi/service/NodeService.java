@@ -103,16 +103,21 @@ public class NodeService extends BaseService {
 
 
     public List<Node> getNodes(String key, String parent, Integer pageIndex, Integer pageSize) throws SQLException {
-        String sql = "SELECT id, position, url, name, mount, parent_position AS parentPosition, state, sort_no AS sortNo, genre FROM bi_nodes WHERE 1=1 ";
-        String append = " AND name like ? ";
-        String append1 = " AND parent_position = ?";
-        String suffix = " order by id asc limit ?,?;";
+        String sql = "SELECT a.id, a.position, a.url, a.name, a.mount, a.parent_position AS parentPosition, a.state, a.sort_no AS sortNo, a.genre FROM bi_nodes a"
+                + " left join bi_folder b ON a.parent_position = b.position"
+                + " left join bi_folder c ON b.parent_position = c.position"
+                + " left join bi_folder d ON c.parent_position = d.position"
+                + " left join bi_folder e ON d.parent_position = e.position"
+                + " WHERE 1=1 ";
+        String append = " AND a.name like ? ";
+        String append1 = " or b.name like ?";
+        String suffix = " order by a.id asc limit ?,?;";
         //return this.getAbstractPageList(Node.class, sql, suffix, key, parent, pageIndex, pageSize, append, append1);
-        List<Node> nodes = super.getAbstractPageList(Node.class, sql, suffix, key, parent, pageIndex, pageSize, append, append1);
+        List<Node> nodes = super.getAbstractPageList(Node.class, sql, suffix, key, "%" + key + "%", pageIndex, pageSize, append, append1);
         //List<Node> res = new ArrayList<>();
         if(nodes != null && nodes.size() != 0) {
             StringBuilder sb = new StringBuilder();
-            List<String> positions = nodes.stream().map(Node::getPosition).collect(Collectors.toList());
+            //List<String> positions = nodes.stream().map(Node::getPosition).collect(Collectors.toList());
             //Map<String, String> maps = mappingService.getModelMap(positions);
 
             sb.append("SELECT node_position as position, group_concat(auth_name SEPARATOR ',') AS authName FROM node_auth WHERE node_position in (");
@@ -135,13 +140,13 @@ public class NodeService extends BaseService {
                 Map<String, String> authMap = authList.stream().collect(Collectors.toMap(NodeAuth:: getPosition, NodeAuth :: getAuthName, (oldVal, currVal) -> currVal));
                 nodes.stream().peek(p -> {
                     String po = p.getPosition();
-                    String auth = "";
+                    String auth = authMap.get(po);
                     /*if(maps != null && maps.containsKey(po)) {
                         auth = authMap.get(maps.get(po));
                     } else {
                         auth = authMap.get(po);
                     }*/
-                    auth = authMap.get(po);
+                    //auth = authMap.get(po);
                     if(StringUtils.isNotBlank(auth)) {
                         //String tar = StringUtils.substringBeforeLast(auth, ",");
                         p.setAuth(auth);
@@ -154,10 +159,12 @@ public class NodeService extends BaseService {
 
 
     public Long count(String key, String parent) {
-        String sql = "SELECT count(*) AS num FROM bi_nodes WHERE 1=1 ";
-        String append = " AND name like ? ";
-        String append1 = " AND parent_position = ?";
-        return super.count(sql, key, parent, append, append1);
+        String sql = "SELECT count(*) AS num FROM bi_nodes a "
+                + " left join bi_folder b ON a.parent_position = b.position"
+                + " WHERE 1=1 ";
+        String append = " AND a.name like ? ";
+        String append1 = " or b.name like ?";
+        return super.count(sql, key, "%" + key + "%", append, append1);
     }
 
 
