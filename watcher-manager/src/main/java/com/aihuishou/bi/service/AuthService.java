@@ -144,6 +144,9 @@ public class AuthService extends BaseService {
     public List<String> userAuth(String obId)  throws SQLException {
         String in = "select access_name as name from user_operation_min where active = 1 and observer_id = " + Long.parseLong(obId);
         List<String> list = new QueryRunner(dataSource).query(in, new ColumnListHandler<String>("name"));
+        if(list == null || list .size() == 0) {
+            return new ArrayList<>();
+        }
         other(list);
         return list;
     }
