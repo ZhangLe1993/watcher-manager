@@ -153,7 +153,7 @@ const BasicLayout = props => {
         <div className={style.headerLeft}>
           <Icon type={props.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={() => handleMenuCollapse(props.collapsed)} />
           <div className={style.title} style={{marginRight:30}}>{title}</div>
-          <MenuSearch />
+          {/* <MenuSearch /> */}
         </div>
         <div className={style.headerRight}>
           <div className={style.user}>{userName}</div>
