@@ -2,11 +2,12 @@ package com.aihuishou.bi.controller;
 
 import com.aihuishou.bi.annotation.Mark;
 import com.aihuishou.bi.annotation.SystemLog;
-import com.aihuishou.bi.cas.CasUtil;
 import com.aihuishou.bi.core.SysConf;
 import com.aihuishou.bi.entity.Mapping;
+import com.aihuishou.bi.entity.Node;
 import com.aihuishou.bi.service.AuthService;
 import com.aihuishou.bi.service.MappingService;
+import com.aihuishou.bi.service.NodeService;
 import com.aihuishou.bi.service.SysService;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.StringUtils;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 
 
@@ -40,6 +40,9 @@ public class RouteController {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private NodeService nodeService;
+
 
     @Mark(name = SysConf.POINT_TYPE_START)
     @SystemLog(point = true, description = "定位报表")
@@ -48,8 +51,19 @@ public class RouteController {
                            @RequestParam(value = "name") String name,
                            @RequestParam(value = "url") String url,
                            ModelMap model, HttpServletResponse response) throws FileNotFoundException, SQLException {
+        Node node = nodeService.nodeGenre(position);
+        if(node == null) {
+            return "redirect:/";
+        }
+        if("1".equalsIgnoreCase(node.getGenre())) {
+            return newView(position, node.getUrl(), model);
+        }
+        return oldView(position, model);
+    }
+
+    private String oldView(@RequestParam(value = "position") String position, ModelMap model) throws SQLException {
         String target = position;
-        boolean auth = auth(position);
+        boolean auth = authService.auth(position);
         boolean map = false;
         Mapping mapping = null;
         if(!auth) {
@@ -75,22 +89,24 @@ public class RouteController {
         return "base";
     }
 
-    /**
-     * 判断当前用户是否有菜单权限
-     * @param position
-     * @return
-     * @throws SQLException
-     */
-    private boolean auth(String position) throws SQLException {
-        Map<String, List<String>> menuAuthMap = authService.menuAuth();
-        String obId = CasUtil.getId();
-        if(StringUtils.isBlank(obId) || "-2".equalsIgnoreCase(obId)) {
-            return false;
+
+    private String newView(String position, String url, ModelMap model) throws SQLException {
+        boolean auth = authService.auth(position);
+        if(!auth) {
+            return toHome(model);
+        } else {
+            return "redirect:" + url;
         }
-        List<String> userAuthList = authService.userAuth(obId);
-        Map<String, String> mapping = mappingService.getMapping();
-        return authService.auth(position, menuAuthMap, userAuthList, mapping);
+
     }
 
+    private String toHome(ModelMap model) {
+        Map<String, String> positionMap = sysService.getPositionMap();
+        String loadName = positionMap.get("home") + SysConf.REST_JS_SUFFIX;
+        String staticName = positionMap.get("home") + SysConf.REST_HTML_SUFFIX;
+        model.addAttribute("model" , ImmutableMap.of("position", "home", "loadName", loadName, "staticName", staticName));
+        model.addAttribute("is_mapping", false);
+        return "base";
+    }
 
 }

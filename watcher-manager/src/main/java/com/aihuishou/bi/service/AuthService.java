@@ -1,7 +1,7 @@
 package com.aihuishou.bi.service;
 
+import com.aihuishou.bi.cas.CasUtil;
 import com.aihuishou.bi.core.CacheConf;
-import com.aihuishou.bi.entity.Mapping;
 import com.aihuishou.bi.entity.NodeAuth;
 import com.aihuishou.bi.live.model.UserPermissionStats;
 import com.aihuishou.bi.utils.ExceptionInfo;
@@ -42,6 +42,24 @@ public class AuthService extends BaseService {
 
     @Resource
     private MongoService mongoService;
+
+
+    /**
+     * 判断当前用户是否有菜单权限
+     * @param position
+     * @return
+     * @throws SQLException
+     */
+    public boolean auth(String position) throws SQLException {
+        Map<String, List<String>> menuAuthMap = menuAuth();
+        String obId = CasUtil.getId();
+        if(StringUtils.isBlank(obId) || "-2".equalsIgnoreCase(obId)) {
+            return false;
+        }
+        List<String> userAuthList = userAuth(obId);
+        Map<String, String> mapping = mappingService.getMapping();
+        return auth(position, menuAuthMap, userAuthList, mapping);
+    }
 
     public boolean auth(String position, Map<String, List<String>> menuAuthMap, List<String> userAuthList, Map<String, String> mapping) {
         try {
