@@ -26,9 +26,9 @@ class Iframe extends React.Component {
     };
   }
 
-  getPosition(path){
-    let arr=path.split('/')
-    return arr[arr.length-1]
+  getPosition(path) {
+    let arr = path.split('/')
+    return arr[arr.length - 1]
   }
 
   componentDidMount() {
@@ -40,20 +40,30 @@ class Iframe extends React.Component {
     const url2 = window.location.href;
     queryCurrentMenuItem(position).then(res => {
       const { genre, url } = res;
-        if (genre === '0') {
-          watcherIframe.src = `/route/base?position=${position}&name=${fullName}&url=${url2}`;
-          this.setState({ loading: true }, () => {
-            watcherIframe.onload = () => {
-              that.setState({ loading: false });
-              window.addEventListener('message', this.receiveMessage, false);
-              watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
-            };
-          });
-        } else if (genre === '1') {
-          watcherIframe.src = url;
+
+      watcherIframe.src = `/route/base?position=${position}&name=${fullName}&url=${url2}`;
+      this.setState({ loading: true }, () => {
+        watcherIframe.onload = () => {
+          that.setState({ loading: false });
           window.addEventListener('message', this.receiveMessage, false);
           watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
-        }
+        };
+      });
+
+      // if (genre === '0') {
+      //   watcherIframe.src = `/route/base?position=${position}&name=${fullName}&url=${url2}`;
+      //   this.setState({ loading: true }, () => {
+      //     watcherIframe.onload = () => {
+      //       that.setState({ loading: false });
+      //       window.addEventListener('message', this.receiveMessage, false);
+      //       watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
+      //     };
+      //   });
+      // } else if (genre === '1') {
+      //   watcherIframe.src = url;
+      //   window.addEventListener('message', this.receiveMessage, false);
+      //   watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
+      // }
     });
   }
 
@@ -68,33 +78,42 @@ class Iframe extends React.Component {
     if (prePosition !== nextPosition) {
       queryCurrentMenuItem(nextPosition).then(res => {
         const { genre, url } = res;
-        if (genre === '0') {
-          watcherIframe.src = `/route/base?position=${nextPosition}&name=${fullName}&url=${url2}`;
-          this.setState({ loading: true }, () => {
-            watcherIframe.onload = () => {
-              that.setState({ loading: false });
-              window.addEventListener('message', this.receiveMessage, false);
-              watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
-            };
-          });
-        // 新版本
-        } else if (genre === '1') {
-          const spin = document.getElementById('spin');
-          const antSpinContainer = spin.getElementsByClassName('ant-spin-container')[0];
-          // 采用移除iframe和新建iframe解决达芬奇url变化但页面不更新问题
-          watcherIframe.remove();
-          const newIframe = document.createElement('iframe');
-          newIframe.id = 'watcherIframe';
-          newIframe.src = url;
-          newIframe.scrolling = 'auto';
-          newIframe.frameBorder = '0';
-          newIframe.style.width = '100%';
-          newIframe.style.height = '100%';
-          antSpinContainer.appendChild(newIframe);
-          const newWatcherIframe = document.getElementById('watcherIframe');
-          window.addEventListener('message', this.receiveMessage, false);
-          newWatcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
-        }
+        
+        watcherIframe.src = `/route/base?position=${nextPosition}&name=${fullName}&url=${url2}`;
+        this.setState({ loading: true }, () => {
+          watcherIframe.onload = () => {
+            that.setState({ loading: false });
+            window.addEventListener('message', this.receiveMessage, false);
+            watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
+          };
+        });
+        // if (genre === '0') {
+        //   watcherIframe.src = `/route/base?position=${nextPosition}&name=${fullName}&url=${url2}`;
+        //   this.setState({ loading: true }, () => {
+        //     watcherIframe.onload = () => {
+        //       that.setState({ loading: false });
+        //       window.addEventListener('message', this.receiveMessage, false);
+        //       watcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
+        //     };
+        //   });
+        // // 新版本
+        // } else if (genre === '1') {
+        //   const spin = document.getElementById('spin');
+        //   const antSpinContainer = spin.getElementsByClassName('ant-spin-container')[0];
+        //   // 采用移除iframe和新建iframe解决达芬奇url变化但页面不更新问题
+        //   watcherIframe.remove();
+        //   const newIframe = document.createElement('iframe');
+        //   newIframe.id = 'watcherIframe';
+        //   newIframe.src = url;
+        //   newIframe.scrolling = 'auto';
+        //   newIframe.frameBorder = '0';
+        //   newIframe.style.width = '100%';
+        //   newIframe.style.height = '100%';
+        //   antSpinContainer.appendChild(newIframe);
+        //   const newWatcherIframe = document.getElementById('watcherIframe');
+        //   window.addEventListener('message', this.receiveMessage, false);
+        //   newWatcherIframe.style.height = `${height}px`;// 设置iframe高度，避免出现滚动条
+        // }
       });
     }
   }
@@ -189,7 +208,7 @@ class Iframe extends React.Component {
     return (
       <div style={{ height: '100%' }} id="iframeWrapper">
         <Spin delay={200} spinning={this.state.loading} id="spin">
-        <iframe id="watcherIframe" title="watcher" scrolling="auto" frameBorder="0" width="100%">{/* 占位 */}iframe</iframe>
+          <iframe id="watcherIframe" title="watcher" scrolling="auto" frameBorder="0" width="100%">{/* 占位 */}iframe</iframe>
         </Spin>
       </div>
     );
