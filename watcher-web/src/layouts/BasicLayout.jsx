@@ -201,7 +201,7 @@ const BasicLayout = props => {
         if (menuItemProps.is_mount) {
           classNames.push(style.mount);
         }
-        return <div onClick={e => myclick(e, menuItemProps, dom)} className={classNames}>{dom}</div>;
+        return <div style={{textOverflow:'ellipsis',overflow:'hidden'}} title={menuItemProps.name}  onClick={e => myclick(e, menuItemProps, dom)} className={classNames}>{dom}</div>;
       }}
 
       breadcrumbRender={(routers = []) => [

@@ -11,4 +11,14 @@ public class SysConf {
     public final static String POINT_TYPE_END = "end";
 
     public final static String DAVINCI_SHARE_LINK_PREFIX = "http://47.97.240.5:8092/share.html";
+
+    public final static String PARAM_DATE_FORMATTER = "yyyy-MM-dd";
+
+    public final static String PARAM_DATE_FORMATTER_H = "yyyy-MM-dd HH";
+
+    public final static String PARAM_DATE_FORMATTER_HM = "yyyy-MM-dd HH:mm";
+
+    public final static String PARAM_TIME_FORMATTER_HMS = "yyyy-MM-dd HH:mm:ss";
+
+    public final static String PARAM_DATE_FORMATTER_HMS_SSS = "yyyy-MM-dd HH:mm:ss.SSS";
 }
