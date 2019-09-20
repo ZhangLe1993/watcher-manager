@@ -334,8 +334,8 @@ const CreateMount = props => {
               width: '100%',
             }}
           >
-            <Option value="0">dev</Option>
-            <Option value="1">prod</Option>
+            <Option value="0">下线</Option>
+            <Option value="1">上线</Option>
           </Select>,
         )}
       </FormItem>

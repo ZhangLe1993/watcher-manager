@@ -68,7 +68,7 @@ class WatcherManagerNew extends Component {
     sortNoShow: false,
     expandedKeys: [],
     searchValue: '',
-    autoExpandParent: true,
+    autoExpandParent: false,
     data: this.data,
     createMountVisible: false,
     updateMountValues: {
