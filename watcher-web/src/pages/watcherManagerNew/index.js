@@ -925,7 +925,7 @@ class WatcherManagerNew extends Component {
       </Transfer>
     );
     return (
-      <Card style={{ height: window.innerHeight - 110 }}>
+      <Card style={{ minHeight: window.innerHeight - 110 }}>
         <Button
           type="primary"
           onClick={() => this.handleModalVisible(true, undefined)}
