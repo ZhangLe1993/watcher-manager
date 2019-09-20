@@ -1,8 +1,6 @@
-
 import slash from 'slash2';
 import webpackPlugin from './plugin.config';
 import defaultSettings from './defaultSettings'; // https://umijs.org/config/
-
 
 // preview.pro.ant.design only do not use in your production ;
 const { pwa, primaryColor } = defaultSettings;
@@ -109,6 +107,12 @@ export default {
           component: './watcherManager',
         },
         {
+          path: 'pages/manager',
+          name: 'managerNew',
+          icon: 'smile',
+          component: './watcherManagerNew',
+        },
+        {
           path: 'pages/permission_manager',
           name: 'manager',
           icon: 'smile',
@@ -182,7 +186,7 @@ export default {
       target: 'http://10.25.169.133:8112',
       changeOrigin: true,
     },
-   '/route': {
+    '/route': {
       target: 'http://10.25.169.133:8112',
       changeOrigin: true,
     },

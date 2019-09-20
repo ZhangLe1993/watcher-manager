@@ -36,12 +36,13 @@ class Iframe extends React.Component {
     const watcherIframe = document.getElementById('watcherIframe');
     const position = this.getPosition(document.location.href);
     const height = document.body.scrollHeight || document.documentElement.scrollHeight;
-    const fullName = window.sessionStorage.getItem('full_name');
-    const url2 = window.location.href;
+    let fullName = window.sessionStorage.getItem('full_name');
+    let url2 = window.location.href;
     queryCurrentMenuItem(position).then(res => {
       const { genre, url } = res;
-
-      watcherIframe.src = `/route/base?position=${position}&name=${fullName}&url=${url2}`;
+      fullName=encodeURI(fullName)
+      url2=encodeURI(url2)
+      watcherIframe.src = `/route/base?position=${position}&name=${fullName}&url=${url2}&t=${new Date().getTime()}`;
       this.setState({ loading: true }, () => {
         watcherIframe.onload = () => {
           that.setState({ loading: false });
@@ -73,13 +74,14 @@ class Iframe extends React.Component {
     const nextPosition = this.getPosition(nextProps.location.pathname);
     const height = document.body.scrollHeight || document.documentElement.scrollHeight;
     const watcherIframe = document.getElementById('watcherIframe');
-    const fullName = window.sessionStorage.getItem('full_name');
-    const url2 = window.location.href;
+    let fullName = window.sessionStorage.getItem('full_name');
+    let url2 = window.location.href;
     if (prePosition !== nextPosition) {
       queryCurrentMenuItem(nextPosition).then(res => {
         const { genre, url } = res;
-        
-        watcherIframe.src = `/route/base?position=${nextPosition}&name=${fullName}&url=${url2}`;
+        fullName=encodeURI(fullName)
+        url2=encodeURI(url2)
+        watcherIframe.src = `/route/base?position=${nextPosition}&name=${fullName}&url=${url2}&t=${new Date().getTime()}`;
         this.setState({ loading: true }, () => {
           watcherIframe.onload = () => {
             that.setState({ loading: false });
@@ -208,7 +210,7 @@ class Iframe extends React.Component {
     return (
       <div style={{ height: '100%' }} id="iframeWrapper">
         <Spin delay={200} spinning={this.state.loading} id="spin">
-          <iframe id="watcherIframe" title="watcher" scrolling="auto" frameBorder="0" width="100%">{/* 占位 */}iframe</iframe>
+          <iframe id="watcherIframe" title="watcher" scrolling="auto" frameBorder="0" width="100%" style={{minHeight:850}}>{/* 占位 */}iframe</iframe>
         </Spin>
       </div>
     );
