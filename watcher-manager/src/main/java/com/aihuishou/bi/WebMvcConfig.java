@@ -56,9 +56,12 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(deleteInterceptor()).addPathPatterns("/menu/**");
         registry.addInterceptor(notFoundInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns("/static/**", "/templates/dist/**", "/images/**", "/fonts/**", "/assets/**", "/images/**", "/watcher/**", "/vender/**", "*.js", "*.css");
-        registry.addInterceptor(resourceInterceptor()).addPathPatterns("/static/resources/**");
+        registry.addInterceptor(resourceInterceptor()).addPathPatterns("/static/**");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/images/loading.gif");
+        registry.addInterceptor(resourceInterceptor()).addPathPatterns("/assets/**");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/fonts");
+        registry.addInterceptor(resourceInterceptor()).addPathPatterns("/fonts/**");
+        registry.addInterceptor(resourceInterceptor()).addPathPatterns("/images/**");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/vendors.*.css");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/vendors.*.js");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/favicon.png");
