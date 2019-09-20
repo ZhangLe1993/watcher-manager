@@ -1,6 +1,9 @@
 package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.annotation.AutoFill;
+import com.aihuishou.bi.annotation.Track;
+import com.aihuishou.bi.core.Clazz;
+import com.aihuishou.bi.core.Operate;
 import com.aihuishou.bi.entity.Folder;
 import com.aihuishou.bi.utils.StringEx;
 import com.aihuishou.bi.vo.FolderVO;
@@ -45,10 +48,10 @@ public class FolderService extends BaseService {
 
     public List<Folder> folders(Integer mount) throws SQLException {
         if(mount == null) {
-            String sql = "select id, mount, name, position, parent_position AS parentPosition from bi_folder where 1=1 ;";
+            String sql = "select id, mount, name, position, parent_position AS parentPosition from bi_folder where 1=1 and state = '1';";
             return new QueryRunner(dataSource).query(sql, new BeanListHandler<Folder>(Folder.class));
         } else {
-            String sql = "select id, mount, name, position, parent_position AS parentPosition from bi_folder where 1=1 and mount = ?;";
+            String sql = "select id, mount, name, position, parent_position AS parentPosition from bi_folder where 1=1 and state = '1' and mount = ?;";
             return new QueryRunner(dataSource).query(sql, new BeanListHandler<Folder>(Folder.class), mount);
         }
     }
@@ -72,6 +75,7 @@ public class FolderService extends BaseService {
         return new ArrayList<>();
     }
 
+    @Track(clazz = Clazz.FOLDER, operate = Operate.INSERT)
     @AutoFill
     @Transactional
     public int createFolder(FolderVO folderVO) throws SQLException {
@@ -85,6 +89,7 @@ public class FolderService extends BaseService {
         return new QueryRunner(dataSource).update(sql, position, folderVO.getName(), folderVO.getState(), parent, folderVO.getMount(), folderVO.getEmpno(), folderVO.getEmpname());
     }
 
+    @Track(clazz = Clazz.FOLDER, operate = Operate.UPDATE)
     @AutoFill
     public int updateFolder(FolderVO folderVO) throws SQLException {
         String parent = folderVO.getParentPosition();
@@ -96,8 +101,13 @@ public class FolderService extends BaseService {
         return new QueryRunner(dataSource).update(sql, folderVO.getName(), parent, folderVO.getState(), folderVO.getMount(), folderVO.getId());
     }
 
+    @Track(clazz = Clazz.FOLDER, operate = Operate.DELETE)
     @Transactional
-    public int deleteFolder(Long id) throws SQLException {
+    public int deleteFolder(FolderVO folderVO) throws SQLException {
+        Long id = folderVO.getId();
+        if(id == null) {
+            return 0;
+        }
         //func_get_folder_tree 是一个递归函数
         String sql = "SELECT func_get_folder_tree(?) AS positions;";
         String positions = new QueryRunner(dataSource).query(sql, new ScalarHandler<>(), id);
@@ -121,8 +131,13 @@ public class FolderService extends BaseService {
     }
 
     public Folder getFolderById(Long id) throws SQLException {
-        String sql = "SELECT id,position,name,state,parent_position as parentPosition,mount,sort_no as sortNo FROM bi_folder WHERE id = ?;";
-        return new QueryRunner(dataSource).query(sql, new BeanHandler<Folder>(Folder.class), id);
+        String sql = "SELECT a.id, a.mount, a.name, a.position, a.parent_position AS parentPosition, CONCAT_WS('/', e.position, d.position,c.position,b.position,a.position) as path, a.sort_no AS sortNo FROM bi_folder a "
+                + " left join bi_folder b ON a.parent_position = b.position"
+                + " left join bi_folder c ON b.parent_position = c.position"
+                + " left join bi_folder d ON c.parent_position = d.position"
+                + " left join bi_folder e ON d.parent_position = e.position"
+                + " WHERE 1=1 and a.id = ?;";
+        return new QueryRunner(dataSource).query(sql, new BeanHandler<>(Folder.class), id);
     }
 
     public List<Folder> getFolder(String key, String parent, Integer pageIndex, Integer pageSize) {
@@ -142,6 +157,7 @@ public class FolderService extends BaseService {
     }
 
 
+    //@Track(clazz = Clazz.FOLDER, operate = Operate.UPDATE)
     public int[] updateSort(List<Folder> folders) throws SQLException {
         String sql = "update bi_folder set sort_no = ? where id = ?;";
         int size = folders.size();

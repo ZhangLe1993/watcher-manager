@@ -1,6 +1,9 @@
 package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.annotation.AutoFill;
+import com.aihuishou.bi.annotation.Track;
+import com.aihuishou.bi.core.Clazz;
+import com.aihuishou.bi.core.Operate;
 import com.aihuishou.bi.core.SysConf;
 import com.aihuishou.bi.entity.Node;
 import com.aihuishou.bi.entity.NodeAuth;
@@ -49,6 +52,7 @@ public class NodeService extends BaseService {
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<Node>(Node.class));
     }
 
+    @Track(clazz = Clazz.NODE, operate = Operate.INSERT)
     @AutoFill
     @Transactional
     public int createNode(NodeVO nodeVO) throws SQLException {
@@ -69,6 +73,7 @@ public class NodeService extends BaseService {
         return dbUtils.update(sql, position, nodeVO.getUrl(), nodeVO.getName(), mount, parent, nodeVO.getState(), nodeVO.getEmpno(), nodeVO.getEmpname());
     }
 
+    @Track(clazz = Clazz.NODE, operate = Operate.UPDATE)
     @AutoFill
     public int updateNode(NodeVO nodeVO) throws SQLException {
         String parent = nodeVO.getParentPosition();
@@ -91,14 +96,24 @@ public class NodeService extends BaseService {
         return new QueryRunner(dataSource).update(sql, url, nodeVO.getName(), mount, parent, nodeVO.getState(), nodeVO.getId());
     }
 
-    public int deleteNode(Long id) throws SQLException {
+    @Track(clazz = Clazz.NODE, operate = Operate.DELETE)
+    public int deleteNode(NodeVO nodeVO) throws SQLException {
+        Long id = nodeVO.getId();
+        if(id == null) {
+            return 0;
+        }
         String sql = "DELETE FROM bi_nodes WHERE id=?;";
         return new QueryRunner(dataSource).update(sql, id);
     }
 
     public Node getNodeById(Long id) throws SQLException {
-        String sql = "SELECT id, position, url, auth, path, name, parent_position AS parentPosition, state, sort_no AS sortNo, genre FROM bi_nodes WHERE id = ?;";
-        return new QueryRunner(dataSource).query(sql, new BeanHandler<Node>(Node.class), id);
+        String sql = "SELECT a.id, a.position, a.url, CONCAT_WS('/',e. NAME,d. NAME,c. NAME,b. NAME,a. NAME) AS name, a.mount, a.parent_position AS parentPosition, a.state, a.sort_no AS sortNo, a.genre FROM bi_nodes a"
+                + " left join bi_folder b ON a.parent_position = b.position"
+                + " left join bi_folder c ON b.parent_position = c.position"
+                + " left join bi_folder d ON c.parent_position = d.position"
+                + " left join bi_folder e ON d.parent_position = e.position"
+                + " WHERE 1=1 and a.id = ?;";
+        return new QueryRunner(dataSource).query(sql, new BeanHandler<>(Node.class), id);
     }
 
 

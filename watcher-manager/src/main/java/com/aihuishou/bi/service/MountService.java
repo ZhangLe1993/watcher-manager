@@ -1,6 +1,9 @@
 package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.annotation.AutoFill;
+import com.aihuishou.bi.annotation.Track;
+import com.aihuishou.bi.core.Clazz;
+import com.aihuishou.bi.core.Operate;
 import com.aihuishou.bi.entity.Mount;
 import com.aihuishou.bi.vo.MountVO;
 import org.apache.commons.dbutils.QueryRunner;
@@ -26,12 +29,14 @@ public class MountService extends BaseService {
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<Mount>(Mount.class));
     }
 
+    @Track(clazz = Clazz.MOUNT, operate = Operate.INSERT)
     @AutoFill
     public int createMount(MountVO mountVO) throws SQLException {
         String sql = "INSERT INTO bi_childless(name, state, empno, empname, create_time, update_time) VALUES (?, ?, ?, ?, NOW(), NOW());";
         return new QueryRunner(dataSource).update(sql, mountVO.getName(), mountVO.getState(), mountVO.getEmpno(), mountVO.getEmpname());
     }
 
+    @Track(clazz = Clazz.MOUNT, operate = Operate.UPDATE)
     @AutoFill
     public int updateMount(MountVO mountVO) throws SQLException {
         String sql = "UPDATE bi_childless SET name = ?, state = ?, update_time = now() where id = ?;";
@@ -39,8 +44,13 @@ public class MountService extends BaseService {
     }
 
 
+    @Track(clazz = Clazz.MOUNT, operate = Operate.DELETE)
     @Transactional
-    public int deleteMount(Long id) throws SQLException {
+    public int deleteMount(MountVO mountVO) throws SQLException {
+        Long id = mountVO.getId();
+        if(id == null) {
+            return 0;
+        }
         //删除挂载点，基本不会有这个操作
         String sql = "DELETE FROM bi_childless WHERE id = ?;";
         int count = new QueryRunner(dataSource).update(sql, id);
@@ -86,6 +96,7 @@ public class MountService extends BaseService {
         return super.count(sql, key, null, append);
     }
 
+    //@Track(clazz = Clazz.MOUNT, operate = Operate.UPDATE)
     public int[] updateSort(List<Mount> mounts) throws SQLException {
         String sql = "update bi_childless set sort_no = ? where id = ?;";
         int size = mounts.size();

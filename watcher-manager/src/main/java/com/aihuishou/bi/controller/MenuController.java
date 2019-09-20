@@ -113,9 +113,9 @@ public class MenuController {
     @SystemLog(description = "删除挂载点")
     @Delete
     @DeleteMapping("/mount")
-    public ResponseEntity deleteMount(Long id) {
+    public ResponseEntity deleteMount(MountVO mountVO) {
         try{
-            int count = mountService.deleteMount(id);
+            int count = mountService.deleteMount(mountVO);
             if(count > 0) return new ResponseEntity<>("删除挂载点成功", HttpStatus.OK);
             return new ResponseEntity<>("删除挂载点失败", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
@@ -174,9 +174,9 @@ public class MenuController {
     @SystemLog(description = "删除文件夹")
     @Delete
     @DeleteMapping("/folder")
-    public ResponseEntity deleteFolder(Long id) {
+    public ResponseEntity deleteFolder(FolderVO folderVO) {
         try{
-            int count = folderService.deleteFolder(id);
+            int count = folderService.deleteFolder(folderVO);
             if(count > 0) return new ResponseEntity<>("删除文件夹成功", HttpStatus.OK);
             return new ResponseEntity<>("删除文件夹失败", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
@@ -251,9 +251,9 @@ public class MenuController {
     @SystemLog(description = "删除报表")
     @Delete
     @DeleteMapping("/node")
-    public ResponseEntity deleteNode(Long id) {
+    public ResponseEntity deleteNode(NodeVO nodeVO) {
         try{
-            int count = nodeService.deleteNode(id);
+            int count = nodeService.deleteNode(nodeVO);
             if(count > 0) return new ResponseEntity<>("删除报表成功", HttpStatus.OK);
             return new ResponseEntity<>("删除报表失败", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
