@@ -208,7 +208,7 @@ class Iframe extends React.Component {
     return (
       <div style={{ height: '100%' }} id="iframeWrapper">
         <Spin delay={200} spinning={this.state.loading} id="spin">
-          <iframe id="watcherIframe" title="watcher" scrolling="auto" frameBorder="0" width="100%">{/* 占位 */}iframe</iframe>
+          <iframe id="watcherIframe" title="watcher" scrolling="auto" frameBorder="0" width="100%" style={{minHeight:850}}>{/* 占位 */}iframe</iframe>
         </Spin>
       </div>
     );
