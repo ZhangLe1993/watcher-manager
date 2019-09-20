@@ -41,7 +41,7 @@ class Iframe extends React.Component {
     queryCurrentMenuItem(position).then(res => {
       const { genre, url } = res;
 
-      watcherIframe.src = `/route/base?position=${position}&name=${fullName}&url=${url2}`;
+      watcherIframe.src = `/route/base?position=${position}&name=${fullName}&url=${url2}&t=${new Date().getTime()}`;
       this.setState({ loading: true }, () => {
         watcherIframe.onload = () => {
           that.setState({ loading: false });
@@ -79,7 +79,7 @@ class Iframe extends React.Component {
       queryCurrentMenuItem(nextPosition).then(res => {
         const { genre, url } = res;
         
-        watcherIframe.src = `/route/base?position=${nextPosition}&name=${fullName}&url=${url2}`;
+        watcherIframe.src = `/route/base?position=${nextPosition}&name=${fullName}&url=${url2}&t=${new Date().getTime()}`;
         this.setState({ loading: true }, () => {
           watcherIframe.onload = () => {
             that.setState({ loading: false });
