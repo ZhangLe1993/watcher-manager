@@ -121,6 +121,7 @@ class WatcherManagerNew extends Component {
     this.state.interval = setInterval(function() {
       if (that.state.mountDataReady && that.state.folderDataReady && that.state.nodeDataReady) {
         that.generateTreeNode(that.mountData);
+        that.sortTreeData(that.mountData);
         clearInterval(that.state.interval);
         that.setState({
           data: that.mountData,
@@ -137,6 +138,17 @@ class WatcherManagerNew extends Component {
     }, 6000);
   };
 
+  sortTreeData = data => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].children) {
+        this.sortTreeData(data[i].children);
+      }
+    }
+    data.sort(function(a, b) {
+      return a.sortNo - b.sortNo;
+    });
+  };
+
   generateTreeNode = (treeData, node) => {
     if (!treeData) {
       return;
@@ -146,6 +158,9 @@ class WatcherManagerNew extends Component {
         if (node.parentPosition === treeData[i].position) {
           if (!treeData[i].children) {
             treeData[i].children = [];
+          }
+          if (node.parentPosition === 'aihuishouTab' && node.position === 'actionOperationTab') {
+            console.log(node.name);
           }
           treeData[i].children.push(node);
         } else {
@@ -206,9 +221,6 @@ class WatcherManagerNew extends Component {
           parentKey: '0',
         });
       });
-      this.mountData.sort(function(a, b) {
-        return a.sortNo - b.sortNo;
-      });
       this.setState({
         mountDataReady: true,
       });
@@ -235,9 +247,6 @@ class WatcherManagerNew extends Component {
           nodeType: '2',
           parentKey: it.mount,
         });
-      });
-      this.folderData.sort(function(a, b) {
-        return a.sortNo - b.sortNo;
       });
       this.setState({
         folderDataReady: true,
@@ -268,9 +277,6 @@ class WatcherManagerNew extends Component {
           key: it.mount + '-' + it.id,
           parentKey: it.mount,
         });
-      });
-      this.nodeData.sort(function(a, b) {
-        return a.sortNo - b.sortNo;
       });
       this.setState({
         nodeDataReady: true,
