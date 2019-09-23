@@ -183,7 +183,7 @@ const BasicLayout = props => {
     window.localStorage.setItem(storeKey, JSON.stringify(clickNumMap));
     router.push(it.path);
   };
-
+  settings.disableMobile=true;
   return (
     <ProLayout
       logo={() => (
@@ -219,7 +219,6 @@ const BasicLayout = props => {
       menuDataRender={() => menuDataRender(menuData)}
       formatMessage={formatMessage}
       rightContentRender={rightProps => <RightContent {...rightProps} />}
-      disableMobile={true}
       {...props}
       {...settings}
     >
