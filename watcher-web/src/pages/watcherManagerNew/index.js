@@ -952,7 +952,7 @@ class WatcherManagerNew extends Component {
       ar.splice(i + 1, 0, dragObj);
     }
 
-    //this.ajaxBatchSort(ar, dragObj.nodeType);
+    this.ajaxBatchSort(ar, dragObj.nodeType);
   };
 
   onDragStartOrEnd = (info, flag) => {
