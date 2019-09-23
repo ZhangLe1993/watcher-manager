@@ -56,6 +56,7 @@ public class MongoService {
 
 
     public void operationMappings() throws SQLException {
+        new QueryRunner(dataSource).update("truncate table operation_mapping;");
         List<OperationMapping> list = mongoTemplate.find(new Query(), OperationMapping.class, "userPermissionOperationMapping");
         String sql = "insert into operation_mapping(source_operation, target_operation) values (?,?);";
         Object[][] params = new Object[list.size()][2];

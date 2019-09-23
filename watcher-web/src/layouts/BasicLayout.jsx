@@ -186,6 +186,7 @@ const BasicLayout = props => {
 
   return (
     <ProLayout
+      onCollapse={() => handleMenuCollapse(props.collapsed)}
       logo={() => (
         <div onClick={() => {
           router.replace('/');
