@@ -157,9 +157,6 @@ class WatcherManagerNew extends Component {
           if (!treeData[i].children) {
             treeData[i].children = [];
           }
-          if (node.parentPosition === 'aihuishouTab' && node.position === 'actionOperationTab') {
-            console.log(node.name);
-          }
           treeData[i].children.push(node);
         } else {
           if (!treeData[i].children) {
@@ -292,7 +289,6 @@ class WatcherManagerNew extends Component {
   };
 
   handleModalVisible = (flag, item, actionType) => {
-    console.log(item);
     if (item) {
       if (actionType === 'update') {
         this.setState({
@@ -547,7 +543,6 @@ class WatcherManagerNew extends Component {
   };
 
   onExpand = expandedKeys => {
-    console.log('onExpand', expandedKeys);
     this.expandedKeys = expandedKeys;
     this.setState({ expandedKeys });
   };
@@ -689,7 +684,6 @@ class WatcherManagerNew extends Component {
     });
 
   onDelete = item => {
-    console.log('delete', item);
     if (item.auth) {
       //报表节点
       this.delNodeAjax(item.id);
@@ -711,19 +705,9 @@ class WatcherManagerNew extends Component {
       }
     });
 
-  findNode = (key, data) =>
-    data.map((item, index) => {
-      if (item.key === key) {
-        console.log(item);
-      } else if (item.children) {
-        this.findNode(key, item.children);
-      }
-    });
-
   editMountNode = (key, data, fieldsValue) =>
     data.map(item => {
       if (item.key === key) {
-        console.log(item);
         item.value = fieldsValue.name;
         item.name = fieldsValue.name;
         item.defaultValue = fieldsValue.name;
@@ -910,14 +894,11 @@ class WatcherManagerNew extends Component {
   };
 
   onNodeDrop = info => {
-    console.log(info);
     const dropKey = info.node.props.eventKey;
     const nodeType = info.node.props.dataRef.nodeType;
     const dragKey = info.dragNode.props.eventKey;
     const dropPos = info.node.props.pos.split('-');
     let dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
-
-    console.log('dropKey', dropKey);
 
     if (
       !info.dropToGap ||
@@ -940,7 +921,6 @@ class WatcherManagerNew extends Component {
       });
     };
     const data = this.mountData;
-    console.log('before:', data);
 
     // Find dragObject
     let dragObj;
@@ -948,8 +928,6 @@ class WatcherManagerNew extends Component {
       arr.splice(index, 1);
       dragObj = item;
     });
-
-    console.log('dragObj:', dragObj);
 
     let ar;
     let i;
@@ -974,12 +952,28 @@ class WatcherManagerNew extends Component {
       ar.splice(i + 1, 0, dragObj);
     }
 
-    this.ajaxBatchSort(ar, dragObj.nodeType);
+    //this.ajaxBatchSort(ar, dragObj.nodeType);
   };
 
   onDragStartOrEnd = (info, flag) => {
-    console.log('onDragStartOrEnd:', info.node.props.dataRef);
+    const loop = (data, key, pKey, callback) => {
+      data.forEach((item, index, arr) => {
+        if (item.key == key) {console.log(item.key);
+          return callback(item, index, arr, pKey);
+        }
+        if (item.children) {
+          return loop(item.children, key, item.key, callback);
+        }
+      });
+    };
+
     let nodeData = info.node.props.dataRef;
+    // 查找被拖动元素的父节点的key
+    loop(this.state.data, nodeData.key, '', (item, index, arr, pKey) => {
+      this.setState({
+        expandedKeys: [`${pKey}`]
+      })
+    });
     this.setTreeNodeDisabled(this.state.data, nodeData, flag);
     this.setState({
       data: this.state.data,
@@ -988,10 +982,9 @@ class WatcherManagerNew extends Component {
 
   setTreeNodeDisabled = (data, nodeData, flag) => {
     data.map((item, index) => {
-      if (item.nodeType !== nodeData.nodeType && item.parentPosition !== nodeData.parentPosition) {
+      if (item.nodeType !== nodeData.nodeType && item.mount!=nodeData.mount && item.parentPosition !== nodeData.parentPosition) {
         item.disabled = flag;
-      }
-      if (item.children) {
+      } else if (item.children) {
         this.setTreeNodeDisabled(item.children, nodeData, flag);
       }
     });
