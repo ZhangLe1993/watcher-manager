@@ -6,10 +6,8 @@ import com.aihuishou.bi.core.Clazz;
 import com.aihuishou.bi.core.Event;
 import com.aihuishou.bi.core.Operate;
 import com.aihuishou.bi.entity.OperateLog;
-import com.aihuishou.bi.service.FolderService;
-import com.aihuishou.bi.service.MountService;
-import com.aihuishou.bi.service.NodeService;
-import com.aihuishou.bi.service.OperateLogService;
+import com.aihuishou.bi.entity.User;
+import com.aihuishou.bi.service.*;
 import com.aihuishou.bi.utils.ConcurrentDateFormat;
 import com.aihuishou.bi.utils.ExceptionInfo;
 import com.alibaba.fastjson.JSONObject;
@@ -47,6 +45,9 @@ public class TrackAspect {
 
     @Autowired
     private NodeService nodeService;
+
+    @Autowired
+    private UserService userService;
 
     @Pointcut("@annotation(com.aihuishou.bi.annotation.Track)")
     public void track() {}
@@ -110,17 +111,22 @@ public class TrackAspect {
                 break;
             }
         }
-
         return operateLog;
     }
 
 
     private OperateLog build(String eventName, String template, Object from, Object target) throws SQLException {
-        String userName = CasUtil.getUserName();
-        if(StringUtils.isBlank(userName) || "-2".equalsIgnoreCase(userName)) {
+        String obId = CasUtil.getId();
+        if(StringUtils.isBlank(obId) || "-2".equalsIgnoreCase(obId)) {
             logger.error("用户不存在或登录信息失效");
             return null;
         }
+        User user = userService.getUserByObId(obId);
+        if(user == null || StringUtils.isBlank(user.getEmployeeNo())) {
+            logger.error("用户不存在或登录信息失效");
+            return null;
+        }
+        String userName = user.getName() + "【" + user.getEmployeeNo() + "】";
         String current = ConcurrentDateFormat.formatHMS(new Date());
         String desc;
         if(from != null) {
