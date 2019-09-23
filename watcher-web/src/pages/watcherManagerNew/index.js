@@ -905,6 +905,7 @@ class WatcherManagerNew extends Component {
       ((info.node.props.children || []).length > 0 &&
         info.node.props.expanded &&
         dropPosition === 1)
+      || info.node.props.dataRef.position == info.dragNode.props.dataRef.parentPosition //不允许跨节点拖动
     ) {
       message.error('不支持的操作，只支持兄弟节点之间拖动排序');
       return;
@@ -923,8 +924,10 @@ class WatcherManagerNew extends Component {
     const data = this.mountData;
 
     // Find dragObject
+    let oldArr;
     let dragObj;
     loop(data, dragKey, (item, index, arr) => {
+      oldArr = arr;
       arr.splice(index, 1);
       dragObj = item;
     });
@@ -946,6 +949,8 @@ class WatcherManagerNew extends Component {
       });
     }
 
+    console.log("ar",ar);
+    console.log("oldArr",oldArr);
     if (dropPosition === -1) {
       ar.splice(i, 0, dragObj);
     } else {
@@ -958,7 +963,8 @@ class WatcherManagerNew extends Component {
   onDragStartOrEnd = (info, flag) => {
     const loop = (data, key, pKey, callback) => {
       data.forEach((item, index, arr) => {
-        if (item.key == key) {console.log(item.key);
+        if (item.key == key) {
+          console.log(item.key,arr);
           return callback(item, index, arr, pKey);
         }
         if (item.children) {
@@ -968,23 +974,25 @@ class WatcherManagerNew extends Component {
     };
 
     let nodeData = info.node.props.dataRef;
+    this.setTreeNodeDisabled(this.state.data, nodeData, flag);
     // 查找被拖动元素的父节点的key
     loop(this.state.data, nodeData.key, '', (item, index, arr, pKey) => {
       this.setState({
-        expandedKeys: [`${pKey}`]
+        expandedKeys: [`${pKey}`],
+        autoExpandParent: true,
+        data: this.state.data,
       })
-    });
-    this.setTreeNodeDisabled(this.state.data, nodeData, flag);
-    this.setState({
-      data: this.state.data,
     });
   };
 
   setTreeNodeDisabled = (data, nodeData, flag) => {
     data.map((item, index) => {
-      if (item.nodeType !== nodeData.nodeType && item.mount!=nodeData.mount && item.parentPosition !== nodeData.parentPosition) {
-        item.disabled = flag;
-      } else if (item.children) {
+      if (item.nodeType !== nodeData.nodeType || item.mount!=nodeData.mount || item.parentPosition !== nodeData.parentPosition) {
+        if(item.position!=nodeData.parentPosition){
+          item.disabled = flag;
+        }
+      }
+      if (item.children) {
         this.setTreeNodeDisabled(item.children, nodeData, flag);
       }
     });
