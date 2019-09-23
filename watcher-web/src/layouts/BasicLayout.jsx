@@ -183,7 +183,7 @@ const BasicLayout = props => {
     window.localStorage.setItem(storeKey, JSON.stringify(clickNumMap));
     router.push(it.path);
   };
-
+  settings.disableMobile=true;
   return (
     <ProLayout
       logo={() => (
