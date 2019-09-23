@@ -219,6 +219,7 @@ const BasicLayout = props => {
       menuDataRender={() => menuDataRender(menuData)}
       formatMessage={formatMessage}
       rightContentRender={rightProps => <RightContent {...rightProps} />}
+      disableMobile={true}
       {...props}
       {...settings}
     >
