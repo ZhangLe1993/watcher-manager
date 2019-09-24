@@ -14,13 +14,13 @@ public class OperateLogService {
     @Resource
     private DataSource dataSource;
 
-    public void track(String event, String description, String person, String operateTime) throws SQLException {
-        String sql = "insert into operate_log (event, description, person, operate_time) values (?, ?, ?, ?);";
-        new QueryRunner(dataSource).update(sql, event, description, person, operateTime);
+    public void logger(String event, String description, String person, String operateTime) throws SQLException {
+        String sql = "insert into operate_log_b (event, target, target_id, operate_type, description, employee_name, employee_no, operate_time) values (?, ?, ?, ?, ?, ?, ?, ?);";
+        //new QueryRunner(dataSource).update(sql, event, description, person, operateTime);
     }
 
-    public void track(OperateLog operateLog) throws SQLException {
-        String sql = "insert into operate_log (event, description, person, operate_time) values (?, ?, ?, ?);";
-        new QueryRunner(dataSource).update(sql, operateLog.getEvent(), operateLog.getDescription(), operateLog.getPerson(), operateLog.getOperateTime());
+    public void logger(OperateLog operateLog) throws SQLException {
+        String sql = "insert into operate_log_b (event, target, target_id, operate_type, description, employee_name, employee_no, operate_time) values (?, ?, ?, ?, ?, ?, ?, ?);";
+        new QueryRunner(dataSource).update(sql, operateLog.getEvent(), operateLog.getTarget(), operateLog.getTargetId(), operateLog.getOperateType(), operateLog.getDescription(), operateLog.getEmployeeName(), operateLog.getEmployeeNo(), operateLog.getOperateTime());
     }
 }

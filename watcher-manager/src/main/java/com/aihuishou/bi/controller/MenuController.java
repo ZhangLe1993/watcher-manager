@@ -87,7 +87,7 @@ public class MenuController {
     @PostMapping("/mount")
     public ResponseEntity createMount(@RequestBody MountVO mountVO) {
         try {
-            int count = mountService.createMount(mountVO);
+            Long count = mountService.createMount(mountVO);
             if(count > 0) return new ResponseEntity<>("新增挂载点成功", HttpStatus.OK);
             return new ResponseEntity<>("新增挂载点失败", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {

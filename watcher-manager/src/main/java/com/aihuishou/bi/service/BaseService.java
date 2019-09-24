@@ -1,18 +1,33 @@
 package com.aihuishou.bi.service;
 
+import com.aihuishou.bi.entity.Folder;
+import com.aihuishou.bi.entity.Mount;
+import com.aihuishou.bi.entity.Node;
+import com.aihuishou.bi.handler.OperateLogger;
 import com.google.common.collect.ImmutableMap;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.annotation.Resource;
+import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BaseService {
 
     @Resource
     protected JdbcTemplate jdbcTemplate;
+
+    @Resource
+    private DataSource dataSource;
+
+    @Resource
+    private OperateLogger operateLogger;
 
     public BaseService() {
     }
@@ -99,6 +114,69 @@ public class BaseService {
         return null;
     }
 
+    protected void batchMountLogger(String load, List<Mount> froms, String target, String operateType, String eventName) throws SQLException {
+        //修改之后的记录
+        if(!"recursive".equalsIgnoreCase(operateType)) {
+            List<Mount> to = new QueryRunner(dataSource).query(load, new BeanListHandler<>(Mount.class));
+            Map<Long, Mount> map = to.stream().collect(Collectors.toMap(Mount::getId, v -> v, (o, c) -> c));
+            //记录日志
+            for(int i = 0; i < froms.size(); i++) {
+                Mount from = froms.get(i);
+                Long position = from.getId();
+                operateLogger.append(position.toString(), from , map.get(position), target, operateType, eventName);
+            }
+        } else {
+            //记录日志
+            for(int i = 0; i < froms.size(); i++) {
+                Mount from = froms.get(i);
+                Long position = from.getId();
+                operateLogger.append(position.toString(), null , from, target, operateType, eventName);
+            }
+        }
+
+    }
+
+    protected void batchFolderLogger(String load, List<Folder> froms, String target, String operateType, String eventName) throws SQLException {
+        //修改之后的记录
+        if(!"recursive".equalsIgnoreCase(operateType)) {
+            List<Folder> to = new QueryRunner(dataSource).query(load, new BeanListHandler<>(Folder.class));
+            Map<String, Folder> map = to.stream().collect(Collectors.toMap(Folder::getPosition, v -> v, (o, c) -> c));
+            //记录日志
+            for(int i = 0; i < froms.size(); i++) {
+                Folder from = froms.get(i);
+                String position = from.getPosition();
+                operateLogger.append(position, from , map.get(position), target, operateType, eventName);
+            }
+        } else {
+            //记录日志
+            for(int i = 0; i < froms.size(); i++) {
+                Folder from = froms.get(i);
+                String position = from.getPosition();
+                operateLogger.append(position, null , from, target, operateType, eventName);
+            }
+        }
+    }
+
+    protected void batchNodeLogger(String load, List<Node> froms, String target, String operateType, String eventName) throws SQLException {
+        //修改之后的记录
+        if(!"recursive".equalsIgnoreCase(operateType)) {
+            List<Node> to = new QueryRunner(dataSource).query(load, new BeanListHandler<>(Node.class));
+            Map<String, Node> map = to.stream().collect(Collectors.toMap(Node::getPosition, v -> v, (o, c) -> c));
+            //记录日志
+            for(int i = 0; i < froms.size(); i++) {
+                Node from = froms.get(i);
+                String position = from.getPosition();
+                operateLogger.append(position, from , map.get(position), target, operateType, eventName);
+            }
+        } else {
+            for(int i = 0; i < froms.size(); i++) {
+                Node from = froms.get(i);
+                String position = from.getPosition();
+                operateLogger.append(position, null , from, target, operateType, eventName);
+            }
+        }
+
+    }
 
 
 

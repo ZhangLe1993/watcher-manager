@@ -3,10 +3,16 @@ spring:
     url: jdbc:mysql://10.81.44.187:3306/watcher?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
     username: root
     password: root
+  gp-datasource:
+      url: jdbc:postgresql://gp-bp1j7sa3410948756.gpdb.rds.aliyuncs.com:3432/warehouse
+      username: rpt
+      password: L00easy_rpt_8745
+      driver-class-name: org.postgresql.Driver
+      type: com.alibaba.druid.pool.DruidDataSource
   redis:
-    host: 127.0.0.1
-    password:
-    database: 0
+    host: 10.181.13.126
+    password: root
+    database: 14
   thymeleaf:
     servlet:
       content-type: text/html
@@ -29,9 +35,12 @@ cas:
     host: http://127.0.0.1:8080
 
 watcher:
-  templates: /project/watcher-manager/watcher-manager/target/classes/
+  templates: D:\workspace\IntelliJ\refact\watcher-manager\watcher-manager\target\classes\
 
-basic.mongodb.host: 10.168.187.122
-basic.mongodb.port: 27017
-basic.mongodb.database: Watcher
+proxy:
+    watcher:
+        target_url: http://watcher.intra.aihuishou.com:8808
 
+redirect:
+  cookie:
+    domain: 127.0.0.1

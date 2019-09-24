@@ -1,12 +1,10 @@
 package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.annotation.AutoFill;
-import com.aihuishou.bi.annotation.Track;
-import com.aihuishou.bi.core.Clazz;
-import com.aihuishou.bi.core.Operate;
 import com.aihuishou.bi.core.SysConf;
 import com.aihuishou.bi.entity.Node;
 import com.aihuishou.bi.entity.NodeAuth;
+import com.aihuishou.bi.handler.OperateLogger;
 import com.aihuishou.bi.utils.StringEx;
 import com.aihuishou.bi.vo.NodeVO;
 import org.apache.commons.dbutils.QueryRunner;
@@ -33,7 +31,7 @@ public class NodeService extends BaseService {
     private DataSource dataSource;
 
     @Autowired
-    private MappingService mappingService;
+    private OperateLogger operateLogger;
 
     public List<Node> nodes() throws SQLException {
         String sql = new SQL() {
@@ -52,11 +50,12 @@ public class NodeService extends BaseService {
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<Node>(Node.class));
     }
 
-    @Track(clazz = Clazz.NODE, operate = Operate.INSERT)
+    //@Track(clazz = Clazz.NODE, operate = Operate.INSERT)
     @AutoFill
     @Transactional
     public int createNode(NodeVO nodeVO) throws SQLException {
         String position = StringEx.newUUID();
+        nodeVO.setPosition(position);
         String parent = nodeVO.getParentPosition();
         String mount = nodeVO.getMount();
         if(StringUtils.isBlank(parent) && StringUtils.isBlank(mount)) {
@@ -70,10 +69,14 @@ public class NodeService extends BaseService {
         }
         String sql = "INSERT INTO bi_nodes(position, url, name, mount, parent_position, state, empno, empname, create_time, update_time, genre) VALUES (?,?,?,?,?,?,?,?,now(),now(),'1');";
         QueryRunner dbUtils = new QueryRunner(dataSource);
-        return dbUtils.update(sql, position, nodeVO.getUrl(), nodeVO.getName(), mount, parent, nodeVO.getState(), nodeVO.getEmpno(), nodeVO.getEmpname());
+        int count = dbUtils.update(sql, position, nodeVO.getUrl(), nodeVO.getName(), mount, parent, nodeVO.getState(), nodeVO.getEmpno(), nodeVO.getEmpname());
+        if(count > 0) {
+            operateLogger.append(position, null, nodeVO, "node", "insert", "新增报表");
+        }
+        return count;
     }
 
-    @Track(clazz = Clazz.NODE, operate = Operate.UPDATE)
+    //@Track(clazz = Clazz.NODE, operate = Operate.UPDATE)
     @AutoFill
     public int updateNode(NodeVO nodeVO) throws SQLException {
         String parent = nodeVO.getParentPosition();
@@ -86,23 +89,32 @@ public class NodeService extends BaseService {
         } else {
             mount = "0";
         }
+        Node node = getNodeById(nodeVO.getId());
+        nodeVO.setPosition(node.getPosition());
         String sql = "UPDATE bi_nodes SET url = ?, name = ?, mount = ?, parent_position = ?, state = ?, update_time = now() WHERE id = ?;";
         String url = nodeVO.getUrl();
         if(StringUtils.isNotBlank(url) && url.contains(SysConf.DAVINCI_SHARE_LINK_PREFIX)) {
             sql = "UPDATE bi_nodes SET url = ?, name = ?, mount = ?, parent_position = ?, state = ?, genre = '1', update_time = now() WHERE id = ?;";
-            return new QueryRunner(dataSource).update(sql, url, nodeVO.getName(), mount, parent, nodeVO.getState(), nodeVO.getId());
         }
-        return new QueryRunner(dataSource).update(sql, url, nodeVO.getName(), mount, parent, nodeVO.getState(), nodeVO.getId());
+        int count = new QueryRunner(dataSource).update(sql, url, nodeVO.getName(), mount, parent, nodeVO.getState(), nodeVO.getId());
+        if(count > 0) {
+            operateLogger.append(node.getPosition(), null, nodeVO, "node", "update", "修改报表");
+        }
+        return count;
     }
 
-    @Track(clazz = Clazz.NODE, operate = Operate.DELETE)
+    //@Track(clazz = Clazz.NODE, operate = Operate.DELETE)
     public int deleteNode(NodeVO nodeVO) throws SQLException {
         Long id = nodeVO.getId();
         if(id == null) {
             return 0;
         }
         String sql = "DELETE FROM bi_nodes WHERE id=?;";
-        return new QueryRunner(dataSource).update(sql, id);
+        int count = new QueryRunner(dataSource).update(sql, id);
+        if(count > 0) {
+            operateLogger.append(nodeVO.getPosition(), null, nodeVO,  "node", "delete", "删除报表");
+        }
+        return count;
     }
 
     public Node getNodeById(Long id) throws SQLException {
@@ -183,6 +195,14 @@ public class NodeService extends BaseService {
 
 
     public int[] updateSort(List<Node> nodes) throws SQLException {
+        if(nodes == null || nodes.size() == 0) {
+            return new int[]{};
+        }
+        //先查询出修改前的记录
+        String in = StringUtils.join(nodes.stream().map(Node::getId).collect(Collectors.toList()), ",");
+        String load = SysConf.getLoadNodeSQLById(in);
+        //修改之前的记录
+        List<Node> froms = new QueryRunner(dataSource).query(load, new BeanListHandler<>(Node.class));
         String sql = "update bi_nodes set sort_no = ? where id = ?;";
         int size = nodes.size();
         Object[][] params = new Object[size][2];
@@ -190,7 +210,11 @@ public class NodeService extends BaseService {
             Node node = nodes.get(i);
             params[i] = new Object[]{node.getSortNo(), node.getId()};
         }
-        return new QueryRunner(dataSource).batch(sql, params);
+        int[] count = new QueryRunner(dataSource).batch(sql, params);
+        if(count.length > 0) {
+            this.batchNodeLogger(load, froms, "node","sort","修改排序");
+        }
+        return count;
     }
 
     public Node nodeGenre(String position) throws SQLException {

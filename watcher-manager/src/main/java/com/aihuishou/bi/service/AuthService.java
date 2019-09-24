@@ -3,6 +3,7 @@ package com.aihuishou.bi.service;
 import com.aihuishou.bi.cas.CasUtil;
 import com.aihuishou.bi.core.CacheConf;
 import com.aihuishou.bi.entity.NodeAuth;
+import com.aihuishou.bi.handler.OperateLogger;
 import com.aihuishou.bi.live.model.UserPermissionStats;
 import com.aihuishou.bi.utils.ExceptionInfo;
 import com.aihuishou.bi.vo.GrantVO;
@@ -42,6 +43,9 @@ public class AuthService extends BaseService {
 
     @Resource
     private MongoService mongoService;
+
+    @Autowired
+    private OperateLogger operateLogger;
 
 
     /**
@@ -189,6 +193,7 @@ public class AuthService extends BaseService {
         list.addAll(other);
     }
 
+    //@Track(clazz = Clazz.AUTH, operate = Operate.UPDATE, method = "getPosition")
     @Transactional
     public int grantAuth(GrantVO grantVO) throws SQLException {
         //Mapping mapping = mappingService.getModel(grantVO.getPosition());
@@ -196,14 +201,17 @@ public class AuthService extends BaseService {
         /*if(mapping != null) {
             target = mapping.getTarget();
         }*/
-        String sql = "DELETE FROM node_auth WHERE node_position = ?;";
+        String sql = "select auth_name from node_auth where node_position = ?";
         QueryRunner dbUtils = new QueryRunner(dataSource);
+        List<String> auths = dbUtils.query(sql, new ColumnListHandler<>("auth_name"), target);
+        sql = "DELETE FROM node_auth WHERE node_position = ?;";
         /*if(mapping != null) {
             dbUtils.update(sql, grantVO.getPosition());
         }*/
         dbUtils.update(sql, target);
         List<String> authList = grantVO.getAuth();
         if(authList == null || authList.size() == 0) {
+            operateLogger.append(target, auths, authList, "node", "auth", "报表赋权");
             return 0;
         }
         sql = "INSERT INTO node_auth(node_position, auth_name) VALUES (?, ?);";
@@ -212,7 +220,8 @@ public class AuthService extends BaseService {
             params[i] = new Object[]{target, authList.get(i)};
         }
         int rows[] = dbUtils.batch(sql, params);
-        return rows == null ? 0 : rows.length;
+        operateLogger.append(target, auths, authList, "node", "auth", "报表赋权");
+        return rows.length;
     }
 
     public List<String> getAllAuth(String key, Integer pageIndex, Integer pageSize) throws SQLException {

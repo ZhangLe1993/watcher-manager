@@ -1,5 +1,5 @@
 package com.aihuishou.bi.core;
 
 public enum Clazz {
-    MOUNT, FOLDER, NODE;
+    MOUNT, FOLDER, NODE, AUTH;
 }

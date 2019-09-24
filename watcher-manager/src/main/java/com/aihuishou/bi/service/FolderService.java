@@ -1,10 +1,10 @@
 package com.aihuishou.bi.service;
 
 import com.aihuishou.bi.annotation.AutoFill;
-import com.aihuishou.bi.annotation.Track;
-import com.aihuishou.bi.core.Clazz;
-import com.aihuishou.bi.core.Operate;
+import com.aihuishou.bi.core.SysConf;
 import com.aihuishou.bi.entity.Folder;
+import com.aihuishou.bi.entity.Node;
+import com.aihuishou.bi.handler.OperateLogger;
 import com.aihuishou.bi.utils.StringEx;
 import com.aihuishou.bi.vo.FolderVO;
 import org.apache.commons.dbutils.QueryRunner;
@@ -13,6 +13,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,13 +21,18 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FolderService extends BaseService {
 
     @Resource
     private DataSource dataSource;
+
+    @Autowired
+    private OperateLogger operateLogger;
 
     public List<Folder> folders() throws SQLException {
         String sql = new SQL() {
@@ -75,33 +81,44 @@ public class FolderService extends BaseService {
         return new ArrayList<>();
     }
 
-    @Track(clazz = Clazz.FOLDER, operate = Operate.INSERT)
+    //@Track(clazz = Clazz.FOLDER, operate = Operate.INSERT)
     @AutoFill
     @Transactional
     public int createFolder(FolderVO folderVO) throws SQLException {
         String position = StringEx.newUUID();
         String parent = folderVO.getParentPosition();
+        folderVO.setPosition(position);
         if(StringUtils.isBlank(parent)) {
             parent = "-1";
         }
         //select max(sort_no) + 1 from bi_folder where parent_position = ?
         String sql = "INSERT INTO bi_folder(position, name, state, parent_position, mount, empno, empname, create_time, update_time) VALUES (?,?,?,?,?,?,?,NOW(),NOW());";
-        return new QueryRunner(dataSource).update(sql, position, folderVO.getName(), folderVO.getState(), parent, folderVO.getMount(), folderVO.getEmpno(), folderVO.getEmpname());
+        int count = new QueryRunner(dataSource).update(sql, position, folderVO.getName(), folderVO.getState(), parent, folderVO.getMount(), folderVO.getEmpno(), folderVO.getEmpname());
+        if(count > 0) {
+            operateLogger.append(position, null, folderVO, "folder", "insert", "新增文件夹");
+        }
+        return count;
     }
 
-    @Track(clazz = Clazz.FOLDER, operate = Operate.UPDATE)
+    //@Track(clazz = Clazz.FOLDER, operate = Operate.UPDATE)
     @AutoFill
     public int updateFolder(FolderVO folderVO) throws SQLException {
         String parent = folderVO.getParentPosition();
         if(StringUtils.isBlank(parent)) {
             parent = "-1";
         }
+        Folder old = getFolderById(folderVO.getId());
+        folderVO.setPosition(old.getPosition());
         //暂时只提供修改名称，修改路径，修改是否上线, 修改挂载点
         String sql = "UPDATE bi_folder SET name = ?, parent_position = ?, state = ?,mount = ? WHERE id = ?;";
-        return new QueryRunner(dataSource).update(sql, folderVO.getName(), parent, folderVO.getState(), folderVO.getMount(), folderVO.getId());
+        int count = new QueryRunner(dataSource).update(sql, folderVO.getName(), parent, folderVO.getState(), folderVO.getMount(), folderVO.getId());
+        if(count > 0) {
+            operateLogger.append(old.getPosition(), old, folderVO, "folder", "update", "修改文件夹");
+        }
+        return count;
     }
 
-    @Track(clazz = Clazz.FOLDER, operate = Operate.DELETE)
+    //@Track(clazz = Clazz.FOLDER, operate = Operate.DELETE)
     @Transactional
     public int deleteFolder(FolderVO folderVO) throws SQLException {
         Long id = folderVO.getId();
@@ -112,21 +129,40 @@ public class FolderService extends BaseService {
         String sql = "SELECT func_get_folder_tree(?) AS positions;";
         String positions = new QueryRunner(dataSource).query(sql, new ScalarHandler<>(), id);
         sql = "DELETE FROM bi_folder WHERE id = ?;";
+        Folder old = getFolderById(folderVO.getId());
+        //根据id删除文件夹
         int count = new QueryRunner(dataSource).update(sql, id);
-        //级联递归删除子folder
-        String[] in = StringUtils.split(positions, ",");
-
-        if(in != null && in.length != 0) {
-            Object[][] params = new Object[in.length][1];
-            for(int i = 0; i < in.length; i++) {
-                params[i] = new Object[]{in[i]};
+        if(count > 0) {
+            //记录日志
+            operateLogger.append(old.getPosition(), null, old, "folder", "delete", "删除文件夹");
+            //级联递归删除子folder
+            String[] in = StringUtils.split(positions, ",");
+            String ins = StringUtils.join(Arrays.stream(in).map(p -> "'" + p + "'").collect(Collectors.toList()), ",");
+            if(in.length != 0) {
+                Object[][] params = new Object[in.length][1];
+                for(int i = 0; i < in.length; i++) {
+                    params[i] = new Object[]{in[i]};
+                }
+                //查询出要删除的文件夹以便记录删除日志
+                String load = SysConf.getLoadFolderSQLByParentId(ins);
+                List<Folder> froms = new QueryRunner(dataSource).query(load, new BeanListHandler<>(Folder.class));
+                //级联删除子文件夹
+                sql = "DELETE FROM bi_folder WHERE parent_position = ?;";
+                int folder[] = new QueryRunner(dataSource).batch(sql, params);
+                if(folder.length != 0) {
+                    this.batchFolderLogger(load, froms, "folder","recursive","级联删除文件夹");
+                }
+                //级联删除node
+                load = SysConf.getLoadNodeSQLByParentId(ins);
+                List<Node> nodes = new QueryRunner(dataSource).query(load, new BeanListHandler<>(Node.class));
+                sql = "DELETE FROM bi_nodes WHERE parent_position = ?;";
+                int node[] = new QueryRunner(dataSource).batch(sql, params);
+                if(node.length != 0) {
+                    this.batchNodeLogger(load, nodes, "node","recursive","级联删除报表");
+                }
             }
-            sql = "DELETE FROM bi_folder WHERE parent_position = ?;";
-            new QueryRunner(dataSource).batch(sql, params);
-            //级联删除node
-            sql = "DELETE FROM bi_nodes WHERE parent_position = ?;";
-            new QueryRunner(dataSource).batch(sql, params);
         }
+
         return count;
     }
 
@@ -159,6 +195,14 @@ public class FolderService extends BaseService {
 
     //@Track(clazz = Clazz.FOLDER, operate = Operate.UPDATE)
     public int[] updateSort(List<Folder> folders) throws SQLException {
+        if(folders == null || folders.size() == 0) {
+            return new int[]{};
+        }
+        //先查询出修改前的记录
+        String in = StringUtils.join(folders.stream().map(Folder::getId).collect(Collectors.toList()), ",");
+        String load = SysConf.getLoadFolderSQLById(in);
+        //修改之前的记录
+        List<Folder> froms = new QueryRunner(dataSource).query(load, new BeanListHandler<>(Folder.class));
         String sql = "update bi_folder set sort_no = ? where id = ?;";
         int size = folders.size();
         Object[][] params = new Object[size][2];
@@ -166,8 +210,13 @@ public class FolderService extends BaseService {
             Folder folder = folders.get(i);
             params[i] = new Object[]{folder.getSortNo(), folder.getId()};
         }
-        return new QueryRunner(dataSource).batch(sql, params);
+        int[] count = new QueryRunner(dataSource).batch(sql, params);
+        if(count.length > 0) {
+            this.batchFolderLogger(load, froms, "folder","sort","修改排序");
+        }
+        return count;
     }
+
 
 
 }
