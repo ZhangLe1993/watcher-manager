@@ -33,11 +33,9 @@ import {
   mountSort,
   nodeSort,
   queryAllAuth,
-  queryAllParentNode,
   queryFolder,
   queryMount,
   queryNode,
-  queryParentNode,
   queryUserAuth,
 } from '@/services/manager';
 import difference from 'lodash/difference';
@@ -159,9 +157,6 @@ class WatcherManagerNew extends Component {
           if (!treeData[i].children) {
             treeData[i].children = [];
           }
-          if (node.parentPosition === 'aihuishouTab' && node.position === 'actionOperationTab') {
-            console.log(node.name);
-          }
           treeData[i].children.push(node);
         } else {
           if (!treeData[i].children) {
@@ -207,23 +202,26 @@ class WatcherManagerNew extends Component {
       pageSize: 10,
     };
     queryMount(parameters).then(res => {
-      res.data.forEach(it => {
-        // eslint-disable-next-line no-param-reassign
-        it.key = it.id;
-        it.isEdit = false;
+      if (res) {
+        res.data.forEach(it => {
+          // eslint-disable-next-line no-param-reassign
+          it.key = it.id;
+          it.isEdit = false;
 
-        this.mountData.push({
-          ...it,
-          value: it.id,
-          defaultValue: it.name,
-          key: it.id,
-          nodeType: '1',
-          parentKey: '0',
+          this.mountData.push({
+            ...it,
+            value: it.id,
+            defaultValue: it.name,
+            key: it.id,
+            nodeType: '1',
+            parentKey: '0',
+            disabled: false,
+          });
         });
-      });
-      this.setState({
-        mountDataReady: true,
-      });
+        this.setState({
+          mountDataReady: true,
+        });
+      }
     });
   };
 
@@ -236,21 +234,24 @@ class WatcherManagerNew extends Component {
       parent: '',
     };
     queryFolder(parameters).then(res => {
-      res.data.forEach(it => {
-        it.key = it.id;
-        it.isEdit = false;
-        that.folderData.push({
-          ...it,
-          value: it.id,
-          defaultValue: it.name,
-          key: it.mount + '-' + it.id,
-          nodeType: '2',
-          parentKey: it.mount,
+      if (res) {
+        res.data.forEach(it => {
+          it.key = it.id;
+          it.isEdit = false;
+          that.folderData.push({
+            ...it,
+            value: it.id,
+            defaultValue: it.name,
+            key: it.mount + '-' + it.id,
+            nodeType: '2',
+            parentKey: it.mount,
+            disabled: false,
+          });
         });
-      });
-      this.setState({
-        folderDataReady: true,
-      });
+        this.setState({
+          folderDataReady: true,
+        });
+      }
     });
   };
 
@@ -263,29 +264,31 @@ class WatcherManagerNew extends Component {
       parent: '',
     };
     queryNode(parameters).then(res => {
-      res.data.forEach(it => {
-        // eslint-disable-next-line no-param-reassign
-        it.key = it.id;
-        it.isEdit = false;
+      if (res) {
+        res.data.forEach(it => {
+          // eslint-disable-next-line no-param-reassign
+          it.key = it.id;
+          it.isEdit = false;
 
-        that.nodeData.push({
-          ...it,
-          value: it.id,
-          auth: it.auth ? it.auth : 'auth',
-          defaultValue: it.name,
-          nodeType: '3',
-          key: it.mount + '-' + it.id,
-          parentKey: it.mount,
+          that.nodeData.push({
+            ...it,
+            value: it.id,
+            auth: it.auth ? it.auth : 'auth',
+            defaultValue: it.name,
+            nodeType: '3',
+            key: it.mount + '-' + it.id,
+            parentKey: it.mount,
+            disabled: false,
+          });
         });
-      });
-      this.setState({
-        nodeDataReady: true,
-      });
+        this.setState({
+          nodeDataReady: true,
+        });
+      }
     });
   };
 
   handleModalVisible = (flag, item, actionType) => {
-    console.log(item);
     if (item) {
       if (actionType === 'update') {
         this.setState({
@@ -353,6 +356,41 @@ class WatcherManagerNew extends Component {
     this.setState({
       createMountVisible: true,
     });
+  };
+
+  ajaxBatchSort = (arr) => {
+    let map = new Map().set("mount",[]).set("folder",[]).set("node",[]);
+    arr.forEach((item,index) => {
+      if (item.nodeType === '1') {
+        map.get("mount").push({ id: item.id, sortNo: index + 1 })
+      }
+      if (item.nodeType === '2') {
+        map.get("folder").push({ id: item.id, sortNo: index + 1 })
+      }
+      if (item.nodeType === '3') {
+        map.get("node").push({ id: item.id, sortNo: index + 1 })
+      }
+    });
+
+    for (let [key, value] of map.entries()) {
+      if(value.length > 0){
+        switch (key) {
+          case 'mount':
+            mountSort(value).then();
+            break;
+          case 'folder':
+            folderSort(value).then();
+            break;
+          case 'node':
+            nodeSort(value).then();
+            break;
+        }
+      }
+    }
+    this.setState({
+      loading: true,
+    });
+    this.reload();
   };
   /**
    * 重新加载树
@@ -478,30 +516,41 @@ class WatcherManagerNew extends Component {
   };
   // mount排序
   mountSortFunc = params => {
-    mountSort([params]).then(() => {
-      message.success('修改挂载点顺序成功!');
-      this.reload();
-    });
+    mountSort(params)
+      .then(() => {
+        message.success('修改挂载点顺序成功!');
+        this.reload();
+      })
+      .catch(() => {
+        message.success('修改挂载点顺序失败!');
+      });
   };
 
   // folder排序
   folderSortFunc = params => {
-    folderSort([params]).then(() => {
-      message.success('修改文件夹顺序成功!');
-      this.reload();
-    });
+    folderSort(params)
+      .then(() => {
+        message.success('修改文件夹顺序成功!');
+        this.reload();
+      })
+      .catch(() => {
+        message.success('修改文件夹顺序失败!');
+      });
   };
 
   // node排序
   nodeSortFunc = params => {
-    nodeSort([params]).then(() => {
-      message.success('修改报表节点顺序成功!');
-      this.reload();
-    });
+    nodeSort(params)
+      .then(() => {
+        message.success('修改报表节点顺序成功!');
+        this.reload();
+      })
+      .catch(() => {
+        message.success('修改报表节点顺序失败!');
+      });
   };
 
   onExpand = expandedKeys => {
-    console.log('onExpand', expandedKeys);
     this.expandedKeys = expandedKeys;
     this.setState({ expandedKeys });
   };
@@ -538,13 +587,13 @@ class WatcherManagerNew extends Component {
     let sortNo = this.sortNoInput.current.inputNumberRef.currentValue;
     switch (treeNode.nodeType) {
       case '1':
-        this.mountSortFunc({ id: treeNode.id, sortNo: sortNo });
+        this.mountSortFunc([{ id: treeNode.id, sortNo: sortNo }]);
         break;
       case '2':
-        this.folderSortFunc({ id: treeNode.id, sortNo: sortNo });
+        this.folderSortFunc([{ id: treeNode.id, sortNo: sortNo }]);
         break;
       case '3':
-        this.nodeSortFunc({ id: treeNode.id, sortNo: sortNo });
+        this.nodeSortFunc([{ id: treeNode.id, sortNo: sortNo }]);
         break;
     }
   };
@@ -627,7 +676,13 @@ class WatcherManagerNew extends Component {
 
       if (item.children) {
         return (
-          <TreeNode title={item.title} key={item.key} dataRef={item} icon={<Icon type="edit" />}>
+          <TreeNode
+            title={item.title}
+            key={item.key}
+            dataRef={item}
+            icon={<Icon type="edit" />}
+            disabled={item.disabled}
+          >
             {this.renderTreeNodes(item.children)}
           </TreeNode>
         );
@@ -637,7 +692,6 @@ class WatcherManagerNew extends Component {
     });
 
   onDelete = item => {
-    console.log('delete', item);
     if (item.auth) {
       //报表节点
       this.delNodeAjax(item.id);
@@ -659,19 +713,9 @@ class WatcherManagerNew extends Component {
       }
     });
 
-  findNode = (key, data) =>
-    data.map((item, index) => {
-      if (item.key === key) {
-        console.log(item);
-      } else if (item.children) {
-        this.findNode(key, item.children);
-      }
-    });
-
   editMountNode = (key, data, fieldsValue) =>
     data.map(item => {
       if (item.key === key) {
-        console.log(item);
         item.value = fieldsValue.name;
         item.name = fieldsValue.name;
         item.defaultValue = fieldsValue.name;
@@ -857,10 +901,132 @@ class WatcherManagerNew extends Component {
       });
   };
 
-  onNodeDrop = ({ event, node, dragNode, dragNodesKeys }) => {
-    console.log('node', node);
-    console.log('dragNode', dragNode);
-    console.log('dragNodesKeys', dragNodesKeys);
+  onNodeDrop = info => {
+    const dropKey = info.node.props.eventKey;
+    const nodeType = info.node.props.dataRef.nodeType;
+    const dragKey = info.dragNode.props.eventKey;
+    const dropPos = info.node.props.pos.split('-');
+    let dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
+
+    if (
+      !info.dropToGap ||
+      ((info.node.props.children || []).length > 0 &&
+        info.node.props.expanded &&
+        dropPosition === 1)
+      || info.node.props.dataRef.position == info.dragNode.props.dataRef.parentPosition //不允许跨节点拖动
+    ) {
+      message.error('不支持的操作，只支持兄弟节点之间拖动排序');
+      return;
+    }
+
+    const loop = (data, key, callback) => {
+      data.forEach((item, index, arr) => {
+        if (item.key == key) {
+          return callback(item, index, arr);
+        }
+        if (item.children) {
+          return loop(item.children, key, callback);
+        }
+      });
+    };
+    const data = this.mountData;
+
+    // Find dragObject
+    let oldArr;
+    let dragObj;
+    loop(data, dragKey, (item, index, arr) => {
+      oldArr = arr;
+      arr.splice(index, 1);
+      dragObj = item;
+    });
+
+    let ar;
+    let i;
+    if (nodeType !== '1') {
+      //非挂载点
+      loop(data, dropKey, (item, index, arr) => {
+        ar = arr;
+        i = index;
+      });
+    } else {
+      ar = data;
+      data.forEach((item, index) => {
+        if (item.key == dropKey) {
+          i = index;
+        }
+      });
+    }
+
+    if (dropPosition === -1) {
+      ar.splice(i, 0, dragObj);
+    } else {
+      ar.splice(i + 1, 0, dragObj);
+    }
+
+    this.ajaxBatchSort(ar, dragObj.nodeType);
+  };
+
+  onDragStart = (info) => {
+    const loop = (data, key, pKey, callback) => {
+      data.forEach((item, index, arr) => {
+        if (item.key == key) {
+          console.log(item.key,arr);
+          return callback(item, index, arr, pKey);
+        }
+        if (item.children) {
+          return loop(item.children, key, pKey+','+item.key, callback);
+        }
+      });
+    };
+
+    let nodeData = info.node.props.dataRef;
+    this.setTreeNodeDisabled(this.state.data, nodeData, true);
+    // 查找被拖动元素的父节点的key
+    loop(this.state.data, nodeData.key, '', (item, index, arr, pKey) => {
+      this.setState({
+        expandedKeys: pKey.split(","),
+        autoExpandParent: true,
+        data: this.state.data,
+      })
+    });
+  };
+
+  onDragEnd = (info) => {
+    const loop = (data, key, pKey, callback) => {
+      data.forEach((item, index, arr) => {
+        if (item.key == key) {
+          console.log(item.key,arr);
+          return callback(item, index, arr, pKey);
+        }
+        if (item.children) {
+          return loop(item.children, key, pKey+','+item.key, callback);
+        }
+      });
+    };
+
+    let nodeData = info.node.props.dataRef;
+    this.setTreeNodeDisabled(this.state.data, nodeData, false);
+    // 查找被拖动元素的父节点的key
+    loop(this.state.data, nodeData.key, '', (item, index, arr, pKey) => {
+      this.setState({
+        expandedKeys: pKey.split(","),
+        autoExpandParent: false,
+        data: this.state.data,
+      })
+    });
+  };
+
+  setTreeNodeDisabled = (data, nodeData, flag) => {
+    data.map((item, index) => {
+      if (item.parentPosition !== nodeData.parentPosition) {
+        if(item.position!=nodeData.parentPosition){
+          item.disabled = flag;
+        }
+      }
+      if (item.children) {
+        this.setTreeNodeDisabled(item.children, nodeData, flag);
+      }
+    });
   };
 
   render() {
@@ -972,6 +1138,9 @@ class WatcherManagerNew extends Component {
             selectedKeys={[]}
             onExpand={this.onExpand}
             onDrop={this.onNodeDrop}
+            onDragStart={info => this.onDragStart(info)}
+            onDragEnd={info => this.onDragEnd(info)}
+            draggable
             autoExpandParent={this.state.autoExpandParent}
             style={{ width: '50%', height: '100%' }}
           >
