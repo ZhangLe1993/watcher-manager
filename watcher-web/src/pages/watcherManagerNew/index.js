@@ -358,31 +358,39 @@ class WatcherManagerNew extends Component {
     });
   };
 
-  ajaxBatchSort = (arr, nodeType) => {
-    let tempArr = []; // 受目前后端接口限制，同类型的节点才能参与排序
-    let params = []; //排序参数
-    arr.forEach(item => {
-      if (item.nodeType == nodeType) {
-        tempArr.push(item);
+  ajaxBatchSort = (arr) => {
+    let map = new Map().set("mount",[]).set("folder",[]).set("node",[]);
+    arr.forEach((item,index) => {
+      if (item.nodeType === '1') {
+        map.get("mount").push({ id: item.id, sortNo: index + 1 })
+      }
+      if (item.nodeType === '2') {
+        map.get("folder").push({ id: item.id, sortNo: index + 1 })
+      }
+      if (item.nodeType === '3') {
+        map.get("node").push({ id: item.id, sortNo: index + 1 })
       }
     });
-    tempArr.forEach((item, index) => {
-      params.push({ id: item.id, sortNo: index + 1 });
-    });
+
+    for (let [key, value] of map.entries()) {
+      if(value.length > 0){
+        switch (key) {
+          case 'mount':
+            mountSort(value).then();
+            break;
+          case 'folder':
+            folderSort(value).then();
+            break;
+          case 'node':
+            nodeSort(value).then();
+            break;
+        }
+      }
+    }
     this.setState({
       loading: true,
     });
-    switch (nodeType) {
-      case '1':
-        this.mountSortFunc(params);
-        break;
-      case '2':
-        this.folderSortFunc(params);
-        break;
-      case '3':
-        this.nodeSortFunc(params);
-        break;
-    }
+    this.reload();
   };
   /**
    * 重新加载树
@@ -949,8 +957,6 @@ class WatcherManagerNew extends Component {
       });
     }
 
-    console.log("ar",ar);
-    console.log("oldArr",oldArr);
     if (dropPosition === -1) {
       ar.splice(i, 0, dragObj);
     } else {
@@ -960,7 +966,7 @@ class WatcherManagerNew extends Component {
     this.ajaxBatchSort(ar, dragObj.nodeType);
   };
 
-  onDragStartOrEnd = (info, flag) => {
+  onDragStart = (info) => {
     const loop = (data, key, pKey, callback) => {
       data.forEach((item, index, arr) => {
         if (item.key == key) {
@@ -968,18 +974,43 @@ class WatcherManagerNew extends Component {
           return callback(item, index, arr, pKey);
         }
         if (item.children) {
-          return loop(item.children, key, item.key, callback);
+          return loop(item.children, key, pKey+','+item.key, callback);
         }
       });
     };
 
     let nodeData = info.node.props.dataRef;
-    this.setTreeNodeDisabled(this.state.data, nodeData, flag);
+    this.setTreeNodeDisabled(this.state.data, nodeData, true);
     // 查找被拖动元素的父节点的key
     loop(this.state.data, nodeData.key, '', (item, index, arr, pKey) => {
       this.setState({
-        expandedKeys: [`${pKey}`],
+        expandedKeys: pKey.split(","),
         autoExpandParent: true,
+        data: this.state.data,
+      })
+    });
+  };
+
+  onDragEnd = (info) => {
+    const loop = (data, key, pKey, callback) => {
+      data.forEach((item, index, arr) => {
+        if (item.key == key) {
+          console.log(item.key,arr);
+          return callback(item, index, arr, pKey);
+        }
+        if (item.children) {
+          return loop(item.children, key, pKey+','+item.key, callback);
+        }
+      });
+    };
+
+    let nodeData = info.node.props.dataRef;
+    this.setTreeNodeDisabled(this.state.data, nodeData, false);
+    // 查找被拖动元素的父节点的key
+    loop(this.state.data, nodeData.key, '', (item, index, arr, pKey) => {
+      this.setState({
+        expandedKeys: pKey.split(","),
+        autoExpandParent: false,
         data: this.state.data,
       })
     });
@@ -987,7 +1018,7 @@ class WatcherManagerNew extends Component {
 
   setTreeNodeDisabled = (data, nodeData, flag) => {
     data.map((item, index) => {
-      if (item.nodeType !== nodeData.nodeType || item.mount!=nodeData.mount || item.parentPosition !== nodeData.parentPosition) {
+      if (item.parentPosition !== nodeData.parentPosition) {
         if(item.position!=nodeData.parentPosition){
           item.disabled = flag;
         }
@@ -1107,8 +1138,8 @@ class WatcherManagerNew extends Component {
             selectedKeys={[]}
             onExpand={this.onExpand}
             onDrop={this.onNodeDrop}
-            onDragStart={info => this.onDragStartOrEnd(info, true)}
-            onDragEnd={info => this.onDragStartOrEnd(info, false)}
+            onDragStart={info => this.onDragStart(info)}
+            onDragEnd={info => this.onDragEnd(info)}
             draggable
             autoExpandParent={this.state.autoExpandParent}
             style={{ width: '50%', height: '100%' }}
