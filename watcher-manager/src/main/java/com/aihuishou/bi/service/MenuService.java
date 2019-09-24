@@ -88,6 +88,7 @@ public class MenuService {
 
         mounts.stream().forEach(m -> {
             List<Map<String, Object>> part = new ArrayList<>();
+            List<Map<String, Object>> body = new ArrayList<>();
             //构造挂载点
             mergeMount(part, m);
             //构造文件夹
@@ -98,7 +99,7 @@ public class MenuService {
 
             //构造
             mRoots.stream().forEach(f -> {
-                mergeList(part, folders, nodes, f, menuAuthMap, userAuthList, mapping, keyWord);
+                mergeList(body, folders, nodes, f, menuAuthMap, userAuthList, mapping, keyWord);
             });
 
             //构造菜单
@@ -108,14 +109,20 @@ public class MenuService {
             }).collect(Collectors.toList());
             //构造
             mNodes.stream().forEach(n -> {
-                mergeNode(part, n, menuAuthMap, userAuthList, mapping, keyWord);
+                mergeNode(body, n, menuAuthMap, userAuthList, mapping, keyWord);
             });
             if(StringUtils.isNotBlank(keyWord)) {
-                if(part.size() > 1) {
+                //如果是搜索，mount下面没有东西就不显示
+                if(body.size() > 0) {
                     merge.addAll(part);
+                    merge.addAll(body.stream().sorted(Comparator.comparing(Sort :: comparingBySortNo)).collect(Collectors.toList()));
                 }
             } else {
+                //如果是正常展示，mount正常展示，如果body没有的话。
                 merge.addAll(part);
+                if(body.size() > 0) {
+                    merge.addAll(body.stream().sorted(Comparator.comparing(Sort :: comparingBySortNo)).collect(Collectors.toList()));
+                }
             }
         });
         return merge;

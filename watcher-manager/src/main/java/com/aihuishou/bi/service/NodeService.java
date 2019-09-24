@@ -83,8 +83,7 @@ public class NodeService extends BaseService {
         }
         if(StringUtils.isBlank(parent)) {
             parent = "-1";
-        }
-        if(StringUtils.isNotBlank(parent)) {
+        } else {
             mount = "0";
         }
         String sql = "UPDATE bi_nodes SET url = ?, name = ?, mount = ?, parent_position = ?, state = ?, update_time = now() WHERE id = ?;";
