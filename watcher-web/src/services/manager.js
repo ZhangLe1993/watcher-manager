@@ -32,7 +32,9 @@ export async function deleteMount(params) {
 // 查询文件夹
 export async function queryFolder(params) {
   const { key, pageIndex, pageSize, parent } = params;
-  return request(`/menu/folder?key=${key}&page_index=${pageIndex}&page_size=${pageSize}&parent=${parent}`);
+  return request(
+    `/menu/folder?key=${key}&page_index=${pageIndex}&page_size=${pageSize}&parent=${parent}`,
+  );
 }
 
 // 新增文件夹
@@ -61,7 +63,9 @@ export async function deleteFolder(params) {
 // 查询报表节点
 export async function queryNode(params) {
   const { key, pageIndex, pageSize, parent } = params;
-  return request(`/menu/node?key=${key}&page_index=${pageIndex}&page_size=${pageSize}&parent=${parent}`);
+  return request(
+    `/menu/node?key=${key}&page_index=${pageIndex}&page_size=${pageSize}&parent=${parent}`,
+  );
 }
 
 // 新增报表节点
@@ -158,4 +162,8 @@ export async function mountSort(params) {
     method: 'PUT',
     data: params,
   });
+}
+
+export async function getOperationInfos(nodeType, NodeId) {
+  return request(`/operateLog/getOperationInfoList?nodeType=${nodeType}&nodeId=${NodeId}`);
 }

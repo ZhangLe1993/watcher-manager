@@ -12,6 +12,8 @@ import {
   Divider,
   Input,
   InputNumber,
+  Popover,
+  Tooltip,
 } from 'antd';
 import styles from './index.less';
 import Button from 'antd/es/button';
@@ -37,6 +39,7 @@ import {
   queryMount,
   queryNode,
   queryUserAuth,
+  getOperationInfos,
 } from '@/services/manager';
 import difference from 'lodash/difference';
 
@@ -87,6 +90,10 @@ class WatcherManagerNew extends Component {
       loading: false,
       position: '',
       modalLoading: false,
+    },
+    detail: {
+      loading: true,
+      data: [],
     },
   };
 
@@ -216,6 +223,7 @@ class WatcherManagerNew extends Component {
             nodeType: '1',
             parentKey: '0',
             disabled: false,
+            parentPosition: '-1',
           });
         });
         this.setState({
@@ -358,22 +366,25 @@ class WatcherManagerNew extends Component {
     });
   };
 
-  ajaxBatchSort = (arr) => {
-    let map = new Map().set("mount",[]).set("folder",[]).set("node",[]);
-    arr.forEach((item,index) => {
+  ajaxBatchSort = arr => {
+    let map = new Map()
+      .set('mount', [])
+      .set('folder', [])
+      .set('node', []);
+    arr.forEach((item, index) => {
       if (item.nodeType === '1') {
-        map.get("mount").push({ id: item.id, sortNo: index + 1 })
+        map.get('mount').push({ id: item.id, sortNo: index + 1 });
       }
       if (item.nodeType === '2') {
-        map.get("folder").push({ id: item.id, sortNo: index + 1 })
+        map.get('folder').push({ id: item.id, sortNo: index + 1 });
       }
       if (item.nodeType === '3') {
-        map.get("node").push({ id: item.id, sortNo: index + 1 })
+        map.get('node').push({ id: item.id, sortNo: index + 1 });
       }
     });
 
     for (let [key, value] of map.entries()) {
-      if(value.length > 0){
+      if (value.length > 0) {
         switch (key) {
           case 'mount':
             mountSort(value).then();
@@ -387,10 +398,11 @@ class WatcherManagerNew extends Component {
         }
       }
     }
-    this.setState({
-      loading: true,
-    });
-    this.reload();
+
+    let $this = this;
+    setTimeout(function() {
+      $this.reload();
+    }, 1500);
   };
   /**
    * 重新加载树
@@ -598,6 +610,86 @@ class WatcherManagerNew extends Component {
     }
   };
 
+  detailInfoShow = (visible, item) => {
+    if (visible) {
+      this.setState({
+        detail: {
+          loading: true,
+          data: [],
+        },
+      });
+      let $this = this;
+      let nodeType = item.nodeType === '1' ? 'mount' : item.nodeType === '2' ? 'folder' : 'node';
+      getOperationInfos(nodeType, item.id).then(res => {
+        if (res) {
+          $this.setState({
+            detail: {
+              loading: false,
+              data: res,
+            },
+          });
+        }
+      });
+    }
+  };
+
+  renderDetailContent = () => {
+    const columns = [
+      {
+        title: '操作类型',
+        dataIndex: 'event',
+        key: 'event',
+      },
+      {
+        title: '操作详情',
+        dataIndex: 'description',
+        key: 'description',
+        width: 350,
+        render: (text, record) => (
+          <Tooltip placement="top" title={text}>
+            <div style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>
+              {text.length > 50 ? text.substring(0, 35) + '...' : text}
+            </div>
+          </Tooltip>
+        ),
+      },
+      {
+        title: '操作者',
+        dataIndex: 'employee_name',
+        key: 'employee_name',
+      },
+      {
+        title: '操作时间',
+        dataIndex: 'operate_time',
+        key: 'operate_time',
+      },
+    ];
+    return (
+      <Table
+        dataSource={this.state.detail.data}
+        style={{ fontSize: '12px', height: 300, overflowY: 'auto' }}
+        columns={columns}
+        loading={this.state.detail.loading}
+        pagination={false}
+      />
+    );
+  };
+
+  renderDetailTitle = item => {
+    return (
+      <span>
+        {item.parentKey === '0' ? (
+          <Icon style={{ marginRight: 10 }} type="tags" theme="twoTone" />
+        ) : item.auth ? (
+          <Icon style={{ marginRight: 10 }} type="api" theme="twoTone" />
+        ) : (
+          <Icon style={{ marginRight: 10 }} type="folder" theme="twoTone" />
+        )}
+        {item.name} 操作详情
+      </span>
+    );
+  };
+
   renderTreeNodes = data =>
     data.map((item, index) => {
       item.title = (
@@ -611,19 +703,28 @@ class WatcherManagerNew extends Component {
           >
             {item.sortNo}-
           </span>
-          <span>
-            {item.parentKey === '0' ? (
-              <Icon style={{ marginRight: 10 }} type="tags" theme="twoTone" />
-            ) : item.auth ? (
-              <Icon style={{ marginRight: 10 }} type="api" theme="twoTone" />
-            ) : (
-              <Icon style={{ marginRight: 10 }} type="folder" theme="twoTone" />
-            )}
-            {item.name.indexOf(this.state.searchValue) > -1
-              ? this.renderSearchValve(item)
-              : item.name}
-          </span>
-
+          <Popover
+            placement="right"
+            title={this.renderDetailTitle(item)}
+            content={this.renderDetailContent()}
+            trigger="click"
+            onVisibleChange={visible => this.detailInfoShow(visible, item)}
+          >
+            <span>
+              {item.parentKey === '0' ? (
+                <Icon style={{ marginRight: 10 }} type="tags" theme="twoTone" />
+              ) : item.auth ? (
+                <Icon style={{ marginRight: 10 }} type="api" theme="twoTone" />
+              ) : (
+                <Icon style={{ marginRight: 10 }} type="folder" theme="twoTone" />
+              )}
+              <span style={item.state === '0' ? { color: '#ccc' } : {}}>
+                {item.name.indexOf(this.state.searchValue) > -1
+                  ? this.renderSearchValve(item)
+                  : item.name}
+              </span>
+            </span>
+          </Popover>
           <span className={styles.operationField}>
             <Icon
               style={{ marginLeft: 10 }}
@@ -668,7 +769,12 @@ class WatcherManagerNew extends Component {
               onConfirm={e => this.sortTreeNode(item)}
               icon={<Icon type="sort-ascending" title="排序" />}
             >
-              <Icon type="sort-ascending" title="排序" onClick={() => this.showSortNo(true)} />
+              <Icon
+                type="sort-ascending"
+                title="排序"
+                onClick={() => this.showSortNo(true)}
+                style={{ marginLeft: 10, marginRight: 10 }}
+              />
             </Popconfirm>
           </span>
         </div>
@@ -903,17 +1009,35 @@ class WatcherManagerNew extends Component {
 
   onNodeDrop = info => {
     const dropKey = info.node.props.eventKey;
-    const nodeType = info.node.props.dataRef.nodeType;
+    let node = info.node.props.dataRef;
+    let dragNode = info.dragNode.props.dataRef;
+    let nodeType;
+    let position;
+    if (node) {
+      nodeType = node.nodeType;
+      position = node.position;
+    } else {
+      nodeType = info.node.props.nodeType;
+      position = info.node.props.position;
+    }
+    let parentPosition;
+    if (dragNode) {
+      parentPosition = dragNode.parentPosition;
+    } else {
+      parentPosition = info.node.props.parentPosition;
+    }
+
     const dragKey = info.dragNode.props.eventKey;
     const dropPos = info.node.props.pos.split('-');
     let dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
 
+    console.log('info===>', info);
     if (
       !info.dropToGap ||
       ((info.node.props.children || []).length > 0 &&
         info.node.props.expanded &&
-        dropPosition === 1)
-      || info.node.props.dataRef.position == info.dragNode.props.dataRef.parentPosition //不允许跨节点拖动
+        dropPosition === 1) ||
+      position == parentPosition //不允许跨节点拖动
     ) {
       message.error('不支持的操作，只支持兄弟节点之间拖动排序');
       return;
@@ -966,60 +1090,65 @@ class WatcherManagerNew extends Component {
     this.ajaxBatchSort(ar, dragObj.nodeType);
   };
 
-  onDragStart = (info) => {
+  onDragStart = info => {
     const loop = (data, key, pKey, callback) => {
       data.forEach((item, index, arr) => {
         if (item.key == key) {
-          console.log(item.key,arr);
+          console.log(item.key, arr);
           return callback(item, index, arr, pKey);
         }
         if (item.children) {
-          return loop(item.children, key, pKey+','+item.key, callback);
+          return loop(item.children, key, pKey + ',' + item.key, callback);
         }
       });
     };
 
     let nodeData = info.node.props.dataRef;
+    if (!nodeData) {
+      nodeData = info.node.props;
+    }
     this.setTreeNodeDisabled(this.state.data, nodeData, true);
     // 查找被拖动元素的父节点的key
     loop(this.state.data, nodeData.key, '', (item, index, arr, pKey) => {
       this.setState({
-        expandedKeys: pKey.split(","),
+        expandedKeys: pKey.split(','),
         autoExpandParent: true,
         data: this.state.data,
-      })
+      });
     });
   };
 
-  onDragEnd = (info) => {
+  onDragEnd = info => {
     const loop = (data, key, pKey, callback) => {
       data.forEach((item, index, arr) => {
         if (item.key == key) {
-          console.log(item.key,arr);
           return callback(item, index, arr, pKey);
         }
         if (item.children) {
-          return loop(item.children, key, pKey+','+item.key, callback);
+          return loop(item.children, key, pKey + ',' + item.key, callback);
         }
       });
     };
 
     let nodeData = info.node.props.dataRef;
+    if (!nodeData) {
+      nodeData = info.node.props;
+    }
     this.setTreeNodeDisabled(this.state.data, nodeData, false);
     // 查找被拖动元素的父节点的key
     loop(this.state.data, nodeData.key, '', (item, index, arr, pKey) => {
       this.setState({
-        expandedKeys: pKey.split(","),
+        expandedKeys: pKey.split(','),
         autoExpandParent: false,
         data: this.state.data,
-      })
+      });
     });
   };
 
   setTreeNodeDisabled = (data, nodeData, flag) => {
     data.map((item, index) => {
       if (item.parentPosition !== nodeData.parentPosition) {
-        if(item.position!=nodeData.parentPosition){
+        if (item.position != nodeData.parentPosition) {
           item.disabled = flag;
         }
       }
