@@ -28,6 +28,7 @@
         <security:intercept-url pattern="/pages/**" access="hasRole('ROLE_BACK')"/>
         <security:intercept-url pattern="/" access="hasRole('ROLE_BACK')"/>
         <security:intercept-url pattern="/menu/**" access="hasRole('ROLE_BACK')"/>
+        <security:intercept-url pattern="/log/**" access="hasRole('ROLE_BACK')"/>
         <security:intercept-url pattern="/route/**" access="hasRole('ROLE_BACK')"/>
         <security:intercept-url pattern="/watcher/**" access="hasRole('ROLE_BACK')"/>
         <security:intercept-url pattern="/permission/**" access="hasRole('ROLE_BACK')"/>
