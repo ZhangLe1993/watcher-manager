@@ -31,7 +31,7 @@ public class OperateLogService {
     }
 
     public List<OperationInfo> getOperationInfoList(String nodeType, Integer nodeId) throws SQLException {
-        String sql = "select event, description,employee_name, operate_time from operate_log_b where target=? and target_id=?";
+        String sql = "select event, description,employee_name, operate_time from operate_log_b where target=? and target_id=? order by operate_time desc";
         List<List<OperationInfo>> operationInfos = new QueryRunner(dataSource).execute(sql, new BeanListHandler<OperationInfo>(OperationInfo.class), nodeType, nodeId);
         if(operationInfos != null && operationInfos.size() > 0){
             return operationInfos.get(0);
