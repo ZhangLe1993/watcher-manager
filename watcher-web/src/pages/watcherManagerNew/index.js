@@ -703,28 +703,20 @@ class WatcherManagerNew extends Component {
           >
             {item.sortNo}-
           </span>
-          <Popover
-            placement="right"
-            title={this.renderDetailTitle(item)}
-            content={this.renderDetailContent()}
-            trigger="click"
-            onVisibleChange={visible => this.detailInfoShow(visible, item)}
-          >
-            <span>
-              {item.parentKey === '0' ? (
-                <Icon style={{ marginRight: 10 }} type="tags" theme="twoTone" />
-              ) : item.auth ? (
-                <Icon style={{ marginRight: 10 }} type="api" theme="twoTone" />
-              ) : (
-                <Icon style={{ marginRight: 10 }} type="folder" theme="twoTone" />
-              )}
-              <span style={item.state === '0' ? { color: '#ccc' } : {}}>
-                {item.name.indexOf(this.state.searchValue) > -1
-                  ? this.renderSearchValve(item)
-                  : item.name}
-              </span>
+          <span>
+            {item.parentKey === '0' ? (
+              <Icon style={{ marginRight: 10 }} type="tags" theme="twoTone" />
+            ) : item.auth ? (
+              <Icon style={{ marginRight: 10 }} type="api" theme="twoTone" />
+            ) : (
+              <Icon style={{ marginRight: 10 }} type="folder" theme="twoTone" />
+            )}
+            <span style={item.state === '0' ? { color: '#ccc' } : {}}>
+              {item.name.indexOf(this.state.searchValue) > -1
+                ? this.renderSearchValve(item)
+                : item.name}
             </span>
-          </Popover>
+          </span>
           <span className={styles.operationField}>
             <Icon
               style={{ marginLeft: 10 }}
@@ -776,6 +768,15 @@ class WatcherManagerNew extends Component {
                 style={{ marginLeft: 10, marginRight: 10 }}
               />
             </Popconfirm>
+            <Popover
+              placement="right"
+              title={this.renderDetailTitle(item)}
+              content={this.renderDetailContent()}
+              trigger="click"
+              onVisibleChange={visible => this.detailInfoShow(visible, item)}
+            >
+              <Icon type="unordered-list" title="操作详情" />
+            </Popover>
           </span>
         </div>
       );
