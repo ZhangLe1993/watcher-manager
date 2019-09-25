@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/log", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/operateLog", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class OperateLogController {
 
     @Autowired
