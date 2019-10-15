@@ -20,7 +20,7 @@ class Home extends React.Component {
     const that = this;
     let clickNumMap = {};
     const clickNumArr = [];
-    const storeKey='click-num-map';
+    const storeKey = 'click-num-map';
     if (window.localStorage.getItem(storeKey)) {
       clickNumMap = JSON.parse(window.localStorage.getItem(storeKey));
       // 对象转数组
@@ -62,10 +62,10 @@ class Home extends React.Component {
         }
       }
     } else if (component === pathName) {
-        return nameStr;
-      } else {
-        return null;
-      }
+      return nameStr;
+    } else {
+      return null;
+    }
   };
 
   getCleanArr = arr => {
@@ -86,7 +86,7 @@ class Home extends React.Component {
     });
     const title = this.getCleanArr(titleArr)[0] || '';
     return title;
-  }
+  };
 
   linkTo = pathName => {
     const { menuData } = this.props;
@@ -94,11 +94,11 @@ class Home extends React.Component {
     window.sessionStorage.setItem('pathName', pathName);
     window.sessionStorage.setItem('currentMenuItem', JSON.stringify(checkedMenuItem));
     router.push(`${pathName}`);
-  }
+  };
 
   render() {
     let { clickNumArr } = this.state;
-    clickNumArr = clickNumArr.filter(it=>it.key).slice(0,12)
+    clickNumArr = clickNumArr.filter(it => it.key && this.getMenuFullName(it.key)).slice(0, 12);
     return (
       <div className={style.container}>
         {
@@ -114,18 +114,19 @@ class Home extends React.Component {
         <div className={style.visitList}>常访问报表</div>
         {
           clickNumArr && clickNumArr.length > 0
-          ? <ul className={style.rankContainer}>
+            ? <ul className={style.rankContainer}>
               {
                 clickNumArr && clickNumArr.map((it, index) => (
                   <li key={it.key} onClick={() => this.linkTo(it.path)}>
-                    <span className={`${style.rankNum} ${index === 0 ? style.hot1 : ''} ${index === 1 ? style.hot2 : ''} ${index === 2 ? style.hot3 : ''}`}>{index + 1}</span>
+                    <span
+                      className={`${style.rankNum} ${index === 0 ? style.hot1 : ''} ${index === 1 ? style.hot2 : ''} ${index === 2 ? style.hot3 : ''}`}>{index + 1}</span>
                     <span className={style.name}>{this.getMenuFullName(it.key)}</span>
                     {/* <span className={style.clickNum}>{it.value}次</span> */}
                   </li>
-                  ))
+                ))
               }
             </ul>
-          : <div className={style.noFooters}>您暂时还没有访问菜单记录哦!</div>
+            : <div className={style.noFooters}>您暂时还没有访问菜单记录哦!</div>
         }
       </div>
     );
