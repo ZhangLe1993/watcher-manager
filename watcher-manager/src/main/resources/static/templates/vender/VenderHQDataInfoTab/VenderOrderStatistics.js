@@ -1,6 +1,3 @@
-/**
- * Created by hsh on 2016/5/13.
- */
 Template.VenderOrderStatistics.rendered = function () {
     $('.navi-tab').removeClass('active');
     $('#VenderTab').addClass('active');
@@ -24,9 +21,9 @@ Template.VenderOrderStatistics.rendered = function () {
 
 
     var ua = navigator.userAgent.toLowerCase();
-    var isAndroid = ua.indexOf("android") >-1;
-    var isiOS = ua.indexOf("iphone") >-1;
-    if(isAndroid||isiOS){
+    var isAndroid = ua.indexOf("android") > -1;
+    var isiOS = ua.indexOf("iphone") > -1;
+    if (isAndroid || isiOS) {
         $('.sidebar-toggle').click();
     }
 
@@ -37,13 +34,13 @@ Template.VenderOrderStatistics.rendered = function () {
     var startDate = new Date(endDate).getNewDate(dateGap);
     var startWeekDate = moment().weekday(-14).format("YYYY-MM-DD");
     var endWeekDate = moment().weekday(-7).format("YYYY-MM-DD");
-    if(startWeekDate<minWeekDate){
+    if (startWeekDate < minWeekDate) {
         startWeekDate = minWeekDate;
     }
 
     var startMonthDate = moment().subtract(1, 'month').startOf('month').format("YYYY-MM-DD");
     var endMonthDate = moment().subtract(0, 'month').startOf('month').format("YYYY-MM-DD");
-    if(startMonthDate<minMonthDate){
+    if (startMonthDate < minMonthDate) {
         startMonthDate = minMonthDate;
     }
     var transformDate = function (date) {
@@ -53,8 +50,6 @@ Template.VenderOrderStatistics.rendered = function () {
 
     var datePickerOptions = {
         "showDropdowns": true,
-        //"alwaysShowCalendars": true,
-        //"singleDatePicker": true,
         "autoApply": true,
         "alwaysShowCalendars": false,
         "startDate": transformDate(startDate),
@@ -108,16 +103,13 @@ Template.VenderOrderStatistics.rendered = function () {
         }
     };
 
-
-    $(".dateSelectLabel").html(startDate+"~"+endDate);
+    $(".dateSelectLabel").html(startDate + "~" + endDate);
     $('.webTrafficFunnelDate').daterangepicker(datePickerOptions, pickWebTrafficFunnelDateRangeCallback);
 
     var weekPickerOptions = {
-        onlyShowfirstDayOfWeek:true,
+        onlyShowfirstDayOfWeek: true,
         "showDropdowns": true,
-        //"alwaysShowCalendars": true,
         "alwaysShowCalendars": false,
-        //"singleDatePicker": true,
         "autoApply": true,
         "startDate": transformDate(startWeekDate),
         "endDate": transformDate(endWeekDate),
@@ -166,15 +158,13 @@ Template.VenderOrderStatistics.rendered = function () {
         }
     };
 
-    $(".weekSelectLabel").html(startWeekDate+"~"+endWeekDate);
+    $(".weekSelectLabel").html(startWeekDate + "~" + endWeekDate);
     $('.webTrafficFunnelWeek').daterangepicker(weekPickerOptions, pickWebTrafficFunnelWeekRangeCallback);
 
     var monthPickerOptions = {
-        onlyShowfirstDayOfMonth:true,
+        onlyShowfirstDayOfMonth: true,
         "showDropdowns": true,
-        //"alwaysShowCalendars": true,
         "alwaysShowCalendars": false,
-        //"singleDatePicker": true,
         "autoApply": true,
         "startDate": transformDate(startMonthDate),
         "endDate": transformDate(endMonthDate),
@@ -223,19 +213,19 @@ Template.VenderOrderStatistics.rendered = function () {
         }
     };
 
-    $(".monthSelectLabel").html(startMonthDate+"~"+endMonthDate);
+    $(".monthSelectLabel").html(startMonthDate + "~" + endMonthDate);
     $('.webTrafficFunnelMonth').daterangepicker(monthPickerOptions, pickWebTrafficFunnelMonthRangeCallback);
 
     $(".webTrafficFunnelDate").show();
     $(".webTrafficFunnelWeek").hide();
     $(".webTrafficFunnelMonth").hide();
-    $(".dateType").on('change',function(){
-        var dateType =$(this).val();
-        if(dateType=="daily"){
+    $(".dateType").on('change', function () {
+        var dateType = $(this).val();
+        if (dateType == "daily") {
             $(".webTrafficFunnelDate").show();
             $(".webTrafficFunnelWeek").hide();
             $(".webTrafficFunnelMonth").hide();
-            dt = $('.desktop-only .dateSelectLabel').text().replace(/ /g,"").split("~");
+            dt = $('.desktop-only .dateSelectLabel').text().replace(/ /g, "").split("~");
             var startDate = dt[0];
             var endDate = dt[1];
             var store = $(this).parent().find(".store").val();
@@ -244,18 +234,18 @@ Template.VenderOrderStatistics.rendered = function () {
             var query = {
                 "startDate": startDate,
                 "endDate": endDate,
-                "company":company,
-                "store":store,
-                "account":account,
-                "companyNameId":companyNameId
+                "company": company,
+                "store": store,
+                "account": account,
+                "vender_company_key": vender_company_key
             };
 
             renderPage(query);
-        }else if(dateType=="weekly"){
+        } else if (dateType == "weekly") {
             $(".webTrafficFunnelDate").hide();
             $(".webTrafficFunnelWeek").show();
             $(".webTrafficFunnelMonth").hide();
-            dt = $('.desktop-only .weekSelectLabel').text().replace(/ /g,"").split("~");
+            dt = $('.desktop-only .weekSelectLabel').text().replace(/ /g, "").split("~");
             var startDate = dt[0];
             var endDate = dt[1];
             var store = $(this).parent().find(".store").val();
@@ -265,20 +255,20 @@ Template.VenderOrderStatistics.rendered = function () {
             var query = {
                 "startDate": startDate,
                 "endDate": endDate,
-                "company":company,
-                "store":store,
-                "account":account,
-                "companyNameId":companyNameId
+                "company": company,
+                "store": store,
+                "account": account,
+                "vender_company_key": vender_company_key
             };
 
             renderPage(query)
-        }else if(dateType=="monthly"){
-             $(".webTrafficFunnelDate").hide();
-             $(".webTrafficFunnelWeek").hide();
-             $(".webTrafficFunnelMonth").show();
-             dt = $('.desktop-only .monthSelectLabel').text().replace(/ /g,"").split("~");
-             var startDate = dt[0];
-             var endDate = dt[1];
+        } else if (dateType == "monthly") {
+            $(".webTrafficFunnelDate").hide();
+            $(".webTrafficFunnelWeek").hide();
+            $(".webTrafficFunnelMonth").show();
+            dt = $('.desktop-only .monthSelectLabel').text().replace(/ /g, "").split("~");
+            var startDate = dt[0];
+            var endDate = dt[1];
             var store = $(this).parent().find(".store").val();
             var account = $(this).parent().find(".account").val();
             var company = $(this).parent().find(".company").val();
@@ -286,38 +276,38 @@ Template.VenderOrderStatistics.rendered = function () {
             var query = {
                 "startDate": startDate,
                 "endDate": endDate,
-                "company":company,
-                "store":store,
-                "account":account,
-                "companyNameId":companyNameId
+                "company": company,
+                "store": store,
+                "account": account,
+                "vender_company_key": vender_company_key
             };
-             renderPage(query)
-         }
+            renderPage(query)
+        }
     });
 
-    var dt = $('.desktop-only .dateSelectLabel').text().replace(/ /g,"").split("~");
+    var dt = $('.desktop-only .dateSelectLabel').text().replace(/ /g, "").split("~");
     var startDate = dt[0];
     var endDate = dt[1];
 
-    if(vender_company_key=="aihuishouBiClairAll"){
+    if (vender_company_key == "aihuishouBiClairAll") {
         var queryall = {
             "startDate": startDate,
             "endDate": endDate,
-            "vender_company_key":vender_company_key
+            "vender_company_key": vender_company_key
         };
-        var query ={
-            "vender_company_key":vender_company_key
+        var query = {
+            "vender_company_key": vender_company_key
         }
-    }else{
+    } else {
         var queryall = {
             "startDate": startDate,
             "endDate": endDate,
-            "vender_company_key":vender_company_key,
-            "company":vender_company_name
+            "vender_company_key": vender_company_key,
+            "company": vender_company_name
         };
-        var query ={
-            "vender_company_key":vender_company_key,
-            "company":vender_company_name
+        var query = {
+            "vender_company_key": vender_company_key,
+            "company": vender_company_name
         }
     }
 
@@ -325,108 +315,100 @@ Template.VenderOrderStatistics.rendered = function () {
     renderPage(queryall);
 
     //选项初始化加载
-    requestURL(dataService+"/Vender/getVenderFilterOptions",query).done(function(data){
-//            console.log(data.sourceStats);
+    requestURL(dataService + "/Vender/getVenderFilterOptions", query).done(function (data) {
         /*门店*/
-        $(".company").attr("multiple","multiple");
-//        data.vender_company_name.forEach(function (e) {
-//            $(".company").append("<option value='" + e + "'>" + e + "</option>");
-//        });
+        $(".company").attr("multiple", "multiple");
 
-        if(vender_company_name[0]=="all"){
+        if (vender_company_name[0] == "all") {
             data.vender_company_name.forEach(function (e) {
                 $(".company").append("<option value='" + e + "'>" + e + "</option>");
             });
-        }else{
+        } else {
             $(".company").append("<option value='" + vender_company_name[0] + "' disabled='disabled' selected='selected' >" + vender_company_name[0] + "</option>");
         }
 
         /*门店*/
-        $(".store").attr("multiple","multiple");
+        $(".store").attr("multiple", "multiple");
         data.vender_store_name.forEach(function (e) {
             $(".store").append("<option value='" + e + "'>" + e + "</option>");
         });
 
         /*子账户*/
-        $(".account").attr("multiple","multiple");
+        $(".account").attr("multiple", "multiple");
         data.vender_account_name.forEach(function (e) {
             $(".account").append("<option value='" + e + "'>" + e + "</option>");
         });
 
         $(".company").multipleSelect({
             placeholder: "全部",
-//            selectAllText:"全部",
-//            allSelected:true,
             width: 150,
             selectAll: false,
             filter: true
         });
         $(".store").multipleSelect({
             placeholder: "全部",
-            //selectAllText:"全部",
             width: 150,
             selectAll: false,
             filter: true
         });
         $(".account").multipleSelect({
             placeholder: "全部",
-            //selectAllText:"全部",
             width: 150,
             selectAll: false,
             filter: true
         });
 
-        $(document).on('change','select.company',function(e){
-                   getFilterOptionsCompany();
-             });
+        $(document).on('change', 'select.company', function (e) {
+            getFilterOptionsCompany();
+        });
     });
 
-    $(".search").click(function(){
+    $(".search").click(function () {
         /*日期*/
-        dt = $('.desktop-only .dateSelectLabel').text().replace(/ /g,"").split("~");
+        dt = $('.desktop-only .dateSelectLabel').text().replace(/ /g, "").split("~");
         var startDate = dt[0];
         var endDate = dt[1];
         /*周数*/
-        dt = $('.desktop-only .weekSelectLabel').text().replace(/ /g,"").split("~");
+        dt = $('.desktop-only .weekSelectLabel').text().replace(/ /g, "").split("~");
         var startDateWeek = dt[0];
         var endDateWeek = dt[1];
         /*月数*/
-        dt = $('.desktop-only .monthSelectLabel').text().replace(/ /g,"").split("~");
+        dt = $('.desktop-only .monthSelectLabel').text().replace(/ /g, "").split("~");
         var startMonth = dt[0];
         var endMonth = dt[1];
 
         var company;
-        if(vender_company_key=="aihuishouBiClairAll"){
-            company= $(this).parent().find(".company").val();
-        }else{
-            company=vender_company_name;
+        if (vender_company_key == "aihuishouBiClairAll") {
+            company = $(this).parent().find(".company").val();
+        } else {
+            company = vender_company_name;
         }
         var store = $(this).parent().find(".store").val();
         var account = $(this).parent().find(".account").val();
 
-        var query={
-            "startDate":startDate,
-            "endDate":endDate,
-            "company":company,
-            "store":store,
-            "account":account,
-            "vender_company_key":vender_company_key
+        var query = {
+            "startDate": startDate,
+            "endDate": endDate,
+            "company": company,
+            "store": store,
+            "account": account,
+            "vender_company_key": vender_company_key
         };
-        var queryWeek={
-            "startDate":startDateWeek,
-            "endDate":endDateWeek,
-            "company":company,
-            "store":store,
-            "account":account,
-            "vender_company_key":vender_company_key
+        var queryWeek = {
+            "startDate": startDateWeek,
+            "endDate": endDateWeek,
+            "company": company,
+            "store": store,
+            "account": account,
+            "vender_company_key": vender_company_key
         };
-        var queryMonth={
-            "startDate":startMonth,
-            "endDate":endMonth,
-            "company":company,
-            "store":store,
-            "account":account,
-            "vender_company_key":vender_company_key
+        var queryMonth = {
+            "startDate": startMonth,
+            "endDate": endMonth,
+            "company": company,
+            "store": store,
+            "account": account,
+            "vender_company_key": vender_company_key
         };
 
         $("#chartContent").hide();
@@ -434,24 +416,24 @@ Template.VenderOrderStatistics.rendered = function () {
         $(".webTrafficFunnelDate").show();
         $(".webTrafficFunnelWeek").hide();
         $(".webTrafficFunnelMonth").hide();
-        var flag=$(".dateType").val();
-        if(flag=="daily"){
-            query=cleanParams(query);
+        var flag = $(".dateType").val();
+        if (flag == "daily") {
+            query = cleanParams(query);
             $("#chartContent").show();
             renderPage(query);
             $(".webTrafficFunnelDate").show();
             $(".webTrafficFunnelWeek").hide();
             $(".webTrafficFunnelMonth").hide();
-        }else if(flag=="weekly"){
-            queryWeek=cleanParams(queryWeek);
+        } else if (flag == "weekly") {
+            queryWeek = cleanParams(queryWeek);
             $("#chartContent").show();
             $("#loading").hide();
             renderPage(queryWeek);
             $(".webTrafficFunnelDate").hide();
             $(".webTrafficFunnelWeek").show();
             $(".webTrafficFunnelMonth").hide();
-        }else if(flag=="monthly"){
-            queryMonth=cleanParams(queryMonth);
+        } else if (flag == "monthly") {
+            queryMonth = cleanParams(queryMonth);
             $("#chartContent").show();
             $("#loading").hide();
             renderPage(queryMonth);
@@ -462,56 +444,56 @@ Template.VenderOrderStatistics.rendered = function () {
 
     });
 
-    $(".order").on('change',function(){
-        var flag=$(".order").val();
-        drawtrafficFunnelChart(orderData,flag);
-        drawtrafficStackChart(orderData,flag);
-        drawtrafficFunnelChartPr(orderData,flag);
-        drawtrafficStackChartPr(orderData,flag);
+    $(".order").on('change', function () {
+        var flag = $(".order").val();
+        drawtrafficFunnelChart(orderData, flag);
+        drawtrafficStackChart(orderData, flag);
+        drawtrafficFunnelChartPr(orderData, flag);
+        drawtrafficStackChartPr(orderData, flag);
     });
 };
 
-var orderData,vender_company_key,vender_company_name=[];
+var orderData, vender_company_key, vender_company_name = [];
 
 function pickWebTrafficFunnelDateRangeCallback(start, end, label) {
     var sdt = start.format('YYYY-MM-DD');
     var edt = end.format('YYYY-MM-DD');
-    $('.dateSelectLabel').html(sdt+"~"+edt);
+    $('.dateSelectLabel').html(sdt + "~" + edt);
 }
 
 function pickWebTrafficFunnelWeekRangeCallback(start, end, label) {
     var sdt = start.format('YYYY-MM-DD');
     var edt = end.format('YYYY-MM-DD');
-    $('.weekSelectLabel').html(sdt+"~"+edt);
+    $('.weekSelectLabel').html(sdt + "~" + edt);
 }
 
 function pickWebTrafficFunnelMonthRangeCallback(start, end, label) {
     var sdt = start.format('YYYY-MM-DD');
     var edt = end.format('YYYY-MM-DD');
-    $('.monthSelectLabel').html(sdt+"~"+edt);
+    $('.monthSelectLabel').html(sdt + "~" + edt);
 }
 
-function getFilterOptionsCompany(){
+function getFilterOptionsCompany() {
     var company;
-    if(vender_company_key=="aihuishouBiClairAll"){
-        company= $(".company").val();
-    }else{
-        company=vender_company_name;
+    if (vender_company_key == "aihuishouBiClairAll") {
+        company = $(".company").val();
+    } else {
+        company = vender_company_name;
     }
 
     var filter = {
-        "vender_company_key":vender_company_key,
-        "company":company
+        "vender_company_key": vender_company_key,
+        "company": company
     };
 
-    filter=cleanParams(filter);
+    filter = cleanParams(filter);
     $(".store").remove();
     $(".account").remove();
     $("<select class='store' style='margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;'></select>").insertAfter(".storeOption");
     $("<select class='account' style='margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;'></select>").insertAfter(".accountOption");
-    requestURL(dataService+"/Vender/getVenderFilterOptions",cleanParams(filter)).done(function(ret){
+    requestURL(dataService + "/Vender/getVenderFilterOptions", cleanParams(filter)).done(function (ret) {
         //store
-        $(".store").attr("multiple","multiple");
+        $(".store").attr("multiple", "multiple");
         ret.vender_store_name.forEach(function (e) {
             $(".store").append("<option value='" + e + "'>" + e + "</option>");
         });
@@ -524,7 +506,7 @@ function getFilterOptionsCompany(){
         });
 
         //account
-        $(".account").attr("multiple","multiple");
+        $(".account").attr("multiple", "multiple");
         ret.vender_account_name.forEach(function (e) {
             $(".account").append("<option value='" + e + "'>" + e + "</option>");
         });
@@ -538,332 +520,344 @@ function getFilterOptionsCompany(){
     });
 }
 
-function cleanParams(filter){
+function cleanParams(filter) {
     //clean parameters
     var query = _.clone(filter);
-    for(var key in query){
-        if(!query[key]&&key!="offset"){
+    for (var key in query) {
+        if (!query[key] && key != "offset") {
             delete query[key]
         }
     }
     return query
 }
 
-function renderPage(filter){
-    //var dateGap = -15;
+function renderPage(filter) {
     $("#chartContent").hide();
     $("#loading").show();
     var promise = getAggregateWebTrafficData(filter);
-    promise.done(function(ret){
+    promise.done(function (ret) {
         $("#chartContent").show();
         $("#loading").hide();
-        orderData=ret;
+        var dateArray = getDateRangeArray(filter.startDate,new Date(filter.endDate).getNewDate(1),'day');
+        var map = _.groupBy(ret, 'date');
+        var swapArr = [];
+        var recycleArr = [];
+        _.each(dateArray, function(ele) {
+            if(map.hasOwnProperty(ele)) {
+                var arr = map[ele];
+                var typeMap = _.groupBy(arr, 'ordertype');
+                if(typeMap.hasOwnProperty('以旧换新')) {
+                    swapArr.push(typeMap['以旧换新'][0]);
+                } else {
+                    swapArr.push({date: ele, ordertype: '以旧换新', submit_price: 0, trade_cnt: 0, trade_price_cnt: 0, trade_success_cnt: 0});
+                }
+                if(typeMap.hasOwnProperty('手机回收')) {
+                    recycleArr.push(typeMap['手机回收'][0]);
+                } else {
+                    recycleArr.push({date: ele, ordertype: '手机回收', submit_price: 0, trade_cnt: 0, trade_price_cnt: 0, trade_success_cnt: 0});
+                }
+            } else {
+                swapArr.push({date: ele, ordertype: '以旧换新', submit_price: 0, trade_cnt: 0, trade_price_cnt: 0, trade_success_cnt: 0});
+                recycleArr.push({date: ele, ordertype: '手机回收', submit_price: 0, trade_cnt: 0, trade_price_cnt: 0, trade_success_cnt: 0});
+            }
+        });
+        var joinArr = swapArr.concat(recycleArr);
 
-        var flag=$(".order").val();
-        drawtrafficFunnelChart(ret,flag);
-        drawtrafficStackChart(ret,flag);
-        drawtrafficFunnelChartPr(ret,flag);
-        drawtrafficStackChartPr(ret,flag);
-
-        //renderTable
-//        var obj = getCalcDataByDate(ret);
-//        renderTable(filter,obj);
+        var flag = $(".order").val();
+        drawtrafficFunnelChart(joinArr, flag);
+        drawtrafficStackChart(joinArr, flag);
+        drawtrafficFunnelChartPr(joinArr, flag);
+        drawtrafficStackChartPr(joinArr, flag);
     });
-
 }
 
-function getAggregateWebTrafficData(filter){
-    //clean parameters
+var getAggregateWebTrafficData = function(filter) {
     var query = _.clone(filter);
-//    var flag = query["dateType"];
     var flag = $(".dateType").val();
     delete query["userId"];
     delete query["sign"];
     delete query["dateType"];
     var dfd = $.Deferred();
-    if(flag=="daily" || !flag){
-        requestURL(dataService+"/Vender/getProductTrafficData",query).done(function(ret){
+    if (flag == "daily" || !flag) {
+        requestURL(dataService + "/Vender/getProductTrafficDataPro", query).done(function (ret) {
             dfd.resolve(ret)
         });
-    }else if(flag=="weekly"){
-        requestURL(dataService+"/Vender/getProductTrafficWeek",query).done(function(ret){
+    } else if (flag == "weekly") {
+        requestURL(dataService + "/Vender/getProductTrafficWeekPro", query).done(function (ret) {
             dfd.resolve(ret)
         });
-    }else if(flag=="monthly"){
-         requestURL(dataService+"/Vender/getProductTrafficMonth",query).done(function(ret){
-             dfd.resolve(ret)
-         });
-     }
+    } else if (flag == "monthly") {
+        requestURL(dataService + "/Vender/getProductTrafficMonthPro", query).done(function (ret) {
+            dfd.resolve(ret)
+        });
+    }
     return dfd.promise()
-}
+};
 
 //获取总的数据
-function  getCalcDataByDate(data){
+var getCalcDataByDate = function(data) {
     var series = {
-        uv:[],
-        inquiryUv:[],
-        submitSuccessUv:[],
-        tradeUv:[]
+        uv: [],
+        inquiryUv: [],
+        submitSuccessUv: [],
+        tradeUv: []
     };
-    series.uv[0]=0;
-    series.inquiryUv[0]=0;
-    series.submitSuccessUv[0]=0;
-    series.tradeUv[0]=0;
+    series.uv[0] = 0;
+    series.inquiryUv[0] = 0;
+    series.submitSuccessUv[0] = 0;
+    series.tradeUv[0] = 0;
     data.forEach(function (e) {
-        series.uv[0]+=e.uv;
-        series.inquiryUv[0]+=e.inquiryUv;
-        series.submitSuccessUv[0]+=e.submitSuccessUv;
-        series.tradeUv[0]+=e.tradeUv;
+        series.uv[0] += e.uv;
+        series.inquiryUv[0] += e.inquiryUv;
+        series.submitSuccessUv[0] += e.submitSuccessUv;
+        series.tradeUv[0] += e.tradeUv;
     });
     return series;
-}
+};
 
-
-function pickDateRangeCallback(start, end, label) {
-//    console.log("New date range selected: " + start.format('YYYY-MM-DD') + " to " + end.format('YYYY-MM-DD') + " (predefined range: " + label + ")");
+var pickDateRangeCallback = function(start, end, label) {
     $('.webTrafficUV').html(start.format('YYYY-MM-DD'));
-}
+};
 
 /*订单量饼图*/
-function drawtrafficFunnelChart(data,flag) {
-    var selectDate,selectDate2;
-    var dateType =$(".dateType").val();
-    if(dateType=="daily"){
-        dt = $('.desktop-only .dateSelectLabel').text().replace(/ /g,"").split("~");
+var drawtrafficFunnelChart = function(data, flag) {
+    var selectDate, selectDate2;
+    var dateType = $(".dateType").val();
+    if (dateType == "daily") {
+        dt = $('.desktop-only .dateSelectLabel').text().replace(/ /g, "").split("~");
         selectDate = dt[1];
-        selectDate2=dt[0]+"~"+dt[1];
-    }else if(dateType=="weekly"){
-        dt = $('.desktop-only .weekSelectLabel').text().replace(/ /g,"").split("~");
+        selectDate2 = dt[0] + "~" + dt[1];
+    } else if (dateType == "weekly") {
+        dt = $('.desktop-only .weekSelectLabel').text().replace(/ /g, "").split("~");
         selectDate = dt[1];
-        selectDate2=dt[0]+"~"+dt[1];
-    }else if(dateType=="monthly"){
-         dt = $('.desktop-only .monthSelectLabel').text().replace(/ /g,"").split("~");
-         selectDate = dt[1];
-         selectDate2=dt[0]+"~"+dt[1];
-     }
+        selectDate2 = dt[0] + "~" + dt[1];
+    } else if (dateType == "monthly") {
+        dt = $('.desktop-only .monthSelectLabel').text().replace(/ /g, "").split("~");
+        selectDate = dt[1];
+        selectDate2 = dt[0] + "~" + dt[1];
+    }
 
-    var flag=$(".order").val();
-    var newData=0,oldData=0;
-    if(flag=="submit"){
+    var flag = $(".order").val();
+    var newData = 0, oldData = 0;
+    if (flag == "submit") {
         data.forEach(function (e) {
-                switch(e.ordertype){
-                    case "以旧换新":
-                        newData+=e.trade_cnt;
+            switch (e.ordertype) {
+                case "以旧换新":
+                    newData += e.trade_cnt;
                     break;
-                    case "手机回收":
-                        oldData+=e.trade_cnt;
+                case "手机回收":
+                    oldData += e.trade_cnt;
                     break;
-                }
+            }
         });
-    }else if(flag=="trade"){
+    } else if (flag == "trade") {
         data.forEach(function (e) {
-                switch(e.ordertype){
-                    case "以旧换新":
-                        newData+=e.trade_success_cnt;
+            switch (e.ordertype) {
+                case "以旧换新":
+                    newData += e.trade_success_cnt;
                     break;
-                    case "手机回收":
-                        oldData+=e.trade_success_cnt;
+                case "手机回收":
+                    oldData += e.trade_success_cnt;
                     break;
             }
         });
     }
 
     var option = {
-            title: {
-                text: '以旧换新与旧机回收订单总数占比'+"("+selectDate2+")",
-                x: "center",
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter:"{a} <br/>{b} : {c} ({d}%)"
-            },
-            legend: {
-                x : 'center',
-                y: 'bottom',
-                data: ['以旧换新','旧机回收']
-            },
-            series: [
-                {
-                    name: '订单总数',
-                    type: 'pie',
-                    radius: '55%',
-                    center:['50%','60%'],
-                    data: [
-                        {value:newData,name:'以旧换新'},
-                        {value:oldData,name:'旧机回收'}
-                    ],
-                    itemStyle:{
-                            normal:{
-                                label:{
-                                   show: true,
-                                   formatter: '{b} : {c} ({d}%)'
-                                },
-                                labelLine :{show:true}
-                            }
+        title: {
+            text: '以旧换新与旧机回收订单总数占比' + "(" + selectDate2 + ")",
+            x: "center",
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            x: 'center',
+            y: 'bottom',
+            data: ['以旧换新', '旧机回收']
+        },
+        series: [
+            {
+                name: '订单总数',
+                type: 'pie',
+                radius: '55%',
+                center: ['50%', '60%'],
+                data: [
+                    {value: newData, name: '以旧换新'},
+                    {value: oldData, name: '旧机回收'}
+                ],
+                itemStyle: {
+                    normal: {
+                        label: {
+                            show: true,
+                            formatter: '{b} : {c} ({d}%)'
+                        },
+                        labelLine: {show: true}
                     }
                 }
-            ]
-        };
+            }
+        ]
+    };
     var trafficFunnelChart = echarts.init(document.getElementById('trafficFunnelChart'));
     trafficFunnelChart.setOption(option);
-    window.addEventListener('resize',trafficFunnelChart.resize)
-}
+    window.addEventListener('resize', trafficFunnelChart.resize)
+};
 
 /*订单量折线图堆叠*/
-function drawtrafficStackChart(data,flag){
-        var totalOrder= 0;   //总值和两种方式的和
-        var seriesNew = {
-            date:[],
-            newData:[],
-            allData:[]
-        };
-        var seriesOld = {
-            date:[],
-            oldData:[]
-        };
-      if(flag=="submit"){
-            data.forEach(function(e){
-                switch (e.ordertype){
-                    case "以旧换新":
-                        seriesNew.date.push(e.date);
-                        seriesNew.newData.push(e.trade_cnt);
-                        totalOrder+=e.trade_cnt;
+var drawtrafficStackChart = function(data, flag) {
+    var totalOrder = 0;   //总值和两种方式的和
+    var seriesNew = {
+        date: [],
+        newData: [],
+        allData: []
+    };
+    var seriesOld = {
+        date: [],
+        oldData: []
+    };
+    if (flag == "submit") {
+        data.forEach(function (e) {
+            switch (e.ordertype) {
+                case "以旧换新":
+                    seriesNew.date.push(e.date);
+                    seriesNew.newData.push(e.trade_cnt);
+                    totalOrder += e.trade_cnt;
                     break;
-                    case "手机回收":
-                        seriesOld.date.push(e.date);
-                        seriesOld.oldData.push(e.trade_cnt);
-                        totalOrder+=e.trade_cnt;
+                case "手机回收":
+                    seriesOld.date.push(e.date);
+                    seriesOld.oldData.push(e.trade_cnt);
+                    totalOrder += e.trade_cnt;
                     break;
-                }
-            });
-      }else if(flag=="trade"){
-          data.forEach(function(e){
-              switch (e.ordertype){
-                  case "以旧换新":
-                      seriesNew.date.push(e.date);
-                      seriesNew.newData.push(e.trade_success_cnt);
-                      totalOrder+=e.trade_success_cnt;
-                  break;
-                  case "手机回收":
-                      seriesOld.date.push(e.date);
-                      seriesOld.oldData.push(e.trade_success_cnt);
-                      totalOrder+=e.trade_success_cnt;
-                  break;
-              }
-          });
-      }
-      for(var i=0;i<seriesNew.date.length;i++){
-            if(seriesNew.date[i]<seriesOld.date[i]){
-                seriesOld.date.splice(i,0,seriesNew.date[i]);
-                seriesNew.allData.push(seriesNew.newData[i]);
-                seriesOld.oldData.splice(i,0,"undefined");
-            }else if(seriesNew.date[i]>seriesOld.date[i]){
-                seriesNew.date.splice(i,0,seriesOld.date[i]);
-                seriesNew.allData.push(seriesOld.oldData[i]);
-                seriesNew.newData.splice(i,0,"undefined");
-            }else{
-                seriesNew.allData.push(seriesNew.newData[i]+seriesOld.oldData[i]);
             }
-      }
-    if(seriesNew.date[0]==undefined){
-        seriesNew.date=seriesOld.date;
-        seriesNew.newData[0]="undefined";
-        seriesNew.allData=seriesOld.oldData;
+        });
+    } else if (flag == "trade") {
+        data.forEach(function (e) {
+            switch (e.ordertype) {
+                case "以旧换新":
+                    seriesNew.date.push(e.date);
+                    seriesNew.newData.push(e.trade_success_cnt);
+                    totalOrder += e.trade_success_cnt;
+                    break;
+                case "手机回收":
+                    seriesOld.date.push(e.date);
+                    seriesOld.oldData.push(e.trade_success_cnt);
+                    totalOrder += e.trade_success_cnt;
+                    break;
+            }
+        });
     }
-    //console.log(seriesNew.date);
+    for (var i = 0; i < seriesNew.date.length; i++) {
+        if (seriesNew.date[i] < seriesOld.date[i]) {
+            seriesOld.date.splice(i, 0, seriesNew.date[i]);
+            seriesNew.allData.push(seriesNew.newData[i]);
+            seriesOld.oldData.splice(i, 0, "undefined");
+        } else if (seriesNew.date[i] > seriesOld.date[i]) {
+            seriesNew.date.splice(i, 0, seriesOld.date[i]);
+            seriesNew.allData.push(seriesOld.oldData[i]);
+            seriesNew.newData.splice(i, 0, "undefined");
+        } else {
+            seriesNew.allData.push(seriesNew.newData[i] + seriesOld.oldData[i]);
+        }
+    }
+    if (seriesNew.date[0] == undefined) {
+        seriesNew.date = seriesOld.date;
+        seriesNew.newData[0] = "undefined";
+        seriesNew.allData = seriesOld.oldData;
+    }
 
-        var option = {
-            title: {
-                text: '订单数合计:'+totalOrder,
-                x:"center",
-                y:"top"
-            },
-            tooltip: {
-                trigger: 'axis',
-            },
-            legend: {
-                x : 'center',
-                y: 'bottom',
-                data:['以旧换新','旧机回收','合计']
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                containLabel: true
-            },
-            toolbox: {
-                feature: {
-                    /*saveAsImage: {}*/
-                }
-            },
-            xAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: seriesOld.date
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [
-                {
-                    name:'合计',
-                    type:'line',
-                    data:seriesNew.allData,
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'top'
-                        }
-                    }
-                },
-                {
-                    name:'以旧换新',
-                    type:'line',
-                    data:seriesNew.newData,
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'top'
-                        }
-                    }
-                },
-                {
-                    name:'旧机回收',
-                    type:'line',
-                    data:seriesOld.oldData,
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'bottom'
-                        }
+    var option = {
+        title: {
+            text: '订单数合计:' + totalOrder,
+            x: "center",
+            y: "top"
+        },
+        tooltip: {
+            trigger: 'axis',
+        },
+        legend: {
+            x: 'center',
+            y: 'bottom',
+            data: ['以旧换新', '旧机回收', '合计']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                /*saveAsImage: {}*/
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: seriesOld.date
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                name: '合计',
+                type: 'line',
+                data: seriesNew.allData,
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
                     }
                 }
-            ]
-        };
-        var trafficStackChart = echarts.init(document.getElementById('trafficStackChart'));
-        trafficStackChart.setOption(option);
-        window.addEventListener('resize',trafficStackChart.resize)
-}
+            },
+            {
+                name: '以旧换新',
+                type: 'line',
+                data: seriesNew.newData,
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '旧机回收',
+                type: 'line',
+                data: seriesOld.oldData,
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'bottom'
+                    }
+                }
+            }
+        ]
+    };
+    var trafficStackChart = echarts.init(document.getElementById('trafficStackChart'));
+    trafficStackChart.setOption(option);
+    window.addEventListener('resize', trafficStackChart.resize)
+};
 
 /*订单金额饼图*/
-function drawtrafficFunnelChartPr(data,flag) {
-    var selectDate,selectDate2;
-    var dateType =$(".dateType").val();
-    if(dateType=="daily"){
-        dt = $('.desktop-only .dateSelectLabel').text().replace(/ /g,"").split("~");
+var drawtrafficFunnelChartPr = function(data, flag) {
+    var selectDate, selectDate2;
+    var dateType = $(".dateType").val();
+    if (dateType == "daily") {
+        dt = $('.desktop-only .dateSelectLabel').text().replace(/ /g, "").split("~");
         selectDate = dt[1];
-        selectDate2=dt[0]+"~"+dt[1];
-    }else if(dateType=="weekly"){
-        dt = $('.desktop-only .weekSelectLabel').text().replace(/ /g,"").split("~");
+        selectDate2 = dt[0] + "~" + dt[1];
+    } else if (dateType == "weekly") {
+        dt = $('.desktop-only .weekSelectLabel').text().replace(/ /g, "").split("~");
         selectDate = dt[1];
-        selectDate2=dt[0]+"~"+dt[1];
-    }else if(dateType=="monthly"){
-         dt = $('.desktop-only .monthSelectLabel').text().replace(/ /g,"").split("~");
-         selectDate = dt[1];
-         selectDate2=dt[0]+"~"+dt[1];
-     }
-    var newData=0,oldData=0;
-    if(flag=="submit"){
+        selectDate2 = dt[0] + "~" + dt[1];
+    } else if (dateType == "monthly") {
+        dt = $('.desktop-only .monthSelectLabel').text().replace(/ /g, "").split("~");
+        selectDate = dt[1];
+        selectDate2 = dt[0] + "~" + dt[1];
+    }
+    var newData = 0, oldData = 0;
+    if (flag == "submit") {
         data.forEach(function (e) {
             switch (e.ordertype) {
                 case "以旧换新":
@@ -874,7 +868,7 @@ function drawtrafficFunnelChartPr(data,flag) {
                     break;
             }
         });
-    }else if(flag=="trade") {
+    } else if (flag == "trade") {
         data.forEach(function (e) {
             switch (e.ordertype) {
                 case "以旧换新":
@@ -888,176 +882,176 @@ function drawtrafficFunnelChartPr(data,flag) {
     }
 
     var option = {
-            title: {
-                text: '以旧换新与旧机回收订单金额占比'+"("+selectDate2+")",
-                x: "center",
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter:"{a} <br/>{b} : {c} ({d}%)"
-            },
-            legend: {
-                x : 'center',
-                y: 'bottom',
-                data: ['以旧换新','旧机回收']
-            },
-            series: [
-                {
-                    name: '订单金额',
-                    type: 'pie',
-                    radius: '55%',
-                    center:['50%','60%'],
-                    data: [
-                        {value:newData,name:'以旧换新'},
-                        {value:oldData,name:'旧机回收'}
-                    ],
-                    itemStyle:{
-                            normal:{
-                                label:{
-                                   show: true,
-                                   formatter: '{b} : {c} ({d}%)'
-                                },
-                                labelLine :{show:true}
-                            }
+        title: {
+            text: '以旧换新与旧机回收订单金额占比' + "(" + selectDate2 + ")",
+            x: "center",
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            x: 'center',
+            y: 'bottom',
+            data: ['以旧换新', '旧机回收']
+        },
+        series: [
+            {
+                name: '订单金额',
+                type: 'pie',
+                radius: '55%',
+                center: ['50%', '60%'],
+                data: [
+                    {value: newData, name: '以旧换新'},
+                    {value: oldData, name: '旧机回收'}
+                ],
+                itemStyle: {
+                    normal: {
+                        label: {
+                            show: true,
+                            formatter: '{b} : {c} ({d}%)'
+                        },
+                        labelLine: {show: true}
                     }
                 }
-            ]
-        };
+            }
+        ]
+    };
     var trafficFunnelChart = echarts.init(document.getElementById('trafficFunnelChartPr'));
     trafficFunnelChart.setOption(option);
-    window.addEventListener('resize',trafficFunnelChart.resize)
-}
+    window.addEventListener('resize', trafficFunnelChart.resize)
+};
 
 /*订单金额折线图堆叠*/
-function drawtrafficStackChartPr(data,flag){
-            var totalAmount= 0;
-            var seriesNew={
-                date:[],
-                newData:[],
-                allData:[]
+var drawtrafficStackChartPr = function(data, flag) {
+    var totalAmount = 0;
+    var seriesNew = {
+        date: [],
+        newData: [],
+        allData: []
+    }
+    var seriesOld = {
+        date: [],
+        oldData: []
+    };
+    if (flag == "submit") {
+        data.forEach(function (e) {
+            switch (e.ordertype) {
+                case "以旧换新":
+                    seriesNew.date.push(e.date);
+                    seriesNew.newData.push(e.submit_price);
+                    totalAmount += e.submit_price;
+                    break;
+                case "手机回收":
+                    seriesOld.date.push(e.date);
+                    seriesOld.oldData.push(e.submit_price);
+                    totalAmount += e.submit_price;
+                    break;
             }
-            var seriesOld = {
-                date:[],
-                oldData:[]
-            };
-            if(flag=="submit"){
-                data.forEach(function (e) {
-                    switch (e.ordertype) {
-                        case "以旧换新":
-                            seriesNew.date.push(e.date);
-                            seriesNew.newData.push(e.submit_price);
-                            totalAmount += e.submit_price;
-                            break;
-                        case "手机回收":
-                            seriesOld.date.push(e.date);
-                            seriesOld.oldData.push(e.submit_price);
-                            totalAmount += e.submit_price;
-                            break;
-                    }
-                });
-            }else if(flag=="trade") {
-                data.forEach(function (e) {
-                    switch (e.ordertype) {
-                        case "以旧换新":
-                            seriesNew.date.push(e.date);
-                            seriesNew.newData.push(e.trade_price_cnt);
-                            totalAmount += e.trade_price_cnt;
-                            break;
-                        case "手机回收":
-                            seriesOld.date.push(e.date);
-                            seriesOld.oldData.push(e.trade_price_cnt);
-                            totalAmount += e.trade_price_cnt;
-                            break;
-                    }
-                });
+        });
+    } else if (flag == "trade") {
+        data.forEach(function (e) {
+            switch (e.ordertype) {
+                case "以旧换新":
+                    seriesNew.date.push(e.date);
+                    seriesNew.newData.push(e.trade_price_cnt);
+                    totalAmount += e.trade_price_cnt;
+                    break;
+                case "手机回收":
+                    seriesOld.date.push(e.date);
+                    seriesOld.oldData.push(e.trade_price_cnt);
+                    totalAmount += e.trade_price_cnt;
+                    break;
             }
-              for(var i=0;i<seriesNew.date.length;i++){
-                    if(seriesNew.date[i]<seriesOld.date[i]){
-                        seriesOld.date.splice(i,0,seriesNew.date[i]);
-                        seriesNew.allData.push(seriesNew.newData[i]);
-                        seriesOld.oldData.splice(i,0,"undefined");
-                    }else if(seriesNew.date[i]>seriesOld.date[i]){
-                        seriesNew.date.splice(i,0,seriesOld.date[i]);
-                        seriesNew.allData.push(seriesOld.oldData[i]);
-                        seriesNew.newData.splice(i,0,"undefined");
-                    }else{
-                        seriesNew.allData.push(seriesNew.newData[i]+seriesOld.oldData[i]);
-                    }
-              }
-            if(seriesNew.date[0]==undefined){
-                seriesNew.date=seriesOld.date;
-                seriesNew.newData[0]="undefined";
-                seriesNew.allData=seriesOld.oldData;
+        });
+    }
+    for (var i = 0; i < seriesNew.date.length; i++) {
+        if (seriesNew.date[i] < seriesOld.date[i]) {
+            seriesOld.date.splice(i, 0, seriesNew.date[i]);
+            seriesNew.allData.push(seriesNew.newData[i]);
+            seriesOld.oldData.splice(i, 0, "undefined");
+        } else if (seriesNew.date[i] > seriesOld.date[i]) {
+            seriesNew.date.splice(i, 0, seriesOld.date[i]);
+            seriesNew.allData.push(seriesOld.oldData[i]);
+            seriesNew.newData.splice(i, 0, "undefined");
+        } else {
+            seriesNew.allData.push(seriesNew.newData[i] + seriesOld.oldData[i]);
+        }
+    }
+    if (seriesNew.date[0] == undefined) {
+        seriesNew.date = seriesOld.date;
+        seriesNew.newData[0] = "undefined";
+        seriesNew.allData = seriesOld.oldData;
+    }
+    var option = {
+        title: {
+            text: '订单金额:' + totalAmount,
+            x: "center",
+            y: "top"
+        },
+        tooltip: {
+            trigger: 'axis',
+        },
+        legend: {
+            x: 'center',
+            y: 'bottom',
+            data: ['以旧换新', '旧机回收', '合计']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                /*saveAsImage: {}*/
             }
-            var option = {
-                title: {
-                    text: '订单金额:'+totalAmount,
-                    x:"center",
-                    y:"top"
-                },
-                tooltip: {
-                    trigger: 'axis',
-                },
-                legend: {
-                    x : 'center',
-                    y: 'bottom',
-                    data:['以旧换新','旧机回收','合计']
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    containLabel: true
-                },
-                toolbox: {
-                    feature: {
-                        /*saveAsImage: {}*/
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: seriesOld.date
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                name: '合计',
+                type: 'line',
+                data: seriesNew.allData,
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
                     }
-                },
-                xAxis: {
-                    type: 'category',
-                    boundaryGap: false,
-                    data: seriesOld.date
-                },
-                yAxis: {
-                    type: 'value'
-                },
-                series: [
-                    {
-                        name:'合计',
-                        type:'line',
-                        data:seriesNew.allData,
-                        label: {
-                            normal: {
-                                show: true,
-                                position: 'top'
-                            }
-                        }
-                    },
-                    {
-                        name:'以旧换新',
-                        type:'line',
-                        data:seriesNew.newData,
-                        label: {
-                            normal: {
-                                show: true,
-                                position: 'top'
-                            }
-                        }
-                    },
-                    {
-                        name:'旧机回收',
-                        type:'line',
-                        data:seriesOld.oldData,
-                        label: {
-                            normal: {
-                                show: true,
-                                position: 'bottom'
-                            }
-                        }
+                }
+            },
+            {
+                name: '以旧换新',
+                type: 'line',
+                data: seriesNew.newData,
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
                     }
-                ]
-            };
-            var trafficStackChart = echarts.init(document.getElementById('trafficStackChartPr'));
-            trafficStackChart.setOption(option);
-            window.addEventListener('resize',trafficStackChart.resize)
-}
+                }
+            },
+            {
+                name: '旧机回收',
+                type: 'line',
+                data: seriesOld.oldData,
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'bottom'
+                    }
+                }
+            }
+        ]
+    };
+    var trafficStackChart = echarts.init(document.getElementById('trafficStackChartPr'));
+    trafficStackChart.setOption(option);
+    window.addEventListener('resize', trafficStackChart.resize)
+};
