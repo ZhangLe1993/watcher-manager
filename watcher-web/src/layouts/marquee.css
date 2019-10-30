@@ -1,0 +1,7 @@
+.scroll{
+  display: flex;
+}
+
+.scroll marquee{
+  flex:1
+}

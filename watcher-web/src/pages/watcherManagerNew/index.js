@@ -42,6 +42,7 @@ import {
   getOperationInfos,
 } from '@/services/manager';
 import difference from 'lodash/difference';
+import treeDataTranslate from './util'
 
 const { TreeNode } = Tree;
 const { Search } = Input;
@@ -125,7 +126,13 @@ class WatcherManagerNew extends Component {
     let that = this;
     this.state.interval = setInterval(function() {
       if (that.state.mountDataReady && that.state.folderDataReady && that.state.nodeDataReady) {
-        that.generateTreeNode(that.mountData);
+        let allFolderAndNode = that.nodeData.concat(that.folderData);
+        let folderTree = treeDataTranslate(allFolderAndNode);
+        let mountAndFolderTree = folderTree.concat(that.mountData);
+        let processAfter = treeDataTranslate(mountAndFolderTree,'key','mount');
+
+        //that.generateTreeNode(that.mountData);
+        that.mountData = processAfter.filter((item)=>{return item.nodeType==='1'});
         that.sortTreeData(that.mountData);
         clearInterval(that.state.interval);
         that.setState({
