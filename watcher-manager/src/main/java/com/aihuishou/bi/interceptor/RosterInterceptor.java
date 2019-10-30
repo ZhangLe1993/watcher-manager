@@ -17,6 +17,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RosterInterceptor extends HandlerInterceptorAdapter {
 
@@ -59,12 +61,28 @@ public class RosterInterceptor extends HandlerInterceptorAdapter {
             //response.getWriter().print("用户不存在或登录信息失效");
             return true;
         }
+        // watchernew  不参与白名单判断  true
+        if(cookieCheck(request)) {
+            return true;
+        }
         boolean exists = rosterService.exist(user.getEmployeeNo());
         if(!exists) {
             //HttpSession session = request.getSession();
             return redirectAndCookie(request, response, handler);
         }
         return true;
+    }
+
+    public boolean cookieCheck(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null && cookies.length != 0) {
+            for(Cookie cookie : cookies) {
+                if("watchernew".equalsIgnoreCase(cookie.getName())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private boolean redirectAndCookie(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
