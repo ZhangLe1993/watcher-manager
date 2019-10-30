@@ -23,6 +23,7 @@ import { loginOut } from '../services/manager';
 import {
   findMenuItem,
   getCleanArr,
+  checkEnv,
 } from '../utils/utils';
 
 import MenuSearch from './MenuSearch'
@@ -125,17 +126,17 @@ const BasicLayout = props => {
     // loginOut();
   };
 
-  const headerRender = (props) => {
+  const headerRender = () => {
     const { userName } = props;
-    const currPathArr = window.location.pathname.split("/").filter(v => v);
+    const currPathArr = window.location.pathname.split('/').filter(v => v);
     let searchDeep = 0;
     const titleArr = [];
     let searchArr = menuData;
     while (searchArr && searchArr.length > 0) {
-      let goIn = false;//进入下一层搜索
+      let goIn = false;// 进入下一层搜索
       for (let i = 0; i < searchArr.length; i++) {
-        let node = searchArr[i];
-        if ('/' + currPathArr.slice(0, searchDeep + 2).join("/") === node.path) {
+        const node = searchArr[i];
+        if ('/' + currPathArr.slice(0, searchDeep + 2).join('/') === node.path) {
           titleArr.push(node.name);
           searchArr = node.children;
           goIn = true;
@@ -147,18 +148,27 @@ const BasicLayout = props => {
         searchArr = null;
       }
     }
-    const title = titleArr.join('/') || '首页';
+    let title = titleArr.join('/') || '首页';
+    const isMoblie = checkEnv().iOS || checkEnv().Android;
+    if (isMoblie && title && title.length >= 23) {
+      const after = title.substr(title.length - 20);
+      title = `...${after}`;
+    }
     return (
       <div className={style.header}>
         <div className={style.headerLeft}>
           <Icon type={props.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={() => handleMenuCollapse(props.collapsed)} />
-          <div className={style.title} style={{marginRight:30}}>{title}</div>
+          <div
+          className={isMoblie ? style.titleMobile : style.title}
+          style={{ marginRight: 30 }}>{title}</div>
           {/* <MenuSearch /> */}
         </div>
-        <div className={style.headerRight}>
+        {
+          !isMoblie && <div className={style.headerRight}>
           <div className={style.user}>{userName}</div>
           <div className={style.loginout}><Popconfirm onConfirm={() => handleLogout()} title="是否退出登录?" okText="退出" cancelText="取消"><Icon type="logout" style={{ fontSize: '20px' }} /></Popconfirm></div>
         </div>
+        }
       </div>
     );
   };

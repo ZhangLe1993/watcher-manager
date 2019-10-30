@@ -122,6 +122,21 @@ const findMenuItem = (pathName, node, prefix) => {
   }
 };
 
+const checkEnv = () => {
+  const ua = navigator.userAgent.toLowerCase();
+  const is = agent => {
+    let result = agent;
+    result = result.toLowerCase();
+    return ua.indexOf(result) > -1;
+  };
+
+  return {
+    iOS: is('iphone') || is('ipad') || is('ipod'),
+    Android: is('android'),
+    is,
+  };
+};
+
 export {
  isAntDesignProOrDev,
  isAntDesignPro, isUrl,
@@ -131,4 +146,5 @@ export {
  getMenuItemByPath,
  getCleanArr,
  findMenuItem,
+ checkEnv,
  };
