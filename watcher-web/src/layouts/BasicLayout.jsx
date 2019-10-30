@@ -9,7 +9,7 @@ import React,
   useEffect,
   Fragment,
 } from 'react';
-import { Icon, Layout, Button, Input, Popconfirm } from 'antd';
+import { Icon, Layout, Button, Input, Popconfirm, message } from 'antd';
 import Link from 'umi/link';
 import router from 'umi/router';
 import { connect } from 'dva';
@@ -19,6 +19,7 @@ import RightContent from '@/components/GlobalHeader/RightContent';
 import GlobalFooter from '@/components/GlobalFooter/index';
 
 import style from './basicLayout.less';
+import marquee from './marquee.css';
 import { loginOut } from '../services/manager';
 import {
   findMenuItem,
@@ -70,6 +71,19 @@ const BasicLayout = props => {
   /**
    * constructor
    */
+  const renderMessage = ()=>{
+    return (
+      <span className={marquee.scroll}>
+        <Icon type="info-circle" theme="filled" style={{marginRight: 10,color: '#1890ff',marginTop:2}}/>
+        <marquee>新watcher已上线,如遇到使用问题,请到钉钉报表系统群进行反馈</marquee>
+        <Icon type="close-circle" theme="filled"
+              style={{marginLeft: 10,color: '#aaa',marginTop:2}}
+              onClick={()=>{
+                message.destroy()
+              }}/>
+      </span>
+    );
+  }
 
   useEffect(() => {
     if (dispatch) {
@@ -81,6 +95,12 @@ const BasicLayout = props => {
       });
       dispatch({
         type: 'menu/fetchMenuData',
+      });
+      //新watcher上线提示信息
+      message.open({
+        content: renderMessage(),
+        duration: 0,
+        icon: null
       });
     }
   }, []);
