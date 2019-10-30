@@ -300,7 +300,7 @@ Template.KAVenderOrderLostAnalysis.rendered = function () {
     renderPage(queryAll);
 
     //选项初始化加载
-    requestURL(dataService+"/Vender/getKAFilterOptions",query).done(function(data){
+    requestURL(thirdService+"/Vender/getKAFilterOptions",query).done(function(data){
 
         $(".vender").attr("multiple","multiple");
         renderOptions(".vender",data.subVender)
@@ -457,7 +457,7 @@ function getAggregateWebTrafficData(filter){
     delete query["sign"];
     delete query["dateType"];
     var dfd = $.Deferred();
-    requestURL(dataService+"/Vender/getKAOrderLostAnalysis",query).done(function(ret){
+    requestURL(thirdService+"/Vender/getKAOrderLostAnalysis",query).done(function(ret){
         dfd.resolve(ret)
     });
     return dfd.promise()
@@ -470,7 +470,7 @@ function getAllWebTrafficData(filter){
     delete query["sign"];
     delete query["dateType"];
     var dfd = $.Deferred();
-    requestURL(dataService+"/Vender/getKAOrderLostDayAnalysis",query).done(function(ret){
+    requestURL(thirdService+"/Vender/getKAOrderLostDayAnalysis",query).done(function(ret){
         dfd.resolve(ret)
     });
     return dfd.promise()
@@ -555,7 +555,7 @@ function renderTable(tableName,filter) {
 
 
         $("#wholePage").mask({'label':"请等待，文件正在导出..."});
-            requestURL(dataService+"/Vender/exportKAOrderLostAnalysis",query).done(function(obj){
+            requestURL(thirdService+"/Vender/exportKAOrderLostAnalysis",query).done(function(obj){
                 $("#wholePage").unmask();
                 var url = Meteor.settings.public.downloadService.baseUrl+obj.fileName;
                 var link = document.createElement("a");

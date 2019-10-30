@@ -50,6 +50,7 @@ public class BuryPoint {
             logger.error("用户不存在或登录信息失效");
             return;
         }
+        //TODO
         String userName = CasUtil.getUserName();
         String employeeNo = user.getEmployeeNo();
         Map<String, Object> properties = new HashMap<>();

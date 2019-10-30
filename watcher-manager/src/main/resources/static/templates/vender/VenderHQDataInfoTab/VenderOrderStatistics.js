@@ -315,7 +315,7 @@ Template.VenderOrderStatistics.rendered = function () {
     renderPage(queryall);
 
     //选项初始化加载
-    requestURL(dataService + "/Vender/getVenderFilterOptions", query).done(function (data) {
+    requestURL(thirdService + "/Vender/getVenderFilterOptions", query).done(function (data) {
         /*门店*/
         $(".company").attr("multiple", "multiple");
 
@@ -491,7 +491,7 @@ function getFilterOptionsCompany() {
     $(".account").remove();
     $("<select class='store' style='margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;'></select>").insertAfter(".storeOption");
     $("<select class='account' style='margin-left: 28px;width:150px;border-radius: 4px;padding: 6px 12px;'></select>").insertAfter(".accountOption");
-    requestURL(dataService + "/Vender/getVenderFilterOptions", cleanParams(filter)).done(function (ret) {
+    requestURL(thirdService + "/Vender/getVenderFilterOptions", cleanParams(filter)).done(function (ret) {
         //store
         $(".store").attr("multiple", "multiple");
         ret.vender_store_name.forEach(function (e) {
@@ -579,15 +579,15 @@ var getAggregateWebTrafficData = function(filter) {
     delete query["dateType"];
     var dfd = $.Deferred();
     if (flag == "daily" || !flag) {
-        requestURL(dataService + "/Vender/getProductTrafficDataPro", query).done(function (ret) {
+        requestURL(thirdService + "/Vender/getProductTrafficDataPro", query).done(function (ret) {
             dfd.resolve(ret)
         });
     } else if (flag == "weekly") {
-        requestURL(dataService + "/Vender/getProductTrafficWeekPro", query).done(function (ret) {
+        requestURL(thirdService + "/Vender/getProductTrafficWeekPro", query).done(function (ret) {
             dfd.resolve(ret)
         });
     } else if (flag == "monthly") {
-        requestURL(dataService + "/Vender/getProductTrafficMonthPro", query).done(function (ret) {
+        requestURL(thirdService + "/Vender/getProductTrafficMonthPro", query).done(function (ret) {
             dfd.resolve(ret)
         });
     }

@@ -186,6 +186,39 @@ public class IndexC {
         StreamUtils.copy(clientHttpResponse.getBody(), response.getOutputStream());
     }
 
+
+    @SystemLog(description = "第三方报表代理转发")
+    @RequestMapping(value = "/third/watcher/**", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void proxyForThird(HttpServletRequest request, HttpServletResponse response) throws IOException, URISyntaxException {
+        //添加参数
+        URI uri = new URI(request.getRequestURI());
+        String q = request.getQueryString();
+        URI newUri = new URI(targetUrl + uri.getPath().replace("/third", "") + "?" + q);
+        //执行代理查询
+        ClientHttpRequest delegate = new SimpleClientHttpRequestFactory().createRequest(newUri, HttpMethod.resolve(request.getMethod()));
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            Enumeration<String> v = request.getHeaders(headerName);
+            List<String> arr = new ArrayList<>();
+            while (v.hasMoreElements()) {
+                arr.add(v.nextElement());
+            }
+            delegate.getHeaders().addAll(headerName, arr);
+        }
+        StreamUtils.copy(request.getInputStream(), delegate.getBody());
+        ClientHttpResponse clientHttpResponse = delegate.execute();
+        response.setStatus(clientHttpResponse.getStatusCode().value());
+        clientHttpResponse.getHeaders().entrySet().forEach((kv) -> {
+            kv.getValue().stream().forEach(it -> {
+                if (kv.getKey().startsWith("Content-")) {
+                    response.setHeader(kv.getKey(), it);
+                }
+            });
+        });
+        StreamUtils.copy(clientHttpResponse.getBody(), response.getOutputStream());
+    }
+
     @Loop
     @SystemLog(description = "爱机汇嵌入页面 & fancyBox 弹出层页面")
     @RequestMapping(value = {"/vender/**", "/customer/intelligenceShop/**", "/area/dealSmartShopReport/**", "/area/coupon/**", "/datareport/**", "/operation/**"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
