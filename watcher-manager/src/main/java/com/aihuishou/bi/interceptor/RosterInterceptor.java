@@ -34,7 +34,7 @@ public class RosterInterceptor extends HandlerInterceptorAdapter {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
-        Loop operate = ((HandlerMethod) handler).getMethodAnnotation(Loop.class);
+        /*Loop operate = ((HandlerMethod) handler).getMethodAnnotation(Loop.class);
         //如果是第三方的都不走单点登录，直接跳转到老watcher
         if(operate != null) {
             String url = request.getRequestURI();
@@ -44,7 +44,7 @@ public class RosterInterceptor extends HandlerInterceptorAdapter {
             response.addCookie(cookie);
             response.sendRedirect(url);
             return false;
-        }
+        }*/
         String obId = CasUtil.getId();
         if (Strings.isBlank(obId) || "-2".equalsIgnoreCase(obId)) {
             return true;
