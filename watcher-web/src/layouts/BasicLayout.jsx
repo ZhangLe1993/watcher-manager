@@ -4,11 +4,7 @@
  * https://github.com/ant-design/ant-design-pro-layout
  */
 import ProLayout from '@ant-design/pro-layout';
-import React,
-{
-  useEffect,
-  Fragment,
-} from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { Icon, Layout, Button, Input, Popconfirm, message } from 'antd';
 import Link from 'umi/link';
 import router from 'umi/router';
@@ -21,13 +17,9 @@ import GlobalFooter from '@/components/GlobalFooter/index';
 import style from './basicLayout.less';
 import marquee from './marquee.css';
 import { loginOut } from '../services/manager';
-import {
-  findMenuItem,
-  getCleanArr,
-  checkEnv,
-} from '../utils/utils';
+import { findMenuItem, getCleanArr, checkEnv } from '../utils/utils';
 
-import MenuSearch from './MenuSearch'
+import MenuSearch from './MenuSearch';
 // import logo from '../assets/logo.svg';
 /**
  * use Authorized check all menu item
@@ -62,29 +54,31 @@ const footerRender = () => {
 };
 
 const BasicLayout = props => {
-  const {
-    dispatch,
-    children,
-    settings,
-    menuData,
-    searchKeys,
-  } = props;
+  const { dispatch, children, settings, menuData, searchKeys } = props;
   /**
    * constructor
    */
-  const renderMessage = ()=>{
+  const renderMessage = () => {
     return (
       <span className={marquee.scroll}>
-        <Icon type="info-circle" theme="filled" style={{marginRight: 10,color: '#1890ff',marginTop:2}}/>
+        <Icon
+          type="info-circle"
+          theme="filled"
+          style={{ marginRight: 10, color: '#1890ff', marginTop: 2 }}
+        />
         <marquee>新watcher已上线,如遇到使用问题,请到钉钉报表系统群进行反馈</marquee>
-        <Icon type="close-circle" theme="filled"
-              style={{marginLeft: 10,color: '#aaa',marginTop:2}}
-              onClick={()=>{
-                message.destroy()
-              }}/>
+        <Icon
+          type="close-circle"
+          theme="filled"
+          style={{ marginLeft: 10, color: '#aaa', marginTop: 2 }}
+          onClick={() => {
+            message.destroy();
+            localStorage.setItem('watcher_online_reminder', 'true');
+          }}
+        />
       </span>
     );
-  }
+  };
 
   useEffect(() => {
     if (dispatch) {
@@ -98,11 +92,13 @@ const BasicLayout = props => {
         type: 'menu/fetchMenuData',
       });
       //新watcher上线提示信息
-      message.open({
-        content: renderMessage(),
-        duration: 0,
-        icon: null
-      });
+      if (!localStorage.getItem('watcher_online_reminder')) {
+        message.open({
+          content: renderMessage(),
+          duration: 0,
+          icon: null,
+        });
+      }
     }
   }, []);
   /**
@@ -115,7 +111,7 @@ const BasicLayout = props => {
         type: 'global/changeLayoutCollapsed',
         payload,
       });
-  }
+  };
   const saveMenuName = payload =>
     dispatch &&
     dispatch({
@@ -125,7 +121,8 @@ const BasicLayout = props => {
 
   const handleMenuKey = e => {
     const newMenuData = [];
-    searchKeys.filter(it => it.indexOf(e.target.value) > -1)
+    searchKeys
+      .filter(it => it.indexOf(e.target.value) > -1)
       .map(it => window.parseInt(it))
       .forEach(it => {
         newMenuData.push(menuData[it]);
@@ -153,7 +150,7 @@ const BasicLayout = props => {
     const titleArr = [];
     let searchArr = menuData;
     while (searchArr && searchArr.length > 0) {
-      let goIn = false;// 进入下一层搜索
+      let goIn = false; // 进入下一层搜索
       for (let i = 0; i < searchArr.length; i++) {
         const node = searchArr[i];
         if ('/' + currPathArr.slice(0, searchDeep + 2).join('/') === node.path) {
@@ -177,18 +174,30 @@ const BasicLayout = props => {
     return (
       <div className={style.header}>
         <div className={style.headerLeft}>
-          <Icon type={props.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={() => handleMenuCollapse(props.collapsed)} />
-          <div
-          className={isMoblie ? style.titleMobile : style.title}
-          style={{ marginRight: 30 }}>{title}</div>
+          <Icon
+            type={props.collapsed ? 'menu-unfold' : 'menu-fold'}
+            onClick={() => handleMenuCollapse(props.collapsed)}
+          />
+          <div className={isMoblie ? style.titleMobile : style.title} style={{ marginRight: 30 }}>
+            {title}
+          </div>
           {/* <MenuSearch /> */}
         </div>
-        {
-          !isMoblie && <div className={style.headerRight}>
-          <div className={style.user}>{userName}</div>
-          <div className={style.loginout}><Popconfirm onConfirm={() => handleLogout()} title="是否退出登录?" okText="退出" cancelText="取消"><Icon type="logout" style={{ fontSize: '20px' }} /></Popconfirm></div>
-        </div>
-        }
+        {!isMoblie && (
+          <div className={style.headerRight}>
+            <div className={style.user}>{userName}</div>
+            <div className={style.loginout}>
+              <Popconfirm
+                onConfirm={() => handleLogout()}
+                title="是否退出登录?"
+                okText="退出"
+                cancelText="取消"
+              >
+                <Icon type="logout" style={{ fontSize: '20px' }} />
+              </Popconfirm>
+            </div>
+          </div>
+        )}
       </div>
     );
   };
@@ -218,23 +227,35 @@ const BasicLayout = props => {
     <ProLayout
       onCollapse={() => handleMenuCollapse(props.collapsed)}
       logo={() => (
-        <div onClick={() => {
-          router.replace('/');
-          window.sessionStorage.setItem('pathName', '');
-        }} className={style.logoTitle}>爱回收信息管理平台</div>
+        <div
+          onClick={() => {
+            router.replace('/');
+            window.sessionStorage.setItem('pathName', '');
+          }}
+          className={style.logoTitle}
+        >
+          爱回收信息管理平台
+        </div>
       )}
-
       menuItemRender={(menuItemProps, dom) => {
-        let classNames = []
+        let classNames = [];
         if (window.location.pathname == menuItemProps.path) {
-          classNames.push(style.sunjian)
+          classNames.push(style.sunjian);
         }
         if (menuItemProps.is_mount) {
           classNames.push(style.mount);
         }
-        return <div style={{textOverflow:'ellipsis',overflow:'hidden'}} title={menuItemProps.name}  onClick={e => myclick(e, menuItemProps, dom)} className={classNames}>{dom}</div>;
+        return (
+          <div
+            style={{ textOverflow: 'ellipsis', overflow: 'hidden' }}
+            title={menuItemProps.name}
+            onClick={e => myclick(e, menuItemProps, dom)}
+            className={classNames}
+          >
+            {dom}
+          </div>
+        );
       }}
-
       breadcrumbRender={(routers = []) => [
         {
           path: '/',
