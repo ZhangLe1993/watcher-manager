@@ -35,9 +35,9 @@
         <security:intercept-url pattern="/permission/**" access="hasRole('ROLE_BACK')"/>
         <security:intercept-url pattern="/role/**" access="hasRole('ROLE_BACK')"/>
         <security:intercept-url pattern="/vender/**" access="permitAll()"/>
-        <security:intercept-url pattern="/customer/intelligenceShop/**" access="permitAll()"/>
-        <security:intercept-url pattern="/area/dealSmartShopReport/**" access="permitAll()"/>
-        <security:intercept-url pattern="/area/coupon/**" access="permitAll()"/>
+        <security:intercept-url pattern="/customer/intelligenceShop/**" access="hasRole('ROLE_BACK')"/>
+        <security:intercept-url pattern="/area/dealSmartShopReport/**" access="hasRole('ROLE_BACK')"/>
+        <security:intercept-url pattern="/area/coupon/**" access="hasRole('ROLE_BACK')"/>
         <security:intercept-url pattern="/datareport/**" access="permitAll()"/>
         <security:intercept-url pattern="/operation/**" access="permitAll()"/>
         <security:custom-filter position="CAS_FILTER" ref="casFilter"/>
