@@ -11,7 +11,7 @@ const codeMessage = {
   204: '删除数据成功。',
   400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
   401: '用户没有权限（令牌、用户名、密码错误）。',
-  403: '用户得到授权，但是访问是被禁止的。',
+  403: '登录状态失效,请重新登录',
   404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
   406: '请求的格式不可得。',
   410: '请求的资源被永久删除，且不会再得到的。',
@@ -30,10 +30,21 @@ const errorHandler = error => {
 
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
-    const { status, url } = response;
+    const {
+      status,
+      //  url
+      } = response;
+    let descriptionText;
+    if (status === 403) {
+      descriptionText = errorText;
+    } else {
+      descriptionText = '查询异常，请刷新重试';
+    }
     notification.error({
-      message: `请求错误 ${status}: ${url}`,
-      description: errorText,
+      // message: `请求错误 ${status}: ${url}`,
+      // description: errorText,
+      message: '请求错误',
+      description: descriptionText,
     });
   }
 };
