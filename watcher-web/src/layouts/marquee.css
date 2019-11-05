@@ -1,7 +1,8 @@
-.scroll{
+.scroll {
   display: flex;
+  width: 40vw;
 }
 
-.scroll marquee{
-  flex:1
+.scroll marquee {
+  flex: 1
 }
