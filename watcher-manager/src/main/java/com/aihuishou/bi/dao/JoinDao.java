@@ -96,8 +96,8 @@ public class JoinDao {
 
     //用户和权限的绑定关系
     public List<String> getExistsOperation(Long obId) throws SQLException {
-        String sql = "select distinct access_name from user_operation_min where observer_id = ?;";
-        return new QueryRunner(dataSource).query(sql, new ColumnListHandler<String>("access_name"), obId);
+        String sql = "select distinct source_operation as name from operation_mapping where target_operation in (select distinct access_name from user_operation_min where observer_id = ?);";
+        return new QueryRunner(dataSource).query(sql, new ColumnListHandler<String>("name"), obId);
     }
 
     public int createUO(Long obId, List<String> operations) throws SQLException {
@@ -182,17 +182,17 @@ public class JoinDao {
 
 
     //权限绑定用户
-    public List<Long> getExistsUser(String operation) throws SQLException {
+    public List<Integer> getExistsUser(String operation) throws SQLException {
         String sql = "select distinct observer_id from user_operation_min where access_name = ?;";
-        return new QueryRunner(dataSource).query(sql, new ColumnListHandler<Long>("observer_id"), operation);
+        return new QueryRunner(dataSource).query(sql, new ColumnListHandler<Integer>("observer_id"), operation);
     }
 
-    public int create4(String operation, List<Long> obIds) throws SQLException {
+    public int create4(String operation, List<Integer> obIds) throws SQLException {
         if(obIds != null && obIds.size() != 0) {
             String sql = "INSERT INTO user_operation_min(observer_id, access_id, access_name) VALUES (?, 0, ?)";
             Object[][] params = new Object[obIds.size()][2];
             for(int i = 0; i < obIds.size(); i++) {
-                Number obId = (Number) obIds.get(i);
+                Integer obId = obIds.get(i);
                 params[i] = new Object[]{obId, operation};
             }
             int [] res = new QueryRunner(dataSource).batch(sql, params);
@@ -201,12 +201,12 @@ public class JoinDao {
         return 0;
     }
 
-    public int update4(String operation, List<Long> obIds) throws SQLException {
+    public int update4(String operation, List<Integer> obIds) throws SQLException {
         if(obIds != null && obIds.size() != 0) {
             String sql = "delete from user_operation_min where observer_id = ? and access_name = ?;";
             Object[][] params = new Object[obIds.size()][2];
             for(int i = 0; i < obIds.size(); i++) {
-                Number obId = (Number) obIds.get(i);
+                Integer obId = obIds.get(i);
                 params[i] = new Object[]{obId, operation};
             }
             int [] res = new QueryRunner(dataSource).batch(sql, params);
