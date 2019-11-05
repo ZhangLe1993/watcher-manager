@@ -201,7 +201,7 @@ public class JoinService {
         if(obIds == null || obIds.size() == 0) {
             //1、查询已经存在的
             List<Long> exists = joinDao.getExistsUser(operation);
-            //取钱不删除并返回
+            //全部删除并返回
             return joinDao.update4(operation, exists);
         }
         //1、查询已经存在的

@@ -95,10 +95,10 @@ public class OperationController {
     @GetMapping("/user")
     public ResponseEntity operationRole(@RequestParam(value = "operation") String operation) {
         try {
-            List<User> roles = operationService.hasOwner(operation);
-            return new ResponseEntity<>(roles, HttpStatus.OK);
+            List<User> users = operationService.hasOwner(operation);
+            return new ResponseEntity<>(users, HttpStatus.OK);
         } catch(Exception e) {
-            logger.error("查询权限已经绑定了的角色异常，异常信息: {}", ExceptionInfo.toString(e));
+            logger.error("查询权限已经绑定了的用户异常，异常信息: {}", ExceptionInfo.toString(e));
         }
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }

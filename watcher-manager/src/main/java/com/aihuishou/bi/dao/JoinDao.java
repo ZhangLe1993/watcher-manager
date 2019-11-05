@@ -192,7 +192,7 @@ public class JoinDao {
             String sql = "INSERT INTO user_operation_min(observer_id, access_id, access_name) VALUES (?, 0, ?)";
             Object[][] params = new Object[obIds.size()][2];
             for(int i = 0; i < obIds.size(); i++) {
-                Long obId = obIds.get(i);
+                Number obId = (Number) obIds.get(i);
                 params[i] = new Object[]{obId, operation};
             }
             int [] res = new QueryRunner(dataSource).batch(sql, params);
@@ -204,9 +204,9 @@ public class JoinDao {
     public int update4(String operation, List<Long> obIds) throws SQLException {
         if(obIds != null && obIds.size() != 0) {
             String sql = "delete from user_operation_min where observer_id = ? and access_name = ?;";
-            Object[][] params = new Object[obIds.size()][4];
+            Object[][] params = new Object[obIds.size()][2];
             for(int i = 0; i < obIds.size(); i++) {
-                Long obId = obIds.get(i);
+                Number obId = (Number) obIds.get(i);
                 params[i] = new Object[]{obId, operation};
             }
             int [] res = new QueryRunner(dataSource).batch(sql, params);
