@@ -54,7 +54,8 @@ const plugins = [
     },
   ],
 ]; // 针对 preview.pro.ant.design 的 GA 统计代码
-
+// const proxy = 'http://10.25.169.133:8112';
+const proxy = 'http://127.0.0.1:8080';
 if (isAntDesignProPreview) {
   plugins.push([
     'umi-plugin-ga',
@@ -183,47 +184,51 @@ export default {
   chainWebpack: webpackPlugin,
   proxy: {
     '/menu': {
-      target: 'http://10.25.169.133:8112',
+      target: proxy,
       changeOrigin: true,
     },
     '/route': {
-      target: 'http://10.25.169.133:8112',
+      target: proxy,
       changeOrigin: true,
     },
     '/api': {
-      target: 'http://10.25.169.133:8112',
+      target: proxy,
       changeOrigin: true,
     },
     '/cache': {
-      target: 'http://10.25.169.133:8112',
+      target: proxy,
       changeOrigin: true,
     },
     '/mount': {
-      target: 'http://10.25.169.133:8112',
+      target: proxy,
       changeOrigin: true,
     },
     '/permission': {
-      target: 'http://10.25.169.133:8112',
+      target: proxy,
       changeOrigin: true,
     },
     '/role': {
-      target: 'http://10.25.169.133:8112',
+      target: proxy,
       changeOrigin: true,
     },
     '/user': {
-      target: 'http://10.25.169.133:8112',
+      target: proxy,
       changeOrigin: true,
     },
     '/operation': {
-      target: 'http://10.25.169.133:8112',
+      target: proxy,
       changeOrigin: true,
     },
     '/static': {
-      target: 'http://10.25.169.133:8112',
+      target: proxy,
       changeOrigin: true,
     },
     '/operateLog': {
-      target: 'http://10.25.169.133:8112',
+      target: proxy,
+      changeOrigin: true,
+    },
+    '/privileges': {
+      target: proxy,
       changeOrigin: true,
     },
   },

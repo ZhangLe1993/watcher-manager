@@ -74,7 +74,7 @@ public class UserController {
 
 
     /**
-     * 用户已经绑定了的角色
+     * 用户已经绑定了的权限
      * @param obId
      * @return
      */

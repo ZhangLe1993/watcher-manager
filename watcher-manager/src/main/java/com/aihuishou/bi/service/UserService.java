@@ -45,7 +45,7 @@ public class UserService {
     }
 
     public List<User> all(String key, int pageIndex, int pageSize) throws SQLException {
-        String sql = "SELECT observer_account_id as obId, observer_account_user_name AS name, observer_account_mobile_txt AS mobile,observer_account_email_txt AS email,observer_account_employee_no AS employeeNo from dim_observer_account where observer_account_id <> -1";
+        String sql = "SELECT observer_account_id as obId, observer_account_user_name AS name, observer_account_mobile_txt AS mobile,observer_account_email_txt AS email,observer_account_employee_no AS employeeNo from dim_observer_account where observer_account_is_active_flag = 1 and observer_account_id <> -1";
         String where = " and observer_account_id like ? or observer_account_user_name like ? or observer_account_employee_no like ? ";
         String page = " order by observer_account_id limit ?,?";
         int offset = (pageIndex - 1) * pageSize;

@@ -163,7 +163,12 @@ public class AuthService extends BaseService {
      * @return
      */
     @Cacheable(value = CacheConf.LIST_USER_AUTH, key = "#obId")
-    public List<String> userAuth(String obId)  throws SQLException {
+    public List<String> userAuth(String obId) throws SQLException {
+        return userAuthBase(obId);
+    }
+
+
+    public List<String> userAuthBase(String obId) throws SQLException  {
         String in = "select access_name as name from user_operation_min where active = 1 and observer_id = " + Long.parseLong(obId);
         List<String> list = new QueryRunner(dataSource).query(in, new ColumnListHandler<String>("name"));
         if(list == null || list .size() == 0) {
@@ -172,6 +177,7 @@ public class AuthService extends BaseService {
         other(list);
         return list;
     }
+
 
     /**
      * 取出Watcher中关联在Mongo中的数据

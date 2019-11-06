@@ -21,7 +21,7 @@ public class OperationService {
 
     public int insert(Operation operation) throws SQLException {
         String sql = "select count(*) as num from operation_mapping where source_operation = ? and target_operation = ?;";
-        Long count = new QueryRunner(dataSource).query(sql, new ScalarHandler<>("num"));
+        Long count = new QueryRunner(dataSource).query(sql, new ScalarHandler<>("num"), operation.getSourceOperation(), operation.getTargetOperation());
         if(count > 0) {
             return 0;
         }
@@ -36,7 +36,7 @@ public class OperationService {
 
     public int update(Operation operation) throws SQLException {
         String sql = "update operation_mapping set source_operation = ? , target_operation = ? where id = ?";
-        return new QueryRunner(dataSource).update(sql, operation.getSourceOperation(), operation.getTargetOperation());
+        return new QueryRunner(dataSource).update(sql, operation.getSourceOperation(), operation.getTargetOperation(), operation.getId());
     }
 
     public List<Operation> getList(String key, int pageIndex, int pageSize) throws SQLException {
@@ -63,7 +63,7 @@ public class OperationService {
     }
 
     public List<User> hasOwner(String operation) throws SQLException {
-        String sql = "SELECT observer_account_id as obId, observer_account_user_name AS name, observer_account_mobile_txt AS mobile,observer_account_email_txt AS email,observer_account_employee_no AS employeeNo from dim_observer_account where observer_account_is_active_flag = 1 and observer_account_id <> -1 and observer_account_id in (select distinct observer_id from user_operation_min where access_name = ?);";
+        String sql = "SELECT observer_account_id as obId, observer_account_user_name AS name, observer_account_mobile_txt AS mobile,observer_account_email_txt AS email,observer_account_employee_no AS employeeNo from dim_observer_account where observer_account_is_active_flag = 1 and observer_account_id <> -1 and observer_account_id in (select distinct observer_id from user_operation_min where access_name in (select target_operation from operation_mapping where source_operation = ?));";
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<>(User.class), operation);
     }
 

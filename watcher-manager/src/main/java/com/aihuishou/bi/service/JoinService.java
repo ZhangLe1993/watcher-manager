@@ -197,27 +197,28 @@ public class JoinService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public int operationJoinUser(OperationUserVO ou) throws SQLException {
         String operation = ou.getOperation();
-        List<Long> obIds = ou.getIds();
+        List<Integer> obIds = ou.getIds();
         if(obIds == null || obIds.size() == 0) {
             //1、查询已经存在的
-            List<Long> exists = joinDao.getExistsUser(operation);
-            //取钱不删除并返回
+            List<Integer> exists = joinDao.getExistsUser(operation);
+            //全部删除并返回
             return joinDao.update4(operation, exists);
         }
         //1、查询已经存在的
-        List<Long> exists = joinDao.getExistsUser(operation);
+        List<Integer> exists = joinDao.getExistsUser(operation);
         if(exists == null || exists.size() == 0) {
             //如果不存在，那么全部新增之后返回
             return joinDao.create4(operation, obIds);
         }
         //2、差集 求出需要新增的   新增设置为  1
-        List<Long> add = StringEx.copyUtil(obIds);
-        add.removeAll(exists);
+        List<Integer> add = obIds.stream().filter(t -> !exists.contains(t)).collect(Collectors.toList());
+        // add.removeAll(exists);
+        //list.stream().forEach(System.out::println);
         joinDao.create4(operation, add);
 
         //3、差集  求出需要剔除的  设置为 0
-        List<Long> del = StringEx.copyUtil(exists);
-        del.removeAll(obIds);
+        List<Integer> del = exists.stream().filter(t -> !obIds.contains(t)).collect(Collectors.toList());
+        //del.removeAll(obIds);
         joinDao.update4(operation, del);
 
         //4、求出交集，并全部设置为active为 1
