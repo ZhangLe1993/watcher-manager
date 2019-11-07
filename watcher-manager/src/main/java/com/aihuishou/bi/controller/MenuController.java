@@ -7,6 +7,7 @@ import com.aihuishou.bi.cas.CasUtil;
 import com.aihuishou.bi.entity.Folder;
 import com.aihuishou.bi.entity.Mount;
 import com.aihuishou.bi.entity.Node;
+import com.aihuishou.bi.entity.Operation;
 import com.aihuishou.bi.service.*;
 import com.aihuishou.bi.utils.ExceptionInfo;
 import com.aihuishou.bi.vo.FolderVO;
@@ -282,7 +283,7 @@ public class MenuController {
                                      @RequestParam(value = "page_index", required = false, defaultValue = "1") Integer pageIndex,
                                      @RequestParam(value = "page_size", required = false, defaultValue = "5000") Integer pageSize) {
         try{
-            List<String> auth = authService.getAllAuth(key, pageIndex, pageSize);
+            List<Operation> auth = authService.getAllAuth(key, pageIndex, pageSize);
             if(pageIndex == null || pageSize == null) {
                 return new ResponseEntity<>(auth, HttpStatus.OK);
             }
@@ -298,7 +299,7 @@ public class MenuController {
     @GetMapping("/auth")
     public ResponseEntity<?> menuAuth(@RequestParam(value = "position") String position) {
         try{
-            List<String> auth = authService.getMenuAuth(position);
+            List<Operation> auth = authService.getMenuAuth(position);
             return new ResponseEntity<>(auth, HttpStatus.OK);
         } catch(Exception e) {
             logger.error("匹配异常，异常信息: {}", ExceptionInfo.toString(e));

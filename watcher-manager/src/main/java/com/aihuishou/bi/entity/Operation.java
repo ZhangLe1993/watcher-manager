@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 public class Operation {
     private Integer id;
-    private  String sourceOperation;
-    private String targetOperation;
+    private String name;
+    private String empno;
+    private String empname;
 }

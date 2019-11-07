@@ -45,6 +45,21 @@ public class OperationController {
         return new ResponseEntity<>(ImmutableMap.of("data", new ArrayList<>(),"total", 0), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @GetMapping("/checkName")
+    public ResponseEntity checkName(String name) {
+        try{
+            boolean exists = operationService.checkName(name);
+            if(!exists) {
+                return new ResponseEntity<>("false", HttpStatus.OK);
+            }
+            return new ResponseEntity<>("true", HttpStatus.OK);
+        } catch(Exception e) {
+            logger.error("匹配异常，异常信息: {}", ExceptionInfo.toString(e));
+        }
+        return new ResponseEntity<>("error", HttpStatus.INTERNAL_SERVER_ERROR);
+
+    }
+
     @SystemLog(description = "新增操作权限")
     @Delete
     @PostMapping("")
@@ -89,13 +104,13 @@ public class OperationController {
 
     /**
      * 权限已经绑定了的用户
-     * @param operation
+     * @param operationId
      * @return
      */
     @GetMapping("/user")
-    public ResponseEntity operationRole(@RequestParam(value = "operation") String operation) {
+    public ResponseEntity operationRole(@RequestParam(value = "operation_id") Integer operationId) {
         try {
-            List<User> users = operationService.hasOwner(operation);
+            List<User> users = operationService.hasOwner(operationId);
             return new ResponseEntity<>(users, HttpStatus.OK);
         } catch(Exception e) {
             logger.error("查询权限已经绑定了的用户异常，异常信息: {}", ExceptionInfo.toString(e));

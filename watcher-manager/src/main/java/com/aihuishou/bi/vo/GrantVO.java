@@ -9,5 +9,6 @@ import java.util.List;
 @Setter
 public class GrantVO {
     private String position;
-    private List<String> auth;
+    private List<Integer> auth;
+    private List<String> authName;
 }

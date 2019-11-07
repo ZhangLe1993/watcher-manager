@@ -3,6 +3,7 @@ package com.aihuishou.bi.service;
 import com.aihuishou.bi.core.Admin;
 import com.aihuishou.bi.core.CacheConf;
 import com.aihuishou.bi.dao.JoinDao;
+import com.aihuishou.bi.entity.Operation;
 import com.aihuishou.bi.entity.Role;
 import com.aihuishou.bi.entity.User;
 import org.apache.commons.dbutils.QueryRunner;
@@ -67,13 +68,7 @@ public class UserService {
         return new QueryRunner(dataSource).query(sql, new ScalarHandler<>("num"));
     }
 
-
-    public List<Role> hasOwner(Long obId) throws SQLException {
-        String sql = "select id,name,alias,description,active from ods_ob_foundation_role where active = 1 and id in (select distinct roleid from ods_ob_foundation_observerrole where active = 1 and observerid = ?);";
-        return new QueryRunner(dataSource).query(sql, new BeanListHandler<>(Role.class), obId);
-    }
-
-    public List<String> hasOperation(Long obId) throws SQLException {
-        return joinDao.getExistsOperation(obId);
+    public List<Operation> hasOperation(Long obId) throws SQLException {
+        return joinDao.getExistsOperationBean(obId);
     }
 }

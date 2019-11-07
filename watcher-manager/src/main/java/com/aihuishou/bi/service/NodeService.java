@@ -110,9 +110,10 @@ public class NodeService extends BaseService {
             return 0;
         }
         String sql = "DELETE FROM bi_nodes WHERE id=?;";
+        Node node = getNodeById(id);
         int count = new QueryRunner(dataSource).update(sql, id);
         if(count > 0) {
-            operateLogger.append(nodeVO.getPosition(), null, nodeVO,  "node", "delete", "删除报表");
+            operateLogger.append(nodeVO.getPosition(), null, node,  "node", "delete", "删除报表");
         }
         return count;
     }
@@ -138,22 +139,12 @@ public class NodeService extends BaseService {
         String append = " AND a.name like ? ";
         String append1 = " or b.name like ?";
         String suffix = " order by a.id asc limit ?,?;";
-        //return this.getAbstractPageList(Node.class, sql, suffix, key, parent, pageIndex, pageSize, append, append1);
         List<Node> nodes = super.getAbstractPageList(Node.class, sql, suffix, key, "%" + key + "%", pageIndex, pageSize, append, append1);
-        //List<Node> res = new ArrayList<>();
         if(nodes != null && nodes.size() != 0) {
             StringBuilder sb = new StringBuilder();
-            //List<String> positions = nodes.stream().map(Node::getPosition).collect(Collectors.toList());
-            //Map<String, String> maps = mappingService.getModelMap(positions);
-
-            sb.append("SELECT node_position as position, group_concat(auth_name SEPARATOR ',') AS authName FROM node_auth WHERE node_position in (");
+            sb.append("SELECT node_position as position, group_concat(b.name SEPARATOR ',') AS authName FROM w_node_operation a JOIN w_operation b ON a.operation_id = b.id WHERE node_position in (");
             for(int i = 0; i < nodes.size(); i++) {
                 String sourcePosition = nodes.get(i).getPosition();
-                /*if(maps != null && maps.containsKey(sourcePosition)) {
-                    sb.append("'").append(maps.get(sourcePosition)).append("'");
-                } else {
-                    sb.append("'").append(sourcePosition).append("'");
-                }*/
                 sb.append("'").append(sourcePosition).append("'");
                 if(i != nodes.size() - 1) {
                     sb.append(",");
@@ -167,14 +158,7 @@ public class NodeService extends BaseService {
                 nodes.stream().peek(p -> {
                     String po = p.getPosition();
                     String auth = authMap.get(po);
-                    /*if(maps != null && maps.containsKey(po)) {
-                        auth = authMap.get(maps.get(po));
-                    } else {
-                        auth = authMap.get(po);
-                    }*/
-                    //auth = authMap.get(po);
                     if(StringUtils.isNotBlank(auth)) {
-                        //String tar = StringUtils.substringBeforeLast(auth, ",");
                         p.setAuth(auth);
                     }
                 }).collect(Collectors.toList());

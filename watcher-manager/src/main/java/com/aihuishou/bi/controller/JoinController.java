@@ -28,60 +28,6 @@ public class JoinController {
     @Autowired
     private JoinService joinService;
 
-    @PostMapping("/user/role")
-    @Delete
-    public ResponseEntity userJoinRole(@RequestBody UserRoleVO userRoleVO) {
-        try {
-            int count = joinService.userJoinRole(userRoleVO);
-            if(count > 0) return new ResponseEntity<>("用户绑定角色成功", HttpStatus.OK);
-            return new ResponseEntity<>("用户绑定角色失败", HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch(Exception e) {
-            logger.error("用户绑定角色异常，异常信息: {}", ExceptionInfo.toString(e));
-        }
-        return new ResponseEntity<>("用户绑定角色失败", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @PostMapping("/role/user")
-    @Delete
-    public ResponseEntity userJoinRole(@RequestBody RoleUserVo roleUserVo) {
-        try {
-            int count = joinService.roleJoinUser(roleUserVo);
-            if(count > 0) return new ResponseEntity<>("角色绑定用户成功", HttpStatus.OK);
-            return new ResponseEntity<>("角色绑定用户失败", HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch(Exception e) {
-            logger.error("角色绑定用户异常，异常信息: {}", ExceptionInfo.toString(e));
-        }
-        return new ResponseEntity<>("角色绑定用户失败", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @Delete
-    @PostMapping("/role/operation")
-    public ResponseEntity roleJoinOperation(@RequestBody RoleOperationVO roleOperationVO) {
-        try {
-            int count = joinService.roleJoinOperation(roleOperationVO);
-            if(count > 0) return new ResponseEntity<>("角色绑定权限成功", HttpStatus.OK);
-            return new ResponseEntity<>("角色绑定权限失败", HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch(Exception e) {
-            logger.error("角色绑定权限异常，异常信息: {}", ExceptionInfo.toString(e));
-        }
-        return new ResponseEntity<>("角色绑定权限失败", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-
-    @Delete
-    @PostMapping("/permission/role")
-    public ResponseEntity OperationJoinRole(@RequestBody OperationRoleVo operationRoleVo) {
-        try {
-            int count = joinService.operationJoinRole(operationRoleVo);
-            if(count > 0) return new ResponseEntity<>("权限绑定角色成功", HttpStatus.OK);
-            return new ResponseEntity<>("权限绑定角色失败", HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch(Exception e) {
-            logger.error("权限绑定角色异常，异常信息: {}", ExceptionInfo.toString(e));
-        }
-        return new ResponseEntity<>("权限绑定角色失败", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-
     /**
      * 权限绑定用户
      * @param ou
