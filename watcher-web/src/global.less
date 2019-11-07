@@ -46,6 +46,20 @@ ol {
   }
 }
 
+div.basicLayout {
+  height: 100%;
+  section {
+    height: 100%;
+    aside {
+      overflow-y: auto;
+      -ms-overflow-style: none;
+    }
+    aside::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
