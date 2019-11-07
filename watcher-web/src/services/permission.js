@@ -8,6 +8,13 @@ export async function addPermission(params) {
   });
 }
 
+// 检查权限名
+export async function checkPermissionName(name) {
+  return request(`/privileges/checkName?name=${name}`, {
+    method: 'GET',
+  });
+}
+
 // 修改操作权限
 export async function modifyPermission(params) {
   return request('/privileges', {
@@ -35,46 +42,6 @@ export async function queryPermission(params) {
 // 查询操作权限
 export async function queryAllPermission() {
   return request('/privileges', {
-    method: 'GET',
-  });
-}
-
-// 新增角色
-export async function addRole(params) {
-  return request('/role', {
-    method: 'POST',
-    data: params,
-  });
-}
-
-// 修改角色
-export async function modifyRole(params) {
-  return request('/role', {
-    method: 'PUT',
-    data: params,
-  });
-}
-
-// 删除角色
-export async function deleteRole(params) {
-  return request(`/role?id=${params}`, {
-    method: 'DELETE',
-  });
-}
-
-// 查询角色
-export async function queryRole(params) {
-  const { pageIndex, pageSize, key } = params;
-  const url = `/role?key=${key}&page_index=${pageIndex}&page_size=${pageSize}`;
-  return request(url, {
-    method: 'GET',
-  });
-}
-
-// 查询所有角色
-export async function queryAllRole() {
-  const url = '/role';
-  return request(url, {
     method: 'GET',
   });
 }
@@ -125,7 +92,7 @@ export async function queryRoleBindOperation(params) {
 
 // 权限已绑定的用户
 export async function getAuthBindUser(params) {
-  return request(`/privileges/user?operation=${params}`);
+  return request(`/privileges/user?operation_id=${params}`);
 }
 
 // 权限绑定用户

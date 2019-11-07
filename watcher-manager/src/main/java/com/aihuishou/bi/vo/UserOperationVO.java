@@ -9,5 +9,5 @@ import java.util.List;
 @Setter
 public class UserOperationVO {
     private Long ob;
-    private List<String> operations;
+    private List<Integer> operationIds;
 }

@@ -42,7 +42,7 @@ import {
   getOperationInfos,
 } from '@/services/manager';
 import difference from 'lodash/difference';
-import treeDataTranslate from './util'
+import treeDataTranslate from './util';
 
 const { TreeNode } = Tree;
 const { Search } = Input;
@@ -83,6 +83,7 @@ class WatcherManagerNew extends Component {
     },
     authority: {
       visible: false,
+      nameMap: {},
       allAuth: [],
       userAuth: [],
       pageIndex: 1,
@@ -129,10 +130,12 @@ class WatcherManagerNew extends Component {
         let allFolderAndNode = that.nodeData.concat(that.folderData);
         let folderTree = treeDataTranslate(allFolderAndNode);
         let mountAndFolderTree = folderTree.concat(that.mountData);
-        let processAfter = treeDataTranslate(mountAndFolderTree,'key','mount');
+        let processAfter = treeDataTranslate(mountAndFolderTree, 'key', 'mount');
 
         //that.generateTreeNode(that.mountData);
-        that.mountData = processAfter.filter((item)=>{return item.nodeType==='1'});
+        that.mountData = processAfter.filter(item => {
+          return item.nodeType === '1';
+        });
         that.sortTreeData(that.mountData);
         clearInterval(that.state.interval);
         that.setState({
@@ -871,10 +874,11 @@ class WatcherManagerNew extends Component {
   getUserAuth = position => {
     const that = this;
     queryUserAuth(position).then(res => {
+      const temp = res.map(it => it.id);
       this.setState({
         authority: {
           ...that.state.authority,
-          userAuth: res,
+          userAuth: temp,
         },
       });
     });
@@ -883,12 +887,14 @@ class WatcherManagerNew extends Component {
     const that = this;
     queryAllAuth().then(res => {
       const temp = [];
+      let tempName = {};
       res.data.forEach(it => {
         temp.push({
-          key: it,
-          auth: it,
-          id: it,
+          key: it.id,
+          name: it.name,
+          id: it.id,
         });
+        tempName[`${it.id}`] = it.name;
       });
       this.setState({
         authority: {
@@ -896,6 +902,7 @@ class WatcherManagerNew extends Component {
           allAuth: temp,
           total: res.total,
           loading: false,
+          nameMap: tempName,
         },
       });
     });
@@ -936,11 +943,16 @@ class WatcherManagerNew extends Component {
     });
   };
   doMenuAuthFunc = () => {
-    const { position, userAuth } = this.state.authority;
+    const { position, userAuth, nameMap } = this.state.authority;
     const that = this;
+    const names = [];
+    userAuth.forEach(it => {
+      names.push(nameMap[`${it}`]);
+    });
     const parameters = {
       position,
       auth: userAuth,
+      authName: names,
     };
     doMenuAuth(parameters).then(() => {
       message.success('菜单赋权成功!');
@@ -1175,13 +1187,13 @@ class WatcherManagerNew extends Component {
 
     const leftTableColumns = [
       {
-        dataIndex: 'auth',
+        dataIndex: 'name',
         title: '权限名',
       },
     ];
     const rightTableColumns = [
       {
-        dataIndex: 'auth',
+        dataIndex: 'name',
         title: '权限名',
       },
     ];
@@ -1305,7 +1317,7 @@ class WatcherManagerNew extends Component {
             targetKeys={authority.userAuth}
             showSearch
             onChange={this.handleSelectedAuth}
-            filterOption={(inputValue, item) => item.auth.indexOf(inputValue) !== -1}
+            filterOption={(inputValue, item) => item.name.indexOf(inputValue) !== -1}
             leftColumns={leftTableColumns}
             rightColumns={rightTableColumns}
           />

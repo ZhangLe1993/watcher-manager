@@ -8,6 +8,6 @@ import java.util.List;
 @Getter
 @Setter
 public class OperationUserVO {
-    private String operation;
+    private Integer operationId;
     private List<Integer> ids;
 }

@@ -56,13 +56,13 @@ const FormItem = Form.Item;
 const { Group } = Radio;
 const leftTableColumns = [
   {
-    dataIndex: 'auth',
+    dataIndex: 'name',
     title: '权限名',
   },
 ];
 const rightTableColumns = [
   {
-    dataIndex: 'auth',
+    dataIndex: 'name',
     title: '权限名',
   },
 ];
@@ -82,11 +82,22 @@ class WatcherManager extends React.Component {
       width: '30%',
       render: (text, record) => (
         <div>
-          {
-            record.isEdit
-              ? <Input min={0} defaultValue={record.sortNo} onBlur={e => this.handleSortNo('mount', record, e)} onPressEnter={e => this.handleSortNo('mount', record, e)} style={{ width: '100%' }} />
-              : <span className={style.sortNo} onDoubleClick={() => this.handleInputEdit('mount', record)}>{record.sortNo}</span>
-          }
+          {record.isEdit ? (
+            <Input
+              min={0}
+              defaultValue={record.sortNo}
+              onBlur={e => this.handleSortNo('mount', record, e)}
+              onPressEnter={e => this.handleSortNo('mount', record, e)}
+              style={{ width: '100%' }}
+            />
+          ) : (
+            <span
+              className={style.sortNo}
+              onDoubleClick={() => this.handleInputEdit('mount', record)}
+            >
+              {record.sortNo}
+            </span>
+          )}
         </div>
       ),
     },
@@ -95,10 +106,16 @@ class WatcherManager extends React.Component {
       key: 'action',
       render: (text, record) => (
         <span>
-          <a href="javascript:;" onClick={() => this.handleActions('mount', 'modify', record)}>修改</a>
+          <a href="javascript:;" onClick={() => this.handleActions('mount', 'modify', record)}>
+            修改
+          </a>
           <Divider type="vertical" />
-          <Popconfirm title={`是否删除${record.name}?`} onConfirm={() => this.handleActions('mount', 'delete', record)}
-            okText="确定" cancelText="取消">
+          <Popconfirm
+            title={`是否删除${record.name}?`}
+            onConfirm={() => this.handleActions('mount', 'delete', record)}
+            okText="确定"
+            cancelText="取消"
+          >
             <a href="javascript:;">删除</a>
           </Popconfirm>
         </span>
@@ -127,11 +144,22 @@ class WatcherManager extends React.Component {
       width: '20%',
       render: (text, record) => (
         <div>
-          {
-            record.isEdit
-              ? <Input min={0} defaultValue={record.sortNo} onBlur={e => this.handleSortNo('folder', record, e)} onPressEnter={e => this.handleSortNo('folder', record, e)} style={{ width: '100%' }} />
-              : <span className={style.sortNo} onDoubleClick={() => this.handleInputEdit('folder', record)}>{record.sortNo}</span>
-          }
+          {record.isEdit ? (
+            <Input
+              min={0}
+              defaultValue={record.sortNo}
+              onBlur={e => this.handleSortNo('folder', record, e)}
+              onPressEnter={e => this.handleSortNo('folder', record, e)}
+              style={{ width: '100%' }}
+            />
+          ) : (
+            <span
+              className={style.sortNo}
+              onDoubleClick={() => this.handleInputEdit('folder', record)}
+            >
+              {record.sortNo}
+            </span>
+          )}
         </div>
       ),
     },
@@ -140,10 +168,16 @@ class WatcherManager extends React.Component {
       key: 'action',
       render: (text, record) => (
         <span>
-          <a href="javascript:;" onClick={() => this.handleActions('folder', 'modify', record)}>修改</a>
+          <a href="javascript:;" onClick={() => this.handleActions('folder', 'modify', record)}>
+            修改
+          </a>
           <Divider type="vertical" />
-          <Popconfirm title={`是否删除${record.name}?`} onConfirm={() => this.handleActions('folder', 'delete', record)}
-            okText="确定" cancelText="取消">
+          <Popconfirm
+            title={`是否删除${record.name}?`}
+            onConfirm={() => this.handleActions('folder', 'delete', record)}
+            okText="确定"
+            cancelText="取消"
+          >
             <a href="javascript:;">删除</a>
           </Popconfirm>
         </span>
@@ -171,11 +205,22 @@ class WatcherManager extends React.Component {
       width: '20%',
       render: (text, record) => (
         <div>
-          {
-            record.isEdit
-              ? <Input min={0} defaultValue={record.sortNo} onBlur={e => this.handleSortNo('node', record, e)} onPressEnter={e => this.handleSortNo('node', record, e)} style={{ width: '100%' }} />
-              : <span className={style.sortNo} onDoubleClick={() => this.handleInputEdit('node', record)}>{record.sortNo}</span>
-          }
+          {record.isEdit ? (
+            <Input
+              min={0}
+              defaultValue={record.sortNo}
+              onBlur={e => this.handleSortNo('node', record, e)}
+              onPressEnter={e => this.handleSortNo('node', record, e)}
+              style={{ width: '100%' }}
+            />
+          ) : (
+            <span
+              className={style.sortNo}
+              onDoubleClick={() => this.handleInputEdit('node', record)}
+            >
+              {record.sortNo}
+            </span>
+          )}
         </div>
       ),
     },
@@ -184,14 +229,22 @@ class WatcherManager extends React.Component {
       key: 'action',
       render: (text, record) => (
         <span>
-          <a href="javascript:;" onClick={() => this.handleActions('node', 'modify', record)}>修改2</a>
+          <a href="javascript:;" onClick={() => this.handleActions('node', 'modify', record)}>
+            修改
+          </a>
           <Divider type="vertical" />
-          <Popconfirm title={`是否删除${record.name}?`} onConfirm={() => this.handleActions('node', 'delete', record)}
-            okText="确定" cancelText="取消">
+          <Popconfirm
+            title={`是否删除${record.name}?`}
+            onConfirm={() => this.handleActions('node', 'delete', record)}
+            okText="确定"
+            cancelText="取消"
+          >
             <a href="javascript:;">删除</a>
           </Popconfirm>
           <Divider type="vertical" />
-          <a href="javascript:;" onClick={() => this.handleEmpowerment(record.position)}>赋权</a>
+          <a href="javascript:;" onClick={() => this.handleEmpowerment(record.position)}>
+            赋权
+          </a>
         </span>
       ),
     },
@@ -238,6 +291,7 @@ class WatcherManager extends React.Component {
       authority: {
         visible: false,
         allAuth: [],
+        nameMap: {},
         userAuth: [],
         pageIndex: 1,
         pageSize: 10,
@@ -256,7 +310,9 @@ class WatcherManager extends React.Component {
   }
 
   fetchMountList = () => {
-    const { mount: { pageIndex, pageSize, key } } = this.state;
+    const {
+      mount: { pageIndex, pageSize, key },
+    } = this.state;
     const that = this;
     const parameters = {
       key,
@@ -274,13 +330,15 @@ class WatcherManager extends React.Component {
           ...that.state.mount,
           data: res.data,
           total: res.total,
-        }
+        },
       });
     });
-  }
+  };
 
   fetchFolderList = () => {
-    const { folder: { pageIndex, pageSize, key, parent } } = this.state;
+    const {
+      folder: { pageIndex, pageSize, key, parent },
+    } = this.state;
     const that = this;
     const parameters = {
       key,
@@ -299,13 +357,15 @@ class WatcherManager extends React.Component {
           ...that.state.folder,
           data: res.data,
           total: res.total,
-        }
+        },
       });
     });
-  }
+  };
 
   fetchNodeList = () => {
-    const { node: { pageIndex, pageSize, key, parent } } = this.state;
+    const {
+      node: { pageIndex, pageSize, key, parent },
+    } = this.state;
     const that = this;
     const parameters = {
       key,
@@ -324,13 +384,15 @@ class WatcherManager extends React.Component {
           ...that.state.node,
           data: res.data,
           total: res.total,
-        }
+        },
       });
     });
-  }
+  };
 
   add = category => {
-    const { form: { setFieldsValue } } = this.props;
+    const {
+      form: { setFieldsValue },
+    } = this.props;
     const that = this;
     this.setState({
       [`${category}`]: {
@@ -340,7 +402,7 @@ class WatcherManager extends React.Component {
         id: '',
         mount: '',
         parentPosition: '',
-      }
+      },
     });
     switch (category) {
       case 'mount':
@@ -355,7 +417,7 @@ class WatcherManager extends React.Component {
             node: {
               ...that.state.node,
               parentTree: res,
-            }
+            },
           });
         });
         setFieldsValue({
@@ -366,20 +428,14 @@ class WatcherManager extends React.Component {
         });
         break;
     }
-  }
+  };
 
   handleActions = (category, action, data) => {
-    const { form: { setFieldsValue } } = this.props;
-    const newCategory = category.substring(0, 1).toUpperCase() + category.substring(1);
     const {
-      name,
-      id,
-      mount,
-      parentPosition,
-      position,
-      state,
-      url,
-    } = data;
+      form: { setFieldsValue },
+    } = this.props;
+    const newCategory = category.substring(0, 1).toUpperCase() + category.substring(1);
+    const { name, id, mount, parentPosition, position, state, url } = data;
     const that = this;
     let newParentPosition = parentPosition;
     if (parentPosition === '-1') {
@@ -396,7 +452,7 @@ class WatcherManager extends React.Component {
           id,
           parentPosition: newParentPosition,
           mount,
-        }
+        },
       });
       switch (category) {
         case 'mount':
@@ -409,7 +465,7 @@ class WatcherManager extends React.Component {
               folder: {
                 ...that.state.folder,
                 parentTree: temp,
-              }
+              },
             });
           });
           setFieldsValue({
@@ -425,9 +481,9 @@ class WatcherManager extends React.Component {
               node: {
                 ...that.state.node,
                 parentTree: res,
-              }
+              },
             });
-            this.props.form.setFieldsValue({nodeParentPosition:that.state.node.parentPosition});
+            this.props.form.setFieldsValue({ nodeParentPosition: that.state.node.parentPosition });
           });
           // eslint-disable-next-line no-case-declarations
           let isRootNode = '0';
@@ -443,7 +499,7 @@ class WatcherManager extends React.Component {
           break;
       }
     }
-  }
+  };
 
   setTargetValueDisable = (position, data) => {
     for (let i = 0, len = data.length; i < len; i += 1) {
@@ -459,7 +515,7 @@ class WatcherManager extends React.Component {
       }
     }
     return data;
-  }
+  };
 
   handleModalOk = category => {
     const that = this;
@@ -468,7 +524,7 @@ class WatcherManager extends React.Component {
       [category]: {
         ...that.state[category],
         visible: false,
-      }
+      },
     });
     const newCategory = category.substring(0, 1).toUpperCase() + category.substring(1);
     this.props.form.validateFields((err, values) => {
@@ -492,7 +548,7 @@ class WatcherManager extends React.Component {
           state: mountState,
         };
       } else if (category === 'folder') {
-        if ((Array.isArray(parentTree) && parentTree.length === 0) || (parentPosition === '无')) {
+        if ((Array.isArray(parentTree) && parentTree.length === 0) || parentPosition === '无') {
           parentPosition = -1;
         }
         parameters = {
@@ -521,70 +577,70 @@ class WatcherManager extends React.Component {
         this[`add${newCategory}Func`](parameters);
       }
     });
-  }
+  };
 
   modifyMountFunc = parameters => {
     modifyMount(parameters).then(() => {
       message.success('修改成功');
       this.fetchMountList();
     });
-  }
+  };
 
   deleteMountFunc = parameters => {
     deleteMount(parameters).then(() => {
       message.success('删除成功');
       this.fetchMountList();
     });
-  }
+  };
 
   addMountFunc = parameters => {
     addMount(parameters).then(() => {
       message.success('新增成功');
       this.fetchMountList();
     });
-  }
+  };
 
   addFolderFunc = parameters => {
     addFolder(parameters).then(() => {
       message.success('新增成功');
       this.fetchFolderList();
     });
-  }
+  };
 
   deleteFolderFunc = parameters => {
     deleteFolder(parameters).then(() => {
       message.success('删除成功');
       this.fetchFolderList();
     });
-  }
+  };
 
   modifyFolderFunc = parameters => {
     modifyFolder(parameters).then(() => {
       message.success('修改成功');
       this.fetchFolderList();
     });
-  }
+  };
 
   addNodeFunc = parameters => {
     addNode(parameters).then(() => {
       message.success('新增成功');
       this.fetchNodeList();
     });
-  }
+  };
 
   deleteNodeFunc = parameters => {
     deleteNode(parameters).then(() => {
       message.success('删除成功');
       this.fetchNodeList();
     });
-  }
+  };
 
   modifyNodeFunc = parameters => {
     modifyNode(parameters).then(() => {
       message.success('修改成功');
       this.fetchNodeList();
     });
-  }
+  };
 
   hideModal = category => {
     const that = this;
@@ -592,48 +648,57 @@ class WatcherManager extends React.Component {
       [category]: {
         ...that.state[category],
         visible: false,
-      }
+      },
     });
-  }
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   handleMountPageChange = (page, pageSize) => {
     const that = this;
-    this.setState({
-      mount: {
-        ...that.state.mount,
-        pageIndex: page,
-      }
-    }, () => {
-      this.fetchMountList();
-    });
-  }
+    this.setState(
+      {
+        mount: {
+          ...that.state.mount,
+          pageIndex: page,
+        },
+      },
+      () => {
+        this.fetchMountList();
+      },
+    );
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   handleFolderPageChange = (page, pageSize) => {
     const that = this;
-    this.setState({
-      folder: {
-        ...that.state.folder,
-        pageIndex: page,
-      }
-    }, () => {
-      this.fetchFolderList();
-    });
-  }
+    this.setState(
+      {
+        folder: {
+          ...that.state.folder,
+          pageIndex: page,
+        },
+      },
+      () => {
+        this.fetchFolderList();
+      },
+    );
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   handleNodePageChange = (page, pageSize) => {
     const that = this;
-    this.setState({
-      node: {
-        ...that.state.node,
-        pageIndex: page,
-      }
-    }, () => {
-      this.fetchNodeList();
-    });
-  }
+    this.setState(
+      {
+        node: {
+          ...that.state.node,
+          pageIndex: page,
+        },
+      },
+      () => {
+        this.fetchNodeList();
+      },
+    );
+  };
 
   getMountChildren = arr => {
     const children = [];
@@ -650,10 +715,10 @@ class WatcherManager extends React.Component {
         folder: {
           ...that.state.folder,
           parentTree: res,
-        }
+        },
       });
     });
-  }
+  };
 
   handleNodeMountSelect = () => {
     const that = this;
@@ -662,19 +727,20 @@ class WatcherManager extends React.Component {
         node: {
           ...that.state.node,
           parentTree: res,
-        }
+        },
       });
     });
-  }
+  };
 
-  getUserAuth = position => {
+  getMenuAuth = position => {
     const that = this;
     queryUserAuth(position).then(res => {
+      const temp = res.map(it => it.id);
       this.setState({
         authority: {
           ...that.state.authority,
-          userAuth: res,
-        }
+          userAuth: temp,
+        },
       });
     });
   };
@@ -683,12 +749,14 @@ class WatcherManager extends React.Component {
     const that = this;
     queryAllAuth().then(res => {
       const temp = [];
+      let tempName = {};
       res.data.forEach(it => {
         temp.push({
-          key: it,
-          auth: it,
-          id: it,
+          key: it.id,
+          name: it.name,
+          id: it.id,
         });
+        tempName[`${it.id}`] = it.name;
       });
       this.setState({
         authority: {
@@ -696,38 +764,45 @@ class WatcherManager extends React.Component {
           allAuth: temp,
           total: res.total,
           loading: false,
-        }
+          nameMap: tempName,
+        },
       });
     });
-  }
+  };
 
   handleEmpowerment = position => {
     const that = this;
-    this.setState({
-      authority: {
-        ...that.state.authority,
-        visible: true,
-        loading: true,
-        position,
-      }
-    }, () => {
-      this.getUserAuth(position);
-      this.getAllAuth();
-    });
-  }
+    this.setState(
+      {
+        authority: {
+          ...that.state.authority,
+          visible: true,
+          loading: true,
+          position,
+        },
+      },
+      () => {
+        this.getMenuAuth(position);
+        this.getAllAuth();
+      },
+    );
+  };
 
   handleAuthUpdate = () => {
     const that = this;
-    this.setState({
-      authority: {
-        ...that.state.authority,
-        visible: false,
-        modalLoading: true,
-      }
-    }, () => {
-      this.doMenuAuthFunc();
-    });
-  }
+    this.setState(
+      {
+        authority: {
+          ...that.state.authority,
+          visible: false,
+          modalLoading: true,
+        },
+      },
+      () => {
+        this.doMenuAuthFunc();
+      },
+    );
+  };
 
   hideAuthModal = () => {
     const that = this;
@@ -735,24 +810,27 @@ class WatcherManager extends React.Component {
       authority: {
         ...that.state.authority,
         visible: false,
-      }
+      },
     });
-  }
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   handleAuthPageChange = (page, pageSize) => {
     const that = this;
-    this.setState({
-      authority: {
-        ...that.state.authority,
-        // eslint-disable-next-line react/no-unused-state
-        pageIndex: page,
-        loading: true,
-      }
-    }, () => {
-      that.getAllAuth();
-    });
-  }
+    this.setState(
+      {
+        authority: {
+          ...that.state.authority,
+          // eslint-disable-next-line react/no-unused-state
+          pageIndex: page,
+          loading: true,
+        },
+      },
+      () => {
+        that.getAllAuth();
+      },
+    );
+  };
 
   handleSelectedAuth = nextTargetKeys => {
     const that = this;
@@ -760,16 +838,21 @@ class WatcherManager extends React.Component {
       authority: {
         ...that.state.authority,
         userAuth: nextTargetKeys,
-      }
+      },
     });
-  }
+  };
 
   doMenuAuthFunc = () => {
-    const { position, userAuth } = this.state.authority;
+    const { position, userAuth, nameMap } = this.state.authority;
     const that = this;
+    const names = [];
+    userAuth.forEach(it => {
+      names.push(nameMap[`${it}`]);
+    });
     const parameters = {
       position,
       auth: userAuth,
+      authName: names,
     };
     doMenuAuth(parameters).then(() => {
       message.success('菜单赋权成功!');
@@ -778,36 +861,42 @@ class WatcherManager extends React.Component {
         authority: {
           ...that.state.authority,
           modalLoading: false,
-        }
+        },
       });
     });
-  }
+  };
 
   handleFolderSearch = () => {
     const that = this;
-    this.setState({
-      folder: {
-        ...that.state.folder,
-        pageIndex: 1,
-        pageSize: 10,
-      }
-    }, () => {
-      this.fetchFolderList();
-    });
-  }
+    this.setState(
+      {
+        folder: {
+          ...that.state.folder,
+          pageIndex: 1,
+          pageSize: 10,
+        },
+      },
+      () => {
+        this.fetchFolderList();
+      },
+    );
+  };
 
   handleNodeSearch = () => {
     const that = this;
-    this.setState({
-      node: {
-        ...that.state.node,
-        pageIndex: 1,
-        pageSize: 10,
-      }
-    }, () => {
-      this.fetchNodeList();
-    });
-  }
+    this.setState(
+      {
+        node: {
+          ...that.state.node,
+          pageIndex: 1,
+          pageSize: 10,
+        },
+      },
+      () => {
+        this.fetchNodeList();
+      },
+    );
+  };
 
   handleChange = (e, type) => {
     const that = this;
@@ -816,9 +905,9 @@ class WatcherManager extends React.Component {
         ...that.state[type],
         // eslint-disable-next-line react/no-unused-state
         key: e.target.value,
-      }
+      },
     });
-  }
+  };
 
   handleClear = type => {
     if (type === 'all') {
@@ -826,28 +915,32 @@ class WatcherManager extends React.Component {
     } else if (type === 'standard') {
       this.clearFunc();
     }
-  }
+  };
 
   clearAllFunc = () => {
-    clearAll().then(() => {
-      message.success('全部清除成功!');
-    }).catch(e => {
-      message.error(e);
-    });
-  }
+    clearAll()
+      .then(() => {
+        message.success('全部清除成功!');
+      })
+      .catch(e => {
+        message.error(e);
+      });
+  };
 
   clearFunc = () => {
-    clear().then(() => {
-      message.success('标准清除成功!');
-    }).catch(e => {
-      message.error(e);
-    });
-  }
+    clear()
+      .then(() => {
+        message.success('标准清除成功!');
+      })
+      .catch(e => {
+        message.error(e);
+      });
+  };
 
   handleInputEdit = (type, data) => {
     const temp = [].concat(this.state[type].data);
     this.setInputStatus(type, temp, data.id);
-  }
+  };
 
   // 设置input框状态
   setInputStatus = (type, data, id) => {
@@ -861,20 +954,22 @@ class WatcherManager extends React.Component {
       [type]: {
         ...that.state[type],
         data,
-      }
+      },
     });
-  }
+  };
 
   handleSortNo = (type, data, e) => {
-    const parameters = [{
-      id: data.id,
-      sortNo: Number(e.target.value),
-    }];
+    const parameters = [
+      {
+        id: data.id,
+        sortNo: Number(e.target.value),
+      },
+    ];
     if (typeof Number(e.target.value) !== 'number') {
       return message.error('排序值必须为数字!');
     }
     this[`${type}SortFunc`](parameters);
-  }
+  };
 
   // mount排序
   mountSortFunc = params => {
@@ -882,7 +977,7 @@ class WatcherManager extends React.Component {
       message.success('修改挂载点顺序成功!');
       this.fetchMountList();
     });
-  }
+  };
 
   // folder排序
   folderSortFunc = params => {
@@ -890,7 +985,7 @@ class WatcherManager extends React.Component {
       message.success('修改文件夹顺序成功!');
       this.fetchFolderList();
     });
-  }
+  };
 
   // node排序
   nodeSortFunc = params => {
@@ -898,15 +993,10 @@ class WatcherManager extends React.Component {
       message.success('修改文件夹顺序成功!');
       this.fetchNodeList();
     });
-  }
+  };
 
   render() {
-    const {
-      mount,
-      folder,
-      node,
-      authority,
-    } = this.state;
+    const { mount, folder, node, authority } = this.state;
     //  const pagination = {
     //     current: authority.pageIndex,
     //     pageSize: authority.pageSize,
@@ -956,7 +1046,7 @@ class WatcherManager extends React.Component {
                   onItemSelect(key, !listSelectedKeys.includes(key));
                 },
               })}
-            // pagination={ direction === 'left' ? pagination : false}
+              // pagination={ direction === 'left' ? pagination : false}
             />
           );
         }}
@@ -1006,14 +1096,29 @@ class WatcherManager extends React.Component {
       current: node.pageIndex,
       onChange: this.handleNodePageChange,
     };
-    const { form: { getFieldDecorator, getFieldValue } } = this.props;
+    const {
+      form: { getFieldDecorator, getFieldValue },
+    } = this.props;
     const mountChildren = this.getMountChildren(mount.data);
     const nodeChildren = this.getMountChildren(mount.data);
     const isRootNode = getFieldValue('isRootNode');
     return (
       <div className={style.container}>
-        <div className={style.clearBtns}><Button type="primary" onClick={() => this.handleClear('all')} style={{ marginRight: '20px' }}>全部清除</Button><Button type="primary" onClick={() => this.handleClear('standard')}>标准清除</Button></div>
-        <Button type="primary" onClick={() => this.add('mount')} className={style.btn}>新增挂载点</Button>
+        <div className={style.clearBtns}>
+          <Button
+            type="primary"
+            onClick={() => this.handleClear('all')}
+            style={{ marginRight: '20px' }}
+          >
+            全部清除
+          </Button>
+          <Button type="primary" onClick={() => this.handleClear('standard')}>
+            标准清除
+          </Button>
+        </div>
+        <Button type="primary" onClick={() => this.add('mount')} className={style.btn}>
+          新增挂载点
+        </Button>
         <Table
           columns={this.mountColumns}
           dataSource={mount.data}
@@ -1021,10 +1126,21 @@ class WatcherManager extends React.Component {
           pagination={mountPagination}
         />
         <div className={`${style.btnSearch} ${style.clearfix}`}>
-          <div className={style.btnContainer}> <Button type="primary" onClick={() => this.add('folder')} className={style.btn}>新增文件夹</Button></div>
+          <div className={style.btnContainer}>
+            {' '}
+            <Button type="primary" onClick={() => this.add('folder')} className={style.btn}>
+              新增文件夹
+            </Button>
+          </div>
           <div className={style.searchWrapper}>
-            <Input placeholder="请输入关键字" className={style.search} onChange={e => this.handleChange(e, 'folder')} />
-            <Button type="primary" onClick={this.handleFolderSearch}>搜索文件夹</Button>
+            <Input
+              placeholder="请输入关键字"
+              className={style.search}
+              onChange={e => this.handleChange(e, 'folder')}
+            />
+            <Button type="primary" onClick={this.handleFolderSearch}>
+              搜索文件夹
+            </Button>
           </div>
         </div>
         <Table
@@ -1034,10 +1150,20 @@ class WatcherManager extends React.Component {
           pagination={folderPagination}
         />
         <div className={`${style.btnSearch} ${style.clearfix}`}>
-          <div className={style.btnContainer}><Button type="primary" onClick={() => this.add('node')} className={style.btn}>新增报表节点</Button></div>
+          <div className={style.btnContainer}>
+            <Button type="primary" onClick={() => this.add('node')} className={style.btn}>
+              新增报表节点
+            </Button>
+          </div>
           <div className={style.searchWrapper}>
-            <Input placeholder="请输入关键字" className={style.search} onChange={e => this.handleChange(e, 'node')} />
-            <Button type="primary" onClick={this.handleNodeSearch}>搜索文报表节点</Button>
+            <Input
+              placeholder="请输入关键字"
+              className={style.search}
+              onChange={e => this.handleChange(e, 'node')}
+            />
+            <Button type="primary" onClick={this.handleNodeSearch}>
+              搜索文报表节点
+            </Button>
           </div>
         </div>
         <Table
@@ -1055,23 +1181,24 @@ class WatcherManager extends React.Component {
           <Form {...formItemLayout}>
             <FormItem label="挂载点">
               {getFieldDecorator('name', {
-                rules: [{
-                  required: true, message: '请输入用户名',
-                }],
-              })(
-                <Input />,
-              )}
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入用户名',
+                  },
+                ],
+              })(<Input />)}
             </FormItem>
             <FormItem label="环境">
               {getFieldDecorator('mountState', {
-                rules: [{
-                  required: true, message: '请选择环境',
-                }],
+                rules: [
+                  {
+                    required: true,
+                    message: '请选择环境',
+                  },
+                ],
               })(
-                <Select
-                  placeholder="请选择环境"
-                  style={{ width: '100%' }}
-                >
+                <Select placeholder="请选择环境" style={{ width: '100%' }}>
                   <Option value="0">dev</Option>
                   <Option value="1">pro</Option>
                 </Select>,
@@ -1088,9 +1215,12 @@ class WatcherManager extends React.Component {
           <Form {...formItemLayout}>
             <FormItem label="挂载点">
               {getFieldDecorator('mount', {
-                rules: [{
-                  required: true, message: '请选择挂载点',
-                }],
+                rules: [
+                  {
+                    required: true,
+                    message: '请选择挂载点',
+                  },
+                ],
               })(
                 <Select
                   placeholder="请排序"
@@ -1103,9 +1233,12 @@ class WatcherManager extends React.Component {
             </FormItem>
             <FormItem label="父节点">
               {getFieldDecorator('parentPosition', {
-                rules: [{
-                  required: true, message: '请选择父节点',
-                }],
+                rules: [
+                  {
+                    required: true,
+                    message: '请选择父节点',
+                  },
+                ],
               })(
                 <TreeSelect
                   showSearch
@@ -1121,23 +1254,24 @@ class WatcherManager extends React.Component {
             </FormItem>
             <FormItem label="名称">
               {getFieldDecorator('folderName', {
-                rules: [{
-                  required: true, message: '请输入文件夹名称',
-                }],
-              })(
-                <Input />,
-              )}
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入文件夹名称',
+                  },
+                ],
+              })(<Input />)}
             </FormItem>
             <FormItem label="环境">
               {getFieldDecorator('folderState', {
-                rules: [{
-                  required: true, message: '请选择环境',
-                }],
+                rules: [
+                  {
+                    required: true,
+                    message: '请选择环境',
+                  },
+                ],
               })(
-                <Select
-                  placeholder="请选择环境"
-                  style={{ width: '100%' }}
-                >
+                <Select placeholder="请选择环境" style={{ width: '100%' }}>
                   <Option value="0">dev</Option>
                   <Option value="1">pro</Option>
                 </Select>,
@@ -1154,12 +1288,13 @@ class WatcherManager extends React.Component {
           <Form {...formItemLayout2}>
             <FormItem label="达芬奇地址">
               {getFieldDecorator('url', {
-                rules: [{
-                  required: true, message: '请输入',
-                }],
-              })(
-                <Input />,
-              )}
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入',
+                  },
+                ],
+              })(<Input />)}
             </FormItem>
             <FormItem label="是否根节点">
               {getFieldDecorator('isRootNode', {
@@ -1171,67 +1306,70 @@ class WatcherManager extends React.Component {
                 </Group>,
               )}
             </FormItem>
-            {
-              isRootNode === '1'
-                ? <FormItem label="挂载点">
-                  {getFieldDecorator('nodeMount', {
-                    rules: [{
-                      required: true, message: '请选择挂载点',
-                    }],
-                    initialValue: node.mount,
-                  })(
-                    <Select
-                      placeholder="请选择挂载点"
-                      style={{ width: '100%' }}
-                      onChange={this.handleNodeMountSelect}
-                    >
-                      {nodeChildren}
-                    </Select>,
-                  )}
-                </FormItem>
-                : null
-            }
-            {
-              isRootNode === '0'
-                ? <FormItem label="父节点">
-                  {getFieldDecorator('nodeParentPosition', {
-                    rules: [{
-                      required: true, message: '请选择父节点',
-                    }],
-                    initialValue: node.parentPosition,
-                  })(
-                    <TreeSelect
-                      showSearch
-                      style={{ width: 300 }}
-                      dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                      treeData={node.parentTree}
-                      placeholder="请选择父节点"
-                      treeDefaultExpandAll
-                      treeNodeFilterProp="title"
-                    />,
-                  )}
-                </FormItem>
-                : null
-            }
+            {isRootNode === '1' ? (
+              <FormItem label="挂载点">
+                {getFieldDecorator('nodeMount', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '请选择挂载点',
+                    },
+                  ],
+                  initialValue: node.mount,
+                })(
+                  <Select
+                    placeholder="请选择挂载点"
+                    style={{ width: '100%' }}
+                    onChange={this.handleNodeMountSelect}
+                  >
+                    {nodeChildren}
+                  </Select>,
+                )}
+              </FormItem>
+            ) : null}
+            {isRootNode === '0' ? (
+              <FormItem label="父节点">
+                {getFieldDecorator('nodeParentPosition', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '请选择父节点',
+                    },
+                  ],
+                  initialValue: node.parentPosition,
+                })(
+                  <TreeSelect
+                    showSearch
+                    style={{ width: 300 }}
+                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                    treeData={node.parentTree}
+                    placeholder="请选择父节点"
+                    treeDefaultExpandAll
+                    treeNodeFilterProp="title"
+                  />,
+                )}
+              </FormItem>
+            ) : null}
             <FormItem label="名称">
               {getFieldDecorator('nodename', {
-                rules: [{
-                  required: true, message: '请输入报表节点名称',
-                }],
-              })(
-                <Input />,
-              )}
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入报表节点名称',
+                  },
+                ],
+              })(<Input />)}
             </FormItem>
             <FormItem label="环境">
               {getFieldDecorator('nodeState', {
-                rules: [{
-                  required: true, message: '请选择环境',
-                }],
+                rules: [
+                  {
+                    required: true,
+                    message: '请选择环境',
+                  },
+                ],
               })(
-                <Select
-                  placeholder="请选择环境"
-                  style={{ width: '100%' }}
-                >
+                <Select placeholder="请选择环境" style={{ width: '100%' }}>
                   <Option value="0">dev</Option>
                   <Option value="1">pro</Option>
                 </Select>,
@@ -1252,7 +1390,7 @@ class WatcherManager extends React.Component {
             targetKeys={authority.userAuth}
             showSearch
             onChange={this.handleSelectedAuth}
-            filterOption={(inputValue, item) => item.auth.indexOf(inputValue) !== -1}
+            filterOption={(inputValue, item) => item.name.indexOf(inputValue) !== -1}
             leftColumns={leftTableColumns}
             rightColumns={rightTableColumns}
           />

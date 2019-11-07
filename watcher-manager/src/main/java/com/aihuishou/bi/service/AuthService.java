@@ -3,6 +3,7 @@ package com.aihuishou.bi.service;
 import com.aihuishou.bi.cas.CasUtil;
 import com.aihuishou.bi.core.CacheConf;
 import com.aihuishou.bi.entity.NodeAuth;
+import com.aihuishou.bi.entity.Operation;
 import com.aihuishou.bi.handler.OperateLogger;
 import com.aihuishou.bi.live.model.UserPermissionStats;
 import com.aihuishou.bi.utils.ExceptionInfo;
@@ -83,7 +84,7 @@ public class AuthService extends BaseService {
             }
             Collection collection = CollectionUtils.intersection(menuAuthList, userAuthList);
             //交集为空，没有权限
-            return collection != null && collection.size() != 0;
+            return collection.size() != 0;
         } catch (Exception e) {
             logger.error("获取权限发生异常，异常信息: {}", ExceptionInfo.toString(e));
             return false;
@@ -92,12 +93,8 @@ public class AuthService extends BaseService {
 
     public List<String> auth(String position, Map<String, List<String>> menuAuthMap, Map<String, String> mapping) {
         try {
-            String target = position;
-            /*if(mapping != null && StringUtils.isNotBlank(mapping.get(position))) {
-                target = mapping.get(target);
-            }*/
             //菜单权限
-            return  menuAuthMap.get(target);
+            return  menuAuthMap.get(position);
         } catch (Exception e) {
             logger.error("获取权限发生异常，异常信息: {}", ExceptionInfo.toString(e));
             return new ArrayList<>();
@@ -113,7 +110,7 @@ public class AuthService extends BaseService {
 
     @Cacheable(value = CacheConf.LIST_NODE_AUTH)
     public List<NodeAuth> cachePull() throws SQLException {
-        String sql = "select node_position AS position,auth_name AS authName from node_auth;";
+        String sql = "select a.node_position AS position,b.name AS authName from w_node_operation a join w_operation b on a.operation_id = b.id;";
         return new QueryRunner(dataSource).query(sql, new BeanListHandler<>(NodeAuth.class));
     }
 
@@ -164,11 +161,18 @@ public class AuthService extends BaseService {
      */
     @Cacheable(value = CacheConf.LIST_USER_AUTH, key = "#obId")
     public List<String> userAuth(String obId) throws SQLException {
-        return userAuthBase(obId);
+        String sql = "select b.name from w_user_operation a join w_operation b on a.operation_id = b.id where a.active = 1 and a.observer_id = ?";
+        return new QueryRunner(dataSource).query(sql, new ColumnListHandler<String>("name"), Long.parseLong(obId));
     }
 
 
-    public List<String> userAuthBase(String obId) throws SQLException  {
+    /**
+     * 旧版
+     * @param obId
+     * @return
+     * @throws SQLException
+     */
+    public List<String> userAuthOld(String obId) throws SQLException  {
         String in = "select access_name as name from user_operation_min where active = 1 and observer_id = " + Long.parseLong(obId);
         List<String> list = new QueryRunner(dataSource).query(in, new ColumnListHandler<String>("name"));
         if(list == null || list .size() == 0) {
@@ -199,39 +203,32 @@ public class AuthService extends BaseService {
         list.addAll(other);
     }
 
-    //@Track(clazz = Clazz.AUTH, operate = Operate.UPDATE, method = "getPosition")
     @Transactional
     public int grantAuth(GrantVO grantVO) throws SQLException {
-        //Mapping mapping = mappingService.getModel(grantVO.getPosition());
         String target = grantVO.getPosition();
-        /*if(mapping != null) {
-            target = mapping.getTarget();
-        }*/
-        String sql = "select auth_name from node_auth where node_position = ?";
+        String sql = "select operation_id from w_node_operation where node_position = ?";
         QueryRunner dbUtils = new QueryRunner(dataSource);
-        List<String> auths = dbUtils.query(sql, new ColumnListHandler<>("auth_name"), target);
-        sql = "DELETE FROM node_auth WHERE node_position = ?;";
-        /*if(mapping != null) {
-            dbUtils.update(sql, grantVO.getPosition());
-        }*/
+        List<Integer> auths = dbUtils.query(sql, new ColumnListHandler<>("operation_id"), target);
+        sql = "DELETE FROM w_node_operation WHERE node_position = ?;";
         dbUtils.update(sql, target);
-        List<String> authList = grantVO.getAuth();
+        List<Integer> authList = grantVO.getAuth();
         if(authList == null || authList.size() == 0) {
             operateLogger.append(target, auths, authList, "node", "auth", "报表赋权");
             return 0;
         }
-        sql = "INSERT INTO node_auth(node_position, auth_name) VALUES (?, ?);";
+        sql = "INSERT INTO w_node_operation(node_position, operation_id) VALUES (?, ?);";
         Object[][] params = new Object[authList.size()][2];
         for(int i = 0; i < authList.size(); i++) {
             params[i] = new Object[]{target, authList.get(i)};
         }
         int rows[] = dbUtils.batch(sql, params);
-        operateLogger.append(target, auths, authList, "node", "auth", "报表赋权");
+        List<String> authNames = grantVO.getAuthName();
+        operateLogger.append(target, auths, authNames, "node", "auth", "报表赋权");
         return rows.length;
     }
 
-    public List<String> getAllAuth(String key, Integer pageIndex, Integer pageSize) throws SQLException {
-        /*String sql = "select distinct name from ods_ob_foundation_operation WHERE 1=1 ";
+    public List<Operation> getAllAuth(String key, Integer pageIndex, Integer pageSize) throws SQLException {
+        String sql = "select id, name from w_operation where 1=1 ";
         if(StringUtils.isNotBlank(key)) {
             sql += " AND name like '%" + key + "%'";
         }
@@ -239,41 +236,26 @@ public class AuthService extends BaseService {
             int a = (pageIndex - 1) * pageSize;
             sql += " ORDER BY name DESC LIMIT " + pageSize + " OFFSET " + a + ";";
         }
-
-        return new QueryRunner(dataSource).query(sql, new ColumnListHandler<String>("name"));*/
-        String sql = "select distinct source_operation as name from operation_mapping where 1=1 ";
-        if(StringUtils.isNotBlank(key)) {
-            sql += " AND source_operation like '%" + key + "%'";
-        }
-        if(pageIndex != null && pageSize != null) {
-            int a = (pageIndex - 1) * pageSize;
-            sql += " ORDER BY source_operation DESC LIMIT " + pageSize + " OFFSET " + a + ";";
-        }
-        return new QueryRunner(dataSource).query(sql, new ColumnListHandler<String>("name"));
+        return new QueryRunner(dataSource).query(sql, new BeanListHandler<>(Operation.class));
     }
 
     public Long countAllAuth(String key) throws SQLException {
-        String sql = "select count(distinct source_operation) AS num from operation_mapping WHERE 1=1 ";
+        String sql = "select count(distinct id) AS num from w_operation WHERE 1=1 ";
         if(StringUtils.isNotBlank(key)) {
-            sql += " AND source_operation like '%" + key + "%'";
+            sql += " AND name like '%" + key + "%'";
         }
         return new QueryRunner(dataSource).query(sql, new ScalarHandler<>("num"));
     }
 
-    public List<String> getMenuAuth(String position) throws SQLException {
-        //Mapping mapping = mappingService.getModel(position);
-        String target = position;
-        /*if(mapping != null) {
-            target = mapping.getTarget();
-        }*/
-        String sql = "SELECT auth_name AS auth FROM node_auth WHERE node_position = ?;";
-        return new QueryRunner(dataSource).query(sql, new ColumnListHandler<>("auth"), target);
+    /**
+     * 获取菜单的权限
+     * @param position
+     * @return
+     * @throws SQLException
+     */
+    public List<Operation> getMenuAuth(String position) throws SQLException {
+        String sql = "select b.id, b.name from w_node_operation a join w_operation b on a.operation_id = b.id where a.node_position = ?;";
+        return new QueryRunner(dataSource).query(sql, new BeanListHandler<>(Operation.class), position);
     }
-
-    public int createAuth() {
-        String sql = "insert into ";
-        return 0;
-    }
-
 
 }

@@ -2,6 +2,7 @@ package com.aihuishou.bi.controller;
 
 import com.aihuishou.bi.annotation.SystemLog;
 import com.aihuishou.bi.cas.CasUtil;
+import com.aihuishou.bi.entity.Operation;
 import com.aihuishou.bi.entity.Role;
 import com.aihuishou.bi.entity.User;
 import com.aihuishou.bi.service.UserService;
@@ -57,23 +58,6 @@ public class UserController {
     }
 
     /**
-     * 用户已经绑定了的角色
-     * @param obId
-     * @return
-     */
-    @GetMapping("/role")
-    public ResponseEntity userRole(@RequestParam(value = "ob_id") Long obId) {
-        try {
-            List<Role> roles = userService.hasOwner(obId);
-            return new ResponseEntity<>(roles, HttpStatus.OK);
-        } catch(Exception e) {
-            logger.error("查询用户已绑定角色异常，异常信息: {}", ExceptionInfo.toString(e));
-        }
-        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-
-    /**
      * 用户已经绑定了的权限
      * @param obId
      * @return
@@ -81,7 +65,7 @@ public class UserController {
     @GetMapping("/privileges")
     public ResponseEntity userOperation(@RequestParam(value = "ob_id") Long obId) {
         try {
-            List<String> operations = userService.hasOperation(obId);
+            List<Operation> operations = userService.hasOperation(obId);
             return new ResponseEntity<>(operations, HttpStatus.OK);
         } catch(Exception e) {
             logger.error("查询用户已绑定权限异常，异常信息: {}", ExceptionInfo.toString(e));
