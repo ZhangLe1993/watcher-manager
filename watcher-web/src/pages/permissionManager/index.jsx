@@ -14,9 +14,7 @@ import {
   queryAllPermission,
   queryBindPermission,
   userBindPermission,
-  queryRole,
-  queryAllRole,
-  modifyRole,
+  checkPermissionName,
   queryUser,
   queryBindRole,
   authBindUser,
@@ -93,7 +91,7 @@ const rightTableColumns = [
 
 const userLeftTableColumns = [
   {
-    dataIndex: 'sourceOperation',
+    dataIndex: 'name',
     title: '权限',
   },
 ];
@@ -109,8 +107,8 @@ class PermissionManager extends React.Component {
   permissionColumns = [
     {
       title: '名称',
-      dataIndex: 'sourceOperation',
-      key: 'sourceOperation',
+      dataIndex: 'name',
+      key: 'name',
       width: '60%',
     },
     {
@@ -127,7 +125,7 @@ class PermissionManager extends React.Component {
           </a>
           <Divider type="vertical" />
           <Popconfirm
-            title={`是否删除 ${record.sourceOperation}?`}
+            title={`是否删除 ${record.name}?`}
             onConfirm={() => this.handleActions('permission', 'delete', record)}
             okText="确定"
             cancelText="取消"
@@ -172,8 +170,8 @@ class PermissionManager extends React.Component {
   userBindPermissionColumns = [
     {
       title: '名称',
-      dataIndex: 'sourceOperation',
-      key: 'sourceOperation',
+      dataIndex: 'name',
+      key: 'name',
       width: '30%',
     },
   ];
@@ -240,7 +238,7 @@ class PermissionManager extends React.Component {
         });
         // eslint-disable-next-line comma-dangle
         setFieldsValue({
-          permissionName: data.sourceOperation,
+          permissionName: data.name,
         });
         break;
       case 'permission-bind':
@@ -248,10 +246,10 @@ class PermissionManager extends React.Component {
           permission: {
             ...that.state.permission,
             bindVisible: true,
-            id: data.sourceOperation,
+            id: data.id,
           },
         });
-        this.getAuthBindUserFunc(data.sourceOperation);
+        this.getAuthBindUserFunc(data.id);
         this.authQueryAllUserFunc();
         break;
       case 'user-query':
@@ -305,24 +303,17 @@ class PermissionManager extends React.Component {
     );
   };
 
-  handleModalOk = type => {
-    const category = type.substring(0, 1).toUpperCase() + type.substring(1);
+  addPermissionFunc = parameters => {
     const that = this;
-    this.props.form.validateFields((err, values) => {
-      console.log(values, '--values--');
-      const sourceOperation = values[`${type}Name`];
-      const targetOperation = values[`${type}Name`];
-      const { id } = that.state[type];
-      const parameters = {
-        sourceOperation,
-        targetOperation,
-      };
-      if (id) {
-        parameters.id = id;
-        this[`modify${category}Func`](parameters);
-      } else {
-        this[`add${category}Func`](parameters);
-      }
+    addPermission(parameters).then(() => {
+      this.setState({
+        permission: {
+          ...that.state.permission,
+          visible: false,
+        },
+      });
+      message.success('新增用户权限成功!');
+      this.fetchPermissionList();
     });
   };
 
@@ -337,6 +328,46 @@ class PermissionManager extends React.Component {
         },
       });
       this.fetchPermissionList();
+    });
+  };
+
+  modifyPermissionFunc = parameters => {
+    const that = this;
+    modifyPermission(parameters).then(() => {
+      this.setState({
+        permission: {
+          ...that.state.permission,
+          visible: false,
+        },
+      });
+      message.success('修改用户权限成功!');
+      this.fetchPermissionList();
+    });
+  };
+
+  handlePermissionModalOk = () => {
+    const that = this;
+    this.props.form.validateFields((err, values) => {
+      console.log(values, '--values--');
+      const { permissionName } = values;
+      checkPermissionName(permissionName).then(res => {
+        console.log(res);
+        // 不存在
+        if (res !== undefined && res !== null && !res) {
+          const { id } = that.state.permission;
+          const parameters = {
+            name: permissionName,
+          };
+          if (id) {
+            parameters.id = id;
+            this.modifyPermissionFunc(parameters);
+          } else {
+            this.addPermissionFunc(parameters);
+          }
+        } else {
+          message.warning('权限名称已经存在或正在试图修改为自己!');
+        }
+      });
     });
   };
 
@@ -388,31 +419,28 @@ class PermissionManager extends React.Component {
       });
   };
 
+  /**
+   * 用于穿梭框
+   */
   queryAllPermissionFunc = () => {
     const that = this;
     queryAllPermission().then(res => {
       res.data.forEach(it => {
-        it.key = it.sourceOperation;
+        it.key = it.id;
       });
-      let hash = {};
       this.setState({
         user: {
           ...that.state.user,
-          allPermission: res.data.reduce(function(arr, current) {
-            hash[current.sourceOperation]
-              ? ''
-              : (hash[current.sourceOperation] = true && arr.push(current));
-            return arr;
-          }, []),
+          allPermission: res.data,
         },
       });
     });
   };
 
-  getAuthBindUserFunc = name => {
+  getAuthBindUserFunc = operationId => {
     const that = this;
     // eslint-disable-next-line no-undef
-    getAuthBindUser(name).then(res => {
+    getAuthBindUser(operationId).then(res => {
       console.log(res, '--获取权限已经绑定的用户--');
       const userIds = res.map(it => it.obId);
       this.setState({
@@ -424,21 +452,27 @@ class PermissionManager extends React.Component {
     });
   };
 
+  /**
+   * 用于穿梭框
+   * @param obId
+   */
   queryMyPermissionFunc = obId => {
     const that = this;
     // eslint-disable-next-line no-undef
     queryBindPermission(obId).then(res => {
       console.log(res, '--获取用户已经绑定的权限--');
-      const temp = [];
+      const operationIds = res.map(it => it.id);
+      /*const temp = [];
+
       const operations = res.map(it => {
-        temp.push({ sourceOperation: it });
+        temp.push({ name: it });
         return it;
-      });
+      });*/
       this.setState({
         user: {
           ...that.state.user,
-          myPermission: operations,
-          userBindPermissionData: temp,
+          myPermission: operationIds,
+          userBindPermissionData: res,
         },
       });
     });
@@ -550,12 +584,12 @@ class PermissionManager extends React.Component {
       user: { myPermission, obId },
     } = this.state;
     const parameters = {
-      operations: myPermission,
+      operationIds: myPermission,
       ob: obId,
     };
-    /*if (Array.isArray(myPermission) && myPermission.length === 0) {
+    /* if (Array.isArray(myPermission) && myPermission.length === 0) {
       return message.error('请至少选择一个角色!');
-    }*/
+    } */
     this.bindPermissionFunc(parameters);
   };
 
@@ -564,12 +598,12 @@ class PermissionManager extends React.Component {
       permission: { myUser, id },
     } = this.state;
     const parameters = {
-      operation: id,
+      operationId: id,
       ids: myUser,
     };
-    /*if (Array.isArray(myUser) && myUser.length === 0) {
+    /* if (Array.isArray(myUser) && myUser.length === 0) {
       return message.error('请至少选择一个用户!');
-    }*/
+    */
     this.authBindUserFunc(parameters);
     console.log(this.state.permission, '--permission-');
   };
@@ -661,7 +695,7 @@ class PermissionManager extends React.Component {
         <Modal
           title="用户权限"
           visible={permission.visible}
-          onOk={() => this.handleModalOk('permission')}
+          onOk={() => this.handlePermissionModalOk('permission')}
           onCancel={() => this.handleCancel('permission')}
         >
           <Form {...formItemLayout}>
@@ -678,7 +712,7 @@ class PermissionManager extends React.Component {
           </Form>
         </Modal>
         <Modal
-          title="绑定权限"
+          title="用户绑定权限"
           visible={user.bindVisible}
           onOk={() => this.handleUserOk()}
           onCancel={() => this.handleUserCancel('user', 'bindVisible')}
@@ -691,9 +725,9 @@ class PermissionManager extends React.Component {
             onChange={nextTargetKeys =>
               this.handleTableTransferChange('user', 'myPermission', nextTargetKeys)
             }
-            filterOption={(inputValue, item) => item.sourceOperation.indexOf(inputValue) !== -1}
+            filterOption={(inputValue, item) => item.name.indexOf(inputValue) !== -1}
             leftColumns={userLeftTableColumns}
-            rightColumns={userLeftTableColumns}
+            rightColumns={userRightTableColumns}
           />
         </Modal>
         <Modal

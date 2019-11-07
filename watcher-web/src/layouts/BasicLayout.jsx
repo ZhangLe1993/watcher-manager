@@ -5,7 +5,7 @@
  */
 import ProLayout from '@ant-design/pro-layout';
 import React, { useEffect, Fragment } from 'react';
-import { Icon, Layout, Button, Input, Popconfirm, message } from 'antd';
+import { Icon, Layout, Dropdown, Menu, Button, Input, Popconfirm, message } from 'antd';
 import Link from 'umi/link';
 import router from 'umi/router';
 import { connect } from 'dva';
@@ -91,7 +91,7 @@ const BasicLayout = props => {
       dispatch({
         type: 'menu/fetchMenuData',
       });
-      //新watcher上线提示信息
+      // 新watcher上线提示信息
       if (!localStorage.getItem('watcher_online_reminder')) {
         message.open({
           content: renderMessage(),
@@ -153,7 +153,7 @@ const BasicLayout = props => {
       let goIn = false; // 进入下一层搜索
       for (let i = 0; i < searchArr.length; i++) {
         const node = searchArr[i];
-        if ('/' + currPathArr.slice(0, searchDeep + 2).join('/') === node.path) {
+        if (`/${currPathArr.slice(0, searchDeep + 2).join('/')}` === node.path) {
           titleArr.push(node.name);
           searchArr = node.children;
           goIn = true;
@@ -171,6 +171,48 @@ const BasicLayout = props => {
       const after = title.substr(title.length - 20);
       title = `...${after}`;
     }
+
+    const menu = (
+      <Menu>
+        <Menu.Item key="0">
+          <Link to="/pages/watcher_manager">
+            <Icon type="medium" /> 报表管理
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="1">
+          <Link to="/pages/manager">
+            <Icon type="appstore" /> 报表管理(树)
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="2">
+          <Link to="/pages/permission_manager">
+            <Icon type="bold" /> 权限管理
+          </Link>
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="3">
+          <a onClick={handleLogout}>
+            <Icon type="export" /> 退出登录
+          </a>
+        </Menu.Item>
+      </Menu>
+    );
+
+    const minMenu = (
+      <Menu>
+        <Menu.Item key="4" onClick={handleLogout}>
+          <Icon type="export" /> 退出登录
+        </Menu.Item>
+      </Menu>
+    );
+
+    const getMenu = () => {
+      if (props.user.admin) {
+        return menu;
+      }
+      return minMenu;
+    };
+
     return (
       <div className={style.header}>
         <div className={style.headerLeft}>
@@ -185,8 +227,13 @@ const BasicLayout = props => {
         </div>
         {!isMoblie && (
           <div className={style.headerRight}>
-            <div className={style.user}>{userName}</div>
-            <div className={style.loginout}>
+            <Dropdown overlay={getMenu} trigger={['click']}>
+              <a href="#">
+                {userName} <Icon type="down" />
+              </a>
+            </Dropdown>
+            {/* <div className={style.user}>{userName}</div> */}
+            {/* <div className={style.loginout}>
               <Popconfirm
                 onConfirm={() => handleLogout()}
                 title="是否退出登录?"
@@ -195,7 +242,7 @@ const BasicLayout = props => {
               >
                 <Icon type="logout" style={{ fontSize: '20px' }} />
               </Popconfirm>
-            </div>
+            </div> */}
           </div>
         )}
       </div>
@@ -205,7 +252,7 @@ const BasicLayout = props => {
   const myclick = (e, it) => {
     let clickNum = 0;
     let clickNumMap = {};
-    let storeKey = 'click-num-map';
+    const storeKey = 'click-num-map';
     if (window.localStorage.getItem(storeKey)) {
       clickNumMap = JSON.parse(window.localStorage.getItem(storeKey));
       clickNum = clickNumMap[it.component] ? clickNumMap[it.component][0] + 1 : 1;
@@ -238,7 +285,7 @@ const BasicLayout = props => {
         </div>
       )}
       menuItemRender={(menuItemProps, dom) => {
-        let classNames = [];
+        const classNames = [];
         if (window.location.pathname == menuItemProps.path) {
           classNames.push(style.sunjian);
         }
@@ -287,4 +334,5 @@ export default connect(({ global, settings, menu, user }) => ({
   menuName: menu.menuName,
   searchKeys: menu.searchKeys,
   userName: user.currentUser.name,
+  user: user.currentUser,
 }))(BasicLayout);
