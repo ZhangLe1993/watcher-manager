@@ -1,48 +1,51 @@
-/* eslint-disable consistent-return */
-/* eslint-disable guard-for-in */
 import React from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
-
+import { Spin } from 'antd';
 import style from './index.less';
 import { getMenuItemByPath } from '../../utils/utils';
 
+function getClickNumArr() {
+  let clickNumMap = {};
+  const clickNumArr = [];
+  const storeKey = 'click-num-map';
+  if (window.localStorage.getItem(storeKey)) {
+    clickNumMap = JSON.parse(window.localStorage.getItem(storeKey));
+    // 对象转数组
+    // eslint-disable-next-line no-restricted-syntax
+    for (const k in clickNumMap) {
+      clickNumArr.push({
+        key: k,
+        value: clickNumMap[k][0], // 点击数
+        path: clickNumMap[k][1], // 路径
+      });
+    }
+    // 降序
+    // eslint-disable-next-line array-callback-return
+    clickNumArr.sort((a, b) => {
+      if (a.value > b.value) {
+        return 1;
+      }
+      if (a.value === b.value) {
+        return 0;
+      }
+      return -1;
+    });
+  }
+  return clickNumArr;
+}
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      clickNumArr: [],
+      clickNumArr: getClickNumArr(),
     };
   }
 
   componentDidMount() {
     const that = this;
-    let clickNumMap = {};
-    const clickNumArr = [];
-    const storeKey = 'click-num-map';
-    if (window.localStorage.getItem(storeKey)) {
-      clickNumMap = JSON.parse(window.localStorage.getItem(storeKey));
-      // 对象转数组
-      // eslint-disable-next-line no-restricted-syntax
-      for (const k in clickNumMap) {
-        clickNumArr.push({
-          key: k,
-          value: clickNumMap[k][0],//点击数
-          path: clickNumMap[k][1],//路径
-        });
-      }
-      // 降序
-      // eslint-disable-next-line array-callback-return
-      clickNumArr.sort((a, b) => {
-        if (a.value > b.value) {
-          return 1;
-        }
-        if (a.value === b.value) {
-          return 0;
-        }
-      });
-    }
+    const clickNumArr = getClickNumArr();
     that.setState({ clickNumArr });
   }
 
@@ -63,9 +66,8 @@ class Home extends React.Component {
       }
     } else if (component === pathName) {
       return nameStr;
-    } else {
-      return null;
     }
+    return null;
   };
 
   getCleanArr = arr => {
@@ -97,20 +99,15 @@ class Home extends React.Component {
   };
 
   render() {
+    const { menuData } = this.props;
+    if (!menuData || menuData.length === 0) {
+      return (<Spin size="large"><div style={{ height: '45vh' }}>1</div></Spin>);
+    }
     let { clickNumArr } = this.state;
-    clickNumArr = clickNumArr.filter(it => it.key && this.getMenuFullName(it.key)).slice(0, 12);
+    clickNumArr = clickNumArr.filter(it => it.key && this.getMenuFullName(it.key))
+      .slice(0, 12);
     return (
       <div className={style.container}>
-        {
-          /*
-        <ul className={style.rankContainer}>
-         <li>
-          <span className={style.rankNumTitle}>排名</span>
-          <span className={style.name} style={{ color: '#333' }}>访问菜单路径</span>
-          <span className={style.clickNum}>访问次数</span>
-         </li>
-        </ul>
-        */}
         <div className={style.visitList}>常访问报表</div>
         {
           clickNumArr && clickNumArr.length > 0
@@ -121,7 +118,6 @@ class Home extends React.Component {
                     <span
                       className={`${style.rankNum} ${index === 0 ? style.hot1 : ''} ${index === 1 ? style.hot2 : ''} ${index === 2 ? style.hot3 : ''}`}>{index + 1}</span>
                     <span className={style.name}>{this.getMenuFullName(it.key)}</span>
-                    {/* <span className={style.clickNum}>{it.value}次</span> */}
                   </li>
                 ))
               }
