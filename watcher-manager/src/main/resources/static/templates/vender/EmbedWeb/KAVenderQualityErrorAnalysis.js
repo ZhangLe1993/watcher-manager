@@ -2,9 +2,6 @@
  * Created by hsh on 2016/5/13.
  */
 Template.KAVenderQualityErrorAnalysis.rendered = function () {
-    /*$('.navi-tab').removeClass('active');
-    $('#VenderTab').addClass('active');
-    $('#KAVenderQualityErrorAnalysis').addClass('active');*/
 
     var listJ = Template.list;
     console.log(listJ);
@@ -259,12 +256,12 @@ Template.KAVenderQualityErrorAnalysis.rendered = function () {
 
             renderPage(query)
         }else if(dateType=="monthly"){
-             $(".webTrafficFunnelDate").hide();
-             $(".webTrafficFunnelWeek").hide();
-             $(".webTrafficFunnelMonth").show();
-             dt = $('.desktop-only .monthSelectLabel').text().replace(/ /g,"").split("~");
-             var startDate = dt[0];
-             var endDate = dt[1];
+            $(".webTrafficFunnelDate").hide();
+            $(".webTrafficFunnelWeek").hide();
+            $(".webTrafficFunnelMonth").show();
+            dt = $('.desktop-only .monthSelectLabel').text().replace(/ /g,"").split("~");
+            var startDate = dt[0];
+            var endDate = dt[1];
             var group = $(this).parent().find(".group").val();
 
             var query={
@@ -274,8 +271,8 @@ Template.KAVenderQualityErrorAnalysis.rendered = function () {
                 "group":group
             };
             query=cleanParams(query);
-             renderPage(query)
-         }
+            renderPage(query)
+        }
     });
 
     var dt = $('.desktop-only .dateSelectLabel').text().replace(/ /g,"").split("~");
@@ -298,7 +295,7 @@ Template.KAVenderQualityErrorAnalysis.rendered = function () {
     renderPage(queryAll);
 
     //选项初始化加载
-    requestURL(thirdService+"/Vender/getKAFilterOptions",query).done(function(data){
+    requestURL(dataService+"/Vender/getKAFilterOptions",query).done(function(data){
 
         /*门店*/
         $(".group").attr("multiple","multiple");
@@ -444,22 +441,148 @@ function getAggregateWebTrafficData(filter){
     delete query["sign"];
     delete query["dateType"];
     var dfd = $.Deferred();
-    requestURL(thirdService+"/Vender/getKAQualityErrorAnalysis",query).done(function(ret){
+    requestURL(dataService+"/Vender/getKAQualityErrorAnalysisPro",query).done(function(ret){
         dfd.resolve(ret)
     });
     return dfd.promise()
 }
-
+var valueFormatter = function(value, row, index) {
+    return value + '%';
+};
 function renderTable(tableName,data) {
-    data.forEach(function(e){
+    /*data.forEach(function(e){
         var dataSet=e.venderAll.split(",");
         e.vender_group_name= dataSet[0];
         e.vender_name= dataSet[1];
         e.mistakeCnt= dataSet[2];
         e.venderType= dataSet[3]
-    })
+    })*/
     $(tableName).bootstrapTable('destroy').bootstrapTable({
         exportDataType: 'all',
-        data:data
+        data: data,
+        pagination: true,
+        columns: [{
+            field: 'vender_group_name',
+            title: '门店名称',
+            sortable:true
+        }, {
+            field: 'vender_name',
+            title: '子账户',
+            sortable:true
+        }, {
+            field: 'mistakeCnt',
+            title: '质检总量（台）',
+            sortable:true
+        }, {
+            field: 'inlet',
+            title: '机身进水或受潮',
+            sortable:true,
+            formatter: valueFormatter,
+        }, {
+            field: 'fingerprint',
+            title: '指纹功能不正常',
+            sortable:true,
+            formatter: valueFormatter,
+        },{
+            field: 'callException',
+            title: '通话不正常',
+            sortable:true,
+            formatter: valueFormatter,
+        }, {
+            field: 'iCloudCancel',
+            title: 'iCloud无法注销',
+            sortable:true,
+            formatter: valueFormatter,
+        }, {
+            field: 'bootstrap',
+            title: '无法正常开机',
+            sortable:true,
+            formatter: valueFormatter,
+        },{
+            field: 'wifi',
+            title: '无线不正常',
+            sortable:true,
+            formatter: valueFormatter,
+        }, {
+            field: 'touch',
+            title: '触摸功能不正常',
+            sortable:true,
+            formatter: valueFormatter,
+        }, {
+            field: 'bend',
+            title: '机身弯曲',
+            sortable:true,
+            formatter: valueFormatter,
+        }, {
+            field: 'charge',
+            title: '充电不正常',
+            sortable:true,
+            formatter: valueFormatter,
+        }, {
+            field: 'mainBoardRepair',
+            title: '主板维修/多处拆修',
+            sortable:true,
+            formatter: valueFormatter,
+        },{
+            field: 'screenRepair',
+            title: '屏幕维修',
+            sortable:true,
+            formatter: valueFormatter,
+        }, {
+            field: 'display',
+            title: '屏幕无法显示',
+            sortable:true,
+            formatter: valueFormatter,
+        }, {
+            field: 'aging',
+            title: '色斑/漏液/错乱/严重老化',
+            sortable:true,
+            formatter: valueFormatter,
+        }, {
+            field: 'aberra',
+            title: '亮坏点/色差/轻微发黄',
+            sortable:true,
+            formatter: valueFormatter,
+        }, {
+            field: 'nick',
+            title: '屏幕有划痕',
+            sortable:true,
+            formatter: valueFormatter,
+        }, {
+            field: 'fragment',
+            title: '屏幕有缺角/碎裂',
+            sortable:true,
+            formatter: valueFormatter,
+        },{
+            field: 'paint',
+            title: '外壳有磕碰/掉漆',
+            sortable:true,
+            formatter: valueFormatter,
+        }, {
+            field: 'gurant',
+            title: '国内保修情况错误',
+            sortable:true,
+            formatter: valueFormatter,
+        }, {
+            field: 'color',
+            title: '机身颜色错误',
+            sortable:true,
+            formatter: valueFormatter,
+        },{
+            field: 'channel',
+            title: '购买渠道错误',
+            sortable:true,
+            formatter: valueFormatter,
+        }, {
+            field: 'storage',
+            title: '容量错误',
+            sortable:true,
+            formatter: valueFormatter,
+        }, {
+            field: 'venderType',
+            title: '型号错误',
+            sortable:true,
+            formatter: valueFormatter,
+        }],
     });
 }

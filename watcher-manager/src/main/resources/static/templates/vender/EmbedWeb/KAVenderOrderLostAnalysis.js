@@ -259,12 +259,12 @@ Template.KAVenderOrderLostAnalysis.rendered = function () {
 
             renderPage(query)
         }else if(dateType=="monthly"){
-             $(".webTrafficFunnelDate").hide();
-             $(".webTrafficFunnelWeek").hide();
-             $(".webTrafficFunnelMonth").show();
-             dt = $('.desktop-only .monthSelectLabel').text().replace(/ /g,"").split("~");
-             var startDate = dt[0];
-             var endDate = dt[1];
+            $(".webTrafficFunnelDate").hide();
+            $(".webTrafficFunnelWeek").hide();
+            $(".webTrafficFunnelMonth").show();
+            dt = $('.desktop-only .monthSelectLabel').text().replace(/ /g,"").split("~");
+            var startDate = dt[0];
+            var endDate = dt[1];
             var vender = $(this).parent().find(".vender").val();
             var group = $(this).parent().find(".group").val();
 
@@ -276,8 +276,8 @@ Template.KAVenderOrderLostAnalysis.rendered = function () {
                 "group":group
             };
             query=cleanParams(query);
-             renderPage(query)
-         }
+            renderPage(query)
+        }
     });
 
     var dt = $('.desktop-only .dateSelectLabel').text().replace(/ /g,"").split("~");
@@ -300,7 +300,7 @@ Template.KAVenderOrderLostAnalysis.rendered = function () {
     renderPage(queryAll);
 
     //选项初始化加载
-    requestURL(thirdService+"/Vender/getKAFilterOptions",query).done(function(data){
+    requestURL(dataService+"/Vender/getKAFilterOptions",query).done(function(data){
 
         $(".vender").attr("multiple","multiple");
         renderOptions(".vender",data.subVender)
@@ -441,11 +441,11 @@ function renderPage(filter){
     promise.done(function(ret){
         $("#chartContent").show();
         $("#loading").hide();
-        allData=ret;
-        renderTable("#BussinessDataTable",filter);
+        allData = ret;
         getOrderLostCntChart(ret);
         getOrderLostNumChart(ret);
 
+        renderTable("#BussinessDataTable", filter);
     });
 
 }
@@ -457,7 +457,7 @@ function getAggregateWebTrafficData(filter){
     delete query["sign"];
     delete query["dateType"];
     var dfd = $.Deferred();
-    requestURL(thirdService+"/Vender/getKAOrderLostAnalysis",query).done(function(ret){
+    requestURL(dataService+"/Vender/getKAOrderLostAnalysisPro",query).done(function(ret){
         dfd.resolve(ret)
     });
     return dfd.promise()
@@ -470,7 +470,7 @@ function getAllWebTrafficData(filter){
     delete query["sign"];
     delete query["dateType"];
     var dfd = $.Deferred();
-    requestURL(thirdService+"/Vender/getKAOrderLostDayAnalysis",query).done(function(ret){
+    requestURL(dataService+"/Vender/getKAOrderLostDayAnalysisPro",query).done(function(ret){
         dfd.resolve(ret)
     });
     return dfd.promise()
@@ -480,41 +480,46 @@ function getAllWebTrafficData(filter){
 
 
 function renderTable(tableName,filter) {
-
     var submitCnt= 0,submitNum= 0,inqueryCnt= 0,inqueryNum= 0,diffCnt= 0,diffNum=0;
-    allData.forEach(function(e){
-        submitCnt+= parseInt(e.submitCnt);
-        submitNum+= parseInt(e.submitNum);
-        inqueryCnt+= parseInt(e.inqueryCnt);
-        inqueryNum+= parseInt(e.inqueryNum);
-        diffCnt+= parseInt(e.differCnt);
-        diffNum+= parseInt(e.differNum);
-    })
+    allData.forEach(function(e) {
+        submitCnt += parseInt(e.submitCnt);
+        submitNum += parseInt(e.submitNum);
+        inqueryCnt += parseInt(e.inqueryCnt);
+        inqueryNum += parseInt(e.inqueryNum);
+        diffCnt += parseInt(e.differCnt);
+        diffNum += parseInt(e.differNum);
+    });
 
     var fixRow = '"<tr style="background-color: #acc087;"", " ", "", "", " data-index="0"", "", "", ">",' +
         ' "<td  style=""    >总计</td>", "<td  style=""    >-</td>", "<td  style=""    >'+ inqueryCnt +'</td>",' + ''
         + '"<td style="">'+ inqueryNum +'</td>", "<td  style=""    >'+ submitCnt +'</td>", "<td  style=""    >'+ submitNum +'</td>",' +
         ' "<td  style=""    >'+ diffCnt +'</td>", "<td  style=""    >'+ diffNum +'</td>"'
 
-    var ajaxQuery = _.clone(filter);
+    var list = [];
+    var temp = _.groupBy(allData, 'vender_group_name');
+    _.each(temp, function(value, key) {
+        var map = _.groupBy(value, 'vender_name');
+        _.each(map, function(v, k) {
+            var inqueryCnt = _.reduce(v, function(num, temp){ return num + accMul(temp.inqueryCnt,1)}, 0);
+            var inqueryNum = _.reduce(v, function(num, temp){ return num + accMul(temp.inqueryNum,1)}, 0);
+            var submitCnt = _.reduce(v, function(num, temp){ return num + accMul(temp.submitCnt,1)}, 0);
+            var submitNum = _.reduce(v, function(num, temp){ return num + accMul(temp.submitNum,1)}, 0);
+            var differCnt = _.reduce(v, function(num, temp){ return num + accMul(temp.differCnt,1)}, 0);
+            var differNum = _.reduce(v, function(num, temp){ return num + accMul(temp.differNum,1)}, 0);
+            list.push({ 'vender_group_name': key, 'vender_name': k, 'inqueryCnt': inqueryCnt,  'inqueryNum': inqueryNum, 'submitCnt': submitCnt, 'submitNum': submitNum, 'differCnt': differCnt, 'differNum': differNum });
+        });
+    });
     $(tableName).bootstrapTable('destroy').bootstrapTable({
         exportDataType: 'all',
+        data: list,
         pagination: true,
-        sidePagination: 'server',
-        ajax:function(params){
-            var ajaxParams = $.extend(ajaxQuery,params.data);
-            getAggregateWebTrafficData(ajaxParams).done(function(data){
-                params.success(data)
-            });
-        },
         fixRow:fixRow,
-        cdataExport:"cdataExport",
         columns: [{
             field: 'vender_group_name',
             title: '门店',
             sortable:true
         }, {
-            field: 'vender_parent_name',
+            field: 'vender_name',
             title: '子账户',
             sortable:true
         }, {
@@ -543,29 +548,6 @@ function renderTable(tableName,filter) {
             sortable:true
         }],
     });
-    $("#cdataExport").click(function(){
-        var query = _.clone(filter);
-        var sdt = moment(query.startDate);
-        var edt = moment(query.endDate);
-        var dflag = sdt.add(1,'month')<=edt;
-        if(dflag){
-            alert("导出文件最长间隔时间为1个月");
-            return;
-        }
-
-
-        $("#wholePage").mask({'label':"请等待，文件正在导出..."});
-            requestURL(thirdService+"/Vender/exportKAOrderLostAnalysis",query).done(function(obj){
-                $("#wholePage").unmask();
-                var url = Meteor.settings.public.downloadService.baseUrl+obj.fileName;
-                var link = document.createElement("a");
-                link.href = url;
-                link.style = "visibility:hidden";
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            });
-    });
 }
 
 //飞单个数折线图
@@ -575,13 +557,22 @@ function getOrderLostCntChart(data){
     var series={
         inqueryCnt:[],
         submitCnt:[]
-    }
-    data.forEach(function (e) {
-        dateList.push(e.vender_group_name);
+    };
+    var toList = _.sortBy(data, 'date');
+    var dataMap = _.groupBy(toList, 'date');
+    _.each(dataMap, function(value, key) {
+        dateList.push(key);
+        var inq = _.reduce(value, function(num, temp){ return num + accMul(temp.inqueryCnt,1)}, 0);
+        var sub = _.reduce(value, function(num, temp){ return num + accMul(temp.submitCnt,1)}, 0);
+        series.inqueryCnt.push(inq);
+        series.submitCnt.push(sub);
+    });
+    /*data.forEach(function (e) {
+        dateList.push(e.date);
         series.inqueryCnt.push(e.inqueryCnt);
         series.submitCnt.push(e.submitCnt);
-    });
-    dateList= _.uniq(dateList);
+    });*/
+    // dateList= _.uniq(dateList);
 
     var option = {
         title: {
@@ -654,13 +645,17 @@ function getOrderLostNumChart(data){
     var series={
         inqueryNum:[],
         submitNum:[]
-    }
-    data.forEach(function (e) {
-        dateList.push(e.vender_group_name);
-        series.inqueryNum.push(e.inqueryNum);
-        series.submitNum.push(e.submitNum);
+    };
+
+    var toList = _.sortBy(data, 'date');
+    var dataMap = _.groupBy(toList, 'date');
+    _.each(dataMap, function(value, key) {
+        dateList.push(key);
+        var inq = _.reduce(value, function(num, temp){ return num + accMul(temp.inqueryNum,1)}, 0);
+        var sub = _.reduce(value, function(num, temp){ return num + accMul(temp.submitNum,1)}, 0);
+        series.inqueryNum.push(inq);
+        series.submitNum.push(sub);
     });
-    dateList= _.uniq(dateList);
 
     var option = {
         title: {

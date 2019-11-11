@@ -1,11 +1,4 @@
-/**
- * Created by hsh on 2016/5/13.
- */
 Template.KAVenderBussinessAnalysis.rendered = function () {
-    /*$('.navi-tab').removeClass('active');
-    $('#VenderTab').addClass('active');
-    $('#KAVenderBussinessAnalysis').addClass('active');*/
-
     var listJ = Template.list;
     console.log(listJ);
     vender_company_name=listJ[1];
@@ -251,12 +244,12 @@ Template.KAVenderBussinessAnalysis.rendered = function () {
 
             renderPage(query)
         }else if(dateType=="monthly"){
-             $(".webTrafficFunnelDate").hide();
-             $(".webTrafficFunnelWeek").hide();
-             $(".webTrafficFunnelMonth").show();
-             dt = $('.desktop-only .monthSelectLabel').text().replace(/ /g,"").split("~");
-             var startDate = dt[0];
-             var endDate = dt[1];
+            $(".webTrafficFunnelDate").hide();
+            $(".webTrafficFunnelWeek").hide();
+            $(".webTrafficFunnelMonth").show();
+            dt = $('.desktop-only .monthSelectLabel').text().replace(/ /g,"").split("~");
+            var startDate = dt[0];
+            var endDate = dt[1];
 
             var query={
                 "startDate":startDate,
@@ -264,8 +257,8 @@ Template.KAVenderBussinessAnalysis.rendered = function () {
                 "vender_company_key":vender_company_key
             };
             query=cleanParams(query);
-             renderPage(query)
-         }
+            renderPage(query)
+        }
     });
 
     var dt = $('.desktop-only .dateSelectLabel').text().replace(/ /g,"").split("~");
@@ -400,7 +393,7 @@ function getAggregateWebTrafficData(filter){
     delete query["sign"];
     delete query["dateType"];
     var dfd = $.Deferred();
-    requestURL(thirdService+"/Vender/getKABussinessAnalysis",query).done(function(ret){
+    requestURL(dataService+"/Vender/getKABussinessAnalysisPro",query).done(function(ret){
         dfd.resolve(ret)
     });
     return dfd.promise()
