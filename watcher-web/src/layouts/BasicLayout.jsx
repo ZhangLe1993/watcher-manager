@@ -64,13 +64,13 @@ const BasicLayout = props => {
         <Icon
           type="info-circle"
           theme="filled"
-          style={{ marginRight: 10, color: '#1890ff', marginTop: 2 }}
+          style={{ padding: '0 10px', color: '#1890ff', marginTop: 2, marginRight: 0, fontSize: '22px' }}
         />
         <marquee>新watcher已上线,如遇到使用问题,请到钉钉报表系统群进行反馈</marquee>
         <Icon
           type="close-circle"
           theme="filled"
-          style={{ marginLeft: 10, color: '#aaa', marginTop: 2 }}
+          style={{ padding: '0 10px', color: '#aaa', marginTop: 2, marginRight: 0, fontSize: '22px' }}
           onClick={() => {
             message.destroy();
             localStorage.setItem('watcher_online_reminder', 'true');
@@ -219,6 +219,7 @@ const BasicLayout = props => {
           <Icon
             type={props.collapsed ? 'menu-unfold' : 'menu-fold'}
             onClick={() => handleMenuCollapse(props.collapsed)}
+            style={{ fontSize: '24px', padding: '0 6px' }}
           />
           <div className={isMoblie ? style.titleMobile : style.title} style={{ marginRight: 30 }}>
             {title}
@@ -250,23 +251,23 @@ const BasicLayout = props => {
   };
 
   const myclick = (e, it) => {
-    let clickNum = 0;
-    let clickNumMap = {};
-    const storeKey = 'click-num-map';
-    if (window.localStorage.getItem(storeKey)) {
-      clickNumMap = JSON.parse(window.localStorage.getItem(storeKey));
-      clickNum = clickNumMap[it.component] ? clickNumMap[it.component][0] + 1 : 1;
-    } else {
-      clickNum++;
-    }
-    clickNumMap[it.component] = [clickNum, it.path];
+    // let clickNum = 0;
+    // let clickNumMap = {};
+    // const storeKey = 'click-num-map';
+    // if (window.localStorage.getItem(storeKey)) {
+    //   clickNumMap = JSON.parse(window.localStorage.getItem(storeKey));
+    //   clickNum = clickNumMap[it.component] ? clickNumMap[it.component][0] + 1 : 1;
+    // } else {
+    //   clickNum++;
+    // }
+    // clickNumMap[it.component] = [clickNum, it.path];
     const { nameStrArr } = props;
     const fullName = nameStrArr.filter(item => item.indexOf(it.name) > -1)[0];
     saveMenuName(it.name);
     window.sessionStorage.setItem('currentMenuItem', JSON.stringify(it));
     window.sessionStorage.setItem('full_name', fullName);
     window.sessionStorage.setItem('pathName', it.component);
-    window.localStorage.setItem(storeKey, JSON.stringify(clickNumMap));
+    // window.localStorage.setItem(storeKey, JSON.stringify(clickNumMap));
     router.push(it.path);
   };
 
