@@ -3,7 +3,7 @@ package com.aihuishou.bi.core;
 import org.apache.ibatis.jdbc.SQL;
 
 public class SysConf {
-
+    public static int AUTH_ALLOWED_TIMEOUT = 60;//KA报表鉴权的时间 前后允许范围 单位秒
     public final static String URL_SEPARATOR = "/";
     public final static String OLD_FILE_FOLDER = "static/templates";
     public final static String REST_HTML_SUFFIX = ".html";

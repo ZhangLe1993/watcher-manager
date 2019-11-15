@@ -49,6 +49,11 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         return new RosterInterceptor();
     }
 
+    @Bean
+    public SafeHandler safeHandler() {
+        return new SafeHandler();
+    }
+
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(rosterInterceptor()).addPathPatterns("/**").excludePathPatterns("/static/**", "/templates/dist/**", "/images/**", "/fonts/**", "/third/watcher/**", "/assets/**", "/images", "/watcher/**", "*.js", "*.css", "/vender/**");
@@ -70,5 +75,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/umi.*.css");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/*.chunk.css");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/*.async.js");
+
+        // KA 等第三方报表需要授权鉴权，fancyBox弹出层不需要
+        registry.addInterceptor(safeHandler()).addPathPatterns("/vender/**", "/area/coupon/**", "/customer/intelligenceShop/**", "/area/dealSmartShopReport/**");
     }
 }
