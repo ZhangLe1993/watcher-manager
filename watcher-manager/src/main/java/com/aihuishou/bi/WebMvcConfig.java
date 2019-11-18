@@ -57,8 +57,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(rosterInterceptor()).addPathPatterns("/**").excludePathPatterns("/static/**", "/templates/dist/**", "/images/**", "/fonts/**", "/third/watcher/**", "/assets/**", "/images", "/watcher/**", "*.js", "*.css", "/vender/**");
-        registry.addInterceptor(updateInterceptor()).addPathPatterns("/menu/**");
-        registry.addInterceptor(deleteInterceptor()).addPathPatterns("/menu/**");
+        registry.addInterceptor(updateInterceptor()).addPathPatterns("/menu/**", "/privileges/**");
+        registry.addInterceptor(deleteInterceptor()).addPathPatterns("/menu/**", "/privileges/**");
         registry.addInterceptor(notFoundInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns("/static/**", "/templates/dist/**", "/images/**", "/fonts/**", "/assets/**", "/images/**", "/watcher/**", "/third/watcher/**", "/vender/**", "*.js", "*.css");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/static/**");
