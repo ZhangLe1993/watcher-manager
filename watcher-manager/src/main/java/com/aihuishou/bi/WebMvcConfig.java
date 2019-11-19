@@ -60,7 +60,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(updateInterceptor()).addPathPatterns("/menu/**", "/privileges/**", "/cache/**");
         registry.addInterceptor(deleteInterceptor()).addPathPatterns("/menu/**", "/privileges/**");
         registry.addInterceptor(notFoundInterceptor()).addPathPatterns("/**")
-                .excludePathPatterns("/static/**", "/templates/dist/**", "/images/**", "/fonts/**", "/assets/**", "/images/**", "/watcher/**", "/third/watcher/**", "/vender/**", "*.js", "*.css");
+                .excludePathPatterns("/static/**", "/templates/dist/**", "/images/**", "/fonts/**", "/assets/**", "/images/**", "/watcher/**", "/third/watcher/**", "/vender/**", "*.js", "*.css", "/aI8GzBl3MX.txt");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/static/**");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/images/loading.gif");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/assets/**");
@@ -70,6 +70,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/vendors.*.css");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/vendors.*.js");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/favicon.png");
+        registry.addInterceptor(resourceInterceptor()).addPathPatterns("/aI8GzBl3MX.txt");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/umi.js");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/umi.*.js");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/umi.*.css");

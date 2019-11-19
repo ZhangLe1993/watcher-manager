@@ -31,6 +31,7 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StreamUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -117,8 +118,10 @@ public class IndexC {
         return;
     }
 
-    @RequestMapping("/aI8GzBl3MX.txt")
+    @RequestMapping(value = "/aI8GzBl3MX.txt")
+    @ResponseBody
     public String txt(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        //request.getRequestDispatcher("/static/aI8GzBl3MX.txt").forward(request, response);
         return "c2a58d3db26a085d93a347487cf9bf7f";
     }
 

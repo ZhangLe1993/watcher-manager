@@ -22,6 +22,7 @@
         <security:intercept-url pattern="/**/*.png" access="permitAll()"/>
         <security:intercept-url pattern="/**/*.woff2" access="permitAll()"/>
         <security:intercept-url pattern="/**/*.ico" access="permitAll()"/>
+        <security:intercept-url pattern="/aI8GzBl3MX.txt" access="permitAll()"/>
         <!--<security:intercept-url pattern="/" access="permitAll()"/>-->
         <security:intercept-url pattern="/back/**" access="hasRole('ROLE_BACK')"/>
         <security:intercept-url pattern="/page/**" access="hasRole('ROLE_BACK')"/>
