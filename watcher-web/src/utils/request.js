@@ -24,29 +24,88 @@ const codeMessage = {
 /**
  * 异常处理程序
  */
+const Utf8ArrayToStr = array => {
+  try {
+    let out, i, len, c;
+    let char2, char3;
+    out = '';
+    len = array.length;
+    i = 0;
+    while (i < len) {
+      c = array[i++];
+      switch (c >> 4) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+          out += String.fromCharCode(c);
+          break;
+        case 12:
+        case 13:
+          char2 = array[i++];
+          out += String.fromCharCode(((c & 0x1f) << 6) | (char2 & 0x3f));
+          break;
+        case 14:
+          char2 = array[i++];
+          char3 = array[i++];
+          out += String.fromCharCode(
+            ((c & 0x0f) << 12) | ((char2 & 0x3f) << 6) | ((char3 & 0x3f) << 0),
+          );
+          break;
+      }
+    }
+    return out;
+  } catch (e) {
+    console.log('Utf8ArrayToStr', e);
+    return '';
+  }
+};
 
 const errorHandler = error => {
   const { response } = error;
-
-  if (response && response.status) {
+  if (response && response.status == 423) {
+    // 423返回码不提示告警
+    return response;
+  }
+  if (response && response.status && response.body) {
+    const status = response.status + '';
+    response.body
+      .getReader()
+      .read()
+      .then(result => {
+        const info = Utf8ArrayToStr(result.value);
+        if (status.startsWith('4')) {
+          notification.warning({
+            message: info,
+          });
+        } else if (status.startsWith('5')) {
+          notification.error({
+            message: info,
+          });
+        } else {
+          notification.info({
+            message: info,
+          });
+        }
+      });
+  } else if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
-    const {
-      status,
-      //  url
-      } = response;
-    let descriptionText;
-    if (status === 403) {
-      descriptionText = errorText;
-    } else {
-      descriptionText = '查询异常，请刷新重试';
-    }
+    const { status, url } = response;
     notification.error({
-      // message: `请求错误 ${status}: ${url}`,
-      // description: errorText,
-      message: '请求错误',
-      description: descriptionText,
+      message: `请求错误 ${status}: ${url}`,
+      description: errorText,
+    });
+  } else if (!response) {
+    notification.error({
+      description: '您的网络发生异常，无法连接服务器',
+      message: '网络异常',
     });
   }
+  return response;
 };
 /**
  * 配置request请求时的默认参数

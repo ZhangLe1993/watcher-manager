@@ -580,63 +580,90 @@ class WatcherManager extends React.Component {
   };
 
   modifyMountFunc = parameters => {
-    modifyMount(parameters).then(() => {
+    modifyMount(parameters).then(res => {
+      if (res !== null && res.status !== 200) {
+        return;
+      }
       message.success('修改成功');
       this.fetchMountList();
     });
   };
 
   deleteMountFunc = parameters => {
-    deleteMount(parameters).then(() => {
+    deleteMount(parameters).then(res => {
+      if (res !== null && res.status !== 200) {
+        return;
+      }
       message.success('删除成功');
       this.fetchMountList();
     });
   };
 
   addMountFunc = parameters => {
-    addMount(parameters).then(() => {
+    addMount(parameters).then(res => {
+      if (res !== null && res.status !== 200) {
+        return;
+      }
       message.success('新增成功');
       this.fetchMountList();
     });
   };
 
   addFolderFunc = parameters => {
-    addFolder(parameters).then(() => {
+    addFolder(parameters).then(res => {
+      if (res !== null && res.status !== 200) {
+        return;
+      }
       message.success('新增成功');
       this.fetchFolderList();
     });
   };
 
   deleteFolderFunc = parameters => {
-    deleteFolder(parameters).then(() => {
+    deleteFolder(parameters).then(res => {
+      if (res !== null && res.status !== 200) {
+        return;
+      }
       message.success('删除成功');
       this.fetchFolderList();
     });
   };
 
   modifyFolderFunc = parameters => {
-    modifyFolder(parameters).then(() => {
+    modifyFolder(parameters).then(res => {
+      if (res !== null && res.status !== 200) {
+        return;
+      }
       message.success('修改成功');
       this.fetchFolderList();
     });
   };
 
   addNodeFunc = parameters => {
-    addNode(parameters).then(() => {
+    addNode(parameters).then(res => {
+      if (res !== null && res.status !== 200) {
+        return;
+      }
       message.success('新增成功');
       this.fetchNodeList();
     });
   };
 
   deleteNodeFunc = parameters => {
-    deleteNode(parameters).then(() => {
+    deleteNode(parameters).then(res => {
+      if (res !== null && res.status !== 200) {
+        return;
+      }
       message.success('删除成功');
       this.fetchNodeList();
     });
   };
 
   modifyNodeFunc = parameters => {
-    modifyNode(parameters).then(() => {
+    modifyNode(parameters).then(res => {
+      if (res !== null && res.status !== 200) {
+        return;
+      }
       message.success('修改成功');
       this.fetchNodeList();
     });
@@ -854,7 +881,10 @@ class WatcherManager extends React.Component {
       auth: userAuth,
       authName: names,
     };
-    doMenuAuth(parameters).then(() => {
+    doMenuAuth(parameters).then(res => {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
+        return;
+      }
       message.success('菜单赋权成功!');
       this.fetchNodeList();
       this.setState({
@@ -919,7 +949,10 @@ class WatcherManager extends React.Component {
 
   clearAllFunc = () => {
     clearAll()
-      .then(() => {
+      .then(res => {
+        if (res !== null && res.status !== 200) {
+          return;
+        }
         message.success('全部清除成功!');
       })
       .catch(e => {
@@ -929,7 +962,10 @@ class WatcherManager extends React.Component {
 
   clearFunc = () => {
     clear()
-      .then(() => {
+      .then(res => {
+        if (res !== null && res.status !== 200) {
+          return;
+        }
         message.success('标准清除成功!');
       })
       .catch(e => {
@@ -973,7 +1009,10 @@ class WatcherManager extends React.Component {
 
   // mount排序
   mountSortFunc = params => {
-    mountSort(params).then(() => {
+    mountSort(params).then(res => {
+      if (res !== null && res.status !== 200) {
+        return;
+      }
       message.success('修改挂载点顺序成功!');
       this.fetchMountList();
     });
@@ -981,7 +1020,10 @@ class WatcherManager extends React.Component {
 
   // folder排序
   folderSortFunc = params => {
-    folderSort(params).then(() => {
+    folderSort(params).then(res => {
+      if (res !== null && res.status !== 200) {
+        return;
+      }
       message.success('修改文件夹顺序成功!');
       this.fetchFolderList();
     });
@@ -989,7 +1031,10 @@ class WatcherManager extends React.Component {
 
   // node排序
   nodeSortFunc = params => {
-    nodeSort(params).then(() => {
+    nodeSort(params).then(res => {
+      if (res !== null && res.status !== 200) {
+        return;
+      }
       message.success('修改文件夹顺序成功!');
       this.fetchNodeList();
     });

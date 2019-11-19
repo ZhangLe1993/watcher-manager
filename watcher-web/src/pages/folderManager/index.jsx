@@ -1,23 +1,8 @@
 import React from 'react';
-import {
-  Table,
-  Divider,
-  Button,
-  Modal,
-  Input,
-  Select,
-  Form,
-  message,
-  Popconfirm,
-} from 'antd';
+import { Table, Divider, Button, Modal, Input, Select, Form, message, Popconfirm } from 'antd';
 
 import style from './index.less';
-import {
-  queryFolder,
-  modifyMount,
-  deleteMount,
-  addMount,
-} from '../../services/manager';
+import { queryFolder, modifyMount, deleteMount, addMount } from '../../services/manager';
 
 const { Option } = Select;
 const FormItem = Form.Item;
@@ -36,11 +21,17 @@ class FolderManager extends React.Component {
       key: 'action',
       render: (text, record) => (
         <span>
-          <a href="javascript:;" onClick={() => this.handleActions('mount', 'modify', record)}>修改</a>
+          <a href="javascript:;" onClick={() => this.handleActions('mount', 'modify', record)}>
+            修改
+          </a>
           <Divider type="vertical" />
-          <Popconfirm title={`是否删除${record.name}?`} onConfirm={() => this.handleActions('mount', 'delete', record)}
-          okText="确定" cancelText="取消">
-              <a href="javascript:;">删除</a>
+          <Popconfirm
+            title={`是否删除${record.name}?`}
+            onConfirm={() => this.handleActions('mount', 'delete', record)}
+            okText="确定"
+            cancelText="取消"
+          >
+            <a href="javascript:;">删除</a>
           </Popconfirm>
         </span>
       ),
@@ -68,7 +59,9 @@ class FolderManager extends React.Component {
   }
 
   fetchMountList = () => {
-    const { mount: { pageIndex, pageSize, key, parent } } = this.state;
+    const {
+      mount: { pageIndex, pageSize, key, parent },
+    } = this.state;
     const parameters = {
       key,
       pageIndex,
@@ -76,18 +69,26 @@ class FolderManager extends React.Component {
       parent,
     };
     queryFolder(parameters).then(res => {
+      console.log(res);
+      if (res !== null && res.status !== 200) {
+        return;
+      }
       this.setState({ mountData: res.data });
     });
-  }
+  };
 
   add = category => {
-    const { form: { setFieldsValue } } = this.props;
+    const {
+      form: { setFieldsValue },
+    } = this.props;
     this.setState({ [`${category}Visible`]: true, isAdd: true });
     setFieldsValue({ name: '', sortNo: '' });
-  }
+  };
 
   handleActions = (category, action, data) => {
-    const { form: { setFieldsValue } } = this.props;
+    const {
+      form: { setFieldsValue },
+    } = this.props;
     const { name, sortNo, id } = data;
     if (action === 'delete') {
       this.deleteMountFunc(id);
@@ -95,7 +96,7 @@ class FolderManager extends React.Component {
       this.setState({ [`${category}Visible`]: true, [`${category}Id`]: id, isAdd: false });
       setFieldsValue({ name, sortNo });
     }
-  }
+  };
 
   handleModalOk = category => {
     this.setState({ [`${category}Visible`]: false });
@@ -116,38 +117,41 @@ class FolderManager extends React.Component {
         }
       }
     });
-  }
+  };
 
   modifyFunc = parameters => {
     modifyMount(parameters).then(() => {
       message.success('修改成功');
       this.fetchMountList();
     });
-  }
+  };
 
   deleteMountFunc = parameters => {
-    deleteMount(parameters).then(() => {
+    deleteMount(parameters).then(res => {
+      if (res !== null && res.status !== 200) {
+        return;
+      }
       message.success('删除成功');
       this.fetchMountList();
     });
-  }
+  };
 
   addMountFunc = parameters => {
-    addMount(parameters).then(() => {
+    addMount(parameters).then(res => {
+      if (res !== null && res.status !== 200) {
+        return;
+      }
       message.success('新增成功');
       this.fetchMountList();
     });
-  }
+  };
 
   hideModal = category => {
     this.setState({ [`${category}Visible`]: false });
-  }
+  };
 
   render() {
-    const {
-      mountData,
-      mountVisible,
-     } = this.state;
+    const { mountData, mountVisible } = this.state;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -158,43 +162,48 @@ class FolderManager extends React.Component {
         sm: { span: 21 },
       },
     };
-    const { form: { getFieldDecorator } } = this.props;
+    const {
+      form: { getFieldDecorator },
+    } = this.props;
     return (
       <div className={style.container}>
-        <Button type="primary" onClick={() => this.add('mount')} className={style.btn}>新增挂载点</Button>
+        <Button type="primary" onClick={() => this.add('mount')} className={style.btn}>
+          新增挂载点
+        </Button>
         <Table columns={this.columns} dataSource={mountData} bordered />
         <Modal
           title="挂载点"
           visible={mountVisible}
           onOk={() => this.handleModalOk('mount')}
           onCancel={() => this.hideModal('mount')}
-          >
-        <Form {...formItemLayout}>
-          <FormItem label="挂载点">
-            {getFieldDecorator('name', {
-              rules: [{
-                required: true, message: '请输入用户名',
-              }],
-            })(
-              <Input />,
-            )}
-          </FormItem>
-          <FormItem label="排序">
-            {getFieldDecorator('sortNo', {
-              rules: [{
-                required: true, message: '请选择角色',
-              }],
-            })(
-              <Select
-                placeholder="请排序"
-                style={{ width: '100%' }}
-              >
-              <Option value={0}>dev</Option>
-              <Option value={1}>pro</Option>
-              </Select>,
-            )}
-          </FormItem>
-        </Form>
+        >
+          <Form {...formItemLayout}>
+            <FormItem label="挂载点">
+              {getFieldDecorator('name', {
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入用户名',
+                  },
+                ],
+              })(<Input />)}
+            </FormItem>
+            <FormItem label="排序">
+              {getFieldDecorator('sortNo', {
+                rules: [
+                  {
+                    required: true,
+                    message: '请选择角色',
+                  },
+                ],
+              })(
+                <Select placeholder="请排序" style={{ width: '100%' }}>
+                  <Option value={0}>dev</Option>
+                  <Option value={1}>pro</Option>
+                </Select>,
+              )}
+            </FormItem>
+          </Form>
         </Modal>
       </div>
     );

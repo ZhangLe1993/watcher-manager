@@ -429,12 +429,18 @@ class WatcherManagerNew extends Component {
     if (fieldsValue.nodeId) {
       //id存在  修改
       parameters.id = fieldsValue.nodeId;
-      modifyMount(parameters).then(() => {
+      modifyMount(parameters).then(res => {
+        if (res !== null && res.status !== 200) {
+          return;
+        }
         message.success('修改成功');
         this.reload();
       });
     } else {
-      addMount(parameters).then(() => {
+      addMount(parameters).then(res => {
+        if (res !== null && res.status !== 200) {
+          return;
+        }
         message.success('新增成功');
         this.reload();
       });
@@ -454,12 +460,18 @@ class WatcherManagerNew extends Component {
     if (fieldsValue.nodeId) {
       //id存在  修改
       parameters.id = fieldsValue.nodeId;
-      modifyFolder(parameters).then(() => {
+      modifyFolder(parameters).then(res => {
+        if (res !== null && res.status !== 200) {
+          return;
+        }
         message.success('修改成功');
         this.reload();
       });
     } else {
-      addFolder(parameters).then(() => {
+      addFolder(parameters).then(res => {
+        if (res !== null && res.status !== 200) {
+          return;
+        }
         message.success('新增成功');
         this.reload();
       });
@@ -482,7 +494,10 @@ class WatcherManagerNew extends Component {
       if (fieldsValue.parentNode) {
         parameters.parentPosition = fieldsValue.parentNode;
       }
-      modifyNode(parameters).then(() => {
+      modifyNode(parameters).then(res => {
+        if (res !== null && res.status !== 200) {
+          return;
+        }
         message.success('修改成功');
         this.reload();
       });
@@ -492,7 +507,10 @@ class WatcherManagerNew extends Component {
       } else {
         parameters.parentPosition = '-1';
       }
-      addNode(parameters).then(() => {
+      addNode(parameters).then(res => {
+        if (res !== null && res.status !== 200) {
+          return;
+        }
         message.success('新增成功');
         this.reload();
       });
@@ -503,10 +521,13 @@ class WatcherManagerNew extends Component {
    * @param fieldsValue
    */
   delMountAjax = (id, item) => {
-    if (item.children.length > 0) {
+    if (item.children !== undefined && item.children !== null && item.children.length > 0) {
       message.error('存在子节点,不能删除');
     } else {
-      deleteMount(id).then(() => {
+      deleteMount(id).then(res => {
+        if (res !== null && res.status !== 200) {
+          return;
+        }
         message.success('删除成功');
         this.reload();
       });
@@ -517,10 +538,13 @@ class WatcherManagerNew extends Component {
    * @param fieldsValue
    */
   delFolderAjax = (id, item) => {
-    if (item.children.length > 0) {
+    if (item.children !== undefined && item.children !== null && item.children.length > 0) {
       message.error('存在子节点,不能删除');
     } else {
-      deleteFolder(id).then(() => {
+      deleteFolder(id).then(res => {
+        if (res !== null && res.status !== 200) {
+          return;
+        }
         message.success('删除成功');
         this.reload();
       });
@@ -531,7 +555,10 @@ class WatcherManagerNew extends Component {
    * @param fieldsValue
    */
   delNodeAjax = id => {
-    deleteNode(id).then(() => {
+    deleteNode(id).then(res => {
+      if (res !== null && res.status !== 200) {
+        return;
+      }
       message.success('删除成功');
       this.reload();
     });
@@ -539,7 +566,10 @@ class WatcherManagerNew extends Component {
   // mount排序
   mountSortFunc = params => {
     mountSort(params)
-      .then(() => {
+      .then(res => {
+        if (res !== null && res.status !== 200) {
+          return;
+        }
         message.success('修改挂载点顺序成功!');
         this.reload();
       })
@@ -551,7 +581,10 @@ class WatcherManagerNew extends Component {
   // folder排序
   folderSortFunc = params => {
     folderSort(params)
-      .then(() => {
+      .then(res => {
+        if (res !== null && res.status !== 200) {
+          return;
+        }
         message.success('修改文件夹顺序成功!');
         this.reload();
       })
@@ -563,7 +596,10 @@ class WatcherManagerNew extends Component {
   // node排序
   nodeSortFunc = params => {
     nodeSort(params)
-      .then(() => {
+      .then(res => {
+        if (res !== null && res.status !== 200) {
+          return;
+        }
         message.success('修改报表节点顺序成功!');
         this.reload();
       })
@@ -954,7 +990,10 @@ class WatcherManagerNew extends Component {
       auth: userAuth,
       authName: names,
     };
-    doMenuAuth(parameters).then(() => {
+    doMenuAuth(parameters).then(res => {
+      if (res !== null && res.status !== 200) {
+        return;
+      }
       message.success('菜单赋权成功!');
       this.setState({
         authority: {
@@ -1009,7 +1048,10 @@ class WatcherManagerNew extends Component {
 
   clearAllFunc = () => {
     clearAll()
-      .then(() => {
+      .then(res => {
+        if (res !== null && res.status !== 200) {
+          return;
+        }
         message.success('全部清除成功!');
       })
       .catch(e => {
@@ -1019,7 +1061,10 @@ class WatcherManagerNew extends Component {
 
   clearFunc = () => {
     clear()
-      .then(() => {
+      .then(res => {
+        if (res !== null && res.status !== 200) {
+          return;
+        }
         message.success('标准清除成功!');
       })
       .catch(e => {
