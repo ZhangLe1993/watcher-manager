@@ -18,6 +18,6 @@ bury:
 
 cas:
    server:
-    logout: http://sso.ob.aihuishou.com:8080/casservice/logout?service=http://watcher.intra.aihuishou.com
+    logout: http://sso.ob.aihuishou.com:8080/casservice/logout?service=https://watcher.intra.aihuishou.com
    client:
-     host: http://watcher.intra.aihuishou.com
+     host: https://watcher.intra.aihuishou.com
