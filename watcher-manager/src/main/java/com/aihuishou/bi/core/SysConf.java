@@ -12,7 +12,9 @@ public class SysConf {
     public final static String POINT_TYPE_START = "start";
     public final static String POINT_TYPE_END = "end";
 
+    public final static String DAVINCI_SHARE_LINK_PREFIX_TEST = "http://47.97.240.5:8093/share.html";
     public final static String DAVINCI_SHARE_LINK_PREFIX = "http://47.97.240.5:8092/share.html";
+    public final static String DAVINCI_SHARE_LINK_PREFIX_PROD = "https://abdavinci.aihuishou.com/share.html";
 
     public final static String PARAM_DATE_FORMATTER = "yyyy-MM-dd";
 

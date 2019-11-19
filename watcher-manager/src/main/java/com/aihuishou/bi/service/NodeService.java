@@ -93,7 +93,7 @@ public class NodeService extends BaseService {
         nodeVO.setPosition(node.getPosition());
         String sql = "UPDATE bi_nodes SET url = ?, name = ?, mount = ?, parent_position = ?, state = ?, update_time = now() WHERE id = ?;";
         String url = nodeVO.getUrl();
-        if(StringUtils.isNotBlank(url) && url.contains(SysConf.DAVINCI_SHARE_LINK_PREFIX)) {
+        if(StringUtils.isNotBlank(url) && url.contains(SysConf.DAVINCI_SHARE_LINK_PREFIX) || url.contains(SysConf.DAVINCI_SHARE_LINK_PREFIX_TEST) || url.contains(SysConf.DAVINCI_SHARE_LINK_PREFIX_PROD)) {
             sql = "UPDATE bi_nodes SET url = ?, name = ?, mount = ?, parent_position = ?, state = ?, genre = '1', update_time = now() WHERE id = ?;";
         }
         int count = new QueryRunner(dataSource).update(sql, url, nodeVO.getName(), mount, parent, nodeVO.getState(), nodeVO.getId());
