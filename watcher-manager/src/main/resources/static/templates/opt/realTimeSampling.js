@@ -2,6 +2,10 @@ Template.realTimeSampling.rendered = function () {
     $('.navi-tab').removeClass('active');
     //渲染公共部分
     operationCenter = Template.OperationCenter;
+    if(operationCenter === undefined) {
+        warning('非常抱歉，您的浏览器可能与当前版本不兼容，请升级浏览器或者更换谷歌浏览器再进行尝试，衷心感谢您的谅解与理解。');
+        return;
+    }
     initForceMap(operationCenter);
     initColorMap(operationCenter);
     drawPublic();

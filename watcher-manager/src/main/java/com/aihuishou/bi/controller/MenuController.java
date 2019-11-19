@@ -268,9 +268,8 @@ public class MenuController {
     @PostMapping("/auth")
     public ResponseEntity grantAuth(@RequestBody GrantVO grantVO) {
         try {
-            int count = authService.grantAuth(grantVO);
-            if(count > 0) return new ResponseEntity<>("授权成功", HttpStatus.OK);
-            return new ResponseEntity<>("授权失败", HttpStatus.INTERNAL_SERVER_ERROR);
+            authService.grantAuth(grantVO);
+            return new ResponseEntity<>("授权成功", HttpStatus.OK);
         } catch(Exception e) {
             logger.error("报表菜单授权异常，异常信息: {}", ExceptionInfo.toString(e));
         }

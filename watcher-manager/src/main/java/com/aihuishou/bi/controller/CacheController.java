@@ -1,5 +1,6 @@
 package com.aihuishou.bi.controller;
 
+import com.aihuishou.bi.annotation.Update;
 import com.aihuishou.bi.service.CacheService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ public class CacheController {
      * 一把梭哈
      * @return
      */
+    @Update
     @RequestMapping(value = "/suoha")
     public ResponseEntity cleanAll() {
         try {
@@ -44,6 +46,7 @@ public class CacheController {
      * 配置完菜单之后的肯德基标配套餐
      * @return
      */
+    @Update
     @RequestMapping(value = "/package")
     public ResponseEntity cleanStandard() {
         try {

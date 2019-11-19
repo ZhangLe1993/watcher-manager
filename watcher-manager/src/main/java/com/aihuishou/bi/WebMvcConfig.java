@@ -49,13 +49,18 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         return new RosterInterceptor();
     }
 
+    @Bean
+    public SafeHandler safeHandler() {
+        return new SafeHandler();
+    }
+
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(rosterInterceptor()).addPathPatterns("/**").excludePathPatterns("/static/**", "/templates/dist/**", "/images/**", "/fonts/**", "/third/watcher/**", "/assets/**", "/images", "/watcher/**", "*.js", "*.css", "/vender/**");
-        registry.addInterceptor(updateInterceptor()).addPathPatterns("/menu/**");
-        registry.addInterceptor(deleteInterceptor()).addPathPatterns("/menu/**");
+        registry.addInterceptor(updateInterceptor()).addPathPatterns("/menu/**", "/privileges/**", "/cache/**");
+        registry.addInterceptor(deleteInterceptor()).addPathPatterns("/menu/**", "/privileges/**");
         registry.addInterceptor(notFoundInterceptor()).addPathPatterns("/**")
-                .excludePathPatterns("/static/**", "/templates/dist/**", "/images/**", "/fonts/**", "/assets/**", "/images/**", "/watcher/**", "/third/watcher/**", "/vender/**", "*.js", "*.css");
+                .excludePathPatterns("/static/**", "/templates/dist/**", "/images/**", "/fonts/**", "/assets/**", "/images/**", "/watcher/**", "/third/watcher/**", "/vender/**", "*.js", "*.css", "/aI8GzBl3MX.txt");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/static/**");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/images/loading.gif");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/assets/**");
@@ -65,10 +70,14 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/vendors.*.css");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/vendors.*.js");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/favicon.png");
+        registry.addInterceptor(resourceInterceptor()).addPathPatterns("/aI8GzBl3MX.txt");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/umi.js");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/umi.*.js");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/umi.*.css");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/*.chunk.css");
         registry.addInterceptor(resourceInterceptor()).addPathPatterns("/*.async.js");
+
+        // KA 等第三方报表需要授权鉴权，fancyBox弹出层不需要
+        registry.addInterceptor(safeHandler()).addPathPatterns("/vender/**", "/area/coupon/**", "/customer/intelligenceShop/**", "/area/dealSmartShopReport/**");
     }
 }

@@ -2,6 +2,7 @@ package com.aihuishou.bi.controller;
 
 import com.aihuishou.bi.annotation.Loop;
 import com.aihuishou.bi.annotation.Mark;
+import com.aihuishou.bi.annotation.SafeAuthenticate;
 import com.aihuishou.bi.annotation.SystemLog;
 import com.aihuishou.bi.cas.CasUtil;
 import com.aihuishou.bi.core.Admin;
@@ -30,6 +31,7 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StreamUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -114,6 +116,13 @@ public class IndexC {
     public void icon(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         request.getRequestDispatcher("/static/resources/images/favicon.ico").forward(request, response);
         return;
+    }
+
+    @RequestMapping(value = "/aI8GzBl3MX.txt")
+    @ResponseBody
+    public String txt(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        //request.getRequestDispatcher("/static/aI8GzBl3MX.txt").forward(request, response);
+        return "c2a58d3db26a085d93a347487cf9bf7f";
     }
 
     @RequestMapping("/favicon.ico")
@@ -219,6 +228,7 @@ public class IndexC {
         StreamUtils.copy(clientHttpResponse.getBody(), response.getOutputStream());
     }
 
+    @SafeAuthenticate
     @Loop
     @SystemLog(description = "爱机汇嵌入页面 & fancyBox 弹出层页面")
     @RequestMapping(value = {"/vender/**", "/customer/intelligenceShop/**", "/area/dealSmartShopReport/**", "/area/coupon/**", "/datareport/**", "/operation/**"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

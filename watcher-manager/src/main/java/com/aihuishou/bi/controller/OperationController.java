@@ -2,6 +2,7 @@ package com.aihuishou.bi.controller;
 
 import com.aihuishou.bi.annotation.Delete;
 import com.aihuishou.bi.annotation.SystemLog;
+import com.aihuishou.bi.annotation.Update;
 import com.aihuishou.bi.entity.Operation;
 import com.aihuishou.bi.entity.User;
 import com.aihuishou.bi.service.OperationService;
@@ -61,7 +62,7 @@ public class OperationController {
     }
 
     @SystemLog(description = "新增操作权限")
-    @Delete
+    @Update
     @PostMapping("")
     public ResponseEntity createPermission(@RequestBody Operation operation) {
         try{
@@ -75,7 +76,7 @@ public class OperationController {
     }
 
     @SystemLog(description = "修改操作权限")
-    @Delete
+    @Update
     @PutMapping("")
     public ResponseEntity updateOperation(@RequestBody Operation operation) {
         try{

@@ -38,8 +38,7 @@ public class JoinController {
     public ResponseEntity operationJoinUser(@RequestBody OperationUserVO ou) {
         try {
             int count = joinService.operationJoinUser(ou);
-            if(count > 0) return new ResponseEntity<>("权限绑定用户成功", HttpStatus.OK);
-            return new ResponseEntity<>("权限绑定用户失败", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("权限绑定用户成功", HttpStatus.OK);
         } catch(Exception e) {
             logger.error("权限绑定用户异常，异常信息: {}", ExceptionInfo.toString(e));
         }
@@ -56,8 +55,7 @@ public class JoinController {
     public ResponseEntity userJoinOperation(@RequestBody UserOperationVO uo) {
         try {
             int count = joinService.userJoinOperation(uo);
-            if(count > 0) return new ResponseEntity<>("用户绑定权限成功", HttpStatus.OK);
-            return new ResponseEntity<>("用户绑定权限失败", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("用户绑定权限成功", HttpStatus.OK);
         } catch(Exception e) {
             logger.error("用户绑定权限异常，异常信息: {}", ExceptionInfo.toString(e));
         }

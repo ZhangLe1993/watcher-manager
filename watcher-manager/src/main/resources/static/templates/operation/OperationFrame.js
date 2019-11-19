@@ -13,6 +13,10 @@ Template.OperationFrame.rendered = function () {
         "date": moment().format("YYYY-MM-DD"),
         "operationCenter": operationCenter
     };
+    if(operationCenter === undefined) {
+        warning('非常抱歉，您的浏览器可能与当前版本不兼容，请升级浏览器或者更换谷歌浏览器再进行尝试，衷心感谢您的谅解与理解。');
+        return;
+    }
     switch(type*1){
         case 0:
             drawLogisticsQualityInspection(query,operationCenter);

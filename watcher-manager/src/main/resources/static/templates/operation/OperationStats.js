@@ -10,6 +10,10 @@ Template.OperationStats.rendered = function () {
     }
     var operationCenterName = "";
     var operationCenter = Template.OperationCenter;
+    if(operationCenter === undefined) {
+        warning('非常抱歉，您的浏览器可能与当前版本不兼容，请升级浏览器或者更换谷歌浏览器再进行尝试，衷心感谢您的谅解与理解。');
+        return;
+    }
     switch (parseInt(operationCenter)) {
         case 1:
             $('#shanghaiOperationStats').addClass('active');
@@ -88,6 +92,10 @@ Template.OperationStats.rendered = function () {
 
     $('a[data-toggle=tab]').on('shown.bs.tab', function (e) {
         var activeTab = (e.target).text;
+        if(operationCenter === undefined) {
+            warning('非常抱歉，您的浏览器可能与当前版本不兼容，请升级浏览器或者更换谷歌浏览器再进行尝试，衷心感谢您的谅解与理解。');
+            return;
+        }
         switch (activeTab) {
             case '运营指标':
                 updateOperationStats(operationCenter);
@@ -102,10 +110,18 @@ Template.OperationStats.rendered = function () {
 
     $('#clickThis').click(function () {
         var href = "/operation/ReverseExpressCount/" + operationCenter;
+        if(operationCenter === undefined) {
+            warning('非常抱歉，您的浏览器可能与当前版本不兼容，请升级浏览器或者更换谷歌浏览器再进行尝试，衷心感谢您的谅解与理解。');
+            return;
+        }
         popModal(href);
     });
     $('#preReturnCount').click(function () {
         var href = "/operation/tradeNoDetail/" + operationCenter + "/待退货";
+        if(operationCenter === undefined) {
+            warning('非常抱歉，您的浏览器可能与当前版本不兼容，请升级浏览器或者更换谷歌浏览器再进行尝试，衷心感谢您的谅解与理解。');
+            return;
+        }
         popModal(href);
     });
 

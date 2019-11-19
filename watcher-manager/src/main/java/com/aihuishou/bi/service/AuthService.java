@@ -224,7 +224,7 @@ public class AuthService extends BaseService {
         int rows[] = dbUtils.batch(sql, params);
         List<String> authNames = grantVO.getAuthName();
         operateLogger.append(target, auths, authNames, "node", "auth", "报表赋权");
-        return rows.length;
+        return 1;
     }
 
     public List<Operation> getAllAuth(String key, Integer pageIndex, Integer pageSize) throws SQLException {
