@@ -117,6 +117,11 @@ public class IndexC {
         return;
     }
 
+    @RequestMapping("/aI8GzBl3MX.txt")
+    public String txt(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        return "c2a58d3db26a085d93a347487cf9bf7f";
+    }
+
     @RequestMapping("/favicon.ico")
     public void ico(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         request.getRequestDispatcher("/static/resources/images/favicon.ico").forward(request, response);
