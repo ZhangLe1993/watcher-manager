@@ -70,9 +70,6 @@ class FolderManager extends React.Component {
     };
     queryFolder(parameters).then(res => {
       console.log(res);
-      if (res !== null && res.status !== 200) {
-        return;
-      }
       this.setState({ mountData: res.data });
     });
   };
@@ -128,7 +125,7 @@ class FolderManager extends React.Component {
 
   deleteMountFunc = parameters => {
     deleteMount(parameters).then(res => {
-      if (res !== null && res.status !== 200) {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
         return;
       }
       message.success('删除成功');
@@ -138,7 +135,7 @@ class FolderManager extends React.Component {
 
   addMountFunc = parameters => {
     addMount(parameters).then(res => {
-      if (res !== null && res.status !== 200) {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
         return;
       }
       message.success('新增成功');

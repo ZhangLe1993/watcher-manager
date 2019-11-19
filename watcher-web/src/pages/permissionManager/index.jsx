@@ -300,7 +300,7 @@ class PermissionManager extends React.Component {
   addPermissionFunc = parameters => {
     const that = this;
     addPermission(parameters).then(res => {
-      if (res !== null && res.status !== 200) {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
         return;
       }
       this.setState({
@@ -317,7 +317,7 @@ class PermissionManager extends React.Component {
   deletePermissionFunc = id => {
     const that = this;
     deletePermission(id).then(res => {
-      if (res !== null && res.status !== 200) {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
         return;
       }
       message.success('删除权限成功!');
@@ -334,7 +334,7 @@ class PermissionManager extends React.Component {
   modifyPermissionFunc = parameters => {
     const that = this;
     modifyPermission(parameters).then(res => {
-      if (res !== null && res.status !== 200) {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
         return;
       }
       this.setState({
@@ -500,7 +500,7 @@ class PermissionManager extends React.Component {
   authBindUserFunc = parameters => {
     const that = this;
     authBindUser(parameters).then(res => {
-      if (res !== null && res.status !== 200) {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
         return;
       }
       message.success('权限绑定用户成功!');
@@ -517,7 +517,7 @@ class PermissionManager extends React.Component {
   bindPermissionFunc = parameters => {
     const that = this;
     userBindPermission(parameters).then(res => {
-      if (res !== null && res.status !== 200) {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
         return;
       }
       message.success('用户绑定权限成功!');

@@ -581,7 +581,7 @@ class WatcherManager extends React.Component {
 
   modifyMountFunc = parameters => {
     modifyMount(parameters).then(res => {
-      if (res !== null && res.status !== 200) {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
         return;
       }
       message.success('修改成功');
@@ -591,7 +591,7 @@ class WatcherManager extends React.Component {
 
   deleteMountFunc = parameters => {
     deleteMount(parameters).then(res => {
-      if (res !== null && res.status !== 200) {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
         return;
       }
       message.success('删除成功');
@@ -601,7 +601,7 @@ class WatcherManager extends React.Component {
 
   addMountFunc = parameters => {
     addMount(parameters).then(res => {
-      if (res !== null && res.status !== 200) {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
         return;
       }
       message.success('新增成功');
@@ -611,7 +611,7 @@ class WatcherManager extends React.Component {
 
   addFolderFunc = parameters => {
     addFolder(parameters).then(res => {
-      if (res !== null && res.status !== 200) {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
         return;
       }
       message.success('新增成功');
@@ -621,7 +621,7 @@ class WatcherManager extends React.Component {
 
   deleteFolderFunc = parameters => {
     deleteFolder(parameters).then(res => {
-      if (res !== null && res.status !== 200) {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
         return;
       }
       message.success('删除成功');
@@ -631,7 +631,7 @@ class WatcherManager extends React.Component {
 
   modifyFolderFunc = parameters => {
     modifyFolder(parameters).then(res => {
-      if (res !== null && res.status !== 200) {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
         return;
       }
       message.success('修改成功');
@@ -641,7 +641,7 @@ class WatcherManager extends React.Component {
 
   addNodeFunc = parameters => {
     addNode(parameters).then(res => {
-      if (res !== null && res.status !== 200) {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
         return;
       }
       message.success('新增成功');
@@ -651,7 +651,7 @@ class WatcherManager extends React.Component {
 
   deleteNodeFunc = parameters => {
     deleteNode(parameters).then(res => {
-      if (res !== null && res.status !== 200) {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
         return;
       }
       message.success('删除成功');
@@ -661,7 +661,7 @@ class WatcherManager extends React.Component {
 
   modifyNodeFunc = parameters => {
     modifyNode(parameters).then(res => {
-      if (res !== null && res.status !== 200) {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
         return;
       }
       message.success('修改成功');
@@ -950,7 +950,7 @@ class WatcherManager extends React.Component {
   clearAllFunc = () => {
     clearAll()
       .then(res => {
-        if (res !== null && res.status !== 200) {
+        if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
           return;
         }
         message.success('全部清除成功!');
@@ -963,7 +963,7 @@ class WatcherManager extends React.Component {
   clearFunc = () => {
     clear()
       .then(res => {
-        if (res !== null && res.status !== 200) {
+        if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
           return;
         }
         message.success('标准清除成功!');
@@ -1010,7 +1010,7 @@ class WatcherManager extends React.Component {
   // mount排序
   mountSortFunc = params => {
     mountSort(params).then(res => {
-      if (res !== null && res.status !== 200) {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
         return;
       }
       message.success('修改挂载点顺序成功!');
@@ -1021,7 +1021,7 @@ class WatcherManager extends React.Component {
   // folder排序
   folderSortFunc = params => {
     folderSort(params).then(res => {
-      if (res !== null && res.status !== 200) {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
         return;
       }
       message.success('修改文件夹顺序成功!');
@@ -1032,7 +1032,7 @@ class WatcherManager extends React.Component {
   // node排序
   nodeSortFunc = params => {
     nodeSort(params).then(res => {
-      if (res !== null && res.status !== 200) {
+      if (res !== null && res.status !== undefined && res.status !== null && res.status !== 200) {
         return;
       }
       message.success('修改文件夹顺序成功!');
