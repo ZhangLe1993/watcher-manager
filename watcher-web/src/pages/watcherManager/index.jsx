@@ -1147,6 +1147,17 @@ class WatcherManager extends React.Component {
     const mountChildren = this.getMountChildren(mount.data);
     const nodeChildren = this.getMountChildren(mount.data);
     const isRootNode = getFieldValue('isRootNode');
+    const checkUrlInput = (rule, value, callback) => {
+      if (
+        value !== undefined &&
+        value !== null &&
+        value.startsWith('https://abdavinci.aihuishou.com')
+      ) {
+        callback();
+      } else {
+        callback('达芬奇链接必须以https://abdavinci.aihuishou.com开头');
+      }
+    };
     return (
       <div className={style.container}>
         <div className={style.clearBtns}>
@@ -1338,6 +1349,7 @@ class WatcherManager extends React.Component {
                     required: true,
                     message: '请输入',
                   },
+                  { validator: checkUrlInput },
                 ],
               })(<Input />)}
             </FormItem>
