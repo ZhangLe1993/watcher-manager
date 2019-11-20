@@ -528,6 +528,9 @@ class WatcherManager extends React.Component {
     });
     const newCategory = category.substring(0, 1).toUpperCase() + category.substring(1);
     this.props.form.validateFields((err, values) => {
+      if (err) {
+        return;
+      }
       const {
         name,
         mount,

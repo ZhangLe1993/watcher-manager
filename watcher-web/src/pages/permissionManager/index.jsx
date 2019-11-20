@@ -351,6 +351,9 @@ class PermissionManager extends React.Component {
   handlePermissionModalOk = () => {
     const that = this;
     this.props.form.validateFields((err, values) => {
+      if (err) {
+        return;
+      }
       console.log(values, '--values--');
       const { permissionName } = values;
       checkPermissionName(permissionName).then(res => {
