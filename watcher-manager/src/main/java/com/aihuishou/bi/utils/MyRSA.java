@@ -174,7 +174,10 @@ public class MyRSA {
     }
 
     public static void main(String[] args) {
-        PrivateKey key = MyRSA.loadPrivateKey(new File("D:\\workspace\\IntelliJ\\refact\\watcher-manager\\watcher-manager\\target\\classes\\rsa\\ahs_pkcs8.pem"));
-        System.out.println(encrypt(key, Long.toString(System.currentTimeMillis())));
+        //PrivateKey key = MyRSA.loadPrivateKey(new File("D:\\workspace\\IntelliJ\\refact\\watcher-manager\\watcher-manager\\target\\classes\\rsa\\ahs_public_prod.pem"));
+        //System.out.println(encrypt(key, Long.toString(System.currentTimeMillis())));
+        PublicKey pub = MyRSA.loadPublicKey(new File("D:\\workspace\\IntelliJ\\refact\\watcher-manager\\watcher-manager\\target\\classes\\rsa\\ahs_public_prod.pem"));
+        String pre = MyRSA.decrypt(pub, "O9FtJQGcAQDOEaz1/a1OsCLlysNVJdjeu/lBcx6gQ3tbO4854RKKOq+eb4lwN2kQ46eeuO2p6Y1QqFqplJPWky1BNRWr8R1Im8X6HMMC0r1pye2FMYU5Xgu2jDIkh5aehbOXHf7NGHCXRm/ToYADFmoS02baGwd7XFTCqU0gaI4=");
+        System.out.println(pre);
     }
 }
