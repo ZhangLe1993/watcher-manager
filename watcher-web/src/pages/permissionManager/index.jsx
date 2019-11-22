@@ -358,6 +358,9 @@ class PermissionManager extends React.Component {
       const { permissionName } = values;
       checkPermissionName(permissionName).then(res => {
         console.log(res);
+        if (res !== undefined && res !== null && res.status !== undefined && res.status !== 200) {
+          return;
+        }
         // 不存在
         if (res !== undefined && res !== null && !res) {
           const { id } = that.state.permission;

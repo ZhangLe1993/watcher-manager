@@ -1175,9 +1175,13 @@ class WatcherManager extends React.Component {
             标准清除
           </Button>
         </div>
-        <Button type="primary" onClick={() => this.add('mount')} className={style.btn}>
-          新增挂载点
-        </Button>
+        <div className={`${style.btnSearch} ${style.clearfix}`}>
+          <div className={style.btnContainer}>
+            <Button type="primary" onClick={() => this.add('mount')} className={style.btn}>
+              新增挂载点
+            </Button>
+          </div>
+        </div>
         <Table
           columns={this.mountColumns}
           dataSource={mount.data}
