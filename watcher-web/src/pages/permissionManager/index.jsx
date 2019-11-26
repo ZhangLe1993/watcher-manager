@@ -72,11 +72,19 @@ const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
 
 const leftTableColumns = [
   {
+    dataIndex: 'employeeNo',
+    title: '工号',
+  },
+  {
     dataIndex: 'name',
     title: '用户',
   },
 ];
 const rightTableColumns = [
+  {
+    dataIndex: 'employeeNo',
+    title: '工号',
+  },
   {
     dataIndex: 'name',
     title: '用户',
@@ -774,7 +782,9 @@ class PermissionManager extends React.Component {
             onChange={nextTargetKeys =>
               this.handleTableTransferChange('permission', 'myUser', nextTargetKeys)
             }
-            filterOption={(inputValue, item) => item.name.indexOf(inputValue) !== -1}
+            filterOption={(inputValue, item) =>
+              item.name.indexOf(inputValue) !== -1 || item.employeeNo.indexOf(inputValue) !== -1
+            }
             leftColumns={leftTableColumns}
             rightColumns={rightTableColumns}
           />
