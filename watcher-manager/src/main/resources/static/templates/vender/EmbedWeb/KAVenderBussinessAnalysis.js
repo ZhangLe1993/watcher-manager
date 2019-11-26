@@ -393,7 +393,7 @@ function getAggregateWebTrafficData(filter){
     delete query["sign"];
     delete query["dateType"];
     var dfd = $.Deferred();
-    requestURL(dataService+"/Vender/getKABussinessAnalysisPro",query).done(function(ret){
+    requestURL(thirdService+"/Vender/getKABussinessAnalysisPro",query).done(function(ret){
         dfd.resolve(ret)
     });
     return dfd.promise()

@@ -295,7 +295,7 @@ Template.KAVenderQualityErrorAnalysis.rendered = function () {
     renderPage(queryAll);
 
     //选项初始化加载
-    requestURL(dataService+"/Vender/getKAFilterOptions",query).done(function(data){
+    requestURL(thirdService+"/Vender/getKAFilterOptions",query).done(function(data){
 
         /*门店*/
         $(".group").attr("multiple","multiple");
@@ -441,7 +441,7 @@ function getAggregateWebTrafficData(filter){
     delete query["sign"];
     delete query["dateType"];
     var dfd = $.Deferred();
-    requestURL(dataService+"/Vender/getKAQualityErrorAnalysisPro",query).done(function(ret){
+    requestURL(thirdService+"/Vender/getKAQualityErrorAnalysisPro",query).done(function(ret){
         dfd.resolve(ret)
     });
     return dfd.promise()
