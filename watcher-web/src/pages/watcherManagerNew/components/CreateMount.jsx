@@ -227,7 +227,7 @@ const CreateMount = props => {
                   required: true,
                   message: '请输入地址！',
                 },
-                { validator: checkUrlInput },
+                /* { validator: checkUrlInput }, */
               ],
               initialValue: item.url,
             })(<Input placeholder="请输入地址" />)}
