@@ -300,7 +300,7 @@ Template.KAVenderOrderLostAnalysis.rendered = function () {
     renderPage(queryAll);
 
     //选项初始化加载
-    requestURL(dataService+"/Vender/getKAFilterOptions",query).done(function(data){
+    requestURL(thirdService+"/Vender/getKAFilterOptions",query).done(function(data){
 
         $(".vender").attr("multiple","multiple");
         renderOptions(".vender",data.subVender)
@@ -457,7 +457,7 @@ function getAggregateWebTrafficData(filter){
     delete query["sign"];
     delete query["dateType"];
     var dfd = $.Deferred();
-    requestURL(dataService+"/Vender/getKAOrderLostAnalysisPro",query).done(function(ret){
+    requestURL(thirdService+"/Vender/getKAOrderLostAnalysisPro",query).done(function(ret){
         dfd.resolve(ret)
     });
     return dfd.promise()
@@ -470,7 +470,7 @@ function getAllWebTrafficData(filter){
     delete query["sign"];
     delete query["dateType"];
     var dfd = $.Deferred();
-    requestURL(dataService+"/Vender/getKAOrderLostDayAnalysisPro",query).done(function(ret){
+    requestURL(thirdService+"/Vender/getKAOrderLostDayAnalysisPro",query).done(function(ret){
         dfd.resolve(ret)
     });
     return dfd.promise()

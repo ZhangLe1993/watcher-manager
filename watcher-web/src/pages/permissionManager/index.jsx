@@ -72,11 +72,19 @@ const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
 
 const leftTableColumns = [
   {
+    dataIndex: 'employeeNo',
+    title: '工号',
+  },
+  {
     dataIndex: 'name',
     title: '用户',
   },
 ];
 const rightTableColumns = [
+  {
+    dataIndex: 'employeeNo',
+    title: '工号',
+  },
   {
     dataIndex: 'name',
     title: '用户',
@@ -351,10 +359,16 @@ class PermissionManager extends React.Component {
   handlePermissionModalOk = () => {
     const that = this;
     this.props.form.validateFields((err, values) => {
+      if (err) {
+        return;
+      }
       console.log(values, '--values--');
       const { permissionName } = values;
       checkPermissionName(permissionName).then(res => {
         console.log(res);
+        if (res !== undefined && res !== null && res.status !== undefined && res.status !== 200) {
+          return;
+        }
         // 不存在
         if (res !== undefined && res !== null && !res) {
           const { id } = that.state.permission;
@@ -768,7 +782,9 @@ class PermissionManager extends React.Component {
             onChange={nextTargetKeys =>
               this.handleTableTransferChange('permission', 'myUser', nextTargetKeys)
             }
-            filterOption={(inputValue, item) => item.name.indexOf(inputValue) !== -1}
+            filterOption={(inputValue, item) =>
+              item.name.indexOf(inputValue) !== -1 || item.employeeNo.indexOf(inputValue) !== -1
+            }
             leftColumns={leftTableColumns}
             rightColumns={rightTableColumns}
           />

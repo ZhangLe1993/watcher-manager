@@ -108,7 +108,17 @@ const CreateMount = props => {
   const changeNodeType = e => {
     setNodeTypeState(e.target.value);
   };
-
+  const checkUrlInput = (rule, value, callback) => {
+    if (
+      value !== undefined &&
+      value !== null &&
+      value.startsWith('https://abdavinci.aihuishou.com')
+    ) {
+      callback();
+    } else {
+      callback('达芬奇链接必须以https://abdavinci.aihuishou.com开头');
+    }
+  };
   return (
     <Modal
       destroyOnClose="true"
@@ -217,6 +227,7 @@ const CreateMount = props => {
                   required: true,
                   message: '请输入地址！',
                 },
+                /* { validator: checkUrlInput }, */
               ],
               initialValue: item.url,
             })(<Input placeholder="请输入地址" />)}

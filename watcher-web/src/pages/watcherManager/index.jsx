@@ -518,63 +518,77 @@ class WatcherManager extends React.Component {
   };
 
   handleModalOk = category => {
-    const that = this;
-    const { id, isAdd, parentTree } = that.state[category];
-    this.setState({
-      [category]: {
-        ...that.state[category],
-        visible: false,
-      },
-    });
-    const newCategory = category.substring(0, 1).toUpperCase() + category.substring(1);
-    this.props.form.validateFields((err, values) => {
-      const {
-        name,
-        mount,
-        folderName,
-        folderState,
-        mountState,
-        url,
-        nodename,
-        nodeMount,
-        nodeParentPosition,
-        nodeState,
-      } = values;
-      let parameters;
-      let { parentPosition } = values;
-      if (category === 'mount') {
-        parameters = {
-          name,
-          state: mountState,
-        };
-      } else if (category === 'folder') {
-        if ((Array.isArray(parentTree) && parentTree.length === 0) || parentPosition === '无') {
-          parentPosition = -1;
-        }
-        parameters = {
-          mount,
-          parentPosition,
-          state: folderState,
-          name: folderName,
-        };
-      } else if (category === 'node') {
-        let newNodeParentPosition = nodeParentPosition;
-        if (nodeParentPosition === '无') {
-          newNodeParentPosition = -1;
-        }
-        parameters = {
-          url,
-          name: nodename,
-          mount: nodeMount,
-          parentPosition: newNodeParentPosition,
-          state: nodeState,
-        };
-      }
-      if (!isAdd) {
-        parameters.id = id;
-        this[`modify${newCategory}Func`](parameters);
+    let validate = [];
+    if (category === 'node') {
+      validate = ['url', 'nodename', 'nodeMount', 'nodeParentPosition', 'nodeState'];
+    } else if (category === 'folder') {
+      validate = ['folderName', 'parentPosition', 'folderState', 'mount'];
+    } else if (category === 'mount') {
+      validate = ['name', 'mountState'];
+    }
+
+    this.props.form.validateFields(validate, (err, values) => {
+      if (err) {
+        message.error('参数错误');
+        return;
       } else {
-        this[`add${newCategory}Func`](parameters);
+        const that = this;
+        const { id, isAdd, parentTree } = that.state[category];
+        this.setState({
+          [category]: {
+            ...that.state[category],
+            visible: false,
+          },
+        });
+        const newCategory = category.substring(0, 1).toUpperCase() + category.substring(1);
+        const {
+          name,
+          mount,
+          folderName,
+          folderState,
+          mountState,
+          url,
+          nodename,
+          nodeMount,
+          nodeParentPosition,
+          nodeState,
+        } = values;
+        let parameters;
+        let { parentPosition } = values;
+        if (category === 'mount') {
+          parameters = {
+            name,
+            state: mountState,
+          };
+        } else if (category === 'folder') {
+          if ((Array.isArray(parentTree) && parentTree.length === 0) || parentPosition === '无') {
+            parentPosition = -1;
+          }
+          parameters = {
+            mount,
+            parentPosition,
+            state: folderState,
+            name: folderName,
+          };
+        } else if (category === 'node') {
+          let newNodeParentPosition = nodeParentPosition;
+          if (nodeParentPosition === '无') {
+            newNodeParentPosition = -1;
+          }
+          parameters = {
+            url,
+            name: nodename,
+            mount: nodeMount,
+            parentPosition: newNodeParentPosition,
+            state: nodeState,
+          };
+        }
+        if (!isAdd) {
+          parameters.id = id;
+          this[`modify${newCategory}Func`](parameters);
+        } else {
+          this[`add${newCategory}Func`](parameters);
+        }
       }
     });
   };
@@ -1147,6 +1161,15 @@ class WatcherManager extends React.Component {
     const mountChildren = this.getMountChildren(mount.data);
     const nodeChildren = this.getMountChildren(mount.data);
     const isRootNode = getFieldValue('isRootNode');
+    const checkUrlInput = (rule, value, callback) => {
+      if (value === undefined || value === null || value.trim() === '') {
+        callback();
+      } else if (value.startsWith('https://abdavinci.aihuishou.com')) {
+        callback();
+      } else {
+        callback('达芬奇链接必须以https://abdavinci.aihuishou.com开头');
+      }
+    };
     return (
       <div className={style.container}>
         <div className={style.clearBtns}>
@@ -1161,9 +1184,13 @@ class WatcherManager extends React.Component {
             标准清除
           </Button>
         </div>
-        <Button type="primary" onClick={() => this.add('mount')} className={style.btn}>
-          新增挂载点
-        </Button>
+        <div className={`${style.btnSearch} ${style.clearfix}`}>
+          <div className={style.btnContainer}>
+            <Button type="primary" onClick={() => this.add('mount')} className={style.btn}>
+              新增挂载点
+            </Button>
+          </div>
+        </div>
         <Table
           columns={this.mountColumns}
           dataSource={mount.data}
@@ -1338,6 +1365,7 @@ class WatcherManager extends React.Component {
                     required: true,
                     message: '请输入',
                   },
+                  /* { validator: checkUrlInput }, */
                 ],
               })(<Input />)}
             </FormItem>
