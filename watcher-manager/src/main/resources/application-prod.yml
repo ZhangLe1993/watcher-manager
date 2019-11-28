@@ -17,7 +17,9 @@ bury:
   host: https://bi-log.aihuishou.com/trace/log
 
 cas:
-   server:
-    logout: http://sso.ob.aihuishou.com:8080/casservice/logout?service=https://watcher.intra.aihuishou.com
-   client:
-     host: https://watcher.intra.aihuishou.com
+  server:
+    host: https://sso.ob.aihuishou.com/casservice
+    login: https://sso.ob.aihuishou.com/casservice/login
+    logout: https://sso.ob.aihuishou.com/casservice/logout?service=https://watcher.intra.aihuishou.com
+  client:
+    host: https://watcher.intra.aihuishou.com
