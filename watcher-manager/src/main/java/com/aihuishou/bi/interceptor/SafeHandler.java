@@ -8,6 +8,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -59,15 +60,15 @@ public class SafeHandler extends HandlerInterceptorAdapter {
             logger.info("safe handler check,sign[" + sign + "]");
             // 这个版本，如果不传sign,设置为通过，如果传了sign，再进行验证
             if (Strings.isBlank(sign)) {
-                //response.setStatus(403);
-                //response.getWriter().print("Permission Not Authenticate,Param Required sign:" + sign);
-                //return false;
-                return true;
+                response.setStatus(HttpStatus.FORBIDDEN.value());
+                response.getWriter().print("Permission Not Authenticate, Request Header Required sign");
+                return false;
+                //return true;
             }
             boolean auth = auth(sign);
             if (!auth) {
-                response.setStatus(403);
-                response.getWriter().print("Permission Not Authenticate");
+                response.setStatus(HttpStatus.FORBIDDEN.value());
+                response.getWriter().print("Permission Not Authenticate, Your sign 【" + sign + "】 is illegal");
             }
             return auth;
         }
