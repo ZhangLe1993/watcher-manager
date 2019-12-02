@@ -54,7 +54,7 @@ const plugins = [
     },
   ],
 ]; // 针对 preview.pro.ant.design 的 GA 统计代码
-const proxy = 'http://10.25.169.133:8112';
+const proxy = 'https://watcher.intra.aihuishou.com';
 // const proxy = 'http://127.0.0.1:8080';
 if (isAntDesignProPreview) {
   plugins.push([

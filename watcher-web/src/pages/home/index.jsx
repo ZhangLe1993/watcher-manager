@@ -23,13 +23,7 @@ function getClickNumArr() {
     // 降序
     // eslint-disable-next-line array-callback-return
     clickNumArr.sort((a, b) => {
-      if (a.value > b.value) {
-        return 1;
-      }
-      if (a.value === b.value) {
-        return 0;
-      }
-      return -1;
+      return b.value - a.value;
     });
   }
   return clickNumArr;
