@@ -53,7 +53,7 @@ public class SafeHandler extends HandlerInterceptorAdapter {
         //获取方法上的注解
         SafeAuthenticate annotation = ((HandlerMethod) handler).getMethodAnnotation(SafeAuthenticate.class);
         if (annotation != null) {
-            String sign = request.getHeader("sign");
+            String sign = request.getParameter("sign");
             // 自己本地生成私钥测试
             // PrivateKey key = MyRSA.loadPrivateKey(new File(path + "rsa/ahs_pkcs8.pem"));
             // String sign = MyRSA.encrypt(key, Long.toString(System.currentTimeMillis()));
@@ -61,7 +61,7 @@ public class SafeHandler extends HandlerInterceptorAdapter {
             // 这个版本，如果不传sign,设置为通过，如果传了sign，再进行验证
             if (Strings.isBlank(sign)) {
                 response.setStatus(HttpStatus.FORBIDDEN.value());
-                response.getWriter().print("Permission Not Authenticate, Request Header Required sign");
+                response.getWriter().print("Permission Not Authenticate, Request Param Required sign");
                 return false;
                 //return true;
             }
