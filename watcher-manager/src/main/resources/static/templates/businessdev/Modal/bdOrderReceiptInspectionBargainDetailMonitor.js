@@ -4,8 +4,10 @@ var globalObj = {
 }
 Template.bdOrderReceiptInspectionBargainDetailMonitor.rendered = function () {
 
-    var channel = this.data.channel;
-    var orderType = this.data.orderType;
+    var listJ = Template.list;
+    console.log(listJ);
+    var channel = listJ[1];
+    var orderType = listJ[0];
 
     //今天
     $(".tdDate").html(new Date().getNewDate(0));

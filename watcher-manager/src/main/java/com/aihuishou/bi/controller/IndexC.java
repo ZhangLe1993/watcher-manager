@@ -231,7 +231,7 @@ public class IndexC {
     @SafeAuthenticate
     @Loop
     @SystemLog(description = "爱机汇嵌入页面 & fancyBox 弹出层页面")
-    @RequestMapping(value = {"/vender/**", "/customer/intelligenceShop/**", "/area/dealSmartShopReport/**", "/area/coupon/**", "/datareport/**", "/operation/**"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = {"/vender/**", "/customer/intelligenceShop/**", "/area/dealSmartShopReport/**", "/area/coupon/**", "/datareport/**", "/operation/**", "/bd/bdOrderReceiptInspectionBargainDetailMonitor/**"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String vender(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
         //添加参数
         request.setCharacterEncoding("utf-8");
@@ -274,7 +274,7 @@ public class IndexC {
             "venderFinance", "VenderBussinessAnalysis", "VenderIncomeAnalysis",
             "VenderErrorRateAnalysis", "VenderOrderLostAnalysis", "VenderQualityErrorAnalysis",
             "VenderOrderStatistics", "KAVenderBussinessAnalysis",
-            "KAVenderOrderLostAnalysis", "KAVenderQualityErrorAnalysis"));
+            "KAVenderOrderLostAnalysis", "KAVenderQualityErrorAnalysis", "bdOrderReceiptInspectionBargainDetailMonitor"));
 
 
     private final static Map<String,String> otherTarget =
