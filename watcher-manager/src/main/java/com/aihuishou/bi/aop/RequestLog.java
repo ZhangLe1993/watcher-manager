@@ -7,6 +7,7 @@ import com.aihuishou.bi.service.NodeService;
 import com.aihuishou.bi.utils.StringEx;
 import com.alibaba.fastjson.JSONObject;
 import com.sensorsdata.analytics.javasdk.exceptions.InvalidArgumentException;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -112,7 +113,9 @@ public class RequestLog {
                     Map<String, String> cookieMap  = getCookie(request);
                     String sid = cookieMap.get("sid");
                     String finalName = cookieMap.get("sc");
-                    buryPoint.point(sid, startTime, endTime, takeTime, "watcher_elememt", finalName, url, status);
+                    if(StringUtils.isNotBlank(sid) && StringUtils.isNotBlank(finalName)) {
+                        buryPoint.point(sid, startTime, endTime, takeTime, "watcher_elememt", finalName, url, status);
+                    }
                     break;
                 }
             }
@@ -127,7 +130,9 @@ public class RequestLog {
         Cookie sid = new Cookie("sid", sessionId);
         Cookie sName = new Cookie("sc", name.replaceAll(" ",""));
         sid.setPath("/");
+        sid.setMaxAge(60 * 5);
         sName.setPath("/");
+        sName.setMaxAge(60 * 5);
         response.addCookie(sid);
         response.addCookie(sName);
     }
