@@ -66,7 +66,7 @@ const BasicLayout = props => {
           theme="filled"
           style={{ padding: '0 10px', color: '#1890ff', marginTop: 2, marginRight: 0, fontSize: '22px' }}
         />
-        <marquee>新watcher已上线,如遇到使用问题,请到钉钉报表系统群进行反馈</marquee>
+        {/*<marquee>新watcher已上线,如遇到使用问题,请到钉钉报表系统群进行反馈</marquee>*/}
         <Icon
           type="close-circle"
           theme="filled"

@@ -61,6 +61,19 @@ div.basicLayout > section{
   }
 }
 
+div.ant-pro-basicLayout > section{
+  aside{
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+  }
+  aside::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
