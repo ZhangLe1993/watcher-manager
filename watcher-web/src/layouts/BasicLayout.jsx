@@ -16,21 +16,12 @@ import GlobalFooter from '@/components/GlobalFooter/index';
 
 import style from './basicLayout.less';
 import marquee from './marquee.css';
-import { loginOut } from '../services/manager';
-import { findMenuItem, getCleanArr, checkEnv } from '../utils/utils';
+import { checkEnv } from '../utils/utils';
 
-import MenuSearch from './MenuSearch';
 // import logo from '../assets/logo.svg';
 /**
  * use Authorized check all menu item
  */
-/* eslint-disable arrow-body-style */
-/* eslint-disable prefer-destructuring */
-/* eslint-disable no-plusplus */
-/* eslint-disable quote-props */
-/* eslint-disable no-lonely-if */
-/* eslint-disable no-else-return */
-/* eslint-disable consistent-return */
 
 const menuDataRender = menuList =>
   menuList.map(item => {
@@ -66,7 +57,6 @@ const BasicLayout = props => {
           theme="filled"
           style={{ padding: '0 10px', color: '#1890ff', marginTop: 2, marginRight: 0, fontSize: '22px' }}
         />
-        {/*<marquee>新watcher已上线,如遇到使用问题,请到钉钉报表系统群进行反馈</marquee>*/}
         <Icon
           type="close-circle"
           theme="filled"
