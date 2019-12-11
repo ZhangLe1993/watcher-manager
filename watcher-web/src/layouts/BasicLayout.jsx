@@ -15,7 +15,6 @@ import RightContent from '@/components/GlobalHeader/RightContent';
 import GlobalFooter from '@/components/GlobalFooter/index';
 
 import style from './basicLayout.less';
-import marquee from './marquee.css';
 import { checkEnv } from '../utils/utils';
 
 // import logo from '../assets/logo.svg';
@@ -46,29 +45,6 @@ const footerRender = () => {
 
 const BasicLayout = props => {
   const { dispatch, children, settings, menuData, searchKeys } = props;
-  /**
-   * constructor
-   */
-  const renderMessage = () => {
-    return (
-      <span className={marquee.scroll}>
-        <Icon
-          type="info-circle"
-          theme="filled"
-          style={{ padding: '0 10px', color: '#1890ff', marginTop: 2, marginRight: 0, fontSize: '22px' }}
-        />
-        <Icon
-          type="close-circle"
-          theme="filled"
-          style={{ padding: '0 10px', color: '#aaa', marginTop: 2, marginRight: 0, fontSize: '22px' }}
-          onClick={() => {
-            message.destroy();
-            localStorage.setItem('watcher_online_reminder', 'true');
-          }}
-        />
-      </span>
-    );
-  };
 
   useEffect(() => {
     if (dispatch) {
@@ -81,14 +57,6 @@ const BasicLayout = props => {
       dispatch({
         type: 'menu/fetchMenuData',
       });
-      // 新watcher上线提示信息
-      if (!localStorage.getItem('watcher_online_reminder')) {
-        message.open({
-          content: renderMessage(),
-          duration: 0,
-          icon: null,
-        });
-      }
     }
   }, []);
   /**
