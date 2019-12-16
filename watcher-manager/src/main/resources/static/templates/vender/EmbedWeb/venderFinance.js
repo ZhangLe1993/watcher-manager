@@ -44,8 +44,8 @@ Template.venderFinance.rendered = function () {
 
     function getData(filter,key){
         var query = _.clone(filter);
-        requestURL(dataService+"/Vender/getVenderFinance",query).done(function (data) {
-            requestURL(dataService+"/Vender/getVenderFinanceFrozenFund",query).done(function (dataFrozenFund) {
+        requestURL(thirdService+"/Vender/getVenderFinance",query).done(function (data) {
+            requestURL(thirdService+"/Vender/getVenderFinanceFrozenFund",query).done(function (dataFrozenFund) {
                 var prepared = preprocessData(key, data,dataFrozenFund);
                 inittable(prepared);
             })
