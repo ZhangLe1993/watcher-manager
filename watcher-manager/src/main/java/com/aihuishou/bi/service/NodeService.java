@@ -14,6 +14,7 @@ import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +33,9 @@ public class NodeService extends BaseService {
 
     @Autowired
     private OperateLogger operateLogger;
+
+    @Value("${davinci.host}")
+    private String davinciHost;
 
     public List<Node> nodes() throws SQLException {
         String sql = new SQL() {
@@ -210,6 +214,10 @@ public class NodeService extends BaseService {
         }
         node.setPath(path);
         return node;
+    }
+
+    public String getDavinciUrl(String token){
+        return davinciHost + "/share.html#share/dashboard?shareInfo=" + token +"&type=dashboard";
     }
 
     public String getFinalPath(String position) throws SQLException {

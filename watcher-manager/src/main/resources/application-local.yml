@@ -43,3 +43,6 @@ proxy:
 redirect:
   cookie:
     domain: 127.0.0.1
+
+davinci:
+  host: https://abdavinci-test.aihuishou.com

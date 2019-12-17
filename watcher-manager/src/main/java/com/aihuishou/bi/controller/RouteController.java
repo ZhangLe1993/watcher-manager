@@ -61,6 +61,15 @@ public class RouteController {
         return oldView(position, model);
     }
 
+    @RequestMapping("/davinci")
+    public String davinci(@RequestParam(value = "token") String token) throws FileNotFoundException, SQLException {
+        if(!StringUtils.isBlank(token)){
+            String davinciUrl = nodeService.getDavinciUrl(token);
+            return "redirect:" + davinciUrl;
+        }
+        return "redirect:/";
+    }
+
     private String oldView(@RequestParam(value = "position") String position, ModelMap model) throws SQLException {
         String target = position;
         boolean auth = authService.auth(position);

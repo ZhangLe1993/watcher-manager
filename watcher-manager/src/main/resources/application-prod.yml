@@ -23,3 +23,5 @@ cas:
     logout: https://sso.ob.aihuishou.com/casservice/logout?service=https://watcher.intra.aihuishou.com
   client:
     host: https://watcher.intra.aihuishou.com
+davinci:
+  host: https://abdavinci.aihuishou.com
