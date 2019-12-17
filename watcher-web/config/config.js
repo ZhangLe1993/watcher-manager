@@ -105,7 +105,7 @@ export default {
           path: '/davinci/**',
           name: 'davinci',
           icon: 'smile',
-          component: './davinci',
+          component: './Davinci',
         },
         {
           path: 'pages/watcher_manager',
