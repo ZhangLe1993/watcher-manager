@@ -1,6 +1,8 @@
 Template.tradeNoDetail.rendered = function () {
-    var operationCenter = Template.currentData().operationCenter;
-    var dataType = Template.currentData().dataType;
+    var listJ = Template.list;
+    console.log(listJ);
+    var operationCenter = listJ[0];
+    var dataType = listJ[1];
     var date = new Date().format("yyyy-MM-dd");
     var title = $('#title');
     var table = $('#table');
