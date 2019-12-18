@@ -102,6 +102,12 @@ export default {
           component: './Iframe',
         },
         {
+          path: '/davinci/**',
+          name: 'davinci',
+          icon: 'smile',
+          component: './Davinci',
+        },
+        {
           path: 'pages/watcher_manager',
           name: 'manager',
           icon: 'smile',
