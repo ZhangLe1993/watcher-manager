@@ -64,9 +64,6 @@ public class RouteController {
     @RequestMapping("/davinci")
     public String davinci(@RequestParam(value = "token") String token) throws FileNotFoundException, SQLException {
         logger.info("watcher get davinci url:[{}]",token);
-        if(true){
-            return "redirect:" + "http://www.baidu.com";
-        }
         if(!StringUtils.isBlank(token)){
             String davinciUrl = nodeService.getDavinciUrl(token);
             return "redirect:" + davinciUrl;
