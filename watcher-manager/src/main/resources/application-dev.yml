@@ -13,6 +13,6 @@ server:
 
 cas:
   server:
-    logout: http://sso.ob.aihuishou.com:8080/casservice/logout?service=http://10.25.169.133:8112
+    logout: http://sso.ob.aihuishou.com:8080/casservice/logout?service= https://watcher-test.intra.aihuishou.com
   client:
-    host: http://10.25.169.133:8112
+    host:  https://watcher-test.intra.aihuishou.com
