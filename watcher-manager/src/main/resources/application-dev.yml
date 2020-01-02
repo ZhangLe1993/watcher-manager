@@ -1,10 +1,10 @@
 spring:
   datasource:
-    url: jdbc:mysql://10.81.44.187:3306/watcher?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+    url: jdbc:mysql://192.168.5.63:3306/watcher?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
     username: root
     password: root
   redis:
-    host: 10.81.44.187
+    host: 192.168.5.63
     password: 123456
     database: 14
 
@@ -16,3 +16,5 @@ cas:
     logout: http://sso.ob.aihuishou.com:8080/casservice/logout?service= https://watcher-test.intra.aihuishou.com
   client:
     host:  https://watcher-test.intra.aihuishou.com
+davinci:
+  host: https://abdavinci-test.aihuishou.com
