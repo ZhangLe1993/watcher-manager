@@ -5,7 +5,6 @@ import com.aihuishou.bi.core.CacheConf;
 import com.aihuishou.bi.entity.NodeAuth;
 import com.aihuishou.bi.entity.Operation;
 import com.aihuishou.bi.handler.OperateLogger;
-import com.aihuishou.bi.live.model.UserPermissionStats;
 import com.aihuishou.bi.utils.ExceptionInfo;
 import com.aihuishou.bi.vo.GrantVO;
 import org.apache.commons.collections.CollectionUtils;
@@ -41,9 +40,6 @@ public class AuthService extends BaseService {
 
     @Resource
     private DataSource dataSource;
-
-    @Resource
-    private MongoService mongoService;
 
     @Autowired
     private OperateLogger operateLogger;
@@ -146,12 +142,6 @@ public class AuthService extends BaseService {
         //合并
         list.addAll(other);
         return list;
-    }
-
-    @Cacheable(value = CacheConf.LIST_USER_AUTH_MONGO, key = "#obId")
-    public List<String> userAuthFromMongo(String obId) {
-        List<UserPermissionStats> list = mongoService.userPermissionStats(obId);
-        return list.stream().map(UserPermissionStats :: getAccessName).collect(Collectors.toList());
     }
 
     /**

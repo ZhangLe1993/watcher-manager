@@ -1,8 +1,6 @@
 package com.aihuishou.bi.core;
 
-import com.aihuishou.bi.service.MongoService;
 import com.aihuishou.bi.service.SysService;
-import com.aihuishou.bi.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +15,6 @@ public class Bootstrap implements CommandLineRunner {
 
     @Autowired
     private SysService sysService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private MongoService mongoService;
 
     @Resource(name="watcherThreadPool")
     private ExecutorService service;
