@@ -13,8 +13,8 @@ server:
 
 cas:
   server:
-    logout: http://sso.ob.aihuishou.com:8080/casservice/logout?service= https://watcher-test.intra.aihuishou.com
+    logout: http://:8080/casservice/logout?service= https://watcher-test.intra.aihuishou.com
   client:
-    host:  https://watcher-test.intra.aihuishou.com
+    host:  https://
 davinci:
-  host: https://abdavinci-test.aihuishou.com
+  host: https://

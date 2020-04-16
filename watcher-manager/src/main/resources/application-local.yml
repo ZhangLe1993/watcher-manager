@@ -4,7 +4,7 @@ spring:
     username: root
     password: root
   gp-datasource:
-      url: jdbc:postgresql://gp-bp1j7sa3410948756.gpdb.rds.aliyuncs.com:3432/warehouse
+      url:
       username: rpt
       driver-class-name: org.postgresql.Driver
       type: com.alibaba.druid.pool.DruidDataSource
@@ -27,9 +27,9 @@ server:
 
 cas:
   server:
-    host: http://sso.ob.aihuishou.com:8080/casservice
-    login: http://sso.ob.aihuishou.com:8080/casservice/login
-    logout: http://sso.ob.aihuishou.com:8080/casservice/logout?service=http://127.0.0.1:8080
+    host: http://:8080/casservice
+    login: http://:8080/casservice/login
+    logout: http://:8080/casservice/logout?service=http://127.0.0.1:8080
   client:
     host: http://127.0.0.1:8080
 
@@ -38,11 +38,11 @@ watcher:
 
 proxy:
     watcher:
-        target_url: http://watcher.intra.aihuishou.com:8808
+        target_url: http://:8808
 
 redirect:
   cookie:
     domain: 127.0.0.1
 
 davinci:
-  host: https://abdavinci-test.aihuishou.com
+  host: https://

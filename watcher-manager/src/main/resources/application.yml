@@ -40,22 +40,22 @@ spring:
 
 cas:
   server:
-    host: http://sso.ob.aihuishou.com:8080/casservice
-    login: http://sso.ob.aihuishou.com:8080/casservice/login
-    logout: http://sso.ob.aihuishou.com:8080/casservice/logout?service=http://10.25.169.133:8080
+    host: http://:8080/casservice
+    login: http://:8080/casservice/login
+    logout: http://:8080/casservice/logout?service=http://10.25.169.133:8080
   client:
     host: http://10.25.169.133:8080
 
 proxy:
     watcher:
-        target_url: http://watcher.intra.aihuishou.com:8808
+        target_url: http://:8808
 
 watcher:
   templates: /root/code/watcher-manager/src/main/resources/
 
 #埋点的url
 bury:
-  host: https://bi-log.aihuishou.com/trace/log/debug
+  host: https:///trace/log/debug
   platform: server
   appName: watcher
 

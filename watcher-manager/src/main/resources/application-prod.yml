@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mysql://rm-bp1pw59t9hspt57z5.mysql.rds.aliyuncs.com:3306/watcher?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+    url: jdbc:mysql://:3306/watcher?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
     username: watcher
   redis:
-    host: r-bp1df75eafff5994.redis.rds.aliyuncs.com
+    host:
     database: 14
 
 server:
@@ -11,17 +11,17 @@ server:
 
 proxy:
     watcher:
-        target_url: http://watcher.intra.aihuishou.com:8809
+        target_url: http://:8809
 
 bury:
-  host: https://bi-log.aihuishou.com/trace/log
+  host: https:///trace/log
 
 cas:
   server:
-    host: https://sso.ob.aihuishou.com/casservice
-    login: https://sso.ob.aihuishou.com/casservice/login
-    logout: https://sso.ob.aihuishou.com/casservice/logout?service=https://watcher.intra.aihuishou.com
+    host: https:///casservice
+    login: https:///casservice/login
+    logout: https:///casservice/logout?service=https://watcher.intra.aihuishou.com
   client:
-    host: https://watcher.intra.aihuishou.com
+    host: https://
 davinci:
-  host: https://abdavinci.aihuishou.com
+  host: https://
